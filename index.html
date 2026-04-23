@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Monthly minimal STIG-ready base AMIs on AWS Marketplace. Proper filesystem layout with latest patches, ready for your custom hardening.">
+    <meta name="keywords" content="STIG-ready AMIs, AWS Marketplace, minimal base images, security patches, DoD compliance, FedRAMP">
+    <meta name="author" content="StigReady">
+    <title>StigReady - Monthly Minimal STIG-Ready Base AMIs</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col">
+    <!-- Hero Section -->
+    <section class="bg-gray-800 py-20 px-4 text-center">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 text-teal-300">Monthly Minimal STIG-Ready Base AMIs</h1>
+            <p class="text-xl mb-8">Proper filesystem layout + latest patches. No hardening applied — so you can apply your own.</p>
+            <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-4">
+                <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-1234567890" class="bg-teal-500 text-white px-6 py-3 rounded-md font-semibold hover:bg-teal-600 transition">Browse on AWS Marketplace</a>
+                <a href="#documentation" class="bg-gray-700 text-teal-300 px-6 py-3 rounded-md font-semibold hover:bg-gray-600 transition">View Documentation</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Benefits Section -->
+    <section class="py-16 px-4">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12 text-teal-300">Key Benefits</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-gray-800 p-6 rounded-lg text-center">
+                    <i data-lucide="package" class="w-12 h-12 mx-auto mb-4 text-teal-400"></i>
+                    <h3 class="text-xl font-semibold mb-2">Truly Minimal Footprint</h3>
+                    <p>Lightweight base images with only essential components for optimal performance.</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg text-center">
+                    <i data-lucide="folder-tree" class="w-12 h-12 mx-auto mb-4 text-teal-400"></i>
+                    <h3 class="text-xl font-semibold mb-2">STIG-Aligned Filesystem Layout</h3>
+                    <p>Pre-configured structure compliant with STIG guidelines.</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg text-center">
+                    <i data-lucide="shield-check" class="w-12 h-12 mx-auto mb-4 text-teal-400"></i>
+                    <h3 class="text-xl font-semibold mb-2">Monthly Security Patches</h3>
+                    <p>Always up-to-date with the latest security updates.</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg text-center">
+                    <i data-lucide="lock" class="w-12 h-12 mx-auto mb-4 text-teal-400"></i>
+                    <h3 class="text-xl font-semibold mb-2">Your Hardening, Zero Conflicts</h3>
+                    <p>Apply your custom profiles without interference.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-16 px-4 bg-gray-800">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12 text-teal-300">How It Works</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="bg-teal-500 text-white w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center font-bold text-xl">1</div>
+                    <h3 class="text-xl font-semibold mb-2">Subscribe on AWS Marketplace</h3>
+                    <p>Browse and subscribe to StigReady AMIs directly in the AWS console.</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-teal-500 text-white w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center font-bold text-xl">2</div>
+                    <h3 class="text-xl font-semibold mb-2">Launch Your Instance</h3>
+                    <p>Select the AMI and launch an EC2 instance with your preferred configuration.</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-teal-500 text-white w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center font-bold text-xl">3</div>
+                    <h3 class="text-xl font-semibold mb-2">Apply Custom Hardening</h3>
+                    <p>Use your tools like Ansible, Chef, or Puppet to apply STIG profiles.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Available AMIs Section -->
+    <section class="py-16 px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12 text-teal-300">Available AMIs</h2>
+            <ul class="space-y-4">
+                <li class="bg-gray-800 p-4 rounded-md">StigReady Amazon Linux 2023 Minimal Base (Current)</li>
+                <li class="bg-gray-800 p-4 rounded-md opacity-75">Coming soon: Rocky Linux 9</li>
+                <li class="bg-gray-800 p-4 rounded-md opacity-75">Coming soon: Ubuntu 24.04</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="py-16 px-4 bg-gray-800">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl font-bold mb-12 text-teal-300">Pricing</h2>
+            <p class="text-2xl mb-4">$0.04 per hour (software fee)</p>
+            <p>Annual contracts & Private Offers available. Contact us for details.</p>
+        </div>
+    </section>
+
+    <!-- Why Choose StigReady Section -->
+    <section class="py-16 px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12 text-teal-300">Why Choose StigReady</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-gray-800 p-6 rounded-lg">
+                    <i data-lucide="building" class="w-10 h-10 mb-4 text-teal-400"></i>
+                    <h3 class="text-xl font-semibold mb-2">Built for DoD, DIB, and FedRAMP Environments</h3>
+                    <p>Designed to meet stringent government and compliance requirements.</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg">
+                    <i data-lucide="code" class="w-10 h-10 mb-4 text-teal-400"></i>
+                    <h3 class="text-xl font-semibold mb-2">Clean Base for Automation Tools</h3>
+                    <p>Perfect foundation for Ansible, Chef, Puppet, or custom STIG profiles.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-8 px-4 mt-auto">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="#" class="text-teal-300 hover:text-teal-400">Home</a>
+                <a href="#documentation" class="text-teal-300 hover:text-teal-400">Documentation</a>
+                <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-1234567890" class="text-teal-300 hover:text-teal-400">AWS Marketplace</a>
+                <a href="mailto:contact@stigready.com" class="text-teal-300 hover:text-teal-400">Contact</a>
+            </div>
+            <p>&copy; 2024 StigReady. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>
