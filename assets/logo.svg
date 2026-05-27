@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 490" width="400" height="490">
+  <defs>
+    <linearGradient id="shieldGrad" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%"   stop-color="#1E5799"/>
+      <stop offset="100%" stop-color="#0C2340"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#E8C84A"/>
+      <stop offset="100%" stop-color="#B8922A"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0C2340" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Shield body -->
+  <path d="M200 28 L372 88 L372 222 C372 322 300 382 200 408 C100 382 28 322 28 222 L28 88 Z"
+        fill="url(#shieldGrad)" filter="url(#shadow)"/>
+
+  <!-- Gold border -->
+  <path d="M200 28 L372 88 L372 222 C372 322 300 382 200 408 C100 382 28 322 28 222 L28 88 Z"
+        fill="none" stroke="url(#goldGrad)" stroke-width="6"/>
+
+  <!-- Gold top band -->
+  <path d="M200 28 L372 88 L340 100 L200 50 L60 100 L28 88 Z"
+        fill="url(#goldGrad)" opacity="0.9"/>
+
+  <!-- Shield inner bevel -->
+  <path d="M200 50 L350 102 L350 222 C350 308 286 362 200 386 C114 362 50 308 50 222 L50 102 Z"
+        fill="none" stroke="white" stroke-width="1" opacity="0.12"/>
+
+  <!-- Checkmark -->
+  <polyline points="108,220 168,280 298,158"
+            stroke="white" stroke-width="22" fill="none"
+            stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Gold checkmark highlight -->
+  <polyline points="108,220 168,280 298,158"
+            stroke="url(#goldGrad)" stroke-width="6" fill="none"
+            stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+
+  <!-- Wordmark -->
+  <text x="200" y="455" text-anchor="middle"
+        font-family="'Arial Black', 'Arial Bold', Arial, sans-serif"
+        font-weight="900" font-size="54" letter-spacing="2">
+    <tspan fill="#0C2340">STIG</tspan><tspan fill="#B8922A">READY</tspan>
+  </text>
+
+  <!-- Tagline -->
+  <text x="200" y="480" text-anchor="middle"
+        font-family="Arial, sans-serif" font-weight="400"
+        font-size="15" letter-spacing="5" fill="#4A6FA5">AWS MARKETPLACE</text>
+</svg>
