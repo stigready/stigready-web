@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="STIG-ready minimal Ubuntu AMIs on AWS Marketplace. CIS Level 2, NIST 800-53, and DISA STIG-aligned partition layout with the latest patches — built fresh every month.">
-    <meta name="keywords" content="STIG AMI, AWS Marketplace, Ubuntu 24.04, CIS Level 2, NIST 800-53, DISA STIG, FedRAMP, DoD, hardened base AMI">
+    <meta name="description" content="STIG-hardened minimal AMIs for AWS — Ubuntu 24.04/26.04 and the RHEL family (Rocky Linux 9, AlmaLinux 9). Choose a compliance-ready base or a fully remediated CIS Level 1/2 or DISA STIG image, each scored against its raw SSG profile and gated at 90%. STIG images are FIPS 140-3 active. Built fresh from the OS ISO with Packer + QEMU.">
+    <meta name="keywords" content="STIG AMI, DISA STIG, CIS Level 1, CIS Level 2, FIPS 140-3, AWS Marketplace, Ubuntu 24.04, Rocky Linux 9, AlmaLinux 9, NIST 800-53, FedRAMP, DoD, hardened AMI, OpenSCAP">
     <meta name="author" content="StigReady">
-    <title>StigReady — STIG-Ready Base AMIs on AWS Marketplace</title>
+    <title>StigReady — STIG &amp; CIS Hardened AMIs for AWS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
@@ -21,14 +21,15 @@
 <body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col">
 
     <!-- Nav -->
-    <nav class="bg-navy border-b border-gray-800 px-6 py-4">
+    <nav class="bg-navy border-b border-gray-800 px-6 py-4 sticky top-0 z-20">
         <div class="max-w-6xl mx-auto flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <img src="assets/logo.png" alt="StigReady" class="h-10 w-auto"/>
                 <span class="text-xl font-black tracking-wide"><span class="text-white">STIG</span><span class="gold">READY</span></span>
             </div>
             <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
-                <a href="#features" class="text-gray-300 hover:text-white transition">Features</a>
+                <a href="#lines" class="text-gray-300 hover:text-white transition">Product Lines</a>
+                <a href="#catalog" class="text-gray-300 hover:text-white transition">Catalog</a>
                 <a href="#compliance" class="text-gray-300 hover:text-white transition">Compliance</a>
                 <a href="#partitions" class="text-gray-300 hover:text-white transition">Partitions</a>
                 <a href="#pricing" class="text-gray-300 hover:text-white transition">Pricing</a>
@@ -42,16 +43,19 @@
         <div class="max-w-4xl mx-auto">
             <img src="assets/logo.png" alt="StigReady" class="h-28 w-auto mx-auto mb-8"/>
             <h1 class="text-4xl md:text-5xl font-black mb-4 tracking-tight">
-                <span class="text-white">STIG-Ready Base AMIs</span><br/>
-                <span class="gold">for AWS Marketplace</span>
+                <span class="text-white">STIG &amp; CIS Hardened AMIs</span><br/>
+                <span class="gold">for AWS — Debian &amp; RHEL</span>
             </h1>
             <p class="text-xl text-gray-300 mb-4 max-w-2xl mx-auto">
-                Minimal Ubuntu 24.04 LTS images with a CIS Level 2 / NIST 800-53 / DISA STIG-aligned
-                partition layout, SSH hardening, and the latest security patches — built fresh every month.
+                Minimal, patched images across <strong class="text-white">Ubuntu 24.04 / 26.04</strong> and the
+                <strong class="text-white">RHEL family</strong> — <strong class="text-white">Rocky Linux 9</strong> and
+                <strong class="text-white">AlmaLinux 9</strong> — with a CIS Level 2 / NIST 800-53 / DISA STIG
+                partition layout and SSH hardening on every one.
             </p>
-            <p class="text-gray-400 mb-10 max-w-xl mx-auto">
-                Start from a hardened baseline. Apply your STIG profiles, Ansible playbooks, or
-                custom tooling on top without fighting pre-baked config.
+            <p class="text-gray-400 mb-10 max-w-2xl mx-auto">
+                Start from a compliance-<em>ready</em> base and apply your own profiles, or launch a
+                <strong class="text-gray-200">fully remediated</strong> CIS Level 1/2 or DISA STIG image —
+                each scored against its raw SSG profile and gated at 90%. STIG images are <strong class="gold">FIPS 140-3 active</strong>.
             </p>
             <div class="flex flex-col md:flex-row justify-center gap-4">
                 <a href="https://aws.amazon.com/marketplace/seller-profile?id=stigready"
@@ -63,6 +67,90 @@
                     <i data-lucide="github" class="w-5 h-5"></i> View on GitHub
                 </a>
             </div>
+            <p class="text-xs text-gray-500 mt-6">Ubuntu 24.04 base is live on AWS Marketplace today · the rest of the catalog is available on request while more listings roll out.</p>
+        </div>
+    </section>
+
+    <!-- Two product lines -->
+    <section id="lines" class="py-20 px-4">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-4 text-white">Two Product Lines, One Pipeline</h2>
+            <p class="text-center text-gray-400 mb-12">Every image is built from the official OS ISO with Packer + QEMU, patched fresh, and boot-tested on real EC2 before it ships.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-gray-800 rounded-lg p-8 border border-gray-700 hover:border-yellow-600 transition">
+                    <div class="flex items-center gap-3 mb-3">
+                        <i data-lucide="layers" class="w-8 h-8 text-yellow-500"></i>
+                        <h3 class="text-xl font-bold text-white">StigReady <span class="text-gray-400 font-normal text-base">(base)</span></h3>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4">The OS + STIG-aligned disk layout + SSH/cloud hardening + updated packages. A compliance-<strong class="text-gray-200">ready</strong> base you apply your own STIG profiles, Ansible, or tooling on top of — without fighting pre-baked config.</p>
+                    <p class="text-xs font-mono text-yellow-400">stigready-base-&lt;os&gt;</p>
+                </div>
+                <div class="bg-gray-800 rounded-lg p-8 border border-gray-700 hover:border-yellow-600 transition">
+                    <div class="flex items-center gap-3 mb-3">
+                        <i data-lucide="shield-check" class="w-8 h-8 text-yellow-500"></i>
+                        <h3 class="text-xl font-bold text-white">StigApplied <span class="text-gray-400 font-normal text-base">(remediated)</span></h3>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4">The base with full <strong class="text-gray-200">CIS Level 1/2</strong> or <strong class="text-gray-200">DISA STIG</strong> remediation applied and tuned to stay cloud-usable — each scored against its raw SSG profile, gated at ≥90%, with an auditor-grade evidence bundle. STIG images are <strong class="gold">FIPS 140-3 active</strong>.</p>
+                    <p class="text-xs font-mono text-yellow-400">stigapplied-&lt;profile&gt;-&lt;os&gt;</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Catalog -->
+    <section id="catalog" class="py-20 px-4 bg-gray-800">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-4 text-white">Catalog &amp; Compliance Scores</h2>
+            <p class="text-center text-gray-400 mb-10">Each StigApplied image is scored in the build against its <strong class="text-gray-300">unmodified</strong> SSG profile (CIS or DISA-STIG). Publish floor: 90%.</p>
+            <div class="bg-gray-900 rounded-lg overflow-hidden border border-gray-700 overflow-x-auto">
+                <table class="w-full text-sm min-w-[640px]">
+                    <thead class="bg-navy text-gray-300 uppercase text-xs tracking-wider">
+                        <tr>
+                            <th class="px-4 py-3 text-left">Image</th>
+                            <th class="px-4 py-3 text-left">Family</th>
+                            <th class="px-4 py-3 text-center">Base</th>
+                            <th class="px-4 py-3 text-center">CIS L1</th>
+                            <th class="px-4 py-3 text-center">CIS L2</th>
+                            <th class="px-4 py-3 text-center">DISA STIG <span class="gold">(FIPS)</span></th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-700 text-gray-300">
+                        <tr>
+                            <td class="px-4 py-3 font-semibold text-white">Ubuntu 24.04 LTS</td>
+                            <td class="px-4 py-3 text-gray-400">Debian</td>
+                            <td class="px-4 py-3 text-center text-green-400">✓</td>
+                            <td class="px-4 py-3 text-center font-mono">96.2%</td>
+                            <td class="px-4 py-3 text-center font-mono">95.7%</td>
+                            <td class="px-4 py-3 text-center font-mono gold">93.9%</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-semibold text-white">Ubuntu 26.04 LTS</td>
+                            <td class="px-4 py-3 text-gray-400">Debian</td>
+                            <td class="px-4 py-3 text-center text-green-400">✓</td>
+                            <td class="px-4 py-3 text-center text-gray-600">—</td>
+                            <td class="px-4 py-3 text-center text-gray-600">—</td>
+                            <td class="px-4 py-3 text-center text-gray-600">—</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-semibold text-white">Rocky Linux 9</td>
+                            <td class="px-4 py-3 text-gray-400">RHEL</td>
+                            <td class="px-4 py-3 text-center text-green-400">✓</td>
+                            <td class="px-4 py-3 text-center font-mono">91.3%</td>
+                            <td class="px-4 py-3 text-center font-mono">92.4%</td>
+                            <td class="px-4 py-3 text-center font-mono gold">94.9%</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-semibold text-white">AlmaLinux 9</td>
+                            <td class="px-4 py-3 text-gray-400">RHEL</td>
+                            <td class="px-4 py-3 text-center text-green-400">✓</td>
+                            <td class="px-4 py-3 text-center font-mono">93.1%</td>
+                            <td class="px-4 py-3 text-center font-mono">93.7%</td>
+                            <td class="px-4 py-3 text-center font-mono gold">93.3%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-center text-xs text-gray-500 mt-4">Scores are the raw, unmodified SSG profile — controls genuinely N/A on a single-tenant cloud AMI (smartcard/CAC, bootloader password, remote-log offload) are documented in a POA&amp;M. Ubuntu 26.04 ships the base today; its hardened profiles land as the lockdown content is published upstream.</p>
         </div>
     </section>
 
@@ -74,23 +162,23 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
                     <i data-lucide="folder-tree" class="w-10 h-10 mb-4 text-yellow-500"></i>
-                    <h3 class="text-lg font-bold mb-2">Proper Partition Layout</h3>
-                    <p class="text-gray-400 text-sm">Separate mounts for <code class="text-yellow-400">/home</code>, <code class="text-yellow-400">/tmp</code>, <code class="text-yellow-400">/var</code>, <code class="text-yellow-400">/var/log</code>, <code class="text-yellow-400">/var/log/audit</code>, <code class="text-yellow-400">/var/tmp</code> with hardened mount options.</p>
+                    <h3 class="text-lg font-bold mb-2">STIG Partition Layout</h3>
+                    <p class="text-gray-400 text-sm">Separate mounts for <code class="text-yellow-400">/home</code>, <code class="text-yellow-400">/tmp</code>, <code class="text-yellow-400">/var</code>, <code class="text-yellow-400">/var/log</code>, <code class="text-yellow-400">/var/log/audit</code>, <code class="text-yellow-400">/var/tmp</code> with hardened mount options — the same layout across both families.</p>
                 </div>
                 <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
                     <i data-lucide="shield-check" class="w-10 h-10 mb-4 text-yellow-500"></i>
-                    <h3 class="text-lg font-bold mb-2">SSH Hardened</h3>
-                    <p class="text-gray-400 text-sm">Password auth disabled, root login prohibited, empty passwords blocked. SSH host keys regenerate on first boot. No pre-installed authorized keys.</p>
+                    <h3 class="text-lg font-bold mb-2">SSH &amp; FIPS Hardened</h3>
+                    <p class="text-gray-400 text-sm">Password auth disabled, root login prohibited, host keys regenerate on first boot, no pre-installed keys. STIG images run <strong class="text-gray-200">FIPS 140-3</strong> validated crypto, verified at build time.</p>
                 </div>
                 <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
-                    <i data-lucide="refresh-cw" class="w-10 h-10 mb-4 text-yellow-500"></i>
-                    <h3 class="text-lg font-bold mb-2">Monthly Patches</h3>
-                    <p class="text-gray-400 text-sm">Built from the official Ubuntu 24.04 ISO with all available security patches applied. New AMI versions published every month.</p>
+                    <i data-lucide="file-check-2" class="w-10 h-10 mb-4 text-yellow-500"></i>
+                    <h3 class="text-lg font-bold mb-2">Audit-Grade Evidence</h3>
+                    <p class="text-gray-400 text-sm">Every build produces an OpenSCAP report + ARF, a POA&amp;M, an SBOM (SPDX + CycloneDX), and a CVE scan — a complete, reproducible compliance record per image.</p>
                 </div>
                 <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
                     <i data-lucide="cloud" class="w-10 h-10 mb-4 text-yellow-500"></i>
                     <h3 class="text-lg font-bold mb-2">AWS-Native</h3>
-                    <p class="text-gray-400 text-sm">IMDSv2 enforced on first boot. SSM Agent pre-installed. cloud-init handles EC2 key pair injection. EBS-backed, HVM, x86_64.</p>
+                    <p class="text-gray-400 text-sm">IMDSv2 enforced. SSM Agent pre-installed. cloud-init handles EC2 key-pair injection. Boot-tested on real Nitro EC2 before any image ships. EBS-backed, HVM, x86_64.</p>
                 </div>
             </div>
         </div>
@@ -100,24 +188,24 @@
     <section id="compliance" class="py-20 px-4 bg-gray-800">
         <div class="max-w-5xl mx-auto">
             <h2 class="text-3xl font-bold text-center mb-4 text-white">Compliance Alignment</h2>
-            <p class="text-center text-gray-400 mb-12">Built to satisfy the controls that auditors actually check.</p>
+            <p class="text-center text-gray-400 mb-12">Built to satisfy the controls that auditors actually check — across Debian and RHEL.</p>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
                 <div class="bg-gray-900 rounded-lg p-6 border-t-4 border-yellow-600">
-                    <h3 class="font-bold text-lg mb-3 text-white">DISA STIG<br/><span class="text-sm text-gray-400 font-normal">Ubuntu 24.04 V1R5</span></h3>
+                    <h3 class="font-bold text-lg mb-3 text-white">DISA STIG<br/><span class="text-sm text-gray-400 font-normal">Ubuntu 24.04 · RHEL 9 (Rocky / Alma)</span></h3>
                     <ul class="text-sm text-gray-300 space-y-2">
-                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0"></i>UBTU-24-900920 — separate /var/log/audit</li>
-                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0"></i>UBTU-24-100010/20 — chrony, no timesyncd</li>
-                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0"></i>SSH hardening controls</li>
-                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0"></i>No blank/null passwords</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0"></i>Full ansible-lockdown remediation</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0"></i>Separate audit / log / tmp filesystems</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0"></i>FIPS 140-3 crypto, active &amp; verified</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0"></i>Scored ≥90% vs. the raw SSG profile</li>
                     </ul>
                 </div>
                 <div class="bg-gray-900 rounded-lg p-6 border-t-4 border-yellow-600">
-                    <h3 class="font-bold text-lg mb-3 text-white">CIS Benchmark<br/><span class="text-sm text-gray-400 font-normal">Ubuntu 24.04 Level 2</span></h3>
+                    <h3 class="font-bold text-lg mb-3 text-white">CIS Benchmark<br/><span class="text-sm text-gray-400 font-normal">Level 1 &amp; Level 2</span></h3>
                     <ul class="text-sm text-gray-300 space-y-2">
                         <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0"></i>Separate /tmp, /var, /var/log partitions</li>
                         <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0"></i>nodev, nosuid, noexec mount options</li>
                         <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0"></i>/dev/shm as tmpfs with restrictions</li>
-                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0"></i>Minimal package footprint</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0"></i>Kernel module + sysctl hardening</li>
                     </ul>
                 </div>
                 <div class="bg-gray-900 rounded-lg p-6 border-t-4 border-yellow-600">
@@ -130,7 +218,7 @@
                     </ul>
                 </div>
             </div>
-            <p class="text-center text-sm text-gray-500">StigReady AMIs are a <strong class="text-gray-300">hardened base layer</strong> — not a fully audited system. Apply your STIG profiles, auditd rules, and application hardening on top.</p>
+            <p class="text-center text-sm text-gray-500">A <strong class="text-gray-300">StigApplied</strong> image is remediated and scored; a <strong class="text-gray-300">StigReady base</strong> is a hardened starting layer — apply your STIG profiles, auditd rules, and application hardening on top.</p>
         </div>
     </section>
 
@@ -138,31 +226,31 @@
     <section id="partitions" class="py-20 px-4">
         <div class="max-w-3xl mx-auto">
             <h2 class="text-3xl font-bold text-center mb-4 text-white">Partition Layout</h2>
-            <p class="text-center text-gray-400 mb-10">GPT disk · LVM volume group <code class="text-yellow-400">vg_root</code> · 64 GB total</p>
-            <div class="bg-gray-800 rounded-lg overflow-hidden border border-gray-700">
-                <table class="w-full text-sm">
+            <p class="text-center text-gray-400 mb-10">GPT disk · LVM volume group <code class="text-yellow-400">vg_root</code> · separate STIG filesystems on every image</p>
+            <div class="bg-gray-800 rounded-lg overflow-hidden border border-gray-700 overflow-x-auto">
+                <table class="w-full text-sm min-w-[520px]">
                     <thead class="bg-navy text-gray-300 uppercase text-xs tracking-wider">
                         <tr>
                             <th class="px-4 py-3 text-left">Mount</th>
-                            <th class="px-4 py-3 text-left">Size</th>
                             <th class="px-4 py-3 text-left">Filesystem</th>
                             <th class="px-4 py-3 text-left">Options</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-700">
-                        <tr class="hover:bg-gray-750"><td class="px-4 py-3 font-mono text-yellow-400">/boot/efi</td><td class="px-4 py-3 text-gray-300">550 MB</td><td class="px-4 py-3 text-gray-400">vfat</td><td class="px-4 py-3 text-gray-500">—</td></tr>
-                        <tr class="hover:bg-gray-750"><td class="px-4 py-3 font-mono text-yellow-400">/boot</td><td class="px-4 py-3 text-gray-300">1 GB</td><td class="px-4 py-3 text-gray-400">ext4</td><td class="px-4 py-3 text-gray-500">—</td></tr>
-                        <tr class="hover:bg-gray-750"><td class="px-4 py-3 font-mono text-yellow-400">/</td><td class="px-4 py-3 text-gray-300">20 GB</td><td class="px-4 py-3 text-gray-400">xfs</td><td class="px-4 py-3 text-gray-500">—</td></tr>
-                        <tr class="hover:bg-gray-750"><td class="px-4 py-3 font-mono text-yellow-400">/home</td><td class="px-4 py-3 text-gray-300">10 GB</td><td class="px-4 py-3 text-gray-400">xfs</td><td class="px-4 py-3 font-mono text-green-400 text-xs">nodev,nosuid</td></tr>
-                        <tr class="hover:bg-gray-750"><td class="px-4 py-3 font-mono text-yellow-400">/tmp</td><td class="px-4 py-3 text-gray-300">5 GB</td><td class="px-4 py-3 text-gray-400">xfs</td><td class="px-4 py-3 font-mono text-green-400 text-xs">nodev,nosuid,noexec</td></tr>
-                        <tr class="hover:bg-gray-750"><td class="px-4 py-3 font-mono text-yellow-400">/var</td><td class="px-4 py-3 text-gray-300">5 GB</td><td class="px-4 py-3 text-gray-400">xfs</td><td class="px-4 py-3 font-mono text-green-400 text-xs">nodev,nosuid</td></tr>
-                        <tr class="hover:bg-gray-750"><td class="px-4 py-3 font-mono text-yellow-400">/var/tmp</td><td class="px-4 py-3 text-gray-300">5 GB</td><td class="px-4 py-3 text-gray-400">xfs</td><td class="px-4 py-3 font-mono text-green-400 text-xs">nodev,nosuid,noexec</td></tr>
-                        <tr class="hover:bg-gray-750"><td class="px-4 py-3 font-mono text-yellow-400">/var/log</td><td class="px-4 py-3 text-gray-300">5 GB</td><td class="px-4 py-3 text-gray-400">xfs</td><td class="px-4 py-3 font-mono text-green-400 text-xs">nodev,nosuid,noexec</td></tr>
-                        <tr class="hover:bg-gray-750"><td class="px-4 py-3 font-mono text-yellow-400">/var/log/audit</td><td class="px-4 py-3 text-gray-300">5 GB</td><td class="px-4 py-3 text-gray-400">xfs</td><td class="px-4 py-3 font-mono text-green-400 text-xs">nodev,nosuid,noexec</td></tr>
-                        <tr class="hover:bg-gray-750"><td class="px-4 py-3 font-mono text-yellow-400">swap</td><td class="px-4 py-3 text-gray-300">2 GB</td><td class="px-4 py-3 text-gray-400">swap</td><td class="px-4 py-3 text-gray-500">—</td></tr>
+                        <tr><td class="px-4 py-3 font-mono text-yellow-400">/boot/efi</td><td class="px-4 py-3 text-gray-400">vfat</td><td class="px-4 py-3 text-gray-500">—</td></tr>
+                        <tr><td class="px-4 py-3 font-mono text-yellow-400">/boot</td><td class="px-4 py-3 text-gray-400">ext4 / xfs</td><td class="px-4 py-3 text-gray-500">—</td></tr>
+                        <tr><td class="px-4 py-3 font-mono text-yellow-400">/</td><td class="px-4 py-3 text-gray-400">xfs</td><td class="px-4 py-3 text-gray-500">—</td></tr>
+                        <tr><td class="px-4 py-3 font-mono text-yellow-400">/home</td><td class="px-4 py-3 text-gray-400">xfs</td><td class="px-4 py-3 font-mono text-green-400 text-xs">nodev,nosuid</td></tr>
+                        <tr><td class="px-4 py-3 font-mono text-yellow-400">/tmp</td><td class="px-4 py-3 text-gray-400">xfs</td><td class="px-4 py-3 font-mono text-green-400 text-xs">nodev,nosuid,noexec</td></tr>
+                        <tr><td class="px-4 py-3 font-mono text-yellow-400">/var</td><td class="px-4 py-3 text-gray-400">xfs</td><td class="px-4 py-3 font-mono text-green-400 text-xs">nodev,nosuid</td></tr>
+                        <tr><td class="px-4 py-3 font-mono text-yellow-400">/var/tmp</td><td class="px-4 py-3 text-gray-400">xfs</td><td class="px-4 py-3 font-mono text-green-400 text-xs">nodev,nosuid,noexec</td></tr>
+                        <tr><td class="px-4 py-3 font-mono text-yellow-400">/var/log</td><td class="px-4 py-3 text-gray-400">xfs</td><td class="px-4 py-3 font-mono text-green-400 text-xs">nodev,nosuid,noexec</td></tr>
+                        <tr><td class="px-4 py-3 font-mono text-yellow-400">/var/log/audit</td><td class="px-4 py-3 text-gray-400">xfs</td><td class="px-4 py-3 font-mono text-green-400 text-xs">nodev,nosuid,noexec</td></tr>
+                        <tr><td class="px-4 py-3 font-mono text-yellow-400">swap</td><td class="px-4 py-3 text-gray-400">swap</td><td class="px-4 py-3 text-gray-500">—</td></tr>
                     </tbody>
                 </table>
             </div>
+            <p class="text-center text-xs text-gray-500 mt-4">Meets CIS Level 2, NIST 800-53, and every DISA-STIG separate-filesystem rule — RHEL-09-231010–035 and Ubuntu UBTU-24-900920 alike.</p>
         </div>
     </section>
 
@@ -173,45 +261,48 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="text-center">
                     <div class="bg-yellow-600 text-white w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center font-bold text-xl">1</div>
-                    <h3 class="text-lg font-bold mb-2">Subscribe</h3>
-                    <p class="text-gray-400 text-sm">Subscribe to StigReady on AWS Marketplace. Launch directly from the console — no additional setup required.</p>
+                    <h3 class="text-lg font-bold mb-2">Pick your image</h3>
+                    <p class="text-gray-400 text-sm">Choose an OS (Ubuntu or RHEL family) and a profile — base, CIS Level 1/2, or DISA STIG. Subscribe on AWS Marketplace or request access directly.</p>
                 </div>
                 <div class="text-center">
                     <div class="bg-yellow-600 text-white w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center font-bold text-xl">2</div>
                     <h3 class="text-lg font-bold mb-2">Launch</h3>
-                    <p class="text-gray-400 text-sm">EC2 injects your key pair on first boot via cloud-init. Connect as <code class="text-yellow-400">ec2-user</code> over SSH with key-based auth.</p>
+                    <p class="text-gray-400 text-sm">EC2 injects your key pair on first boot via cloud-init. Connect as <code class="text-yellow-400">ubuntu</code> or <code class="text-yellow-400">ec2-user</code> over SSH with key-based auth.</p>
                 </div>
                 <div class="text-center">
                     <div class="bg-yellow-600 text-white w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center font-bold text-xl">3</div>
-                    <h3 class="text-lg font-bold mb-2">Harden</h3>
-                    <p class="text-gray-400 text-sm">Apply your STIG profiles, auditd rules, and application config on top of a clean, compliant base.</p>
+                    <h3 class="text-lg font-bold mb-2">Ship compliant</h3>
+                    <p class="text-gray-400 text-sm">Run your workload on an image that already carries its OpenSCAP score, POA&amp;M, and SBOM — or layer your own profiles on the base.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Available AMIs -->
+    <!-- Availability -->
     <section class="py-20 px-4">
         <div class="max-w-3xl mx-auto">
-            <h2 class="text-3xl font-bold text-center mb-12 text-white">Available AMIs</h2>
-            <div class="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden">
-                <div class="flex items-center justify-between p-6 border-b border-gray-700">
+            <h2 class="text-3xl font-bold text-center mb-4 text-white">Availability</h2>
+            <p class="text-center text-gray-400 mb-10">New AMI versions are published on a monthly cadence, each boot-tested on real EC2 before release.</p>
+            <div class="space-y-4">
+                <div class="bg-gray-800 rounded-lg border border-yellow-700 p-6 flex items-center justify-between gap-4">
                     <div class="flex items-center gap-4">
-                        <div class="bg-navy-light p-3 rounded-lg">
-                            <i data-lucide="server" class="w-6 h-6 text-yellow-500"></i>
-                        </div>
+                        <div class="bg-navy-light p-3 rounded-lg"><i data-lucide="badge-check" class="w-6 h-6 text-yellow-500"></i></div>
                         <div>
-                            <h3 class="font-bold text-white">StigReady Minimal Ubuntu 24.04 LTS</h3>
-                            <p class="text-sm text-gray-400">x86_64 · EBS-backed · HVM · Monthly updates</p>
+                            <h3 class="font-bold text-white">On AWS Marketplace now</h3>
+                            <p class="text-sm text-gray-400">StigReady Minimal Ubuntu 24.04 LTS — x86_64 · EBS · HVM</p>
                         </div>
                     </div>
-                    <a href="https://aws.amazon.com/marketplace/seller-profile?id=stigready"
-                       class="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded text-sm font-semibold transition whitespace-nowrap">
-                        View on Marketplace
-                    </a>
+                    <a href="https://aws.amazon.com/marketplace/seller-profile?id=stigready" class="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded text-sm font-semibold transition whitespace-nowrap">View listing</a>
                 </div>
-                <div class="px-6 py-4 text-sm text-gray-400">
-                    More OS variants coming soon.
+                <div class="bg-gray-800 rounded-lg border border-gray-700 p-6 flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-navy-light p-3 rounded-lg"><i data-lucide="rocket" class="w-6 h-6 text-yellow-500"></i></div>
+                        <div>
+                            <h3 class="font-bold text-white">Available on request · landing on Marketplace</h3>
+                            <p class="text-sm text-gray-400">Rocky 9 &amp; AlmaLinux 9 · Ubuntu 26.04 · all CIS L1/L2 &amp; DISA STIG (FIPS) images</p>
+                        </div>
+                    </div>
+                    <a href="mailto:contact@stigready.com" class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded text-sm font-semibold transition whitespace-nowrap">Contact us</a>
                 </div>
             </div>
         </div>
@@ -226,7 +317,7 @@
                 <p class="text-5xl font-black text-white mb-2">$0.04<span class="text-xl font-normal text-gray-400">/hr</span></p>
                 <p class="text-gray-400">Software fee · EC2 instance costs billed separately by AWS</p>
             </div>
-            <p class="text-sm text-gray-500">Annual contracts and Private Offers available. <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">Contact us</a> for volume pricing.</p>
+            <p class="text-sm text-gray-500">Annual contracts and Private Offers available. <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">Contact us</a> for RHEL, hardened profiles, or volume pricing.</p>
         </div>
     </section>
 
@@ -244,7 +335,7 @@
                     <a href="mailto:contact@stigready.com" class="hover:text-white transition">contact@stigready.com</a>
                 </div>
             </div>
-            <p class="text-center text-xs text-gray-600">&copy; 2026 StigReady. All rights reserved.</p>
+            <p class="text-center text-xs text-gray-600">&copy; 2026 StigReady. All rights reserved. · Ubuntu 24.04 / 26.04 · Rocky Linux 9 · AlmaLinux 9</p>
         </div>
     </footer>
 
