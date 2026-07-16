@@ -12,7 +12,7 @@
 
       gtag('config', 'G-R2J9HMP1XX');
     </script>
-    <meta name="description" content="STIG-Ready minimal base AMIs for AWS — Ubuntu 24.04/26.04 and the RHEL family (Rocky Linux 9, AlmaLinux 9). A clean, hardened foundation with the STIG partition layout, SSH and cloud hardening, and up-to-date packages, built fresh from the OS ISO with Packer + QEMU. Bring your own profiles.">
+    <meta name="description" content="STIG-Ready minimal base AMIs for AWS — Ubuntu 24.04/26.04 and the RHEL family (Rocky Linux 9, AlmaLinux 9). A clean, hardened foundation with the STIG partition layout, SSH and cloud hardening, and up-to-date packages, built fresh from the OS ISO with Packer + QEMU. Bring your own profiles. Launching soon on AWS Marketplace — early access available.">
     <meta name="keywords" content="STIG base AMI, STIG partition layout, hardened base image, AWS Marketplace, Ubuntu 24.04, Ubuntu 26.04, Rocky Linux 9, AlmaLinux 9, minimal AMI, FedRAMP, DoD">
     <meta name="author" content="StigReady">
     <title>StigReady — STIG-Ready Minimal Base AMIs for AWS</title>
@@ -29,12 +29,6 @@
 </head>
 <body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col">
 
-    <!-- Cross-sell banner (the only reference to StigApplied) -->
-    <div class="bg-navy-light text-center text-sm py-2 px-4 text-gray-200">
-        Want CIS or DISA STIG already applied and scored for you?
-        <a href="https://stigapplied.com" class="underline hover:text-white font-semibold">Try StigApplied →</a>
-    </div>
-
     <!-- Nav -->
     <nav class="bg-navy border-b border-gray-800 px-6 py-4 sticky top-0 z-20">
         <div class="max-w-6xl mx-auto flex items-center justify-between">
@@ -47,7 +41,7 @@
                 <a href="#catalog" class="text-gray-300 hover:text-white transition">Catalog</a>
                 <a href="#partitions" class="text-gray-300 hover:text-white transition">Partitions</a>
                 <a href="#pricing" class="text-gray-300 hover:text-white transition">Pricing</a>
-                <a href="https://aws.amazon.com/marketplace/seller-profile?id=stigready" class="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded-md font-semibold transition">AWS Marketplace</a>
+                <a href="mailto:contact@stigready.com" class="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded-md font-semibold transition">Request Access</a>
             </div>
         </div>
     </nav>
@@ -57,7 +51,7 @@
         <div class="max-w-4xl mx-auto">
             <img src="assets/logo.png" alt="StigReady" class="h-28 w-auto mx-auto mb-8"/>
             <h1 class="text-4xl md:text-5xl font-black mb-4 tracking-tight">
-                <span class="text-white">The STIG-Ready</span><br/>
+                <span class="text-white">The StigReady</span><br/>
                 <span class="gold">Minimal Base for AWS</span>
             </h1>
             <p class="text-xl text-gray-300 mb-4 max-w-2xl mx-auto">
@@ -71,18 +65,24 @@
                 real EC2. Bring your own profiles, Ansible, and tooling — on a base that won't fight you.
             </p>
             <div class="flex flex-col md:flex-row justify-center gap-4">
-                <a href="https://aws.amazon.com/marketplace/seller-profile?id=stigready"
+                <a href="mailto:contact@stigready.com"
                    class="bg-yellow-600 hover:bg-yellow-500 text-white px-8 py-3 rounded-md font-bold text-lg transition">
-                    Browse on AWS Marketplace
+                    Request Early Access
                 </a>
                 <a href="https://github.com/stigready/stigready"
                    class="bg-gray-700 hover:bg-gray-600 text-white px-8 py-3 rounded-md font-bold text-lg transition flex items-center justify-center gap-2">
                     <i data-lucide="github" class="w-5 h-5"></i> View on GitHub
                 </a>
             </div>
-            <p class="text-xs text-gray-500 mt-6">Ubuntu 24.04 base is live on AWS Marketplace today · the rest of the base catalog is available on request while more listings roll out.</p>
+            <p class="text-xs text-gray-500 mt-6">Coming soon to AWS Marketplace · <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">contact us</a> for early access.</p>
         </div>
     </section>
+
+    <!-- Cross-sell banner -->
+    <div class="bg-navy-light text-center text-sm py-3 px-4 text-gray-200 border-t border-gray-700">
+        Want CIS or DISA STIG already applied and scored for you?
+        <a href="https://stigapplied.com" class="underline hover:text-white font-semibold">Try StigApplied →</a>
+    </div>
 
     <!-- What's in the base -->
     <section id="features" class="py-20 px-4">
@@ -132,22 +132,22 @@
                         <tr>
                             <td class="px-4 py-3 font-semibold text-white">Ubuntu 24.04 LTS</td>
                             <td class="px-4 py-3 text-gray-400">Debian</td>
-                            <td class="px-4 py-3"><span class="text-green-400">On AWS Marketplace</span></td>
+                            <td class="px-4 py-3"><span class="text-yellow-400">Early access</span></td>
                         </tr>
                         <tr>
                             <td class="px-4 py-3 font-semibold text-white">Ubuntu 26.04 LTS</td>
                             <td class="px-4 py-3 text-gray-400">Debian</td>
-                            <td class="px-4 py-3 text-gray-400">Available on request</td>
+                            <td class="px-4 py-3"><span class="text-yellow-400">Early access</span></td>
                         </tr>
                         <tr>
                             <td class="px-4 py-3 font-semibold text-white">Rocky Linux 9</td>
                             <td class="px-4 py-3 text-gray-400">RHEL</td>
-                            <td class="px-4 py-3 text-gray-400">Available on request</td>
+                            <td class="px-4 py-3"><span class="text-yellow-400">Early access</span></td>
                         </tr>
                         <tr>
                             <td class="px-4 py-3 font-semibold text-white">AlmaLinux 9</td>
                             <td class="px-4 py-3 text-gray-400">RHEL</td>
-                            <td class="px-4 py-3 text-gray-400">Available on request</td>
+                            <td class="px-4 py-3"><span class="text-yellow-400">Early access</span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -196,7 +196,7 @@
                 <div class="text-center">
                     <div class="bg-yellow-600 text-white w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center font-bold text-xl">1</div>
                     <h3 class="text-lg font-bold mb-2">Pick your OS</h3>
-                    <p class="text-gray-400 text-sm">Choose Ubuntu 24.04/26.04 or the RHEL family (Rocky 9, Alma 9). Subscribe on AWS Marketplace or request access directly.</p>
+                    <p class="text-gray-400 text-sm">Choose Ubuntu 24.04/26.04 or the RHEL family (Rocky 9, Alma 9). <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">Request early access</a> while Marketplace listings roll out.</p>
                 </div>
                 <div class="text-center">
                     <div class="bg-yellow-600 text-white w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center font-bold text-xl">2</div>
@@ -205,7 +205,7 @@
                 </div>
                 <div class="text-center">
                     <div class="bg-yellow-600 text-white w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center font-bold text-xl">3</div>
-                    <h3 class="text-lg font-bold mb-2">Make it yours</h3>
+                    <h3 class="text-lg font-bold mb-2">Apply your profiles</h3>
                     <p class="text-gray-400 text-sm">Apply your own profiles, auditd rules, and application hardening on a base that already carries the STIG layout — nothing to undo first.</p>
                 </div>
             </div>
@@ -216,12 +216,12 @@
     <section id="pricing" class="py-20 px-4">
         <div class="max-w-2xl mx-auto text-center">
             <h2 class="text-3xl font-bold mb-4 text-white">Pricing</h2>
-            <p class="text-gray-400 mb-10">Pay only the software fee on top of your normal EC2 costs.</p>
+            <p class="text-gray-400 mb-10">Planned Marketplace pricing — pay only the software fee on top of your normal EC2 costs.</p>
             <div class="bg-gray-900 rounded-xl border border-yellow-600 p-8 mb-6">
                 <p class="text-5xl font-black text-white mb-2">$0.02<span class="text-xl font-normal text-gray-400">/hr</span></p>
-                <p class="text-gray-400">Base software fee · EC2 instance costs billed separately by AWS</p>
+                <p class="text-gray-400">Base software fee at launch · EC2 instance costs billed separately by AWS</p>
             </div>
-            <p class="text-sm text-gray-500">Annual contracts and Private Offers available. <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">Contact us</a> for RHEL or volume pricing.</p>
+            <p class="text-sm text-gray-500">Annual contracts and Private Offers available. <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">Contact us</a> for RHEL-family (Rocky/Alma) or volume pricing.</p>
         </div>
     </section>
 
@@ -235,7 +235,6 @@
                 </div>
                 <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
                     <a href="https://github.com/stigready/stigready" class="hover:text-white transition">GitHub</a>
-                    <a href="https://aws.amazon.com/marketplace/seller-profile?id=stigready" class="hover:text-white transition">AWS Marketplace</a>
                     <a href="mailto:contact@stigready.com" class="hover:text-white transition">contact@stigready.com</a>
                 </div>
             </div>
