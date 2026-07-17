@@ -12,8 +12,8 @@
 
       gtag('config', 'G-R2J9HMP1XX');
     </script>
-    <meta name="description" content="STIG-Ready minimal base AMIs for AWS — Ubuntu 24.04/26.04 and the RHEL family (Rocky Linux 9, AlmaLinux 9). A clean, hardened foundation with the STIG partition layout, SSH and cloud hardening, and up-to-date packages, built fresh from the OS ISO with Packer + QEMU. Bring your own profiles. Launching soon on AWS Marketplace — early access available.">
-    <meta name="keywords" content="STIG base AMI, STIG partition layout, hardened base image, AWS Marketplace, Ubuntu 24.04, Ubuntu 26.04, Rocky Linux 9, AlmaLinux 9, minimal AMI, FedRAMP, DoD">
+    <meta name="description" content="STIG-Ready minimal base AMIs for AWS — Ubuntu 24.04/26.04 and the RHEL family (Rocky Linux 9, AlmaLinux 9, plus BYOL Red Hat Enterprise Linux 9/10). A clean, hardened foundation with the STIG partition layout, SSH and cloud hardening, and up-to-date packages, built fresh from the OS ISO with Packer + QEMU. Bring your own profiles. Launching soon on AWS Marketplace — early access available.">
+    <meta name="keywords" content="STIG base AMI, STIG partition layout, hardened base image, AWS Marketplace, Ubuntu 24.04, Ubuntu 26.04, Rocky Linux 9, AlmaLinux 9, RHEL 9, RHEL 10, BYOL RHEL, minimal AMI, FedRAMP, DoD">
     <meta name="author" content="StigReady">
     <title>StigReady — STIG-Ready Minimal Base AMIs for AWS</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -28,6 +28,12 @@
     </style>
 </head>
 <body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col">
+
+    <!-- Cross-sell banner (the only reference to StigApplied) -->
+    <div class="bg-navy-light text-center text-sm py-2 px-4 text-gray-200">
+        Want CIS or DISA STIG already applied and scored for you?
+        <a href="https://stigapplied.com" class="underline hover:text-white font-semibold">Try StigApplied →</a>
+    </div>
 
     <!-- Nav -->
     <nav class="bg-navy border-b border-gray-800 px-6 py-4 sticky top-0 z-20">
@@ -58,7 +64,7 @@
                 A clean, hardened foundation — the STIG partition layout, SSH and cloud hardening, and
                 up-to-date packages — across
                 <strong class="text-white">Ubuntu 24.04 / 26.04</strong> and the
-                <strong class="text-white">RHEL family</strong> (Rocky Linux 9, AlmaLinux 9).
+                <strong class="text-white">RHEL family</strong> (Rocky Linux 9, AlmaLinux 9, and BYOL RHEL 9/10).
             </p>
             <p class="text-gray-400 mb-10 max-w-2xl mx-auto">
                 Built fresh from the official OS ISO with Packer + QEMU, patched, and boot-tested on
@@ -77,12 +83,6 @@
             <p class="text-xs text-gray-500 mt-6">Coming soon to AWS Marketplace · <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">contact us</a> for early access.</p>
         </div>
     </section>
-
-    <!-- Cross-sell banner -->
-    <div class="bg-navy-light text-center text-sm py-3 px-4 text-gray-200 border-t border-gray-700">
-        Want CIS or DISA STIG already applied and scored for you?
-        <a href="https://stigapplied.com" class="underline hover:text-white font-semibold">Try StigApplied →</a>
-    </div>
 
     <!-- What's in the base -->
     <section id="features" class="py-20 px-4">
@@ -149,10 +149,21 @@
                             <td class="px-4 py-3 text-gray-400">RHEL</td>
                             <td class="px-4 py-3"><span class="text-yellow-400">Early access</span></td>
                         </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-semibold text-white">Red Hat Enterprise Linux 9</td>
+                            <td class="px-4 py-3 text-gray-400">RHEL</td>
+                            <td class="px-4 py-3"><span class="text-sky-400">BYOL — on request</span></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-semibold text-white">Red Hat Enterprise Linux 10</td>
+                            <td class="px-4 py-3 text-gray-400">RHEL</td>
+                            <td class="px-4 py-3"><span class="text-sky-400">BYOL — on request</span></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
             <p class="text-center text-sm text-gray-500 mt-4">Each base is the same across the fleet: minimal, patched, and laid out the way the hardening you'll apply expects.</p>
+            <p class="text-center text-sm text-gray-500 mt-3"><span class="text-sky-400 font-semibold">BYOL</span> — genuine Red Hat images ship without entitlement; you attach your own Red Hat subscription. <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">Talk to us</a> about a RHEL base.</p>
         </div>
     </section>
 
@@ -196,7 +207,7 @@
                 <div class="text-center">
                     <div class="bg-yellow-600 text-white w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center font-bold text-xl">1</div>
                     <h3 class="text-lg font-bold mb-2">Pick your OS</h3>
-                    <p class="text-gray-400 text-sm">Choose Ubuntu 24.04/26.04 or the RHEL family (Rocky 9, Alma 9). <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">Request early access</a> while Marketplace listings roll out.</p>
+                    <p class="text-gray-400 text-sm">Choose Ubuntu 24.04/26.04 or the RHEL family (Rocky 9, Alma 9, or BYOL RHEL 9/10). <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">Request early access</a> while Marketplace listings roll out.</p>
                 </div>
                 <div class="text-center">
                     <div class="bg-yellow-600 text-white w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center font-bold text-xl">2</div>
@@ -221,7 +232,7 @@
                 <p class="text-5xl font-black text-white mb-2">$0.02<span class="text-xl font-normal text-gray-400">/hr</span></p>
                 <p class="text-gray-400">Base software fee at launch · EC2 instance costs billed separately by AWS</p>
             </div>
-            <p class="text-sm text-gray-500">Annual contracts and Private Offers available. <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">Contact us</a> for RHEL-family (Rocky/Alma) or volume pricing.</p>
+            <p class="text-sm text-gray-500">Annual contracts and Private Offers available. <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">Contact us</a> for RHEL-family (Rocky/Alma), BYOL RHEL, or volume pricing.</p>
         </div>
     </section>
 
