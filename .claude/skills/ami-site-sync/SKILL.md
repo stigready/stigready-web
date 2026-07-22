@@ -41,8 +41,13 @@ Availability wording is a human decision and is carried over from the existing r
 | Wording | Meaning | Set by |
 |---|---|---|
 | `Early access` | built, not yet on Marketplace | current default for community-licensed OSes |
-| `BYOL — on request` | genuine Red Hat, no entitlement attached | RHEL 8/9/10 |
+| `BYOL — on request` | genuine Red Hat, no entitlement attached | **every** `rhel*` row, all versions |
 | `Coming soon` | **not** built, or built but deliberately unannounced | human only |
+
+Standing decisions (owner, 2026-07-21): **every genuine RHEL row is BYOL**, at every version —
+never `Coming soon` once built. The RHEL family carries **8, 9, and 10 for all variants**
+(Rocky, AlmaLinux, RHEL); a missing version there is a build gap to report, not a product gap.
+Rocky and AlmaLinux are community redistributions — they are *not* BYOL.
 
 Never promote a row to a more available state on your own. If an AMI appears for an OS with no
 row, add the row as `Coming soon` and flag it in the PR for a human to decide — do not
