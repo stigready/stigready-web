@@ -1,6 +1,6 @@
 ---
 name: ami-site-sync
-description: Sync the Base Catalog table in index.html against the base AMIs actually built in AWS (OS, arch, availability), then stage the diff on a branch and open a draft PR. Use after a build run lands — especially during the aarch64 rollout — or when asked whether the site matches what's built. Interim tool only; retires when catalog.public.json exists.
+description: Sync the Base Catalog table in index.html against the base AMIs actually built in AWS (OS, arch, availability), then stage the diff on a branch and open a draft PR. The AMI list is the source of truth for this site. Use after a build run lands — especially during the aarch64 rollout — or when asked whether the site matches what's built.
 ---
 
 # AMI → site sync
@@ -8,16 +8,27 @@ description: Sync the Base Catalog table in index.html against the base AMIs act
 Regenerate the **Base Catalog** rows of [index.html](../../../index.html) from the base AMIs
 that actually exist in AWS, so the site never claims an OS or architecture that isn't built.
 
-## Why this exists (read before using)
+## The AMI list is the source of truth
 
-The intended source of truth is `catalog.public.json`, consumed by the
-[site-updater](../../agents/site-updater.md) agent. **That endpoint does not exist yet** —
-`cdn.stigready.com` is NXDOMAIN and the S3 bucket behind that name is the private evidence
-store. Until the catalog ships, this skill is the interim path: it derives the *narrowest
-possible* public facts from EC2 and nothing else.
+Owner decision, 2026-07-21: **the AMIs in AWS are the source of truth for this site.** Not
+`catalog.public.json` — that endpoint was never built (`cdn.stigready.com` is NXDOMAIN, and
+the bucket behind that name is the private evidence store). The
+[site-updater](../../agents/site-updater.md) agent is **superseded** by this skill. One source
+of truth only; two is how the site drifts.
 
-**When `catalog.public.json` goes live, delete this skill.** The catalog wins; two sources of
-truth is how the site drifts.
+### What the AMI list can and cannot decide
+
+It is authoritative for **existence**: which OSes exist, which arches are built, and at what
+version. If the site claims an OS or arch that `inventory.sh` doesn't return, the site is
+wrong — fix the site.
+
+It is **silent** on commercial state. An AMI cannot tell you whether a product is sold,
+priced, listed on Marketplace, or under support. Those stay owner decisions, carried forward
+from the existing row (see *Built ≠ released*). "The AMI list is the source of truth" means
+**an AMI is required** for a row to exist — never that its existence alone justifies a claim.
+
+So: an OS disappearing from AWS means remove the row. An OS appearing means add the row as
+`Coming soon` and ask. Neither case is a judgement call; the availability wording is.
 
 ## Hard limits — do not widen these
 
@@ -80,6 +91,12 @@ pre-announce. Removing or downgrading a row when its AMI disappears is fine and 
 5. **Branch + draft PR.** Never push to `main`. PR body must list: OS/arch pairs added,
    removed, or changed; every row still `Coming soon` and why; and any OS built in AWS but
    intentionally unlisted. A human merges.
+
+## If a catalog endpoint ever ships
+
+It does not supersede this skill by default. `catalog.public.json` was the *old* plan; the
+owner has since made the AMI list authoritative. If a catalog appears later, raise it as a
+decision — do not silently switch sources.
 
 ## Merge gate during the aarch64 rollout
 
