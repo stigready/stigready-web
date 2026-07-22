@@ -108,7 +108,7 @@
                 <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
                     <i data-lucide="cloud" class="w-10 h-10 mb-4 text-yellow-500"></i>
                     <h3 class="text-lg font-bold mb-2">AWS-Native</h3>
-                    <p class="text-gray-400 text-sm">IMDSv2 enforced. SSM Agent pre-installed. cloud-init handles EC2 key-pair injection. Boot-tested on real Nitro EC2 before any image ships. EBS-backed, HVM, x86_64.</p>
+                    <p class="text-gray-400 text-sm">IMDSv2 enforced. SSM Agent pre-installed. cloud-init handles EC2 key-pair injection. Boot-tested on real Nitro EC2 before any image ships. EBS-backed, HVM, x86_64 and arm64 (Graviton).</p>
                 </div>
             </div>
         </div>
@@ -120,11 +120,12 @@
             <h2 class="text-3xl font-bold text-center mb-4 text-white">Base Catalog</h2>
             <p class="text-center text-gray-400 mb-10">One hardened base per OS — the same STIG layout and hardening across Debian and RHEL.</p>
             <div class="bg-gray-900 rounded-lg overflow-hidden border border-gray-700 overflow-x-auto">
-                <table class="w-full text-sm min-w-[480px]">
+                <table class="w-full text-sm min-w-[560px]">
                     <thead class="bg-navy text-gray-300 uppercase text-xs tracking-wider">
                         <tr>
                             <th class="px-4 py-3 text-left">Base image</th>
                             <th class="px-4 py-3 text-left">Family</th>
+                            <th class="px-4 py-3 text-left">Architecture</th>
                             <th class="px-4 py-3 text-left">Availability</th>
                         </tr>
                     </thead>
@@ -132,51 +133,73 @@
                         <tr>
                             <td class="px-4 py-3 font-semibold text-white">Ubuntu 24.04 LTS</td>
                             <td class="px-4 py-3 text-gray-400">Debian</td>
+                            <td class="px-4 py-3 text-gray-400 text-xs font-mono">x86_64 · arm64</td>
                             <td class="px-4 py-3"><span class="text-yellow-400">Early access</span></td>
                         </tr>
                         <tr>
                             <td class="px-4 py-3 font-semibold text-white">Ubuntu 26.04 LTS</td>
                             <td class="px-4 py-3 text-gray-400">Debian</td>
+                            <td class="px-4 py-3 text-gray-400 text-xs font-mono">x86_64 · arm64</td>
                             <td class="px-4 py-3"><span class="text-yellow-400">Early access</span></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-semibold text-white">Amazon Linux 2023</td>
+                            <td class="px-4 py-3 text-gray-400">Amazon</td>
+                            <td class="px-4 py-3 text-gray-400 text-xs font-mono">x86_64 · arm64</td>
+                            <td class="px-4 py-3"><span class="text-gray-500">Coming soon</span></td>
                         </tr>
                         <tr>
                             <td class="px-4 py-3 font-semibold text-white">Rocky Linux 8</td>
                             <td class="px-4 py-3 text-gray-400">RHEL</td>
+                            <td class="px-4 py-3 text-gray-400 text-xs font-mono">x86_64</td>
                             <td class="px-4 py-3"><span class="text-yellow-400">Early access</span></td>
                         </tr>
                         <tr>
                             <td class="px-4 py-3 font-semibold text-white">Rocky Linux 9</td>
                             <td class="px-4 py-3 text-gray-400">RHEL</td>
+                            <td class="px-4 py-3 text-gray-400 text-xs font-mono">x86_64 · arm64</td>
                             <td class="px-4 py-3"><span class="text-yellow-400">Early access</span></td>
                         </tr>
                         <tr>
                             <td class="px-4 py-3 font-semibold text-white">Rocky Linux 10</td>
                             <td class="px-4 py-3 text-gray-400">RHEL</td>
+                            <td class="px-4 py-3 text-gray-400 text-xs font-mono">x86_64</td>
                             <td class="px-4 py-3"><span class="text-yellow-400">Early access</span></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-semibold text-white">AlmaLinux 8</td>
+                            <td class="px-4 py-3 text-gray-400">RHEL</td>
+                            <td class="px-4 py-3 text-gray-400 text-xs font-mono">x86_64</td>
+                            <td class="px-4 py-3"><span class="text-gray-500">Coming soon</span></td>
                         </tr>
                         <tr>
                             <td class="px-4 py-3 font-semibold text-white">AlmaLinux 9</td>
                             <td class="px-4 py-3 text-gray-400">RHEL</td>
+                            <td class="px-4 py-3 text-gray-400 text-xs font-mono">x86_64</td>
                             <td class="px-4 py-3"><span class="text-yellow-400">Early access</span></td>
                         </tr>
                         <tr>
                             <td class="px-4 py-3 font-semibold text-white">AlmaLinux 10</td>
                             <td class="px-4 py-3 text-gray-400">RHEL</td>
+                            <td class="px-4 py-3 text-gray-400 text-xs font-mono">x86_64</td>
                             <td class="px-4 py-3"><span class="text-yellow-400">Early access</span></td>
                         </tr>
                         <tr>
                             <td class="px-4 py-3 font-semibold text-white">Red Hat Enterprise Linux 8</td>
                             <td class="px-4 py-3 text-gray-400">RHEL</td>
+                            <td class="px-4 py-3 text-gray-400 text-xs font-mono">x86_64</td>
                             <td class="px-4 py-3"><span class="text-sky-400">BYOL — on request</span></td>
                         </tr>
                         <tr>
                             <td class="px-4 py-3 font-semibold text-white">Red Hat Enterprise Linux 9</td>
                             <td class="px-4 py-3 text-gray-400">RHEL</td>
+                            <td class="px-4 py-3 text-gray-400 text-xs font-mono">x86_64</td>
                             <td class="px-4 py-3"><span class="text-sky-400">BYOL — on request</span></td>
                         </tr>
                         <tr>
                             <td class="px-4 py-3 font-semibold text-white">Red Hat Enterprise Linux 10</td>
                             <td class="px-4 py-3 text-gray-400">RHEL</td>
+                            <td class="px-4 py-3 text-gray-400 text-xs font-mono">x86_64</td>
                             <td class="px-4 py-3"><span class="text-gray-500">Coming soon</span></td>
                         </tr>
                     </tbody>
@@ -227,7 +250,7 @@
                 <div class="text-center">
                     <div class="bg-yellow-600 text-white w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center font-bold text-xl">1</div>
                     <h3 class="text-lg font-bold mb-2">Pick your OS</h3>
-                    <p class="text-gray-400 text-sm">Choose Ubuntu 24.04/26.04 or the RHEL family (Rocky 9, Alma 9, or BYOL RHEL 9/10). <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">Request early access</a> while Marketplace listings roll out.</p>
+                    <p class="text-gray-400 text-sm">Choose Ubuntu 24.04/26.04 or the RHEL family (Rocky 9, Alma 9, or BYOL RHEL 8/9). <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">Request early access</a> while Marketplace listings roll out.</p>
                 </div>
                 <div class="text-center">
                     <div class="bg-yellow-600 text-white w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center font-bold text-xl">2</div>
