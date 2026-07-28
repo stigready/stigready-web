@@ -11,10 +11,70 @@
       gtag('js', new Date());
       gtag('config', 'G-R2J9HMP1XX');
     </script>
-    <meta name="description" content="StigReady — hardened AWS AMIs in three tiers. StigReady Base: STIG partition layout, SSH hardening, patched, Bring Your Own tooling. StigReady Applied: full DISA STIG or CIS Benchmark remediation, scored against the raw SSG profile in-build, auditor-grade evidence bundle (OpenSCAP ARF, POA&M, SBOM). StigForge: the open-source STIG Ansible engine. Rocky Linux, AlmaLinux, RHEL, Ubuntu, Amazon Linux 2023. x86_64 and arm64 (Graviton). Coming soon on AWS Marketplace.">
-    <meta name="keywords" content="STIG AMI, DISA STIG hardened AMI, CIS benchmark AMI, AWS Marketplace hardened image, OpenSCAP score, SCAP ARF, POA&M, SBOM, Ubuntu 24.04, Amazon Linux 2023, Rocky Linux, AlmaLinux, RHEL BYOL, Graviton arm64 AMI, FedRAMP, FIPS mode, StigForge Ansible">
+
+    <title>StigReady — Hardened AWS AMIs with Published OpenSCAP Scores</title>
+    <meta name="description" content="Hardened AWS AMIs with published OpenSCAP scores. StigReady Base for bring-your-own tooling; StigReady Applied with CIS Benchmark or DISA STIG remediation and an auditor-grade evidence bundle. Rocky, Alma, RHEL BYOL, Ubuntu, Amazon Linux — x86_64 and arm64. Coming soon on AWS Marketplace.">
     <meta name="author" content="StigReady">
-    <title>StigReady — Base, Applied &amp; StigForge: Hardened AWS AMIs</title>
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta name="theme-color" content="#0C2340">
+    <link rel="canonical" href="https://stigready.com/">
+    <link rel="icon" type="image/png" href="https://stigready.com/assets/logo.png">
+    <link rel="apple-touch-icon" href="https://stigready.com/assets/logo.png">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="StigReady">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:url" content="https://stigready.com/">
+    <meta property="og:title" content="StigReady — Hardened AWS AMIs with Published OpenSCAP Scores">
+    <meta property="og:description" content="Base and Applied hardened AMIs for AWS. Published OpenSCAP scores, evidence bundles, x86_64 and arm64 (Graviton). Coming soon on AWS Marketplace.">
+    <meta property="og:image" content="https://stigready.com/assets/logo.png">
+    <meta property="og:image:alt" content="StigReady logo">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="StigReady — Hardened AWS AMIs with Published OpenSCAP Scores">
+    <meta name="twitter:description" content="Base and Applied hardened AMIs for AWS. Published OpenSCAP scores, evidence bundles, x86_64 and arm64 (Graviton). Coming soon on AWS Marketplace.">
+    <meta name="twitter:image" content="https://stigready.com/assets/logo.png">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://stigready.com/#organization",
+          "name": "StigReady",
+          "url": "https://stigready.com/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://stigready.com/assets/logo.png"
+          },
+          "email": "contact@stigready.com",
+          "description": "Hardened AWS AMIs — StigReady Base and StigReady Applied — with published OpenSCAP scores and auditor-grade evidence."
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://stigready.com/#website",
+          "url": "https://stigready.com/",
+          "name": "StigReady",
+          "publisher": { "@id": "https://stigready.com/#organization" },
+          "inLanguage": "en-US"
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://stigready.com/#webpage",
+          "url": "https://stigready.com/",
+          "name": "StigReady — Hardened AWS AMIs with Published OpenSCAP Scores",
+          "isPartOf": { "@id": "https://stigready.com/#website" },
+          "about": { "@id": "https://stigready.com/#organization" },
+          "description": "Hardened AWS AMIs with published OpenSCAP scores. StigReady Base and StigReady Applied for CIS Benchmark and DISA STIG workloads on x86_64 and arm64.",
+          "inLanguage": "en-US"
+        }
+      ]
+    }
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
@@ -31,14 +91,13 @@
     <!-- Nav -->
     <nav class="bg-navy border-b border-gray-800 px-6 py-4 sticky top-0 z-20">
         <div class="max-w-6xl mx-auto flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <img src="assets/logo.png" alt="StigReady" class="h-10 w-auto"/>
+            <a href="/" class="flex items-center space-x-3" aria-label="StigReady home">
+                <img src="assets/logo.png" alt="StigReady" class="h-10 w-auto" width="40" height="40"/>
                 <span class="text-xl font-black tracking-wide"><span class="text-white">STIG</span><span class="gold">READY</span></span>
-            </div>
+            </a>
             <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
                 <a href="#base-tier"    class="text-gray-300 hover:text-white transition">Base</a>
                 <a href="#applied-tier" class="text-gray-300 hover:text-white transition">Applied</a>
-                <a href="#stigforge"    class="text-gray-300 hover:text-white transition">StigForge</a>
                 <a href="#pricing"      class="text-gray-300 hover:text-white transition">Pricing</a>
                 <a href="mailto:contact@stigready.com" class="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded-md font-semibold transition">Contact</a>
             </div>
@@ -54,7 +113,7 @@
                 <span class="gold">Add proof when you need it.</span>
             </h1>
             <p class="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
-                One hardened foundation — three ways to use it. All built from the official OS ISO,
+                One hardened foundation — two ways to use it. All built from the official OS ISO,
                 patched, and boot-tested on real EC2 Nitro. Coming soon to AWS Marketplace.
             </p>
             <!-- Tier pills -->
@@ -68,11 +127,6 @@
                     <div class="text-xs text-yellow-500 font-semibold uppercase tracking-wider mb-0.5">StigReady Applied</div>
                     <div class="font-bold">Remediated, scored, and provable</div>
                     <div class="text-xs text-gray-400 mt-0.5">Planned $0.08/hr · Evidence bundle included</div>
-                </a>
-                <a href="#stigforge" class="bg-gray-800 border border-gray-700 hover:border-yellow-600 text-white px-6 py-3 rounded-lg transition text-left">
-                    <div class="text-xs text-green-400 font-semibold uppercase tracking-wider mb-0.5">StigForge</div>
-                    <div class="font-bold">The engine, in the open</div>
-                    <div class="text-xs text-gray-400 mt-0.5">Free · Open-source STIG Ansible content</div>
                 </a>
             </div>
             <a href="mailto:contact@stigready.com"
@@ -216,6 +270,7 @@
                 <span class="text-xs text-yellow-500 font-semibold uppercase tracking-widest">StigReady Applied</span>
                 <h2 class="text-3xl font-bold mt-2 text-white">Remediated, scored, and provable</h2>
                 <p class="text-gray-400 mt-3 max-w-2xl mx-auto">The number your auditor asks for — published before you subscribe. We score against the raw, unmodified SSG profile in-build. They don't.</p>
+                <p class="text-sm text-gray-500 mt-2"><a href="/applied/" class="text-yellow-500 hover:underline">Applied overview</a> · scores and filters below</p>
             </div>
 
             <!-- Score range callout -->
@@ -246,11 +301,6 @@
                     <i data-lucide="lock" class="w-9 h-9 mb-3 text-yellow-500"></i>
                     <h3 class="font-bold mb-2">FIPS mode on STIG images</h3>
                     <p class="text-gray-400 text-sm">DISA STIG images run with FIPS mode enabled, using the OS vendor's FIPS 140-3 validated cryptographic modules (CMVP certificate numbers available on request).</p>
-                </div>
-                <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
-                    <i data-lucide="git-branch" class="w-9 h-9 mb-3 text-yellow-500"></i>
-                    <h3 class="font-bold mb-2">Transparent pipeline</h3>
-                    <p class="text-gray-400 text-sm">The Ansible STIG content that remediates these images comes from <a href="https://github.com/stigready/stigforge" class="text-yellow-500 hover:underline">StigForge</a> — open source, readable, and verifiable by anyone.</p>
                 </div>
                 <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
                     <i data-lucide="cpu" class="w-9 h-9 mb-3 text-yellow-500"></i>
@@ -319,40 +369,6 @@
         </div>
     </section>
 
-    <!-- ── STIGFORGE ──────────────────────────────────────────────────── -->
-    <section id="stigforge" class="py-20 px-4 border-t border-gray-700">
-        <div class="max-w-4xl mx-auto">
-            <div class="text-center mb-10">
-                <span class="text-xs text-green-400 font-semibold uppercase tracking-widest">StigForge</span>
-                <h2 class="text-3xl font-bold mt-2 text-white">The engine, in the open</h2>
-                <p class="text-gray-400 mt-3 max-w-2xl mx-auto">The Ansible STIG remediation content behind every StigReady Applied image — open source, free, and verifiable by anyone.</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
-                    <i data-lucide="code-2" class="w-8 h-8 mb-3 text-green-400"></i>
-                    <h3 class="font-bold mb-2">DISA STIG content</h3>
-                    <p class="text-gray-400 text-sm">Ansible roles that implement DISA STIG controls for the RHEL family. DISA STIGs are US government works — freely implementable and redistributable.</p>
-                </div>
-                <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
-                    <i data-lucide="eye" class="w-8 h-8 mb-3 text-green-400"></i>
-                    <h3 class="font-bold mb-2">Verify, don't trust</h3>
-                    <p class="text-gray-400 text-sm">StigForge exists so you can read exactly what runs on your images. The same open pipeline builds every Applied image — no proprietary black boxes.</p>
-                </div>
-                <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
-                    <i data-lucide="users" class="w-8 h-8 mb-3 text-green-400"></i>
-                    <h3 class="font-bold mb-2">Free for everyone</h3>
-                    <p class="text-gray-400 text-sm">StigForge is not a SKU. Use it independently, contribute to it, or just audit it. The evidence pipeline — in-build scoring, POA&M, SBOM — is where the value lives.</p>
-                </div>
-            </div>
-            <div class="text-center">
-                <a href="https://github.com/stigready/stigforge"
-                   class="inline-flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-white px-8 py-3 rounded-md font-bold text-lg transition">
-                    <i data-lucide="github" class="w-5 h-5"></i> StigForge on GitHub
-                </a>
-            </div>
-        </div>
-    </section>
-
     <!-- ── PRICING ────────────────────────────────────────────────────── -->
     <section id="pricing" class="py-20 px-4 bg-gray-800 border-t border-gray-700">
         <div class="max-w-4xl mx-auto text-center">
@@ -402,7 +418,9 @@
                     <span class="font-black tracking-wide"><span class="text-white">STIG</span><span class="gold">READY</span></span>
                 </div>
                 <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
-                    <a href="https://github.com/stigready/stigforge" class="hover:text-white transition">StigForge on GitHub</a>
+                    <a href="/#base-tier" class="hover:text-white transition">Base</a>
+                    <a href="/applied/" class="hover:text-white transition">Applied</a>
+                    <a href="/#pricing" class="hover:text-white transition">Pricing</a>
                     <a href="mailto:contact@stigready.com" class="hover:text-white transition">contact@stigready.com</a>
                 </div>
             </div>
@@ -416,6 +434,10 @@
     <script>
     'use strict';
 
+    // catalog.json is published from the factory repo (stigready/public/catalog.json via
+    // scripts/publish-catalog.py --to-site). Do not hand-edit product rows — arch lists,
+    // scores, and availability all come from that file. Schema v2: see factory
+    // docs/web-data-governance.md.
     let catalog = null;
     const filters = {
         base:    { arch: 'all' },
@@ -434,6 +456,17 @@
             document.getElementById('applied-tbody').innerHTML =
                 '<tr><td colspan="6" class="px-4 py-6 text-center text-red-400">Failed to load catalog. Please refresh.</td></tr>';
         }
+    }
+
+    function buildLabel() {
+        // Factory stamp is `generated: YYYY-MM-DD`; show YYYY-MM for score dating.
+        const g = catalog && catalog.generated;
+        return g && g.length >= 7 ? g.slice(0, 7) : 'unknown';
+    }
+
+    function isByol(p) {
+        // Factory schema has no `byol` field — genuine RHEL is BYOL by policy.
+        return typeof p.os_key === 'string' && p.os_key.startsWith('rhel');
     }
 
     function availBadge(avail, url) {
@@ -468,7 +501,7 @@
         }
         tbody.innerHTML = products.map(p => `
             <tr class="hover:bg-gray-800 transition">
-                <td class="px-4 py-3 font-semibold text-white">${p.os}${p.byol ? byolTag() : ''}</td>
+                <td class="px-4 py-3 font-semibold text-white">${p.os}${isByol(p) ? byolTag() : ''}</td>
                 <td class="px-4 py-3">${archBadge(p.arch)}</td>
                 <td class="px-4 py-3">${availBadge(p.availability, p.marketplace_url)}</td>
             </tr>
@@ -490,13 +523,13 @@
             tbody.innerHTML = '<tr><td colspan="6" class="px-4 py-6 text-center text-gray-500">No entries match the current filters.</td></tr>';
             return;
         }
-        const buildLabel = catalog.build_label;
+        const label = buildLabel();
         tbody.innerHTML = products.map(p => `
             <tr class="hover:bg-gray-800 transition">
-                <td class="px-4 py-3 font-semibold text-white">${p.os}${p.byol ? byolTag() : ''}</td>
+                <td class="px-4 py-3 font-semibold text-white">${p.os}${isByol(p) ? byolTag() : ''}</td>
                 <td class="px-4 py-3">${archBadge(p.arch)}</td>
                 <td class="px-4 py-3 text-gray-300 text-sm">${p.benchmark}</td>
-                <td class="px-4 py-3 font-mono text-green-400">${p.score}%<span class="text-gray-500 text-xs ml-1">build ${buildLabel}</span></td>
+                <td class="px-4 py-3 font-mono text-green-400">${p.score}%<span class="text-gray-500 text-xs ml-1">build ${label}</span></td>
                 <td class="px-4 py-3 text-sm">${p.fips ? '<span class="text-green-400 font-medium">✓</span>' : '<span class="text-gray-600">—</span>'}</td>
                 <td class="px-4 py-3">${availBadge(p.availability, p.marketplace_url)}</td>
             </tr>
