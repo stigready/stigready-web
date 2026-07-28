@@ -13,7 +13,7 @@
     </script>
 
     <title>StigReady — Hardened AWS AMIs with Published OpenSCAP Scores</title>
-    <meta name="description" content="Hardened AWS AMIs with published OpenSCAP scores. StigReady Base for bring-your-own tooling; StigReady Applied with CIS Benchmark or DISA STIG remediation and an auditor-grade evidence bundle. Rocky, Alma, RHEL BYOL, Ubuntu, Amazon Linux — x86_64 and arm64. Coming soon on AWS Marketplace.">
+    <meta name="description" content="Hardened AWS AMIs with published OpenSCAP scores. StigReady Base for bring-your-own tooling; StigReady Applied with CIS Benchmark or DISA STIG remediation and an auditor-grade evidence bundle. Rocky, Alma, RHEL BYOL, Ubuntu, Amazon Linux — x86_64 and arm64 on AWS Marketplace.">
     <meta name="author" content="StigReady">
     <meta name="robots" content="index,follow,max-image-preview:large">
     <meta name="theme-color" content="#0C2340">
@@ -27,14 +27,14 @@
     <meta property="og:locale" content="en_US">
     <meta property="og:url" content="https://stigready.com/">
     <meta property="og:title" content="StigReady — Hardened AWS AMIs with Published OpenSCAP Scores">
-    <meta property="og:description" content="Base and Applied hardened AMIs for AWS. Published OpenSCAP scores, evidence bundles, x86_64 and arm64 (Graviton). Coming soon on AWS Marketplace.">
+    <meta property="og:description" content="Base and Applied hardened AMIs for AWS. Published OpenSCAP scores, evidence bundles, x86_64 and arm64 (Graviton) on AWS Marketplace.">
     <meta property="og:image" content="https://stigready.com/assets/logo.png">
     <meta property="og:image:alt" content="StigReady logo">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="StigReady — Hardened AWS AMIs with Published OpenSCAP Scores">
-    <meta name="twitter:description" content="Base and Applied hardened AMIs for AWS. Published OpenSCAP scores, evidence bundles, x86_64 and arm64 (Graviton). Coming soon on AWS Marketplace.">
+    <meta name="twitter:description" content="Base and Applied hardened AMIs for AWS. Published OpenSCAP scores, evidence bundles, x86_64 and arm64 (Graviton) on AWS Marketplace.">
     <meta name="twitter:image" content="https://stigready.com/assets/logo.png">
 
     <script type="application/ld+json">
@@ -115,26 +115,26 @@
             </h1>
             <p class="text-lg text-gray-300 mb-6 max-w-2xl mx-auto">
                 One hardened foundation — two ways to use it. All built from the official OS ISO,
-                patched, and boot-tested on real EC2 Nitro. Coming soon to AWS Marketplace.
+                patched, and boot-tested on real EC2 Nitro. Available on AWS Marketplace.
             </p>
             <!-- Tier pills -->
             <div class="flex flex-col sm:flex-row justify-center gap-4 mb-8">
                 <a href="#base-tier" class="bg-gray-800 border border-gray-700 hover:border-yellow-600 text-white px-6 py-3 rounded-lg transition text-left">
                     <div class="text-xs text-yellow-500 font-semibold uppercase tracking-wider mb-0.5">StigReady Base</div>
                     <div class="font-bold">The base that won't fight you</div>
-                    <div class="text-xs text-gray-400 mt-0.5">Planned $0.02/hr · Bring your own profiles</div>
+                    <div class="text-xs text-gray-400 mt-0.5">$0.02/hr · Bring your own profiles</div>
                 </a>
                 <a href="#applied-tier" class="bg-gray-800 border border-yellow-700 hover:border-yellow-500 text-white px-6 py-3 rounded-lg transition text-left">
                     <div class="text-xs text-yellow-500 font-semibold uppercase tracking-wider mb-0.5">StigReady Applied</div>
                     <div class="font-bold">Remediated, scored, and provable</div>
-                    <div class="text-xs text-gray-400 mt-0.5">Planned $0.08/hr · Evidence bundle included</div>
+                    <div class="text-xs text-gray-400 mt-0.5">$0.08/hr · Evidence bundle included</div>
                 </a>
             </div>
             <a href="mailto:contact@stigready.com"
                class="inline-block bg-yellow-600 hover:bg-yellow-500 text-white px-8 py-3 rounded-md font-bold text-lg transition">
                 Contact Us
             </a>
-            <p class="text-xs text-gray-500 mt-4">All listings are coming soon · AWS Marketplace seller registration in progress</p>
+            <p class="text-xs text-gray-500 mt-4">AWS Marketplace · x86_64 and arm64 (Graviton)</p>
         </div>
     </section>
 
@@ -196,11 +196,10 @@
                             <tr>
                                 <th class="px-4 py-3 text-left">OS</th>
                                 <th class="px-4 py-3 text-left">Arch</th>
-                                <th class="px-4 py-3 text-left">Status</th>
                             </tr>
                         </thead>
                         <tbody id="base-tbody" class="divide-y divide-gray-700 text-gray-300">
-                            <tr><td colspan="3" class="px-4 py-6 text-center text-gray-500">Loading catalog…</td></tr>
+                            <tr><td colspan="2" class="px-4 py-6 text-center text-gray-500">Loading catalog…</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -347,11 +346,10 @@
                                 <th class="px-4 py-3 text-left">Baseline</th>
                                 <th class="px-4 py-3 text-left">Score</th>
                                 <th class="px-4 py-3 text-left">FIPS</th>
-                                <th class="px-4 py-3 text-left">Status</th>
                             </tr>
                         </thead>
                         <tbody id="applied-tbody" class="divide-y divide-gray-700 text-gray-300">
-                            <tr><td colspan="6" class="px-4 py-6 text-center text-gray-500">Loading catalog…</td></tr>
+                            <tr><td colspan="5" class="px-4 py-6 text-center text-gray-500">Loading catalog…</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -384,7 +382,7 @@
 
             <div class="bg-gray-800 rounded-xl border border-gray-700 p-6">
                 <h3 class="text-xl font-bold text-white mb-2">Scores</h3>
-                <p class="text-gray-400 text-sm mb-4">Raw SSG profile · ≥90% floor on required cells · published from CI verify artifacts.</p>
+                <p class="text-gray-400 text-sm mb-4">OpenSCAP verify against the raw SSG profile.</p>
                 <div class="overflow-x-auto border border-gray-700 rounded-lg">
                     <table class="w-full text-sm min-w-[560px]">
                         <thead class="bg-navy text-gray-300 uppercase text-xs tracking-wider">
@@ -410,7 +408,7 @@
     <section id="pricing" class="py-20 px-4 bg-gray-800 border-t border-gray-700">
         <div class="max-w-4xl mx-auto text-center">
             <h2 class="text-3xl font-bold mb-3 text-white">Pricing</h2>
-            <p class="text-gray-400 mb-10">Planned Marketplace pricing — software fee on top of your normal EC2 costs. Not yet purchasable; all listings are coming soon pending AWS seller registration.</p>
+            <p class="text-gray-400 mb-10">Marketplace software fee on top of your normal EC2 costs.</p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <!-- Base -->
                 <div class="bg-gray-900 rounded-xl border border-gray-700 p-8 text-left">
@@ -473,9 +471,9 @@
     'use strict';
 
     // catalog.json is published from the factory repo (stigready/public/catalog.json via
-    // scripts/publish-catalog.py --to-site). Do not hand-edit product rows — arch lists,
-    // scores, and availability all come from that file. Schema v2: see factory
-    // docs/web-data-governance.md.
+    // scripts/publish-catalog.py --to-site). Do not hand-edit product rows — arch lists
+    // and scores come from that file. Schema v2: see factory docs/web-data-governance.md.
+    // Marketplace listing state is not tracked on this site.
     let catalog = null;
     let factory = null;
     const filters = {
@@ -552,11 +550,11 @@
             const appliedBody = document.getElementById('applied-tbody');
             if (baseBody) {
                 baseBody.innerHTML =
-                    '<tr><td colspan="3" class="px-4 py-6 text-center text-red-400">Failed to load catalog. Please refresh.</td></tr>';
+                    '<tr><td colspan="2" class="px-4 py-6 text-center text-red-400">Failed to load catalog. Please refresh.</td></tr>';
             }
             if (appliedBody) {
                 appliedBody.innerHTML =
-                    '<tr><td colspan="6" class="px-4 py-6 text-center text-red-400">Failed to load catalog. Please refresh.</td></tr>';
+                    '<tr><td colspan="5" class="px-4 py-6 text-center text-red-400">Failed to load catalog. Please refresh.</td></tr>';
             }
         }
     }
@@ -570,13 +568,6 @@
     function isByol(p) {
         // Factory schema has no `byol` field — genuine RHEL is BYOL by policy.
         return typeof p.os_key === 'string' && p.os_key.startsWith('rhel');
-    }
-
-    function availBadge(avail, url) {
-        if (avail === 'available' && url) {
-            return '<span class="bg-green-800 text-green-200 px-2 py-0.5 rounded text-xs font-semibold">Available</span>';
-        }
-        return '<span class="bg-gray-700 text-yellow-400 px-2 py-0.5 rounded text-xs font-semibold">Coming soon</span>';
     }
 
     function archBadge(arch) {
@@ -594,7 +585,7 @@
         const tbody = document.getElementById('base-tbody');
         if (!tbody) return;
         if (!catalog || !Array.isArray(catalog.products)) {
-            tbody.innerHTML = '<tr><td colspan="3" class="px-4 py-6 text-center text-red-400">Catalog not loaded.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="2" class="px-4 py-6 text-center text-red-400">Catalog not loaded.</td></tr>';
             return;
         }
         let products = catalog.products.filter(p =>
@@ -604,14 +595,13 @@
             products = products.filter(p => p.arch === filters.base.arch);
         }
         if (products.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="3" class="px-4 py-6 text-center text-gray-500">No entries match the current filter.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="2" class="px-4 py-6 text-center text-gray-500">No entries match the current filter.</td></tr>';
             return;
         }
         tbody.innerHTML = products.map(p => `
             <tr class="hover:bg-gray-800 transition">
                 <td class="px-4 py-3 font-semibold text-white">${p.os}${isByol(p) ? byolTag() : ''}</td>
                 <td class="px-4 py-3">${archBadge(p.arch)}</td>
-                <td class="px-4 py-3">${availBadge(p.availability, p.marketplace_url)}</td>
             </tr>
         `).join('');
     }
@@ -620,7 +610,7 @@
         const tbody = document.getElementById('applied-tbody');
         if (!tbody) return;
         if (!catalog || !Array.isArray(catalog.products)) {
-            tbody.innerHTML = '<tr><td colspan="6" class="px-4 py-6 text-center text-red-400">Catalog not loaded.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" class="px-4 py-6 text-center text-red-400">Catalog not loaded.</td></tr>';
             return;
         }
         let products = catalog.products.filter(p =>
@@ -633,7 +623,7 @@
             products = products.filter(p => p.profile === filters.applied.profile);
         }
         if (products.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6" class="px-4 py-6 text-center text-gray-500">No entries match the current filters.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" class="px-4 py-6 text-center text-gray-500">No entries match the current filters.</td></tr>';
             return;
         }
         const label = buildLabel();
@@ -644,7 +634,6 @@
                 <td class="px-4 py-3 text-gray-300 text-sm">${p.benchmark}</td>
                 <td class="px-4 py-3 font-mono text-green-400">${p.score != null ? `${p.score}%` : '—'}<span class="text-gray-500 text-xs ml-1">build ${label}</span></td>
                 <td class="px-4 py-3 text-sm">${p.fips ? '<span class="text-green-400 font-medium">✓</span>' : '<span class="text-gray-600">—</span>'}</td>
-                <td class="px-4 py-3">${availBadge(p.availability, p.marketplace_url)}</td>
             </tr>
         `).join('');
     }
