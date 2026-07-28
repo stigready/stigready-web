@@ -2,7 +2,8 @@
   "schema": 1,
   "generated": "2026-07-28",
   "factory_repo": "stigready/stigforge",
-  "factory_commit": "610b037",
+  "factory_repo_visibility": "private",
+  "factory_commit": "5601d6c",
   "min_score_default": 90,
   "image_cutover": "in_progress",
   "image_cutover_note": "Factory OpenSCAP verify is green on required matrix cells. StigReady Applied AMIs still bake with ansible-lockdown today; pins move to StigForge-exported roles after product-owner cutover (see stigready-cutover.md).",
@@ -189,7 +190,7 @@
       "profiles": [
         {
           "profile": "stig",
-          "score_pct": 98.57,
+          "score_pct": 97.14,
           "min_score": 90.0,
           "meets_floor": true,
           "gate_pass": true,
