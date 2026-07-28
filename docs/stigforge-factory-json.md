@@ -22,9 +22,7 @@ Commit the web repo after a green **`pipeline`** on factory `main` (CI verify ar
 
 ## Fields
 
-- **`image_cutover`**: `in_progress` until the private image factory pins StigForge roles (Phase D).
-- **`factory_cutover_ready`**: factory precondition (all required matrix cells green) — not an AMI cutover signal.
-- **`pilot_review`**: exemplar public role-repo export (when configured in `release/registry.yml`).
+- **`cells`**: role + profile scores; the site renders the public role list and OpenSCAP scores only.
 - **`factory_repo`**: metadata only (`stigready/stigforge`); not rendered as a public link.
 
 Do not hand-edit matrix rows; regenerate from `matrix.yml` + verify artifacts.
