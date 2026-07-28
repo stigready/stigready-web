@@ -1,15 +1,15 @@
 {
   "schema": 1,
-  "generated": "2026-07-27",
+  "generated": "2026-07-28",
   "factory_repo": "stigready/stigforge",
-  "factory_commit": "7bb4e30",
+  "factory_commit": "610b037",
   "min_score_default": 90,
   "image_cutover": "in_progress",
   "image_cutover_note": "Factory OpenSCAP verify is green on required matrix cells. StigReady Applied AMIs still bake with ansible-lockdown today; pins move to StigForge-exported roles after product-owner cutover (see stigready-cutover.md).",
   "factory_cutover_ready": true,
   "role_repos": {
     "github_org": "stigready",
-    "default_visibility": "private",
+    "default_visibility": "public",
     "pilot_review_role": "rhel9_stig"
   },
   "cells": [
@@ -19,7 +19,7 @@
       "required": true,
       "matrix_status": "green",
       "github_repo": "stigready/ubuntu24-cis",
-      "role_repo_visibility": "private",
+      "role_repo_visibility": "public",
       "layout_v2_pilot": false,
       "profiles": [
         {
@@ -46,7 +46,7 @@
       "required": true,
       "matrix_status": "green",
       "github_repo": "stigready/ubuntu24-stig",
-      "role_repo_visibility": "private",
+      "role_repo_visibility": "public",
       "layout_v2_pilot": false,
       "profiles": [
         {
@@ -65,7 +65,7 @@
       "required": true,
       "matrix_status": "green",
       "github_repo": "stigready/rhel8-cis",
-      "role_repo_visibility": "private",
+      "role_repo_visibility": "public",
       "layout_v2_pilot": false,
       "profiles": [
         {
@@ -92,7 +92,7 @@
       "required": true,
       "matrix_status": "green",
       "github_repo": "stigready/rhel8-stig",
-      "role_repo_visibility": "private",
+      "role_repo_visibility": "public",
       "layout_v2_pilot": false,
       "profiles": [
         {
@@ -111,7 +111,7 @@
       "required": true,
       "matrix_status": "green",
       "github_repo": "stigready/rhel9-cis",
-      "role_repo_visibility": "private",
+      "role_repo_visibility": "public",
       "layout_v2_pilot": false,
       "profiles": [
         {
@@ -138,7 +138,7 @@
       "required": true,
       "matrix_status": "green",
       "github_repo": "stigready/rhel9-stig",
-      "role_repo_visibility": "private",
+      "role_repo_visibility": "public",
       "layout_v2_pilot": true,
       "profiles": [
         {
@@ -157,7 +157,7 @@
       "required": true,
       "matrix_status": "green",
       "github_repo": "stigready/rhel10-cis",
-      "role_repo_visibility": "private",
+      "role_repo_visibility": "public",
       "layout_v2_pilot": false,
       "profiles": [
         {
@@ -181,19 +181,19 @@
     {
       "matrix_role": "rhel10_stig",
       "product": "rhel10",
-      "required": false,
-      "matrix_status": "generated",
+      "required": true,
+      "matrix_status": "green",
       "github_repo": "stigready/rhel10-stig",
-      "role_repo_visibility": "private",
+      "role_repo_visibility": "public",
       "layout_v2_pilot": false,
       "profiles": [
         {
           "profile": "stig",
+          "score_pct": 98.57,
           "min_score": 90.0,
-          "meets_floor": false,
-          "gate_pass": false,
-          "source": "local_artifacts",
-          "verify_note": "OpenSCAP verify green on CI; refresh local artifacts to publish score."
+          "meets_floor": true,
+          "gate_pass": true,
+          "source": "local_artifacts"
         }
       ]
     }
@@ -211,7 +211,7 @@
     },
     {
       "id": "C",
-      "name": "Private role repos + evidence",
+      "name": "Public role repos + evidence",
       "status": "complete"
     },
     {
@@ -223,10 +223,10 @@
   "pilot_review": {
     "matrix_role": "rhel9_stig",
     "github_repo": "stigready/rhel9-stig",
-    "version": "0.2.0-private-review",
+    "version": "0.2.2-private-review",
     "profile": "stig",
     "score_pct": 97.14,
     "floor": 90,
-    "note": "Private role-repo export for product-owner review; exemplar OpenSCAP evidence package."
+    "note": "Public role-repo export with exemplar OpenSCAP evidence package."
   }
 }
