@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "generated": "2026-07-27",
+  "generated": "2026-07-28",
   "products": [
     {
       "line": "stigapplied",
@@ -321,6 +321,21 @@
       "line": "stigapplied",
       "os": "RHEL 9",
       "os_key": "rhel-9",
+      "arch": "arm64",
+      "profile": "cis-l1",
+      "benchmark": "CIS Level 1",
+      "fips": false,
+      "score": 91.3,
+      "boot_verified": true,
+      "version": "1.0.1",
+      "availability": "coming-soon",
+      "marketplace_url": null,
+      "support_until": "2028-07-28"
+    },
+    {
+      "line": "stigapplied",
+      "os": "RHEL 9",
+      "os_key": "rhel-9",
       "arch": "x86_64",
       "profile": "cis-l1",
       "benchmark": "CIS Level 1",
@@ -596,6 +611,21 @@
       "benchmark": "CIS Level 2",
       "fips": false,
       "score": 95.6,
+      "boot_verified": true,
+      "version": "1.0.2",
+      "availability": "coming-soon",
+      "marketplace_url": null,
+      "support_until": "2028-07-27"
+    },
+    {
+      "line": "stigapplied",
+      "os": "Ubuntu 24.04",
+      "os_key": "ubuntu-24.04",
+      "arch": "arm64",
+      "profile": "stig",
+      "benchmark": "DISA STIG",
+      "fips": true,
+      "score": 93.2,
       "boot_verified": true,
       "version": "1.0.2",
       "availability": "coming-soon",
