@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R2J9HMP1XX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-R2J9HMP1XX');
+    </script>
+    <meta name="description" content="Fully hardened AWS AMIs built to the CIS Benchmark Level 1/2 and DISA STIG baselines via the open-source ansible-lockdown roles — across Ubuntu 24.04 and the RHEL family: genuine Red Hat Enterprise Linux 8 &amp; 9 (BYOL) plus Rocky Linux 8/9/10 and AlmaLinux 9/10. Every image is scored against its raw SSG profile and gated at 90%; STIG images boot in FIPS mode with FIPS 140-3 validated crypto modules. Built on the StigReady minimal base. Launching soon on AWS Marketplace — early access available.">
+    <meta name="keywords" content="STIG applied AMI, CIS hardened AMI, DISA STIG, ansible-lockdown, CIS Level 2, FIPS 140-3, Red Hat Enterprise Linux 8, Red Hat Enterprise Linux 9, RHEL BYOL, Ubuntu 24.04, Rocky Linux 8, Rocky Linux 9, Rocky Linux 10, AlmaLinux 9, AlmaLinux 10, OpenSCAP score, FedRAMP, DoD, auditd, AIDE">
+    <meta name="author" content="StigApplied">
+    <title>StigApplied — AMIs Hardened to CIS Benchmark &amp; DISA STIG Baselines, Scored &amp; Gated</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .accent { color: #DC2626; }
+        .bg-navy { background-color: #0C2340; }
+        .bg-navy-light { background-color: #1B3A6B; }
+        .border-accent { border-color: #DC2626; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col">
+
+    <!-- Cross-sell banner -->
+    <div class="bg-navy-light text-center text-sm py-2 px-4 text-gray-200">
+        Just need the hardened <strong>base</strong> to apply your own profiles?
+        <a href="index.html" class="underline hover:text-white font-semibold">Try StigReady →</a>
+    </div>
+
+    <!-- Nav -->
+    <nav class="bg-navy border-b border-gray-800 px-6 py-4 sticky top-0 z-20">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <img src="assets/logo.png" alt="StigApplied" class="h-10 w-auto"/>
+                <span class="text-xl font-black tracking-wide"><span class="text-white">STIG</span><span class="accent">APPLIED</span></span>
+            </div>
+            <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                <a href="#features" class="text-gray-300 hover:text-white transition">Features</a>
+                <a href="#catalog" class="text-gray-300 hover:text-white transition">Catalog</a>
+                <a href="#compliance" class="text-gray-300 hover:text-white transition">Compliance</a>
+                <a href="#pricing" class="text-gray-300 hover:text-white transition">Pricing</a>
+                <a href="mailto:contact@stigapplied.com" class="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-md font-semibold transition">Request Early Access</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="bg-navy py-24 px-4 text-center border-b border-gray-800">
+        <div class="max-w-4xl mx-auto">
+            <img src="assets/logo.png" alt="StigApplied" class="h-28 w-auto mx-auto mb-8"/>
+            <h1 class="text-4xl md:text-5xl font-black mb-4 tracking-tight">
+                <span class="text-white">CIS Benchmark &amp; DISA STIG</span><br/>
+                <span class="accent">Hardened &amp; Scored</span>
+            </h1>
+            <p class="text-xl text-gray-300 mb-4 max-w-2xl mx-auto">
+                The StigReady minimal base hardened to the <strong>CIS Benchmark Level 1/2</strong> and
+                <strong>DISA STIG</strong> baselines via the open-source ansible-lockdown roles — across
+                <strong class="text-white">Ubuntu 24.04</strong> and the
+                <strong class="text-white">RHEL family</strong>: genuine
+                <strong class="text-white">Red Hat Enterprise Linux 8 &amp; 9</strong> (BYOL),
+                plus Rocky Linux 8/9/10 and AlmaLinux 9/10.
+            </p>
+            <p class="text-gray-400 mb-10 max-w-2xl mx-auto">
+                Every image is <strong class="text-gray-200">scored in the build</strong> against its
+                <em>unmodified</em> SSG profile and gated at a 90% floor — with an auditor-grade
+                evidence bundle. STIG images boot in <strong class="accent">FIPS mode with FIPS 140-3 validated crypto modules</strong>, and
+                every one still boots, takes your EC2 key pair, and registers with SSM out of the box.
+            </p>
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <a href="#catalog"
+                   class="bg-red-600 hover:bg-red-500 text-white px-8 py-3 rounded-md font-bold text-lg transition">
+                    See the scores
+                </a>
+                <a href="https://github.com/stigready/stigready"
+                   class="bg-gray-700 hover:bg-gray-600 text-white px-8 py-3 rounded-md font-bold text-lg transition flex items-center justify-center gap-2">
+                    <i data-lucide="github" class="w-5 h-5"></i> View on GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Features -->
+    <section id="features" class="py-20 px-4">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-4 text-white">What You Get</h2>
+            <p class="text-center text-gray-400 mb-12">Every StigApplied AMI ships with the benchmark remediation already applied — and the evidence to prove it.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-red-600 transition">
+                    <i data-lucide="shield-check" class="w-10 h-10 mb-4 text-red-500"></i>
+                    <h3 class="text-lg font-bold mb-2">Remediation Applied</h3>
+                    <p class="text-gray-400 text-sm">Hardened to the CIS Benchmark Level 1/2 or DISA STIG baselines with the upstream open-source <code class="text-red-400">ansible-lockdown</code> roles — not a checklist, the actual fixes.</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-red-600 transition">
+                    <i data-lucide="gauge" class="w-10 h-10 mb-4 text-red-500"></i>
+                    <h3 class="text-lg font-bold mb-2">Scored &amp; Gated</h3>
+                    <p class="text-gray-400 text-sm">Measured against the <em>raw</em> SSG profile with OpenSCAP every build, gated at a 90% floor with a no-regression ratchet — plus a POA&amp;M and SBOM in every bundle.</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-red-600 transition">
+                    <i data-lucide="lock" class="w-10 h-10 mb-4 text-red-500"></i>
+                    <h3 class="text-lg font-bold mb-2">FIPS 140-3 &amp; Audit</h3>
+                    <p class="text-gray-400 text-sm">STIG images boot in FIPS mode using the OS vendor's FIPS 140-3 <em>validated cryptographic modules</em>, verified at build time. auditd runs the benchmark rule set and AIDE watches file integrity — ready for your SIEM.</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-red-600 transition">
+                    <i data-lucide="cloud-cog" class="w-10 h-10 mb-4 text-red-500"></i>
+                    <h3 class="text-lg font-bold mb-2">Still Cloud-Usable</h3>
+                    <p class="text-gray-400 text-sm">Hardening is tuned for EC2: the instance still boots unattended, cloud-init injects your key pair, and SSM (443) keeps working. IMDSv2 enforced.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Catalog & Scores -->
+    <section id="catalog" class="py-20 px-4 bg-gray-800">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-4 text-white">Catalog &amp; Compliance Scores</h2>
+            <p class="text-center text-gray-400 mb-10">Each score is measured in the build against the image's <strong class="text-gray-300">unmodified</strong> SSG benchmark profile (CIS or DISA-STIG). Publish floor: 90%. <span class="text-gray-500">Scores as of the July 2026 builds; regenerated with every monthly build.</span></p>
+            <div class="bg-gray-900 rounded-lg overflow-hidden border border-gray-700 overflow-x-auto">
+                <table class="w-full text-sm min-w-[560px]">
+                    <thead class="bg-navy text-gray-300 uppercase text-xs tracking-wider">
+                        <tr>
+                            <th class="px-4 py-3 text-left">Image</th>
+                            <th class="px-4 py-3 text-left">Family</th>
+                            <th class="px-4 py-3 text-center">CIS L1</th>
+                            <th class="px-4 py-3 text-center">CIS L2</th>
+                            <th class="px-4 py-3 text-center">DISA STIG <span class="accent">(FIPS)</span></th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-700 text-gray-300">
+                        <tr>
+                            <td class="px-4 py-3 font-semibold text-white">Ubuntu 24.04 LTS</td>
+                            <td class="px-4 py-3 text-gray-400">Debian</td>
+                            <td class="px-4 py-3 text-center font-mono">96.2%</td>
+                            <td class="px-4 py-3 text-center font-mono">95.7%</td>
+                            <td class="px-4 py-3 text-center font-mono accent">93.9%</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-semibold text-white">Rocky Linux 8</td>
+                            <td class="px-4 py-3 text-gray-400">RHEL</td>
+                            <td class="px-4 py-3 text-center font-mono">98.1%</td>
+                            <td class="px-4 py-3 text-center font-mono">97.6%</td>
+                            <td class="px-4 py-3 text-center font-mono text-gray-500" title="In validation">soon</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-semibold text-white">Rocky Linux 9</td>
+                            <td class="px-4 py-3 text-gray-400">RHEL</td>
+                            <td class="px-4 py-3 text-center font-mono">91.3%</td>
+                            <td class="px-4 py-3 text-center font-mono">92.4%</td>
+                            <td class="px-4 py-3 text-center font-mono accent">95.3%</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-semibold text-white">Rocky Linux 10</td>
+                            <td class="px-4 py-3 text-gray-400">RHEL</td>
+                            <td class="px-4 py-3 text-center font-mono">92.2%</td>
+                            <td class="px-4 py-3 text-center font-mono">97.9%</td>
+                            <td class="px-4 py-3 text-center font-mono text-gray-500" title="No tagged upstream RHEL 10 STIG content yet">soon</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-semibold text-white">AlmaLinux 9</td>
+                            <td class="px-4 py-3 text-gray-400">RHEL</td>
+                            <td class="px-4 py-3 text-center font-mono">93.1%</td>
+                            <td class="px-4 py-3 text-center font-mono">93.7%</td>
+                            <td class="px-4 py-3 text-center font-mono accent">93.8%</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-semibold text-white">AlmaLinux 10</td>
+                            <td class="px-4 py-3 text-gray-400">RHEL</td>
+                            <td class="px-4 py-3 text-center font-mono">97.4%</td>
+                            <td class="px-4 py-3 text-center font-mono text-gray-500" title="AlmaLinux currently ships a draft SCAP datastream for 10 that mis-scores controls the image already meets; deferred until corrected upstream">soon</td>
+                            <td class="px-4 py-3 text-center font-mono text-gray-500" title="No tagged upstream RHEL 10 STIG content yet">soon</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-semibold text-white">Red Hat Enterprise Linux 8</td>
+                            <td class="px-4 py-3 text-gray-400">RHEL · <span class="text-red-400 font-semibold">BYOL</span></td>
+                            <td class="px-4 py-3 text-center font-mono">98.1%</td>
+                            <td class="px-4 py-3 text-center font-mono">97.6%</td>
+                            <td class="px-4 py-3 text-center font-mono text-gray-500" title="In validation">soon</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-semibold text-white">Red Hat Enterprise Linux 9</td>
+                            <td class="px-4 py-3 text-gray-400">RHEL · <span class="text-red-400 font-semibold">BYOL</span></td>
+                            <td class="px-4 py-3 text-center font-mono">91.3%</td>
+                            <td class="px-4 py-3 text-center font-mono">92.4%</td>
+                            <td class="px-4 py-3 text-center font-mono accent">95.6%</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-semibold text-white">Red Hat Enterprise Linux 10</td>
+                            <td class="px-4 py-3 text-gray-400">RHEL · <span class="text-red-400 font-semibold">BYOL</span></td>
+                            <td class="px-4 py-3 text-center font-mono text-gray-500" title="Awaiting upstream vulnerability-scanner coverage for RHEL 10">soon</td>
+                            <td class="px-4 py-3 text-center font-mono text-gray-500" title="Awaiting upstream vulnerability-scanner coverage for RHEL 10">soon</td>
+                            <td class="px-4 py-3 text-center font-mono text-gray-500" title="No tagged upstream RHEL 10 STIG content yet">soon</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-center text-xs text-gray-500 mt-4"><span class="text-red-400 font-semibold">BYOL</span> = bring your own Red Hat subscription. StigApplied does not provide or resell commercial licenses for Red Hat products. Rocky Linux and AlmaLinux are binary-compatible RHEL rebuilds that need no subscription. RHEL 10 is on hold until upstream vulnerability-scanner coverage lands — we don't publish an image we can't scan. AlmaLinux 10 CIS L2 waits on a corrected upstream SCAP datastream, and RHEL-10-family DISA STIG lands once ansible-lockdown tags its RHEL 10 STIG content.</p>
+            <p class="text-center text-xs text-gray-500 mt-2">Scores are the raw, unmodified SSG profile — controls genuinely N/A on a single-tenant cloud AMI (smartcard/CAC, bootloader password, remote-log offload) are documented in the image's POA&amp;M, not hidden. Need Ubuntu 26.04? The <a href="index.html" class="text-red-400 hover:underline">StigReady base</a> is coming soon to AWS Marketplace; StigApplied 26.04 profiles land as the lockdown content is published upstream.</p>
+        </div>
+    </section>
+
+    <!-- Compliance -->
+    <section id="compliance" class="py-20 px-4">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-4 text-white">Benchmarks Applied</h2>
+            <p class="text-center text-gray-400 mb-12">Pick the profile your auditor requires — the remediation is already in the image, on Ubuntu 24.04 and the RHEL family alike.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="bg-gray-900 rounded-lg p-6 border-t-4 border-red-600">
+                    <h3 class="font-bold text-lg mb-3 text-white">CIS Level 1<br/><span class="text-sm text-gray-400 font-normal">Ubuntu 24.04 · RHEL 9/10 · Rocky 9 · Alma 9</span></h3>
+                    <ul class="text-sm text-gray-300 space-y-2">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0"></i>Baseline server hardening</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0"></i>Low operational friction</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0"></i>Firewall, PAM, sysctl controls</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-900 rounded-lg p-6 border-t-4 border-red-600">
+                    <h3 class="font-bold text-lg mb-3 text-white">CIS Level 2<br/><span class="text-sm text-gray-400 font-normal">Ubuntu 24.04 · RHEL 9/10 · Rocky 9 · Alma 9</span></h3>
+                    <ul class="text-sm text-gray-300 space-y-2">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0"></i>Everything in Level 1, plus</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0"></i>Defense-in-depth restrictions</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0"></i>auditd + AIDE enabled</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-900 rounded-lg p-6 border-t-4 border-red-600">
+                    <h3 class="font-bold text-lg mb-3 text-white">DISA STIG<br/><span class="text-sm text-gray-400 font-normal">CAT I/II/III · FIPS 140-3</span></h3>
+                    <ul class="text-sm text-gray-300 space-y-2">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0"></i>All severities remediated</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0"></i>DoD SRG / NIST 800-53 aligned</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0"></i>FIPS mode · exceptions documented</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="text-center text-sm text-gray-500">Independently verify with your own SCAP/InSpec scan — StigApplied images are built to pass, not to hide findings.</p>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="py-20 px-4 bg-gray-800">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12 text-white">How It Works</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="bg-red-600 text-white w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center font-bold text-xl">1</div>
+                    <h3 class="text-lg font-bold mb-2">Pick OS + Profile</h3>
+                    <p class="text-gray-400 text-sm">Choose Ubuntu 24.04, genuine RHEL 9/10, Rocky 9, or Alma 9 at CIS L1, CIS L2, or DISA STIG — the remediation is already applied and scored.</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-red-600 text-white w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center font-bold text-xl">2</div>
+                    <h3 class="text-lg font-bold mb-2">Launch</h3>
+                    <p class="text-gray-400 text-sm">cloud-init injects your key pair on first boot. Connect as <code class="text-red-400">ubuntu</code> or <code class="text-red-400">ec2-user</code>; SSM registers automatically.</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-red-600 text-white w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center font-bold text-xl">3</div>
+                    <h3 class="text-lg font-bold mb-2">Prove It</h3>
+                    <p class="text-gray-400 text-sm">Ship with the image's OpenSCAP report, POA&amp;M, and SBOM — or run your own scan and hand it to your auditor. Layer app controls on top.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Availability -->
+    <section class="py-20 px-4">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-4 text-white">Availability</h2>
+            <p class="text-center text-gray-400 mb-10">Remediated images across five operating systems and three CIS/STIG profiles, each scored against its raw SSG benchmark and boot-tested on real EC2 before release, on a monthly cadence.</p>
+            <div class="space-y-4">
+                <div class="bg-gray-800 rounded-lg border border-red-800 p-6 flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-navy-light p-3 rounded-lg"><i data-lucide="rocket" class="w-6 h-6 text-red-500"></i></div>
+                        <div>
+                            <h3 class="font-bold text-white">Coming soon to AWS Marketplace · contact us for early access</h3>
+                            <p class="text-sm text-gray-400">CIS L1/L2 &amp; DISA STIG (FIPS) · Ubuntu 24.04 · Rocky Linux 8/9/10 · AlmaLinux 9/10 · RHEL 8/9 (BYOL)</p>
+                        </div>
+                    </div>
+                    <a href="mailto:contact@stigapplied.com" class="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded text-sm font-semibold transition whitespace-nowrap">Contact us</a>
+                </div>
+                <div class="bg-gray-800 rounded-lg border border-gray-700 p-6 flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-navy-light p-3 rounded-lg"><i data-lucide="badge-check" class="w-6 h-6 text-red-500"></i></div>
+                        <div>
+                            <h3 class="font-bold text-white">New — genuine Red Hat Enterprise Linux <span class="accent">(BYOL)</span></h3>
+                            <p class="text-sm text-gray-400">CIS L1/L2 on RHEL 8 &amp; 9, DISA STIG on RHEL 9 — bring your own Red Hat subscription. RHEL 10 follows once upstream scanner coverage lands.</p>
+                        </div>
+                    </div>
+                    <a href="mailto:contact@stigapplied.com" class="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded text-sm font-semibold transition whitespace-nowrap">Contact us</a>
+                </div>
+                <div class="bg-gray-800 rounded-lg border border-gray-700 p-6 flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-navy-light p-3 rounded-lg"><i data-lucide="layers" class="w-6 h-6 text-red-500"></i></div>
+                        <div>
+                            <h3 class="font-bold text-white">Just want the hardened base?</h3>
+                            <p class="text-sm text-gray-400">The StigReady minimal base — apply your own profiles — is coming soon to AWS Marketplace.</p>
+                        </div>
+                    </div>
+                    <a href="index.html" class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded text-sm font-semibold transition whitespace-nowrap">StigReady →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="py-20 px-4 bg-gray-800">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-4 text-white">Pricing</h2>
+            <p class="text-gray-400 text-center mb-10">Planned Marketplace pricing — software fee only, on top of your normal EC2 costs.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <!-- Standard: CIS L1 -->
+                <div class="bg-gray-900 rounded-xl border border-gray-700 p-8 flex flex-col">
+                    <div class="mb-6">
+                        <p class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">Standard</p>
+                        <p class="text-4xl font-black text-white mb-1">$0.06<span class="text-lg font-normal text-gray-400">/hr</span></p>
+                        <p class="text-gray-300 text-sm">or <strong class="text-white">$449/yr</strong> per instance <span class="text-gray-500">(~15% savings)</span></p>
+                    </div>
+                    <p class="text-sm font-semibold text-white mb-3">CIS Benchmark Level 1</p>
+                    <ul class="text-sm text-gray-400 space-y-2 flex-grow mb-6">
+                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5"></i>Baseline server hardening</li>
+                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5"></i>Low operational friction</li>
+                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5"></i>OpenSCAP score · POA&amp;M · SBOM</li>
+                    </ul>
+                    <a href="mailto:contact@stigapplied.com" class="block text-center bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded text-sm font-semibold transition">Request early access</a>
+                </div>
+                <!-- Advanced: CIS L2 -->
+                <div class="bg-gray-900 rounded-xl border border-red-600 p-8 flex flex-col">
+                    <div class="mb-6">
+                        <p class="text-sm font-semibold text-red-400 uppercase tracking-wider mb-2">Advanced</p>
+                        <p class="text-4xl font-black text-white mb-1">$0.10<span class="text-lg font-normal text-gray-400">/hr</span></p>
+                        <p class="text-gray-300 text-sm">or <strong class="text-white">$749/yr</strong> per instance <span class="text-gray-500">(~15% savings)</span></p>
+                    </div>
+                    <p class="text-sm font-semibold text-white mb-3">CIS Benchmark Level 2</p>
+                    <ul class="text-sm text-gray-400 space-y-2 flex-grow mb-6">
+                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5"></i>Everything in Level 1, plus</li>
+                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5"></i>Defense-in-depth restrictions</li>
+                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5"></i>auditd + AIDE · FedRAMP-ready</li>
+                    </ul>
+                    <a href="mailto:contact@stigapplied.com" class="block text-center bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded text-sm font-semibold transition">Request early access</a>
+                </div>
+                <!-- Federal: DISA STIG + FIPS -->
+                <div class="bg-gray-900 rounded-xl border border-gray-700 p-8 flex flex-col">
+                    <div class="mb-6">
+                        <p class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">Federal</p>
+                        <p class="text-4xl font-black text-white mb-1">$0.15<span class="text-lg font-normal text-gray-400">/hr</span></p>
+                        <p class="text-gray-300 text-sm">or <strong class="text-white">$1,099/yr</strong> per instance <span class="text-gray-500">(~16% savings)</span></p>
+                    </div>
+                    <p class="text-sm font-semibold text-white mb-3">DISA STIG + FIPS 140-3</p>
+                    <ul class="text-sm text-gray-400 space-y-2 flex-grow mb-6">
+                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5"></i>All CAT I/II/III remediations</li>
+                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5"></i>Boots in FIPS mode</li>
+                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5"></i>DoD / CMMC-ready</li>
+                    </ul>
+                    <a href="mailto:contact@stigapplied.com" class="block text-center bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded text-sm font-semibold transition">Request early access</a>
+                </div>
+            </div>
+            <p class="text-center text-sm text-gray-500">All tiers include OpenSCAP score, POA&amp;M, and SBOM. EC2 instance costs billed separately by AWS.<br/>
+            Volume discounts (10+ instances) and annual Private Offers available. RHEL BYOL images priced at a premium. <a href="mailto:contact@stigapplied.com" class="text-red-500 hover:underline">Contact us</a> for enterprise pricing.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-navy py-10 px-4 mt-auto border-t border-gray-800">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+                <div class="flex items-center space-x-3">
+                    <img src="assets/logo.png" alt="StigApplied" class="h-8 w-auto"/>
+                    <span class="font-black tracking-wide"><span class="text-white">STIG</span><span class="accent">APPLIED</span></span>
+                </div>
+                <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
+                    <a href="index.html" class="hover:text-white transition">StigReady (base)</a>
+                    <a href="https://github.com/stigready/stigready" class="hover:text-white transition">GitHub</a>
+                    <a href="mailto:contact@stigapplied.com" class="hover:text-white transition">contact@stigapplied.com</a>
+                </div>
+            </div>
+            <p class="text-center text-xs text-gray-600">&copy; 2026 StigApplied. All rights reserved. · Ubuntu 24.04 · Red Hat Enterprise Linux 8 &amp; 9 (BYOL) · Rocky Linux 8/9/10 · AlmaLinux 9/10</p>
+            <p class="text-center text-xs text-gray-600 mt-3 max-w-3xl mx-auto">StigApplied is not affiliated with, certified by, or endorsed by DISA, the U.S. Department of Defense, NIST, the Center for Internet Security, Red Hat, Canonical, or Amazon Web Services. CIS® and CIS Benchmarks™ are property of the Center for Internet Security, Inc. Red Hat, Inc. holds the trademarks for Red Hat® Enterprise Linux® and associated branding; StigApplied does not provide commercial licenses for Red Hat products. Ubuntu® is a trademark of Canonical Ltd. FIPS 140-3 validation applies to cryptographic modules, not to any AMI as a whole.</p>
+        </div>
+    </footer>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>

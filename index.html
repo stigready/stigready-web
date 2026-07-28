@@ -32,7 +32,7 @@
     <!-- Cross-sell banner (the only reference to StigApplied) -->
     <div class="bg-navy-light text-center text-sm py-2 px-4 text-gray-200">
         Want CIS or DISA STIG already applied and scored for you?
-        <a href="https://stigapplied.com" class="underline hover:text-white font-semibold">Try StigApplied →</a>
+        <a href="stigapplied.html" class="underline hover:text-white font-semibold">Try StigApplied →</a>
     </div>
 
     <!-- Nav -->
@@ -45,6 +45,8 @@
             <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
                 <a href="#features" class="text-gray-300 hover:text-white transition">The base</a>
                 <a href="#catalog" class="text-gray-300 hover:text-white transition">Catalog</a>
+                <a href="#ansible-roles" class="text-gray-300 hover:text-white transition">Ansible roles</a>
+                <a href="stigapplied.html" class="text-gray-300 hover:text-white transition">StigApplied</a>
                 <a href="#partitions" class="text-gray-300 hover:text-white transition">Partitions</a>
                 <a href="#pricing" class="text-gray-300 hover:text-white transition">Pricing</a>
                 <a href="mailto:contact@stigready.com" class="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded-md font-semibold transition">Request Access</a>
@@ -240,6 +242,45 @@
                     <p class="text-gray-400 text-sm">Apply your own profiles, auditd rules, and application hardening on a base that already carries the STIG layout — nothing to undo first.</p>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Ansible roles (StigForge exports) -->
+    <section id="ansible-roles" class="py-20 px-4 bg-gray-800 border-t border-gray-700">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold mb-4 text-white text-center">Ansible roles — verified CIS &amp; STIG</h2>
+            <p class="text-gray-400 text-center mb-10 max-w-2xl mx-auto">
+                Open, evidence-backed Ansible roles built by the
+                <a href="https://github.com/stigready/stigforge" class="text-yellow-500 hover:underline">StigForge</a>
+                factory. Each release ships OpenSCAP scores, POA&amp;M, and immutable CI evidence under
+                <code class="text-yellow-400">compliance/releases/</code>.
+            </p>
+            <div class="overflow-x-auto rounded-xl border border-gray-700">
+                <table class="w-full text-sm text-left">
+                    <thead class="bg-navy-light text-gray-300 uppercase text-xs">
+                        <tr>
+                            <th class="px-4 py-3">Role repo</th>
+                            <th class="px-4 py-3">Matrix</th>
+                            <th class="px-4 py-3">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-700 bg-gray-900">
+                        <tr>
+                            <td class="px-4 py-3"><a href="https://github.com/stigready/rhel9-stig" class="text-yellow-500 hover:underline">stigready/rhel9-stig</a></td>
+                            <td class="px-4 py-3">RHEL 9 DISA STIG</td>
+                            <td class="px-4 py-3">Pilot review (private)</td>
+                        </tr>
+                        <tr class="text-gray-500">
+                            <td class="px-4 py-3">stigready/rhel9-cis … rhel10-stig</td>
+                            <td class="px-4 py-3">Full factory matrix</td>
+                            <td class="px-4 py-3">Export as cells go green</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-center text-xs text-gray-500 mt-6">
+                Catalog expands as Phase C publish completes. StigApplied AMIs consume these roles on the StigReady base.
+            </p>
         </div>
     </section>
 
