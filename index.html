@@ -392,7 +392,7 @@
             </div>
 
             <div id="pilot-review-card" class="hidden mb-10 bg-navy border border-yellow-700 rounded-xl p-6 md:p-8">
-                <h3 class="text-lg font-bold text-white mb-2">Pilot role export (private review)</h3>
+                <h3 class="text-lg font-bold text-white mb-2">Pilot role export</h3>
                 <p class="text-gray-400 text-sm mb-4" id="pilot-review-text"></p>
                 <a id="pilot-review-link" href="#" class="text-yellow-500 hover:underline text-sm font-medium">View on GitHub →</a>
             </div>
@@ -416,10 +416,10 @@
                     </table>
                 </div>
                 <p class="text-xs text-gray-500 mt-4">
-                    Monorepo:
-                    <a href="https://github.com/stigready/stigforge" class="text-yellow-500 hover:underline">stigready/stigforge</a>
-                    · Regenerate this table:
-                    <code class="text-yellow-400/80">scripts/publish-stigforge-factory-json.py</code> in the factory repo.
+                    Ansible role repos are public under
+                    <a href="https://github.com/orgs/stigready/repositories?q=cis+OR+stig" class="text-yellow-500 hover:underline">github.com/stigready</a>.
+                    Matrix data regenerated with
+                    <code class="text-yellow-400/80">scripts/publish-stigforge-factory-json.py</code>.
                 </p>
             </div>
         </div>
@@ -539,7 +539,7 @@
                 if (card && txt && link) {
                     txt.textContent = `${pilot.matrix_role} · ${pilot.profile} profile · ${pilot.score_pct}% vs ${pilot.floor}% floor (${pilot.version}). ${pilot.note || ''}`;
                     link.href = `https://github.com/${pilot.github_repo}`;
-                    link.textContent = `${pilot.github_repo} (private review)`;
+                    link.textContent = `${pilot.github_repo} on GitHub`;
                     card.classList.remove('hidden');
                 }
             }
