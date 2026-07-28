@@ -1,0 +1,232 @@
+{
+  "schema": 1,
+  "generated": "2026-07-27",
+  "factory_repo": "stigready/stigforge",
+  "factory_commit": "fba01dc",
+  "min_score_default": 90,
+  "image_cutover": "in_progress",
+  "image_cutover_note": "Factory OpenSCAP verify is green on required matrix cells. StigReady Applied AMIs still bake with ansible-lockdown today; pins move to StigForge-exported roles after product-owner cutover (see stigready-cutover.md).",
+  "factory_cutover_ready": true,
+  "role_repos": {
+    "github_org": "stigready",
+    "default_visibility": "private",
+    "pilot_review_role": "rhel9_stig"
+  },
+  "cells": [
+    {
+      "matrix_role": "ubuntu24_cis",
+      "product": "ubuntu2404",
+      "required": true,
+      "matrix_status": "green",
+      "github_repo": "stigready/ubuntu24-cis",
+      "role_repo_visibility": "private",
+      "layout_v2_pilot": false,
+      "profiles": [
+        {
+          "profile": "cis-l1",
+          "min_score": 90.0,
+          "meets_floor": false,
+          "gate_pass": false,
+          "source": "local_artifacts",
+          "verify_note": "OpenSCAP verify green on CI; refresh local artifacts to publish score."
+        },
+        {
+          "profile": "cis-l2",
+          "min_score": 90.0,
+          "meets_floor": false,
+          "gate_pass": false,
+          "source": "local_artifacts",
+          "verify_note": "OpenSCAP verify green on CI; refresh local artifacts to publish score."
+        }
+      ]
+    },
+    {
+      "matrix_role": "ubuntu24_stig",
+      "product": "ubuntu2404",
+      "required": true,
+      "matrix_status": "green",
+      "github_repo": "stigready/ubuntu24-stig",
+      "role_repo_visibility": "private",
+      "layout_v2_pilot": false,
+      "profiles": [
+        {
+          "profile": "stig",
+          "min_score": 90.0,
+          "meets_floor": false,
+          "gate_pass": false,
+          "source": "local_artifacts",
+          "verify_note": "OpenSCAP verify green on CI; refresh local artifacts to publish score."
+        }
+      ]
+    },
+    {
+      "matrix_role": "rhel8_cis",
+      "product": "rhel8",
+      "required": true,
+      "matrix_status": "green",
+      "github_repo": "stigready/rhel8-cis",
+      "role_repo_visibility": "private",
+      "layout_v2_pilot": false,
+      "profiles": [
+        {
+          "profile": "cis-l1",
+          "score_pct": 93.02,
+          "min_score": 90.0,
+          "meets_floor": true,
+          "gate_pass": true,
+          "source": "local_artifacts"
+        },
+        {
+          "profile": "cis-l2",
+          "score_pct": 92.22,
+          "min_score": 90.0,
+          "meets_floor": true,
+          "gate_pass": true,
+          "source": "local_artifacts"
+        }
+      ]
+    },
+    {
+      "matrix_role": "rhel8_stig",
+      "product": "rhel8",
+      "required": true,
+      "matrix_status": "green",
+      "github_repo": "stigready/rhel8-stig",
+      "role_repo_visibility": "private",
+      "layout_v2_pilot": false,
+      "profiles": [
+        {
+          "profile": "stig",
+          "min_score": 90.0,
+          "meets_floor": false,
+          "gate_pass": false,
+          "source": "local_artifacts",
+          "verify_note": "OpenSCAP verify green on CI; refresh local artifacts to publish score."
+        }
+      ]
+    },
+    {
+      "matrix_role": "rhel9_cis",
+      "product": "rhel9",
+      "required": true,
+      "matrix_status": "green",
+      "github_repo": "stigready/rhel9-cis",
+      "role_repo_visibility": "private",
+      "layout_v2_pilot": false,
+      "profiles": [
+        {
+          "profile": "cis-l1",
+          "score_pct": 97.33,
+          "min_score": 90.0,
+          "meets_floor": true,
+          "gate_pass": true,
+          "source": "local_artifacts"
+        },
+        {
+          "profile": "cis-l2",
+          "score_pct": 97.4,
+          "min_score": 90.0,
+          "meets_floor": true,
+          "gate_pass": true,
+          "source": "local_artifacts"
+        }
+      ]
+    },
+    {
+      "matrix_role": "rhel9_stig",
+      "product": "rhel9",
+      "required": true,
+      "matrix_status": "green",
+      "github_repo": "stigready/rhel9-stig",
+      "role_repo_visibility": "private",
+      "layout_v2_pilot": true,
+      "profiles": [
+        {
+          "profile": "stig",
+          "score_pct": 97.14,
+          "min_score": 90.0,
+          "meets_floor": true,
+          "gate_pass": true,
+          "source": "local_artifacts"
+        }
+      ]
+    },
+    {
+      "matrix_role": "rhel10_cis",
+      "product": "rhel10",
+      "required": true,
+      "matrix_status": "green",
+      "github_repo": "stigready/rhel10-cis",
+      "role_repo_visibility": "private",
+      "layout_v2_pilot": false,
+      "profiles": [
+        {
+          "profile": "cis-l1",
+          "score_pct": 92.0,
+          "min_score": 90.0,
+          "meets_floor": true,
+          "gate_pass": true,
+          "source": "local_artifacts"
+        },
+        {
+          "profile": "cis-l2",
+          "score_pct": 92.21,
+          "min_score": 90.0,
+          "meets_floor": true,
+          "gate_pass": true,
+          "source": "local_artifacts"
+        }
+      ]
+    },
+    {
+      "matrix_role": "rhel10_stig",
+      "product": "rhel10",
+      "required": false,
+      "matrix_status": "generated",
+      "github_repo": "stigready/rhel10-stig",
+      "role_repo_visibility": "private",
+      "layout_v2_pilot": false,
+      "profiles": [
+        {
+          "profile": "stig",
+          "min_score": 90.0,
+          "meets_floor": false,
+          "gate_pass": false,
+          "source": "local_artifacts",
+          "verify_note": "OpenSCAP verify green on CI; refresh local artifacts to publish score."
+        }
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "id": "A",
+      "name": "Factory verify",
+      "status": "complete"
+    },
+    {
+      "id": "B",
+      "name": "Role layout v2 pilot",
+      "status": "in_progress"
+    },
+    {
+      "id": "C",
+      "name": "Customer role repos + evidence export",
+      "status": "in_progress"
+    },
+    {
+      "id": "D",
+      "name": "Image factory role pin cutover",
+      "status": "not_started"
+    }
+  ],
+  "pilot_review": {
+    "matrix_role": "rhel9_stig",
+    "github_repo": "stigready/rhel9-stig",
+    "version": "0.1.0-pilot-review",
+    "profile": "stig",
+    "score_pct": 97.14,
+    "floor": 90,
+    "note": "Private role-repo export for product-owner review; exemplar OpenSCAP evidence package."
+  }
+}
