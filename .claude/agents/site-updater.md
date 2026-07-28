@@ -1,40 +1,38 @@
 ---
 name: site-updater
-description: Keep this marketing site's product catalog in sync with the published StigReady catalog. Fetches catalog.public.json (the ONLY data source), regenerates the catalog rows of index.html, and opens a PR. Run after a release lands.
-tools: Bash, Read, Edit, Write, Grep
+description: SUPERSEDED — do not use. The AMI list in AWS is now the source of truth for this site, not catalog.public.json. Use the ami-site-sync skill instead. Kept only to record why this approach was retired.
+tools: Read
 ---
 
-You keep THIS marketing site accurate against what actually ships — and nothing more.
+# SUPERSEDED — do not use this agent
 
-## Your ONLY data source
-```
-curl -fsSL https://cdn.stigready.com/public/catalog.json
-```
-This `catalog.public.json` carries **PUBLIC fields only** (governed by the factory's
-`docs/web-data-governance.md`). You have **no** access to — and must never invent — CVE/POA&M
-details, raw AMI IDs, build/infra internals, or a score you weren't given. **If a value isn't
-in the catalog, it does not go on the site.** Never scrape the factory repo, AWS, or any
-internal doc.
+**Use [`/ami-site-sync`](../skills/ami-site-sync/SKILL.md) instead.**
 
-## Which line is THIS site?
-- **stigready-web** (`stigready.com`) → show products where `line == "stigready"` (the base tier).
-- **stigapplied-web** (`stigapplied.com`) → show `line == "stigapplied"` (cis-l1 / cis-l2 / stig, scored).
+If you were invoked, stop and say so. Do not update `index.html` from here.
 
-Tell which repo you're in from the repo name or the `CNAME`.
+## Why it was retired
 
-## What to do
-1. Fetch `catalog.public.json`; filter to this site's `line`.
-2. Regenerate the **catalog/table section** of `index.html` from those products — per row:
-   OS, profile, benchmark, **score** (stigapplied only), FIPS badge, availability
-   (`available` → live; `coming-soon` → "Coming soon"), version, support window, and the
-   Marketplace link **only when `marketplace_url` is set**.
-3. Keep all hand-authored layout, copy, and branding intact — regenerate **only the data rows**,
-   not the design.
-4. Open a **PR** with the diff (never push to `main`). A human reviews before it goes live.
+This agent was built to sync the site from `catalog.public.json`, fetched from
+`https://cdn.stigready.com/public/catalog.json`. Verified 2026-07-21, that source **never
+existed**:
 
-## Hard rules
-- `catalog.public.json` is the ONLY input. No other source, ever.
-- A cell stays **"Coming soon"** until its `availability == "available"`. Never pre-announce.
-- Never render a raw AMI ID, a CVE/POA&M detail, or a score/claim not present in the catalog.
-- Scores and availability are copied **verbatim** — never rounded up, never invented.
-- If the catalog and the site disagree, the **catalog wins** (it's the source of truth).
+- `cdn.stigready.com` does not resolve — NXDOMAIN. `stigready.com` DNS is hosted outside the
+  AWS account and has no `cdn` record.
+- The S3 bucket `cdn.stigready.com` **does** exist, but it is the private build-artifact and
+  evidence store (~755 objects / ~166 GB: `*.qcow2` disk images, SBOMs, `trivy-cve.json`,
+  OpenSCAP `arf.xml`/`results.xml`/scores, serial and build logs). All four Public Access
+  Block flags on, no bucket policy, no website config.
+- No CloudFront distribution exists in the account.
+- No `public/` prefix and no `catalog.json` anywhere in the bucket.
+
+Owner decision, 2026-07-21: rather than build the catalog pipeline, **the AMI list in AWS
+became the source of truth.** See the skill for what that does and does not authorize.
+
+## The one rule worth carrying forward
+
+That evidence bucket is exactly the internal data the site must never expose — CVE findings,
+compliance scores, SBOMs, build internals, disk images. **Never** read from it for site copy,
+never propose making it public, never point the site at it. `/ami-site-sync` reads AMI
+**names and tags only**, and that boundary is deliberate.
+
+Safe to delete this file once the retirement is common knowledge.
