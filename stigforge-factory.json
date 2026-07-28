@@ -2,7 +2,7 @@
   "schema": 1,
   "generated": "2026-07-27",
   "factory_repo": "stigready/stigforge",
-  "factory_commit": "fba01dc",
+  "factory_commit": "7bb4e30",
   "min_score_default": 90,
   "image_cutover": "in_progress",
   "image_cutover_note": "Factory OpenSCAP verify is green on required matrix cells. StigReady Applied AMIs still bake with ansible-lockdown today; pins move to StigForge-exported roles after product-owner cutover (see stigready-cutover.md).",
@@ -207,12 +207,12 @@
     {
       "id": "B",
       "name": "Role layout v2 pilot",
-      "status": "in_progress"
+      "status": "complete"
     },
     {
       "id": "C",
-      "name": "Customer role repos + evidence export",
-      "status": "in_progress"
+      "name": "Private role repos + evidence",
+      "status": "complete"
     },
     {
       "id": "D",
@@ -223,7 +223,7 @@
   "pilot_review": {
     "matrix_role": "rhel9_stig",
     "github_repo": "stigready/rhel9-stig",
-    "version": "0.1.0-pilot-review",
+    "version": "0.2.0-private-review",
     "profile": "stig",
     "score_pct": 97.14,
     "floor": 90,
