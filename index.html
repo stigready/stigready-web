@@ -98,6 +98,7 @@
             <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
                 <a href="#base-tier"    class="text-gray-300 hover:text-white transition">Base</a>
                 <a href="#applied-tier" class="text-gray-300 hover:text-white transition">Applied</a>
+                <a href="#stigforge" class="text-gray-300 hover:text-white transition">StigForge</a>
                 <a href="#pricing"      class="text-gray-300 hover:text-white transition">Pricing</a>
                 <a href="mailto:contact@stigready.com" class="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded-md font-semibold transition">Contact</a>
             </div>
@@ -112,10 +113,15 @@
                 <span class="text-white">Build on what auditors expect.</span><br/>
                 <span class="gold">Add proof when you need it.</span>
             </h1>
-            <p class="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
+            <p class="text-lg text-gray-300 mb-6 max-w-2xl mx-auto">
                 One hardened foundation — two ways to use it. All built from the official OS ISO,
                 patched, and boot-tested on real EC2 Nitro. Coming soon to AWS Marketplace.
             </p>
+            <div id="stigforge-banner" class="max-w-2xl mx-auto mb-8 rounded-lg border border-yellow-700/60 bg-navy-light/80 px-5 py-4 text-left text-sm text-gray-200 hidden">
+                <p class="font-semibold text-yellow-400 mb-1">StigForge cutover in progress</p>
+                <p class="text-gray-300 leading-relaxed"><span id="stigforge-banner-body">Loading factory status…</span>
+                    <a href="#stigforge" class="text-yellow-500 hover:underline ml-1">Details →</a></p>
+            </div>
             <!-- Tier pills -->
             <div class="flex flex-col sm:flex-row justify-center gap-4 mb-8">
                 <a href="#base-tier" class="bg-gray-800 border border-gray-700 hover:border-yellow-600 text-white px-6 py-3 rounded-lg transition text-left">
@@ -285,7 +291,7 @@
                 <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
                     <i data-lucide="shield-check" class="w-9 h-9 mb-3 text-yellow-500"></i>
                     <h3 class="font-bold mb-2">Open-source remediation</h3>
-                    <p class="text-gray-400 text-sm">Remediation applied via open-source <code class="text-yellow-400">ansible-lockdown</code> roles — the same content your team can read and audit.</p>
+                    <p class="text-gray-400 text-sm">Today's build images use audited open-source <code class="text-yellow-400">ansible-lockdown</code> roles. We're transitioning to <strong class="text-gray-200">StigForge</strong> — our factory generates DISA-mapped Ansible from SSG, with the same OpenSCAP score gate and evidence bundles you see below.</p>
                 </div>
                 <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
                     <i data-lucide="chart-bar" class="w-9 h-9 mb-3 text-yellow-500"></i>
@@ -369,6 +375,56 @@
         </div>
     </section>
 
+    <!-- ── STIGFORGE (factory + Ansible roles) ───────────────────────── -->
+    <section id="stigforge" class="py-20 px-4 bg-gray-900 border-t border-gray-800 scroll-mt-24">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-10">
+                <span class="text-xs text-yellow-500 font-semibold uppercase tracking-widest">StigForge</span>
+                <h2 class="text-3xl font-bold mt-2 text-white">Verified Ansible — built in the open</h2>
+                <p class="text-gray-400 mt-3 max-w-3xl mx-auto" id="stigforge-lede">
+                    The factory behind StigReady Applied: DISA catalog + SSG-shaped roles, docker OpenSCAP verify on every matrix cell,
+                    and immutable evidence per release. <strong class="text-gray-200">Image cutover is in progress</strong> — Marketplace AMIs still on lockdown until owner sign-off.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-10" id="stigforge-phases">
+                <!-- filled by JS -->
+            </div>
+
+            <div id="pilot-review-card" class="hidden mb-10 bg-navy border border-yellow-700 rounded-xl p-6 md:p-8">
+                <h3 class="text-lg font-bold text-white mb-2">Pilot role export (private review)</h3>
+                <p class="text-gray-400 text-sm mb-4" id="pilot-review-text"></p>
+                <a id="pilot-review-link" href="#" class="text-yellow-500 hover:underline text-sm font-medium">View on GitHub →</a>
+            </div>
+
+            <div id="ansible-roles" class="bg-gray-800 rounded-xl border border-gray-700 p-6">
+                <h3 class="text-xl font-bold text-white mb-2">Factory matrix</h3>
+                <p class="text-gray-400 text-sm mb-4">Required cells target ≥90% on the raw SSG profile. Scores shown when published from CI verify artifacts.</p>
+                <div class="overflow-x-auto border border-gray-700 rounded-lg">
+                    <table class="w-full text-sm min-w-[720px]">
+                        <thead class="bg-navy text-gray-300 uppercase text-xs tracking-wider">
+                            <tr>
+                                <th class="px-4 py-3 text-left">Role</th>
+                                <th class="px-4 py-3 text-left">Profiles</th>
+                                <th class="px-4 py-3 text-left">Matrix</th>
+                                <th class="px-4 py-3 text-left">Role repo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stigforge-tbody" class="divide-y divide-gray-700 text-gray-300">
+                            <tr><td colspan="4" class="px-4 py-6 text-center text-gray-500">Loading…</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-xs text-gray-500 mt-4">
+                    Monorepo:
+                    <a href="https://github.com/stigready/stigforge" class="text-yellow-500 hover:underline">stigready/stigforge</a>
+                    · Regenerate this table:
+                    <code class="text-yellow-400/80">scripts/publish-stigforge-factory-json.py</code> in the factory repo.
+                </p>
+            </div>
+        </div>
+    </section>
+
     <!-- ── PRICING ────────────────────────────────────────────────────── -->
     <section id="pricing" class="py-20 px-4 bg-gray-800 border-t border-gray-700">
         <div class="max-w-4xl mx-auto text-center">
@@ -420,6 +476,7 @@
                 <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
                     <a href="/#base-tier" class="hover:text-white transition">Base</a>
                     <a href="/applied/" class="hover:text-white transition">Applied</a>
+                    <a href="/#stigforge" class="hover:text-white transition">StigForge</a>
                     <a href="/#pricing" class="hover:text-white transition">Pricing</a>
                     <a href="mailto:contact@stigready.com" class="hover:text-white transition">contact@stigready.com</a>
                 </div>
@@ -438,11 +495,94 @@
     // scripts/publish-catalog.py --to-site). Do not hand-edit product rows — arch lists,
     // scores, and availability all come from that file. Schema v2: see factory
     // docs/web-data-governance.md.
-    let catalog = null;
+    let factory = null;
     const filters = {
         base:    { arch: 'all' },
         applied: { arch: 'all', profile: 'all' }
     };
+
+    function phaseBadge(status) {
+        const map = {
+            complete: 'bg-green-900 text-green-200',
+            in_progress: 'bg-yellow-900 text-yellow-200',
+            not_started: 'bg-gray-700 text-gray-300'
+        };
+        const label = (status || '').replace('_', ' ');
+        return `<span class="text-xs font-semibold uppercase px-2 py-1 rounded ${map[status] || map.not_started}">${label}</span>`;
+    }
+
+    async function loadFactory() {
+        try {
+            const res = await fetch('stigforge-factory.json');
+            factory = await res.json();
+            const banner = document.getElementById('stigforge-banner');
+            const body = document.getElementById('stigforge-banner-body');
+            if (banner && body) {
+                const ready = factory.factory_cutover_ready ? 'Factory verify: all required matrix cells green on CI.' : 'Factory verify: climbing toward full matrix green.';
+                body.textContent = `${ready} ${factory.image_cutover_note || ''}`.trim();
+                banner.classList.remove('hidden');
+            }
+            const phases = document.getElementById('stigforge-phases');
+            if (phases && factory.phases) {
+                phases.innerHTML = factory.phases.map(p => `
+                    <div class="bg-gray-800 border border-gray-700 rounded-lg p-4">
+                        <div class="text-xs text-gray-500 mb-1">Phase ${p.id}</div>
+                        <div class="font-semibold text-white text-sm mb-2">${p.name}</div>
+                        ${phaseBadge(p.status)}
+                    </div>`).join('');
+            }
+            const pilot = factory.pilot_review;
+            if (pilot) {
+                const card = document.getElementById('pilot-review-card');
+                const txt = document.getElementById('pilot-review-text');
+                const link = document.getElementById('pilot-review-link');
+                if (card && txt && link) {
+                    txt.textContent = `${pilot.matrix_role} · ${pilot.profile} profile · ${pilot.score_pct}% vs ${pilot.floor}% floor (${pilot.version}). ${pilot.note || ''}`;
+                    link.href = `https://github.com/${pilot.github_repo}`;
+                    link.textContent = `${pilot.github_repo} (private review)`;
+                    card.classList.remove('hidden');
+                }
+            }
+            renderFactoryMatrix();
+        } catch (e) {
+            const tbody = document.getElementById('stigforge-tbody');
+            if (tbody) {
+                tbody.innerHTML = '<tr><td colspan="4" class="px-4 py-6 text-center text-red-400">Failed to load StigForge factory data.</td></tr>';
+            }
+        }
+    }
+
+    function profileSummary(profiles) {
+        return profiles.map(p => {
+            const score = p.score_pct != null ? `${p.score_pct}%` : (p.verify_note ? 'CI ✓' : '—');
+            return `<span class="inline-block mr-2 mb-1"><code class="text-yellow-400/90">${p.profile}</code> <span class="text-green-400">${score}</span></span>`;
+        }).join('');
+    }
+
+    function matrixBadge(status, required) {
+        const req = required ? '' : ' <span class="text-gray-500">(optional)</span>';
+        if (status === 'green') {
+            return `<span class="text-green-400 font-medium">green</span>${req}`;
+        }
+        return `<span class="text-yellow-400">${status || '—'}</span>${req}`;
+    }
+
+    function renderFactoryMatrix() {
+        const tbody = document.getElementById('stigforge-tbody');
+        if (!tbody || !factory || !factory.cells) return;
+        tbody.innerHTML = factory.cells.map(c => {
+            const vis = c.role_repo_visibility === 'private'
+                ? '<span class="text-gray-500 text-xs">private</span>'
+                : '<span class="text-green-400 text-xs">public</span>';
+            const repo = `https://github.com/${c.github_repo}`;
+            return `<tr class="hover:bg-gray-900/50 transition">
+                <td class="px-4 py-3 font-mono text-sm text-white">${c.matrix_role}${c.layout_v2_pilot ? ' <span class="text-yellow-500 text-xs">layout pilot</span>' : ''}</td>
+                <td class="px-4 py-3 text-xs">${profileSummary(c.profiles)}</td>
+                <td class="px-4 py-3">${matrixBadge(c.matrix_status, c.required)}</td>
+                <td class="px-4 py-3"><a href="${repo}" class="text-yellow-500 hover:underline">${c.github_repo}</a> · ${vis}</td>
+            </tr>`;
+        }).join('');
+    }
 
     async function loadCatalog() {
         try {
@@ -552,6 +692,7 @@
     document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
         loadCatalog();
+        loadFactory();
     });
     </script>
 </body>
