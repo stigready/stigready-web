@@ -3,15 +3,14 @@
   "generated": "2026-07-28",
   "factory_repo": "stigready/stigforge",
   "factory_repo_visibility": "private",
-  "factory_commit": "5601d6c",
+  "factory_commit": "05d3d21",
   "min_score_default": 90,
   "image_cutover": "in_progress",
   "image_cutover_note": "Factory OpenSCAP verify is green on required matrix cells. StigReady Applied AMIs still bake with ansible-lockdown today; pins move to StigForge-exported roles after product-owner cutover (see stigready-cutover.md).",
   "factory_cutover_ready": true,
   "role_repos": {
     "github_org": "stigready",
-    "default_visibility": "public",
-    "pilot_review_role": "rhel9_stig"
+    "default_visibility": "public"
   },
   "cells": [
     {
@@ -25,19 +24,19 @@
       "profiles": [
         {
           "profile": "cis-l1",
+          "score_pct": 95.0,
           "min_score": 90.0,
-          "meets_floor": false,
-          "gate_pass": false,
-          "source": "local_artifacts",
-          "verify_note": "OpenSCAP verify green on CI; refresh local artifacts to publish score."
+          "meets_floor": true,
+          "gate_pass": true,
+          "source": "local_artifacts"
         },
         {
           "profile": "cis-l2",
+          "score_pct": 94.05,
           "min_score": 90.0,
-          "meets_floor": false,
-          "gate_pass": false,
-          "source": "local_artifacts",
-          "verify_note": "OpenSCAP verify green on CI; refresh local artifacts to publish score."
+          "meets_floor": true,
+          "gate_pass": true,
+          "source": "local_artifacts"
         }
       ]
     },
@@ -52,11 +51,11 @@
       "profiles": [
         {
           "profile": "stig",
+          "score_pct": 98.08,
           "min_score": 90.0,
-          "meets_floor": false,
-          "gate_pass": false,
-          "source": "local_artifacts",
-          "verify_note": "OpenSCAP verify green on CI; refresh local artifacts to publish score."
+          "meets_floor": true,
+          "gate_pass": true,
+          "source": "local_artifacts"
         }
       ]
     },
@@ -98,11 +97,11 @@
       "profiles": [
         {
           "profile": "stig",
+          "score_pct": 93.88,
           "min_score": 90.0,
-          "meets_floor": false,
-          "gate_pass": false,
-          "source": "local_artifacts",
-          "verify_note": "OpenSCAP verify green on CI; refresh local artifacts to publish score."
+          "meets_floor": true,
+          "gate_pass": true,
+          "source": "local_artifacts"
         }
       ]
     },
@@ -207,7 +206,7 @@
     },
     {
       "id": "B",
-      "name": "Role layout v2 pilot",
+      "name": "Role layout v2",
       "status": "complete"
     },
     {
@@ -220,14 +219,5 @@
       "name": "Image factory role pin cutover",
       "status": "not_started"
     }
-  ],
-  "pilot_review": {
-    "matrix_role": "rhel9_stig",
-    "github_repo": "stigready/rhel9-stig",
-    "version": "0.2.2-private-review",
-    "profile": "stig",
-    "score_pct": 97.14,
-    "floor": 90,
-    "note": "Public role-repo export with exemplar OpenSCAP evidence package."
-  }
+  ]
 }

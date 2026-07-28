@@ -94,11 +94,6 @@
                 FIPS mode enabled on STIG images using the OS vendor's FIPS&nbsp;140-3 validated cryptographic modules.
                 Planned Marketplace price: <strong class="text-white">$0.08/hr</strong> or <strong class="text-white">$649/yr</strong> per instance.
             </p>
-            <p class="text-gray-500 mb-10 max-w-2xl mx-auto text-xs leading-relaxed">
-                <strong class="text-gray-400">StigForge cutover (in progress):</strong> factory OpenSCAP verify is green on required CIS/STIG matrix cells;
-                build images still remediate with ansible-lockdown while we export verified StigForge roles and complete owner review before pinning the image factory.
-                <a href="/#stigforge" class="text-yellow-500 hover:underline">See factory status →</a>
-            </p>
             <div class="flex flex-col sm:flex-row justify-center gap-4 mb-12">
                 <a href="/#applied-tier"
                    class="bg-yellow-600 hover:bg-yellow-500 text-white px-8 py-3 rounded-md font-bold text-lg transition">
@@ -110,6 +105,11 @@
                 </a>
             </div>
             <p class="text-sm text-gray-500">
+                Looking for the roles behind Applied remediation?
+                <a href="/#stigforge" class="text-yellow-500 hover:underline">StigForge</a>
+                — public CIS / STIG Ansible roles with published OpenSCAP scores.
+            </p>
+            <p class="text-sm text-gray-500 mt-4">
                 Looking for the minimal base instead?
                 <a href="/#base-tier" class="text-yellow-500 hover:underline">StigReady Base</a>
                 — STIG partition layout, SSH hardening, bring your own profiles.
