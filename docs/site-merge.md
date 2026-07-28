@@ -1,11 +1,22 @@
 # Unified StigReady web
 
-One brand, two product tiers on **stigready.com**:
+**One domain:** [stigready.com](https://stigready.com) only.
 
-- **`/`** — StigReady Base + StigReady Applied (catalog-driven from `catalog.json`)
-- **`/applied/`** — Applied landing (SEO target for the former StigApplied brand)
-- **`stigapplied.html`** — `noindex` redirect → `/applied/`
+| Path | Content |
+|------|---------|
+| `/` | StigReady Base + catalog (`catalog.json`) |
+| `/applied/` | StigReady Applied (previously “StigApplied” tier) |
+| `stigapplied.html` | Optional same-host redirect → `/applied/` (`noindex`) for old bookmarks |
 
-**DNS:** 301 `stigapplied.com` → `https://stigready.com/applied/` (keep the domain registered).
+## Abandoned
 
-**Catalog:** copy from the factory with `publish-catalog.py --to-site` — do not hand-edit OS/arch rows. StigForge / role-repo links are not published on the site until those repos are ready.
+- **`stigapplied.com`** — not maintained; no DNS redirect project.
+- **`stigapplied-web`** repo — **archived** on GitHub; do not restore Pages or CNAME.
+
+Applied AMI marketing, scores, and catalog filters belong on **stigready.com** under `/applied/` and
+the main catalog — single StigReady brand.
+
+## Catalog sync
+
+Copy from the factory with `publish-catalog.py --to-site` — do not hand-edit OS/arch rows.
+StigForge / role-repo links on the site only when those repos are public and approved.
