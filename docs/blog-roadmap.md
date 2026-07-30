@@ -1,9 +1,8 @@
-# Blog roadmap (StigReady)
+# Blog roadmap (maintainer only)
 
-Source of truth for upcoming Base + StigForge how-tos on [stigready.com/blog/](https://stigready.com/blog/).
+Internal queue for upcoming Base + StigForge how-tos. **Do not render this on stigready.com** — the public blog shows only published posts (`blog/index.html`).
 
-**Published posts** live only as the list on `blog/index.html` (and individual HTML files).  
-**Roadmap** is what we still owe — ordered, one post per week. When a post ships: add it under Published, remove it from Roadmap here and on the blog index, add the URL to `sitemap.xml`.
+When a post ships: add it to the public Posts list, add the URL to `sitemap.xml`, remove it from the queue below.
 
 ## Standing rules
 
@@ -12,7 +11,7 @@ Source of truth for upcoming Base + StigForge how-tos on [stigready.com/blog/](h
 - Pin Ansible installs to a **git tag**, never `main`.
 - Marketplace CTA: [seller profile](https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk).
 
-## Roadmap (next up first)
+## Queue (next up first)
 
 1. RHEL 9 Base + `rhel9_cis` (Level 1 / Level 2)
 2. Ubuntu 24.04 Base + `ubuntu24_stig`
