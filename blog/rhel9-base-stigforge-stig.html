@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R2J9HMP1XX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-R2J9HMP1XX');
+    </script>
+    <title>RHEL 9 Base + rhel9_stig — StigReady how-to</title>
+    <meta name="description" content="Launch StigReady RHEL 9 Base from AWS Marketplace and apply the public StigForge rhel9_stig Ansible role with a pinned release tag.">
+    <meta name="robots" content="index,follow">
+    <meta name="theme-color" content="#0C2340">
+    <link rel="canonical" href="https://stigready.com/blog/rhel9-base-stigforge-stig.html">
+    <link rel="icon" type="image/png" href="https://stigready.com/assets/logo.png">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="StigReady">
+    <meta property="og:url" content="https://stigready.com/blog/rhel9-base-stigforge-stig.html">
+    <meta property="og:title" content="RHEL 9 Base + rhel9_stig — StigReady how-to">
+    <meta property="og:description" content="Subscribe to RHEL 9 Base on Marketplace, then remediate with the public rhel9_stig role.">
+    <meta property="og:image" content="https://stigready.com/assets/logo.png">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "RHEL 9 Base + rhel9_stig",
+      "datePublished": "2026-07-30",
+      "dateModified": "2026-07-30",
+      "author": { "@type": "Organization", "name": "StigReady" },
+      "publisher": { "@type": "Organization", "name": "StigReady", "url": "https://stigready.com/" },
+      "mainEntityOfPage": "https://stigready.com/blog/rhel9-base-stigforge-stig.html"
+    }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gold { color: #C9A84C; }
+        .bg-navy { background-color: #0C2340; }
+        article h2 { font-size: 1.25rem; font-weight: 700; color: #fff; margin: 2rem 0 0.75rem; }
+        article p, article li { color: #d1d5db; line-height: 1.7; }
+        article p { margin-bottom: 1rem; }
+        article ol, article ul { padding-left: 1.25rem; margin-bottom: 1rem; }
+        article ol { list-style: decimal; }
+        article ul { list-style: disc; }
+        article a { color: #EAB308; }
+        article a:hover { text-decoration: underline; }
+        article code { color: #facc15; font-size: 0.9em; }
+        article pre { background: #111827; border: 1px solid #374151; border-radius: 0.5rem; padding: 1rem; overflow-x: auto; margin-bottom: 1rem; font-size: 0.875rem; color: #e5e7eb; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col">
+    <nav class="bg-navy border-b border-gray-800 px-6 py-4 sticky top-0 z-20">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <a href="/" class="flex items-center space-x-3" aria-label="StigReady home">
+                <img src="/assets/logo.png" alt="StigReady" class="h-10 w-auto" width="40" height="40"/>
+                <span class="text-xl font-black tracking-wide"><span class="text-white">STIG</span><span class="gold">READY</span></span>
+            </a>
+            <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                <a href="/#base-tier" class="text-gray-300 hover:text-white transition">Base</a>
+                <a href="/#stigforge" class="text-gray-300 hover:text-white transition">StigForge</a>
+                <a href="/blog/" class="text-white">Blog</a>
+                <a href="mailto:contact@stigready.com" class="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded-md font-semibold transition">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-1 py-16 px-4">
+        <article class="max-w-3xl mx-auto">
+            <p class="text-xs text-gray-500 mb-3"><a href="/blog/" class="text-yellow-500 hover:underline">Blog</a> · 2026-07-30 · Hands-on</p>
+            <h1 class="text-3xl md:text-4xl font-black text-white mb-6 tracking-tight">RHEL 9 Base + <span class="gold">rhel9_stig</span></h1>
+            <p class="text-lg text-gray-300 mb-8">Launch <strong class="text-white">StigReady RHEL 9 Base</strong> from AWS Marketplace, then apply the public StigForge role <code>rhel9_stig</code> with a pinned release tag.</p>
+
+            <h2>Before you start</h2>
+            <ul>
+                <li>An AWS account and permission to subscribe on Marketplace</li>
+                <li>A Red Hat subscription for the instance (RHEL Base is <strong class="text-white">BYOL</strong>)</li>
+                <li>Ansible 2.16+ on a control host that can SSH to the instance</li>
+                <li>Role pin used in this post: <code>v0.2.4-private-review</code> — check <a href="https://github.com/stigready/rhel9-stig">stigready/rhel9-stig</a> for newer tags</li>
+            </ul>
+
+            <h2>1. Subscribe and launch Base</h2>
+            <ol>
+                <li>Open the <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk">StigReady seller page</a> on AWS Marketplace.</li>
+                <li>Choose <strong class="text-white">StigReady RHEL 9 - Minimal STIG-Ready Base</strong> for your arch (x86_64 or arm64).</li>
+                <li>Subscribe, then launch into your VPC with a key pair you control. Prefer a security group that allows SSH from your control host only.</li>
+                <li>SSH as <code>ec2-user</code> (or use SSM Session Manager — the agent is preinstalled).</li>
+            </ol>
+            <pre><code>ssh -i your-key.pem ec2-user@&lt;instance-ip&gt;</code></pre>
+            <p>Confirm the STIG mounts exist (<code>lsblk</code>, <code>findmnt</code>) before remediating — Base already laid them down at install.</p>
+
+            <h2>2. Install the role (pinned tag)</h2>
+            <p>On your Ansible control host:</p>
+<pre><code># requirements.yml
+roles:
+  - src: https://github.com/stigready/rhel9-stig
+    scm: git
+    version: v0.2.4-private-review
+    name: rhel9_stig
+</code></pre>
+<pre><code>ansible-galaxy role install -r requirements.yml -p ./roles
+</code></pre>
+            <p>Galaxy import (<code>stigready.rhel9_stig</code>) is the long-term install path once the namespace is listed; until then, GitHub + tag is the supported pin.</p>
+
+            <h2>3. Run the playbook</h2>
+<pre><code># inventory.ini
+[stig]
+rhel9-base ansible_host=&lt;instance-ip&gt; ansible_user=ec2-user
+</code></pre>
+<pre><code># site.yml
+- hosts: stig
+  become: true
+  roles:
+    - role: rhel9_stig
+</code></pre>
+<pre><code>ansible-playbook -i inventory.ini site.yml
+</code></pre>
+            <p>Expect a reboot-friendly run: FIPS / crypto policy and auth changes may require a reboot before services settle. Plan a maintenance window.</p>
+
+            <h2>4. Check published evidence</h2>
+            <p>Factory-verified scores and artifacts for this tag live under the role repo:</p>
+            <ul>
+                <li>Release evidence: <a href="https://github.com/stigready/rhel9-stig/tree/main/compliance/releases/0.2.4-private-review/stig">compliance/releases/0.2.4-private-review/stig</a></li>
+                <li>Matrix scores: <a href="/#stigforge">stigready.com/#stigforge</a></li>
+                <li>Customer re-prove helper: <code>make prove RELEASE=0.2.4-private-review</code> in the role repo</li>
+            </ul>
+            <p>Your live host score can differ from docker verify (cloud exceptions, packages, timing). Use OpenSCAP against the raw SSG <code>stig</code> profile when you need an auditor-facing number for <em>this</em> instance.</p>
+
+            <h2>Related</h2>
+            <ul>
+                <li><a href="/blog/base-plus-stigforge-roles.html">Series overview</a></li>
+                <li><a href="/blog/ubuntu24-base-stigforge-cis.html">Ubuntu 24.04 Base + ubuntu24_cis</a></li>
+                <li><a href="https://github.com/stigready/rhel9-stig">github.com/stigready/rhel9-stig</a></li>
+            </ul>
+            <p class="text-sm text-gray-500 mt-10 pt-6 border-t border-gray-800">Questions? <a href="mailto:contact@stigready.com">contact@stigready.com</a></p>
+        </article>
+    </main>
+
+    <footer class="bg-navy py-10 px-4 mt-auto border-t border-gray-800">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <a href="/" class="flex items-center space-x-3">
+                <img src="/assets/logo.png" alt="StigReady" class="h-8 w-auto"/>
+                <span class="font-black tracking-wide"><span class="text-white">STIG</span><span class="gold">READY</span></span>
+            </a>
+            <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
+                <a href="/blog/" class="hover:text-white transition">Blog</a>
+                <a href="/#stigforge" class="hover:text-white transition">StigForge</a>
+                <a href="mailto:contact@stigready.com" class="hover:text-white transition">contact@stigready.com</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

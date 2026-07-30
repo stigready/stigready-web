@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R2J9HMP1XX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-R2J9HMP1XX');
+    </script>
+    <title>StigReady Base + StigForge roles — when to use which</title>
+    <meta name="description" content="Use StigReady Base from AWS Marketplace with public StigForge CIS / DISA STIG Ansible roles when you want the STIG disk layout and your own remediation pipeline. Choose Applied when you want scored AMIs out of the box.">
+    <meta name="robots" content="index,follow">
+    <meta name="theme-color" content="#0C2340">
+    <link rel="canonical" href="https://stigready.com/blog/base-plus-stigforge-roles.html">
+    <link rel="icon" type="image/png" href="https://stigready.com/assets/logo.png">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="StigReady">
+    <meta property="og:url" content="https://stigready.com/blog/base-plus-stigforge-roles.html">
+    <meta property="og:title" content="StigReady Base + StigForge roles — when to use which">
+    <meta property="og:description" content="Launch Base from AWS Marketplace, then remediate with public StigForge Ansible roles.">
+    <meta property="og:image" content="https://stigready.com/assets/logo.png">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "StigReady Base + StigForge roles — when to use which",
+      "datePublished": "2026-07-30",
+      "dateModified": "2026-07-30",
+      "author": { "@type": "Organization", "name": "StigReady" },
+      "publisher": { "@type": "Organization", "name": "StigReady", "url": "https://stigready.com/" },
+      "mainEntityOfPage": "https://stigready.com/blog/base-plus-stigforge-roles.html",
+      "description": "Use StigReady Base from AWS Marketplace with public StigForge CIS / DISA STIG Ansible roles."
+    }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gold { color: #C9A84C; }
+        .bg-navy { background-color: #0C2340; }
+        article h2 { font-size: 1.25rem; font-weight: 700; color: #fff; margin: 2rem 0 0.75rem; }
+        article p, article li { color: #d1d5db; line-height: 1.7; }
+        article p { margin-bottom: 1rem; }
+        article ul { list-style: disc; padding-left: 1.25rem; margin-bottom: 1rem; }
+        article a { color: #EAB308; }
+        article a:hover { text-decoration: underline; }
+        article code { color: #facc15; font-size: 0.9em; }
+        article pre { background: #111827; border: 1px solid #374151; border-radius: 0.5rem; padding: 1rem; overflow-x: auto; margin-bottom: 1rem; font-size: 0.875rem; color: #e5e7eb; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col">
+    <nav class="bg-navy border-b border-gray-800 px-6 py-4 sticky top-0 z-20">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <a href="/" class="flex items-center space-x-3" aria-label="StigReady home">
+                <img src="/assets/logo.png" alt="StigReady" class="h-10 w-auto" width="40" height="40"/>
+                <span class="text-xl font-black tracking-wide"><span class="text-white">STIG</span><span class="gold">READY</span></span>
+            </a>
+            <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                <a href="/#base-tier" class="text-gray-300 hover:text-white transition">Base</a>
+                <a href="/#applied-tier" class="text-gray-300 hover:text-white transition">Applied</a>
+                <a href="/#stigforge" class="text-gray-300 hover:text-white transition">StigForge</a>
+                <a href="/blog/" class="text-white">Blog</a>
+                <a href="mailto:contact@stigready.com" class="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded-md font-semibold transition">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-1 py-16 px-4">
+        <article class="max-w-3xl mx-auto">
+            <p class="text-xs text-gray-500 mb-3"><a href="/blog/" class="text-yellow-500 hover:underline">Blog</a> · 2026-07-30</p>
+            <h1 class="text-3xl md:text-4xl font-black text-white mb-6 tracking-tight">StigReady Base + StigForge roles</h1>
+            <p class="text-lg text-gray-300 mb-8">StigReady Base gives you the STIG disk layout and cloud hardening from AWS Marketplace. StigForge gives you public, OpenSCAP-verified Ansible roles for CIS and DISA STIG. Together they are the bring-your-own remediation path.</p>
+
+            <h2>The two paths</h2>
+            <ul>
+                <li><strong class="text-white">StigReady Applied</strong> — subscribe to a CIS or STIG AMI that is already remediated, scored in-build, and ships an evidence bundle. See <a href="/applied/">Applied</a> and the <a href="/#applied-tier">score table</a>.</li>
+                <li><strong class="text-white">StigReady Base + StigForge</strong> — subscribe to Base, then run a public role from <a href="https://github.com/orgs/stigready/repositories?q=cis+OR+stig">github.com/stigready</a> in your own playbooks or image bake. You control when remediation runs and how you re-score.</li>
+            </ul>
+            <p>Use Base + roles when you already have Ansible pipelines, need to tune exceptions, or want the same role in Packer that you run on fleets. Use Applied when you want the score and evidence on day one without wiring OpenSCAP yourself.</p>
+
+            <h2>What Base already did for you</h2>
+            <p>Every Base AMI is built from the official OS ISO, patched at bake, and boot-tested on Nitro EC2. The STIG partition layout (<code>/home</code>, <code>/tmp</code>, <code>/var</code>, <code>/var/log</code>, <code>/var/log/audit</code>, <code>/var/tmp</code>) is applied at install — that layout is painful to retrofit later. SSH is key-only; IMDSv2 is enforced; SSM Agent is present.</p>
+            <p>Browse listings on our <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk">AWS Marketplace seller page</a>, or start from the <a href="/#base-tier">Base catalog</a> on stigready.com. RHEL images are BYOL — you bring a Red Hat subscription.</p>
+
+            <h2>What StigForge roles add</h2>
+            <p>Each public role repo (<code>*-cis</code> / <code>*-stig</code>) is a Galaxy-style Ansible role plus immutable OpenSCAP evidence under <code>compliance/releases/</code>. Factory CI verifies against the <strong class="text-white">raw, unmodified SSG profile</strong> with a 90% floor. Published scores live on <a href="/#stigforge">stigready.com/#stigforge</a>.</p>
+            <p>Install with a pinned tag (example: <code>v0.2.4-private-review</code>). Do not float on <code>main</code>.</p>
+
+            <h2>Hands-on next</h2>
+            <ul>
+                <li><a href="/blog/rhel9-base-stigforge-stig.html">RHEL 9 Base + <code>rhel9_stig</code></a></li>
+                <li><a href="/blog/ubuntu24-base-stigforge-cis.html">Ubuntu 24.04 Base + <code>ubuntu24_cis</code></a></li>
+            </ul>
+            <p>Weekly follow-ups (CIS on RHEL 9, Ubuntu STIG, Rocky/Alma, arm64, re-scoring) are listed on the <a href="/blog/#cadence">blog cadence</a>.</p>
+
+            <p class="text-sm text-gray-500 mt-10 pt-6 border-t border-gray-800">Questions? <a href="mailto:contact@stigready.com">contact@stigready.com</a></p>
+        </article>
+    </main>
+
+    <footer class="bg-navy py-10 px-4 mt-auto border-t border-gray-800">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <a href="/" class="flex items-center space-x-3">
+                <img src="/assets/logo.png" alt="StigReady" class="h-8 w-auto"/>
+                <span class="font-black tracking-wide"><span class="text-white">STIG</span><span class="gold">READY</span></span>
+            </a>
+            <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
+                <a href="/blog/" class="hover:text-white transition">Blog</a>
+                <a href="/#stigforge" class="hover:text-white transition">StigForge</a>
+                <a href="mailto:contact@stigready.com" class="hover:text-white transition">contact@stigready.com</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
