@@ -53,7 +53,7 @@
     </style>
 </head>
 <body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col">
-    <nav class="bg-navy border-b border-gray-800 px-6 py-4 sticky top-0 z-20">
+        <nav class="bg-navy border-b border-gray-800 px-6 py-4 sticky top-0 z-20">
         <div class="max-w-6xl mx-auto flex items-center justify-between">
             <a href="/" class="flex items-center space-x-3" aria-label="StigReady home">
                 <img src="/assets/logo.png" alt="StigReady" class="h-10 w-auto" width="40" height="40"/>
@@ -61,8 +61,10 @@
             </a>
             <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
                 <a href="/#base-tier" class="text-gray-300 hover:text-white transition">Base</a>
+                <a href="/#applied-tier" class="text-gray-300 hover:text-white transition">Applied</a>
                 <a href="/#stigforge" class="text-gray-300 hover:text-white transition">StigForge</a>
-                <a href="/blog/" class="text-white">Blog</a>
+                <a href="/blog/" class="text-gray-300 hover:text-white transition">Blog</a>
+                <a href="/#pricing" class="text-gray-300 hover:text-white transition">Pricing</a>
                 <a href="mailto:contact@stigready.com" class="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded-md font-semibold transition">Contact</a>
             </div>
         </div>
@@ -134,17 +136,26 @@ ubuntu24-base ansible_host=&lt;instance-ip&gt; ansible_user=ubuntu
         </article>
     </main>
 
-    <footer class="bg-navy py-10 px-4 mt-auto border-t border-gray-800">
-        <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <a href="/" class="flex items-center space-x-3">
-                <img src="/assets/logo.png" alt="StigReady" class="h-8 w-auto"/>
-                <span class="font-black tracking-wide"><span class="text-white">STIG</span><span class="gold">READY</span></span>
-            </a>
-            <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
-                <a href="/blog/" class="hover:text-white transition">Blog</a>
-                <a href="/#stigforge" class="hover:text-white transition">StigForge</a>
-                <a href="mailto:contact@stigready.com" class="hover:text-white transition">contact@stigready.com</a>
+        <footer class="bg-navy py-10 px-4 mt-auto border-t border-gray-800">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+                <div class="flex items-center space-x-3">
+                    <img src="/assets/logo.png" alt="StigReady" class="h-8 w-auto"/>
+                    <span class="font-black tracking-wide"><span class="text-white">STIG</span><span class="gold">READY</span></span>
+                </div>
+                <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
+                    <a href="/#base-tier" class="hover:text-white transition">Base</a>
+                    <a href="/applied/" class="hover:text-white transition">Applied</a>
+                    <a href="/#stigforge" class="hover:text-white transition">StigForge</a>
+                    <a href="/blog/" class="hover:text-white transition">Blog</a>
+                    <a href="/#pricing" class="hover:text-white transition">Pricing</a>
+                    <a href="mailto:contact@stigready.com" class="hover:text-white transition">contact@stigready.com</a>
+                </div>
             </div>
+            <p class="text-center text-xs text-gray-600">&copy; 2026 StigReady. All rights reserved.</p>
+            <p class="text-center text-xs text-gray-600 mt-3 max-w-3xl mx-auto">
+                Not affiliated with or endorsed by DISA, DoD, NIST, CIS, Red Hat, or Canonical. All trademarks are the property of their respective owners. Red Hat® and Red Hat Enterprise Linux® are trademarks of Red Hat, Inc. Ubuntu® is a trademark of Canonical Ltd. CIS® and CIS Benchmarks™ are trademarks of the Center for Internet Security, Inc. StigReady does not provide commercial licenses for Red Hat products.
+            </p>
         </div>
     </footer>
 </body>
