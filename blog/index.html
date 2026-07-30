@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R2J9HMP1XX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-R2J9HMP1XX');
+    </script>
+    <title>Blog — StigReady Base + StigForge Roles</title>
+    <meta name="description" content="How-tos for launching StigReady Base from AWS Marketplace and applying public StigForge CIS / DISA STIG Ansible roles with published OpenSCAP scores.">
+    <meta name="robots" content="index,follow">
+    <meta name="theme-color" content="#0C2340">
+    <link rel="canonical" href="https://stigready.com/blog/">
+    <link rel="icon" type="image/png" href="https://stigready.com/assets/logo.png">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="StigReady">
+    <meta property="og:url" content="https://stigready.com/blog/">
+    <meta property="og:title" content="Blog — StigReady Base + StigForge Roles">
+    <meta property="og:description" content="Launch StigReady Base from AWS Marketplace, then remediate with public StigForge Ansible roles.">
+    <meta property="og:image" content="https://stigready.com/assets/logo.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Blog — StigReady Base + StigForge Roles">
+    <meta name="twitter:description" content="Launch StigReady Base from AWS Marketplace, then remediate with public StigForge Ansible roles.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gold { color: #C9A84C; }
+        .bg-navy { background-color: #0C2340; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col">
+    <nav class="bg-navy border-b border-gray-800 px-6 py-4 sticky top-0 z-20">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <a href="/" class="flex items-center space-x-3" aria-label="StigReady home">
+                <img src="/assets/logo.png" alt="StigReady" class="h-10 w-auto" width="40" height="40"/>
+                <span class="text-xl font-black tracking-wide"><span class="text-white">STIG</span><span class="gold">READY</span></span>
+            </a>
+            <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                <a href="/#base-tier" class="text-gray-300 hover:text-white transition">Base</a>
+                <a href="/#applied-tier" class="text-gray-300 hover:text-white transition">Applied</a>
+                <a href="/#stigforge" class="text-gray-300 hover:text-white transition">StigForge</a>
+                <a href="/blog/" class="text-white">Blog</a>
+                <a href="/#pricing" class="text-gray-300 hover:text-white transition">Pricing</a>
+                <a href="mailto:contact@stigready.com" class="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded-md font-semibold transition">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-1 py-16 px-4">
+        <div class="max-w-3xl mx-auto">
+            <p class="text-xs text-yellow-500 font-semibold uppercase tracking-widest mb-2">Blog</p>
+            <h1 class="text-3xl md:text-4xl font-black text-white mb-3">Base + StigForge how-tos</h1>
+            <p class="text-gray-400 mb-10">Subscribe to StigReady Base on AWS Marketplace, then apply public StigForge CIS / STIG Ansible roles. New posts weekly.</p>
+
+            <section class="mb-14" aria-labelledby="published">
+                <h2 id="published" class="text-xl font-bold text-white mb-4">Published</h2>
+                <ul class="space-y-4">
+                    <li class="bg-gray-800 border border-gray-700 rounded-lg p-5 hover:border-yellow-600 transition">
+                        <p class="text-xs text-gray-500 mb-1">2026-07-30 · Series overview</p>
+                        <a href="/blog/base-plus-stigforge-roles.html" class="text-lg font-semibold text-yellow-500 hover:underline">StigReady Base + StigForge roles</a>
+                        <p class="text-gray-400 text-sm mt-2">When to use Base with bring-your-own roles vs Applied, and how the pieces fit.</p>
+                    </li>
+                    <li class="bg-gray-800 border border-gray-700 rounded-lg p-5 hover:border-yellow-600 transition">
+                        <p class="text-xs text-gray-500 mb-1">2026-07-30 · Hands-on</p>
+                        <a href="/blog/rhel9-base-stigforge-stig.html" class="text-lg font-semibold text-yellow-500 hover:underline">RHEL 9 Base + <code class="text-yellow-400">rhel9_stig</code></a>
+                        <p class="text-gray-400 text-sm mt-2">Launch RHEL 9 Base from Marketplace and apply the public DISA STIG role.</p>
+                    </li>
+                    <li class="bg-gray-800 border border-gray-700 rounded-lg p-5 hover:border-yellow-600 transition">
+                        <p class="text-xs text-gray-500 mb-1">2026-07-30 · Hands-on</p>
+                        <a href="/blog/ubuntu24-base-stigforge-cis.html" class="text-lg font-semibold text-yellow-500 hover:underline">Ubuntu 24.04 Base + <code class="text-yellow-400">ubuntu24_cis</code></a>
+                        <p class="text-gray-400 text-sm mt-2">Launch Ubuntu 24.04 Base and apply the public CIS Level 1 role.</p>
+                    </li>
+                </ul>
+            </section>
+
+            <section aria-labelledby="cadence">
+                <h2 id="cadence" class="text-xl font-bold text-white mb-2">Weekly cadence</h2>
+                <p class="text-gray-400 text-sm mb-4">One post per week. Upcoming titles may shift if a new role release or OS lands first.</p>
+                <div class="overflow-x-auto border border-gray-700 rounded-lg">
+                    <table class="w-full text-sm min-w-[560px]">
+                        <thead class="bg-navy text-gray-300 uppercase text-xs tracking-wider">
+                            <tr>
+                                <th class="px-4 py-3 text-left">Week of</th>
+                                <th class="px-4 py-3 text-left">Topic</th>
+                                <th class="px-4 py-3 text-left">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-700 text-gray-300">
+                            <tr>
+                                <td class="px-4 py-3 font-mono text-xs">2026-07-30</td>
+                                <td class="px-4 py-3">Overview + RHEL 9 STIG + Ubuntu 24 CIS (launch set)</td>
+                                <td class="px-4 py-3 text-green-400">Published</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-mono text-xs">2026-08-06</td>
+                                <td class="px-4 py-3">RHEL 9 Base + <code class="text-yellow-400">rhel9_cis</code> (Level 1 / Level 2)</td>
+                                <td class="px-4 py-3 text-yellow-400">Scheduled</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-mono text-xs">2026-08-13</td>
+                                <td class="px-4 py-3">Ubuntu 24.04 Base + <code class="text-yellow-400">ubuntu24_stig</code></td>
+                                <td class="px-4 py-3 text-yellow-400">Scheduled</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-mono text-xs">2026-08-20</td>
+                                <td class="px-4 py-3">Rocky 9 / Alma 9 Base with RHEL 9 StigForge roles</td>
+                                <td class="px-4 py-3 text-yellow-400">Scheduled</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-mono text-xs">2026-08-27</td>
+                                <td class="px-4 py-3">arm64 (Graviton): Base + roles on the same matrix cell</td>
+                                <td class="px-4 py-3 text-yellow-400">Scheduled</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-mono text-xs">2026-09-03</td>
+                                <td class="px-4 py-3">RHEL 8 and RHEL 10 Base + matching StigForge roles</td>
+                                <td class="px-4 py-3 text-yellow-400">Scheduled</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-mono text-xs">2026-09-10</td>
+                                <td class="px-4 py-3">Re-score after remediation: OpenSCAP evidence and <code class="text-yellow-400">make prove</code></td>
+                                <td class="px-4 py-3 text-yellow-400">Scheduled</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-mono text-xs">2026-09-17</td>
+                                <td class="px-4 py-3">Base vs Applied: buy remediated AMIs or bring your own roles</td>
+                                <td class="px-4 py-3 text-yellow-400">Scheduled</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-mono text-xs">2026-09-24</td>
+                                <td class="px-4 py-3">Pinning role tags in Packer / golden-image pipelines</td>
+                                <td class="px-4 py-3 text-yellow-400">Scheduled</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-mono text-xs">2026-10-01</td>
+                                <td class="px-4 py-3">Amazon Linux 2023 Base today; Applied CIS/STIG when built</td>
+                                <td class="px-4 py-3 text-yellow-400">Scheduled</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-xs text-gray-500 mt-4">One post per week after the launch set. Titles may shift when a new role release or OS lands first.</p>
+            </section>
+        </div>
+    </main>
+
+    <footer class="bg-navy py-10 px-4 mt-auto border-t border-gray-800">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+                <div class="flex items-center space-x-3">
+                    <img src="/assets/logo.png" alt="StigReady" class="h-8 w-auto"/>
+                    <span class="font-black tracking-wide"><span class="text-white">STIG</span><span class="gold">READY</span></span>
+                </div>
+                <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
+                    <a href="/#base-tier" class="hover:text-white transition">Base</a>
+                    <a href="/#applied-tier" class="hover:text-white transition">Applied</a>
+                    <a href="/#stigforge" class="hover:text-white transition">StigForge</a>
+                    <a href="/blog/" class="hover:text-white transition">Blog</a>
+                    <a href="mailto:contact@stigready.com" class="hover:text-white transition">contact@stigready.com</a>
+                </div>
+            </div>
+            <p class="text-center text-xs text-gray-600">&copy; 2026 StigReady. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
