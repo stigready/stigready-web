@@ -55,7 +55,7 @@
         <div class="max-w-3xl mx-auto">
             <p class="text-xs text-yellow-500 font-semibold uppercase tracking-widest mb-2">Blog</p>
             <h1 class="text-3xl md:text-4xl font-black text-white mb-3">Base + StigForge how-tos</h1>
-            <p class="text-gray-400 mb-10">Subscribe to StigReady Base on AWS Marketplace, then apply public StigForge CIS / STIG Ansible roles. New posts weekly.</p>
+            <p class="text-gray-400 mb-10">Subscribe to StigReady Base on AWS Marketplace, then apply public StigForge CIS / STIG Ansible roles. Live posts below; roadmap is what we write next.</p>
 
             <section class="mb-14" aria-labelledby="published">
                 <h2 id="published" class="text-xl font-bold text-white mb-4">Published</h2>
@@ -78,73 +78,20 @@
                 </ul>
             </section>
 
-            <section aria-labelledby="cadence">
-                <h2 id="cadence" class="text-xl font-bold text-white mb-2">Weekly cadence</h2>
-                <p class="text-gray-400 text-sm mb-4">One post per week. Upcoming titles may shift if a new role release or OS lands first.</p>
-                <div class="overflow-x-auto border border-gray-700 rounded-lg">
-                    <table class="w-full text-sm min-w-[560px]">
-                        <thead class="bg-navy text-gray-300 uppercase text-xs tracking-wider">
-                            <tr>
-                                <th class="px-4 py-3 text-left">Week of</th>
-                                <th class="px-4 py-3 text-left">Topic</th>
-                                <th class="px-4 py-3 text-left">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-700 text-gray-300">
-                            <tr>
-                                <td class="px-4 py-3 font-mono text-xs">2026-07-30</td>
-                                <td class="px-4 py-3">Overview + RHEL 9 STIG + Ubuntu 24 CIS (launch set)</td>
-                                <td class="px-4 py-3 text-green-400">Published</td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-3 font-mono text-xs">2026-08-06</td>
-                                <td class="px-4 py-3">RHEL 9 Base + <code class="text-yellow-400">rhel9_cis</code> (Level 1 / Level 2)</td>
-                                <td class="px-4 py-3 text-yellow-400">Scheduled</td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-3 font-mono text-xs">2026-08-13</td>
-                                <td class="px-4 py-3">Ubuntu 24.04 Base + <code class="text-yellow-400">ubuntu24_stig</code></td>
-                                <td class="px-4 py-3 text-yellow-400">Scheduled</td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-3 font-mono text-xs">2026-08-20</td>
-                                <td class="px-4 py-3">Rocky 9 / Alma 9 Base with RHEL 9 StigForge roles</td>
-                                <td class="px-4 py-3 text-yellow-400">Scheduled</td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-3 font-mono text-xs">2026-08-27</td>
-                                <td class="px-4 py-3">arm64 (Graviton): Base + roles on the same matrix cell</td>
-                                <td class="px-4 py-3 text-yellow-400">Scheduled</td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-3 font-mono text-xs">2026-09-03</td>
-                                <td class="px-4 py-3">RHEL 8 and RHEL 10 Base + matching StigForge roles</td>
-                                <td class="px-4 py-3 text-yellow-400">Scheduled</td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-3 font-mono text-xs">2026-09-10</td>
-                                <td class="px-4 py-3">Re-score after remediation: OpenSCAP evidence and <code class="text-yellow-400">make prove</code></td>
-                                <td class="px-4 py-3 text-yellow-400">Scheduled</td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-3 font-mono text-xs">2026-09-17</td>
-                                <td class="px-4 py-3">Base vs Applied: buy remediated AMIs or bring your own roles</td>
-                                <td class="px-4 py-3 text-yellow-400">Scheduled</td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-3 font-mono text-xs">2026-09-24</td>
-                                <td class="px-4 py-3">Pinning role tags in Packer / golden-image pipelines</td>
-                                <td class="px-4 py-3 text-yellow-400">Scheduled</td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-3 font-mono text-xs">2026-10-01</td>
-                                <td class="px-4 py-3">Amazon Linux 2023 Base today; Applied CIS/STIG when built</td>
-                                <td class="px-4 py-3 text-yellow-400">Scheduled</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <p class="text-xs text-gray-500 mt-4">One post per week after the launch set. Titles may shift when a new role release or OS lands first.</p>
+            <section aria-labelledby="roadmap">
+                <h2 id="roadmap" class="text-xl font-bold text-white mb-2">Roadmap</h2>
+                <p class="text-gray-400 text-sm mb-4">Weekly how-tos in planned order. When a post ships, it moves to Published above and drops off this list.</p>
+                <ol class="list-decimal list-inside space-y-3 text-gray-300 text-sm">
+                    <li>RHEL 9 Base + <code class="text-yellow-400">rhel9_cis</code> (Level 1 / Level 2)</li>
+                    <li>Ubuntu 24.04 Base + <code class="text-yellow-400">ubuntu24_stig</code></li>
+                    <li>Rocky 9 / Alma 9 Base with RHEL 9 StigForge roles</li>
+                    <li>arm64 (Graviton): Base + roles on the same matrix cell</li>
+                    <li>RHEL 8 and RHEL 10 Base + matching StigForge roles</li>
+                    <li>Re-score after remediation: OpenSCAP evidence and <code class="text-yellow-400">make prove</code></li>
+                    <li>Base vs Applied: buy remediated AMIs or bring your own roles</li>
+                    <li>Pinning role tags in Packer / golden-image pipelines</li>
+                    <li>Amazon Linux 2023 Base today; Applied CIS/STIG when built</li>
+                </ol>
             </section>
         </div>
     </main>
