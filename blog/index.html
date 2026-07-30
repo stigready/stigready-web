@@ -55,10 +55,10 @@
         <div class="max-w-3xl mx-auto">
             <p class="text-xs text-yellow-500 font-semibold uppercase tracking-widest mb-2">Blog</p>
             <h1 class="text-3xl md:text-4xl font-black text-white mb-3">Base + StigForge how-tos</h1>
-            <p class="text-gray-400 mb-10">Subscribe to StigReady Base on AWS Marketplace, then apply public StigForge CIS / STIG Ansible roles. Live posts below; roadmap is what we write next.</p>
+            <p class="text-gray-400 mb-10">Subscribe to StigReady Base on AWS Marketplace, then apply public StigForge CIS / STIG Ansible roles.</p>
 
-            <section class="mb-14" aria-labelledby="published">
-                <h2 id="published" class="text-xl font-bold text-white mb-4">Published</h2>
+            <section aria-labelledby="published">
+                <h2 id="published" class="text-xl font-bold text-white mb-4">Posts</h2>
                 <ul class="space-y-4">
                     <li class="bg-gray-800 border border-gray-700 rounded-lg p-5 hover:border-yellow-600 transition">
                         <p class="text-xs text-gray-500 mb-1">2026-07-30 · Series overview</p>
@@ -76,22 +76,6 @@
                         <p class="text-gray-400 text-sm mt-2">Launch Ubuntu 24.04 Base and apply the public CIS Level 1 role.</p>
                     </li>
                 </ul>
-            </section>
-
-            <section aria-labelledby="roadmap">
-                <h2 id="roadmap" class="text-xl font-bold text-white mb-2">Roadmap</h2>
-                <p class="text-gray-400 text-sm mb-4">Weekly how-tos in planned order. When a post ships, it moves to Published above and drops off this list.</p>
-                <ol class="list-decimal list-inside space-y-3 text-gray-300 text-sm">
-                    <li>RHEL 9 Base + <code class="text-yellow-400">rhel9_cis</code> (Level 1 / Level 2)</li>
-                    <li>Ubuntu 24.04 Base + <code class="text-yellow-400">ubuntu24_stig</code></li>
-                    <li>Rocky 9 / Alma 9 Base with RHEL 9 StigForge roles</li>
-                    <li>arm64 (Graviton): Base + roles on the same matrix cell</li>
-                    <li>RHEL 8 and RHEL 10 Base + matching StigForge roles</li>
-                    <li>Re-score after remediation: OpenSCAP evidence and <code class="text-yellow-400">make prove</code></li>
-                    <li>Base vs Applied: buy remediated AMIs or bring your own roles</li>
-                    <li>Pinning role tags in Packer / golden-image pipelines</li>
-                    <li>Amazon Linux 2023 Base today; Applied CIS/STIG when built</li>
-                </ol>
             </section>
         </div>
     </main>
