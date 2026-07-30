@@ -1,0 +1,39 @@
+---
+description: StigReady brand, SEO, and marketing-site guardrails for stigready-web
+alwaysApply: true
+---
+
+# StigReady site — brand & SEO
+
+## Product naming
+
+- **StigReady Base** — STIG disk layout + cloud hardening; bring your own profiles/roles
+- **StigReady Applied** — CIS L1/L2 or DISA STIG remediated AMIs with published scores
+- **StigForge** — public Ansible role exports (`stigready/*-cis`, `*-stig`) + scores on `/#stigforge`
+
+## Hard no
+
+- Never link or CTA to private monorepo `github.com/stigready/stigforge`
+- Never put AMI IDs, snapshot IDs, account IDs, or evidence-bucket paths on the public site
+- Do not reintroduce Marketplace **Coming soon** status columns — listing state is not tracked on the site
+- Do not invent Applied cells (e.g. AL2023 CIS/STIG) that are not in AWS / `catalog.json`
+- RHEL is **BYOL** — say so; we do not sell Red Hat licenses
+
+## SEO when adding HTML
+
+Every new public page needs: unique title + description, absolute canonical, OG/Twitter tags, favicon, GA `G-R2J9HMP1XX`, and a `sitemap.xml` entry. Blog posts use `BlogPosting` JSON-LD.
+
+## Nav / footer
+
+Match home: Base · Applied · StigForge · Blog · Pricing · Contact.
+
+## Logos
+
+- Site (navy bg): `assets/logo.png` / `logo.svg` (white STIG)
+- Marketplace / light bg: `assets/logo-on-light.png` / `logo-on-light.svg`
+
+## Content ops
+
+- Public blog = published list only (`blog/index.html`)
+- Upcoming posts queue = `docs/blog-roadmap.md` (maintainer only — do not render on the site)
+- Skills: `blog-ship`, `seo-audit`, `marketplace-copy`, `ami-site-sync`
