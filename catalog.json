@@ -87,10 +87,10 @@
       "fips": false,
       "score": 93.7,
       "boot_verified": true,
-      "version": "0.1.13",
+      "version": "0.1.14",
       "availability": "coming-soon",
       "marketplace_url": null,
-      "support_until": "2028-08-03"
+      "support_until": "2028-08-04"
     },
     {
       "line": "stigapplied",
