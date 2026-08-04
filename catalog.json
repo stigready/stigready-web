@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "generated": "2026-08-02",
+  "generated": "2026-08-03",
   "products": [
     {
       "line": "stigapplied",
@@ -87,7 +87,7 @@
       "fips": false,
       "score": 93.7,
       "boot_verified": true,
-      "version": "0.1.2",
+      "version": "0.1.13",
       "availability": "coming-soon",
       "marketplace_url": null,
       "support_until": "2028-08-03"
