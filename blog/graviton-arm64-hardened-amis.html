@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R2J9HMP1XX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-R2J9HMP1XX');
+    </script>
+    <title>Graviton and arm64 hardened AMIs for STIG and CIS workloads — StigReady</title>
+    <meta name="description" content="Graviton and arm64 hardened AMIs for STIG and CIS — same layout as x86, scored Applied evidence or Base BYO roles on stigready.com.">
+    <meta name="robots" content="index,follow">
+    <meta name="theme-color" content="#0C2340">
+    <link rel="canonical" href="https://stigready.com/blog/graviton-arm64-hardened-amis.html">
+    <link rel="icon" type="image/png" href="https://stigready.com/assets/logo.png">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="StigReady">
+    <meta property="og:url" content="https://stigready.com/blog/graviton-arm64-hardened-amis.html">
+    <meta property="og:title" content="Graviton and arm64 hardened AMIs for STIG and CIS workloads — StigReady">
+    <meta property="og:description" content="Graviton and arm64 hardened AMIs for STIG and CIS — same layout as x86, scored Applied or Base BYO roles.">
+    <meta property="og:image" content="https://stigready.com/assets/logo.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@Stigready">
+    <meta name="twitter:title" content="Graviton and arm64 hardened AMIs for STIG and CIS workloads — StigReady">
+    <meta name="twitter:description" content="Graviton and arm64 hardened AMIs for STIG and CIS — same layout as x86, scored Applied or Base BYO roles.">
+    <meta name="twitter:image" content="https://stigready.com/assets/logo.png">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Graviton and arm64 hardened AMIs for STIG and CIS workloads",
+      "datePublished": "2026-08-12",
+      "dateModified": "2026-08-12",
+      "author": { "@type": "Organization", "name": "StigReady" },
+      "publisher": { "@type": "Organization", "name": "StigReady", "url": "https://stigready.com/" },
+      "mainEntityOfPage": "https://stigready.com/blog/graviton-arm64-hardened-amis.html",
+      "description": "Graviton and arm64 hardened AMIs for STIG and CIS — same layout as x86, scored Applied evidence or Base BYO roles."
+    }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gold { color: #C9A84C; }
+        .bg-navy { background-color: #0C2340; }
+        article h2 { font-size: 1.25rem; font-weight: 700; color: #fff; margin: 2rem 0 0.75rem; }
+        article p, article li { color: #d1d5db; line-height: 1.7; }
+        article p { margin-bottom: 1rem; }
+        article ul { list-style: disc; padding-left: 1.25rem; margin-bottom: 1rem; }
+        article a { color: #EAB308; }
+        article a:hover { text-decoration: underline; }
+        article code { color: #facc15; font-size: 0.9em; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col">
+        <nav class="bg-navy border-b border-gray-800 px-6 py-4 sticky top-0 z-20">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <a href="/" class="flex items-center space-x-3" aria-label="StigReady home">
+                <img src="/assets/logo.png" alt="StigReady" class="h-10 w-auto" width="40" height="40"/>
+                <span class="text-xl font-black tracking-wide"><span class="text-white">STIG</span><span class="gold">READY</span></span>
+            </a>
+            <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                <a href="/#base-tier" class="text-gray-300 hover:text-white transition">Base</a>
+                <a href="/#applied-tier" class="text-gray-300 hover:text-white transition">Applied</a>
+                <a href="/#stigforge" class="text-gray-300 hover:text-white transition">StigForge</a>
+                <a href="/blog/" class="text-gray-300 hover:text-white transition">Blog</a>
+                <a href="/#pricing" class="text-gray-300 hover:text-white transition">Pricing</a>
+                <a href="mailto:contact@stigready.com" class="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded-md font-semibold transition">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-1 py-16 px-4">
+        <article class="max-w-3xl mx-auto">
+            <p class="text-xs text-gray-500 mb-3"><a href="/blog/" class="text-yellow-500 hover:underline">Blog</a> · 2026-08-12 · Launch series</p>
+            <h1 class="text-3xl md:text-4xl font-black text-white mb-6 tracking-tight">Graviton and arm64 hardened AMIs for STIG and CIS workloads</h1>
+            <p class="text-lg text-gray-300 mb-8">FinOps wants Graviton. Security wants the same STIG or CIS story you already run on x86. Platform wants one layout, not a second partition fight. StigReady ships Base and Applied on arm64 so you can move compliance fleets without inventing a new hardening path.</p>
+
+            <h2>Same STIG-aligned layout on arm64 as on x86</h2>
+            <p>Every StigReady AMI — x86_64 or arm64 — is built from the official OS ISO with the same install-time LVM story: separate <code>/home</code>, <code>/tmp</code>, <code>/var</code>, <code>/var/log</code>, <code>/var/log/audit</code>, and <code>/var/tmp</code> under <code>vg_root</code>, plus the usual root, boot, and swap mounts. Architecture changes the CPU; it does not change the disk layout you already planned for OpenSCAP partition checks.</p>
+            <p>That is the point of <a href="/blog/stig-disk-layout-that-wont-fight-you.html">STIG disk layout that won't fight you</a>: bake the mounts once at install, then remediate on a disk that already matches the profile. You do not re-carve partitions when you pick a Graviton instance type.</p>
+
+            <h2>Applied arm64: scored CIS/STIG plus evidence</h2>
+            <p><a href="/#applied-tier">StigReady Applied</a> arm64 cells are CIS Level 1/2 or DISA STIG remediated images, scored in-build against the raw SSG profile, with a published score on the Applied table. The evidence bundle (ARF, HTML, POA&amp;M, SBOM, CVE scan) travels with the AMI the same way it does on x86 — see <a href="/blog/openscap-evidence-bundles.html">OpenSCAP evidence bundles auditors actually open</a>.</p>
+            <p>Scores and factory gates are engineering proof for buyers and auditors. They are not certification, authorization, or accreditation — and StigReady is not endorsed by DISA or DoD.</p>
+
+            <h2>Base arm64: layout and hardening, bring your own roles</h2>
+            <p><a href="/#base-tier">StigReady Base</a> on arm64 is the same foundation without day-one CIS/STIG remediation: STIG-aligned partitions, patched ISO build, Nitro boot-tested, SSH key-only, IMDSv2, SSM Agent. Attach your Ansible / Packer pipeline — including public StigForge <code>*-cis</code> / <code>*-stig</code> roles — on Graviton the same way you would on x86. RHEL Base remains BYOL; we do not sell Red Hat licenses.</p>
+            <p>Not sure which tier fits? Read <a href="/blog/base-vs-applied.html">Base vs Applied: which do you actually need?</a></p>
+
+            <h2>When Graviton wins for compliance fleets</h2>
+            <p>arm64 is a strong default when the workload is already multi-arch friendly and you care about steady cost and scale:</p>
+            <ul>
+                <li>Steady web and API fleets (stateless or lightly stateful)</li>
+                <li>Containers and orchestration nodes where your images already build for <code>linux/arm64</code></li>
+                <li>Scale-out workers where more cores per dollar beats single-thread legacy binaries</li>
+            </ul>
+            <p>Stay on x86_64 when the dependency story is not ready: proprietary agents without arm packages, older ISVs, or build chains that still pin <code>amd64</code> only. Hardening does not fix a missing arm64 RPM or container layer — validate the app matrix first, then move the compliance AMI with it.</p>
+
+            <h2>Catalog tip: filter Base and Applied for arm64</h2>
+            <p>On stigready.com, open the <a href="/#base-tier">Base</a> or <a href="/#applied-tier">Applied</a> catalog and use the <strong class="text-white">arm64 (Graviton)</strong> architecture filter. That narrows the matrix to cells we actually build — OS family, arch, and (for Applied) profile — without hunting AMI IDs on a marketing page. We do not publish AMI IDs here; subscribe and launch from Marketplace when listings are live for your cell.</p>
+
+            <h2>Pricing is the same on both arches</h2>
+            <p>Software fee does not change when you pick Graviton:</p>
+            <ul>
+                <li><strong class="text-white">Base</strong> — <strong class="text-white">$0.02/hr</strong> or <strong class="text-white">$149/yr</strong> per instance</li>
+                <li><strong class="text-white">Applied</strong> — <strong class="text-white">$0.08/hr</strong> or <strong class="text-white">$649/yr</strong> per instance</li>
+            </ul>
+            <p>That is the Marketplace software fee on top of normal EC2 (Graviton instance rates still apply on the AWS side). See <a href="/#pricing">pricing</a> for the full story, including annual contracts and Private Offers.</p>
+
+            <h2>Next steps</h2>
+            <p>Filter <a href="/#base-tier">Base</a> or <a href="/#applied-tier">Applied</a> for arm64, compare tiers on <a href="/#pricing">pricing</a>, and <a href="mailto:contact@stigready.com">contact us</a> for early access while Marketplace listings roll out. You can also browse our <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk">AWS Marketplace seller profile</a> — we do not publish per-SKU Marketplace listing URLs here.</p>
+            <p>Related reading:</p>
+            <ul>
+                <li><a href="/blog/stig-disk-layout-that-wont-fight-you.html">STIG disk layout that won't fight you</a></li>
+                <li><a href="/blog/openscap-evidence-bundles.html">OpenSCAP evidence bundles auditors actually open</a></li>
+                <li><a href="/blog/base-vs-applied.html">Base vs Applied: which do you actually need?</a></li>
+                <li><a href="/blog/base-plus-stigforge-roles.html">StigReady Base + StigForge roles</a></li>
+            </ul>
+
+            <p class="text-sm text-gray-500 mt-10 pt-6 border-t border-gray-800">Questions? <a href="mailto:contact@stigready.com">contact@stigready.com</a></p>
+        </article>
+    </main>
+
+        <footer class="bg-navy py-10 px-4 mt-auto border-t border-gray-800">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+                <div class="flex items-center space-x-3">
+                    <img src="/assets/logo.png" alt="StigReady" class="h-8 w-auto"/>
+                    <span class="font-black tracking-wide"><span class="text-white">STIG</span><span class="gold">READY</span></span>
+                </div>
+                <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
+                    <a href="/#base-tier" class="hover:text-white transition">Base</a>
+                    <a href="/applied/" class="hover:text-white transition">Applied</a>
+                    <a href="/#stigforge" class="hover:text-white transition">StigForge</a>
+                    <a href="/blog/" class="hover:text-white transition">Blog</a>
+                    <a href="/#pricing" class="hover:text-white transition">Pricing</a>
+                    <a href="mailto:contact@stigready.com" class="hover:text-white transition">contact@stigready.com</a>
+                </div>
+            </div>
+            <p class="text-center text-xs text-gray-600">&copy; 2026 StigReady. All rights reserved.</p>
+            <p class="text-center text-xs text-gray-600 mt-3 max-w-3xl mx-auto">
+                Not affiliated with or endorsed by DISA, DoD, NIST, CIS, Red Hat, or Canonical. All trademarks are the property of their respective owners. Red Hat® and Red Hat Enterprise Linux® are trademarks of Red Hat, Inc. Ubuntu® is a trademark of Canonical Ltd. CIS® and CIS Benchmarks™ are trademarks of the Center for Internet Security, Inc. StigReady does not provide commercial licenses for Red Hat products.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

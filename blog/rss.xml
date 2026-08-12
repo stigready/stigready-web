@@ -7,6 +7,13 @@
     <language>en-us</language>
     <atom:link href="https://stigready.com/blog/rss.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title>Graviton and arm64 hardened AMIs for STIG and CIS workloads</title>
+      <link>https://stigready.com/blog/graviton-arm64-hardened-amis.html</link>
+      <guid isPermaLink="true">https://stigready.com/blog/graviton-arm64-hardened-amis.html</guid>
+      <pubDate>Wed, 12 Aug 2026 12:00:00 GMT</pubDate>
+      <description>Same STIG layout on arm64 as x86 — filter Base and Applied for Graviton without a second partition fight.</description>
+    </item>
+    <item>
       <title>OpenSCAP evidence bundles auditors actually open</title>
       <link>https://stigready.com/blog/openscap-evidence-bundles.html</link>
       <guid isPermaLink="true">https://stigready.com/blog/openscap-evidence-bundles.html</guid>
