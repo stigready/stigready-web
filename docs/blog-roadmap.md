@@ -26,6 +26,8 @@ When a post ships: add it to the public Posts list, add the URL to `sitemap.xml`
 
 - STIG disk layout that won't fight you → `blog/stig-disk-layout-that-wont-fight-you.html` (PR #27)
 - Base vs Applied: which do you actually need? → `blog/base-vs-applied.html` (infra + evergreen PR)
+- OpenSCAP evidence bundles auditors actually open → `blog/openscap-evidence-bundles.html` (PR #29)
+- Graviton / arm64 hardened AMIs → `blog/graviton-arm64-hardened-amis.html` (launch series Post 4)
 
 Week 1 launch announcement remains gated on first public Marketplace listing + `marketplace-urls.yml`.
 
