@@ -93,18 +93,15 @@
             <p>Pair those roles with <a href="/#base-tier">StigReady Base</a> when you want the STIG disk layout and cloud hardening baked at install, then run remediation and re-scoring in your own pipeline. See the <a href="/blog/base-plus-stigforge-roles.html">Base + StigForge overview</a> and hands-on posts for RHEL&nbsp;9 STIG and Ubuntu&nbsp;24.04 CIS.</p>
 
             <h2>Evidence day one vs your own scoring pipeline</h2>
-            <p>Short pointer only — this post is about evidence, not a full product decision guide:</p>
-            <ul>
-                <li><strong class="text-white">Want evidence on day one</strong> — <a href="/#applied-tier">Applied</a> at <strong class="text-white">$0.08/hr</strong> or <strong class="text-white">$649/yr</strong>: remediated AMI, in-build score, evidence bundle attached before you launch.</li>
-                <li><strong class="text-white">Want layout + your own scoring pipeline</strong> — <a href="/#base-tier">Base</a> at <strong class="text-white">$0.02/hr</strong> or <strong class="text-white">$149/yr</strong>, plus public StigForge roles and the evidence under <code>compliance/releases/</code>. Layout first: <a href="/blog/stig-disk-layout-that-wont-fight-you.html">STIG disk layout that won't fight you</a>.</li>
-            </ul>
+            <p>Need the scored AMI and bundle on day one → <a href="/#applied-tier">Applied</a> (<strong class="text-white">$0.08/hr</strong> or <strong class="text-white">$649/yr</strong>). Prefer layout plus your own OpenSCAP pipeline → <a href="/#base-tier">Base</a> (<strong class="text-white">$0.02/hr</strong> or <strong class="text-white">$149/yr</strong>) with StigForge roles. For the full product decision, see <a href="/blog/base-vs-applied.html">Base vs Applied</a>. For the install-time layout story, see <a href="/blog/stig-disk-layout-that-wont-fight-you.html">STIG disk layout that won't fight you</a>.</p>
 
             <h2>Next steps</h2>
-            <p>Start from the <a href="/#applied-tier">Applied scores</a>, <a href="/applied/">Applied overview</a>, and <a href="/#pricing">pricing</a> on stigready.com when you need day-one proof. Questions: <a href="mailto:contact@stigready.com">contact@stigready.com</a>. Browse Base and Applied on stigready.com or our <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk">AWS Marketplace seller page</a> as listings roll out — we do not publish per-SKU Marketplace URLs here.</p>
+            <p>Start from the <a href="/#applied-tier">Applied scores</a>, <a href="/applied/">Applied overview</a>, and <a href="/#pricing">pricing</a> on stigready.com when you need day-one proof. Questions: <a href="mailto:contact@stigready.com">contact@stigready.com</a>. AWS Marketplace listings are rolling out — watch our <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk">seller page</a> or contact us for early access. We do not publish per-SKU Marketplace URLs here.</p>
             <p>Related reading:</p>
             <ul>
-                <li><a href="/blog/stig-disk-layout-that-wont-fight-you.html">STIG disk layout that won't fight you</a> — why Base bakes partitions at install</li>
-                <li><a href="/blog/base-plus-stigforge-roles.html">StigReady Base + StigForge roles</a> — when to use Base with bring-your-own roles vs Applied</li>
+                <li><a href="/blog/base-vs-applied.html">Base vs Applied: which do you actually need?</a></li>
+                <li><a href="/blog/stig-disk-layout-that-wont-fight-you.html">STIG disk layout that won't fight you</a></li>
+                <li><a href="/blog/base-plus-stigforge-roles.html">StigReady Base + StigForge roles</a></li>
                 <li><a href="/blog/rhel9-base-stigforge-stig.html">RHEL 9 Base + <code>rhel9_stig</code></a></li>
                 <li><a href="/blog/ubuntu24-base-stigforge-cis.html">Ubuntu 24.04 Base + <code>ubuntu24_cis</code></a></li>
             </ul>
