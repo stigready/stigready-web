@@ -11,7 +11,7 @@
       gtag('config', 'G-R2J9HMP1XX');
     </script>
     <title>StigReady Base + StigForge roles — when to use which</title>
-    <meta name="description" content="Use StigReady Base from AWS Marketplace with public StigForge CIS / STIG roles, or choose Applied for scored AMIs out of the box.">
+    <meta name="description" content="Use StigReady Base with public StigForge CIS / STIG roles, or choose Applied for scored AMIs out of the box.">
     <meta name="robots" content="index,follow">
     <meta name="theme-color" content="#0C2340">
     <link rel="canonical" href="https://stigready.com/blog/base-plus-stigforge-roles.html">
@@ -20,12 +20,12 @@
     <meta property="og:site_name" content="StigReady">
     <meta property="og:url" content="https://stigready.com/blog/base-plus-stigforge-roles.html">
     <meta property="og:title" content="StigReady Base + StigForge roles — when to use which">
-    <meta property="og:description" content="Launch Base from AWS Marketplace, then remediate with public StigForge Ansible roles.">
+    <meta property="og:description" content="Use StigReady Base with public StigForge Ansible roles, or choose Applied for scored AMIs.">
     <meta property="og:image" content="https://stigready.com/assets/logo.png">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@Stigready">
     <meta name="twitter:title" content="StigReady Base + StigForge roles — when to use which">
-    <meta name="twitter:description" content="Launch Base from AWS Marketplace, then remediate with public StigForge Ansible roles.">
+    <meta name="twitter:description" content="Use StigReady Base with public StigForge Ansible roles, or choose Applied for scored AMIs.">
     <meta name="twitter:image" content="https://stigready.com/assets/logo.png">
     <script type="application/ld+json">
     {
@@ -33,11 +33,11 @@
       "@type": "BlogPosting",
       "headline": "StigReady Base + StigForge roles — when to use which",
       "datePublished": "2026-07-30",
-      "dateModified": "2026-07-30",
+      "dateModified": "2026-08-12",
       "author": { "@type": "Organization", "name": "StigReady" },
       "publisher": { "@type": "Organization", "name": "StigReady", "url": "https://stigready.com/" },
       "mainEntityOfPage": "https://stigready.com/blog/base-plus-stigforge-roles.html",
-      "description": "Use StigReady Base from AWS Marketplace with public StigForge CIS / STIG roles."
+      "description": "Use StigReady Base with public StigForge CIS / STIG roles, or choose Applied for scored AMIs."
     }
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -78,18 +78,18 @@
         <article class="max-w-3xl mx-auto">
             <p class="text-xs text-gray-500 mb-3"><a href="/blog/" class="text-yellow-500 hover:underline">Blog</a> · 2026-07-30</p>
             <h1 class="text-3xl md:text-4xl font-black text-white mb-6 tracking-tight">StigReady Base + StigForge roles</h1>
-            <p class="text-lg text-gray-300 mb-8">StigReady Base gives you the STIG disk layout and cloud hardening from AWS Marketplace. StigForge gives you public, OpenSCAP-verified Ansible roles for CIS and DISA STIG. Together they are the bring-your-own remediation path.</p>
+            <p class="text-lg text-gray-300 mb-8">StigReady Base gives you the STIG disk layout and cloud hardening. StigForge gives you public, OpenSCAP-verified Ansible roles for CIS and DISA STIG. Together they are the bring-your-own remediation path. For a pricing-focused comparison, see <a href="/blog/base-vs-applied.html">Base vs Applied</a>.</p>
 
             <h2>The two paths</h2>
             <ul>
-                <li><strong class="text-white">StigReady Applied</strong> — subscribe to a CIS or STIG AMI that is already remediated, scored in-build, and ships an evidence bundle. See <a href="/applied/">Applied</a> and the <a href="/#applied-tier">score table</a>.</li>
-                <li><strong class="text-white">StigReady Base + StigForge</strong> — subscribe to Base, then run a public role from <a href="https://github.com/orgs/stigready/repositories?q=cis+OR+stig">github.com/stigready</a> in your own playbooks or image bake. You control when remediation runs and how you re-score.</li>
+                <li><strong class="text-white">StigReady Applied</strong> — a CIS or STIG AMI that is already remediated, scored in-build, and ships an evidence bundle. See <a href="/applied/">Applied</a> and the <a href="/#applied-tier">score table</a>.</li>
+                <li><strong class="text-white">StigReady Base + StigForge</strong> — run Base, then a public role from <a href="https://github.com/orgs/stigready/repositories?q=cis+OR+stig">github.com/stigready</a> in your own playbooks or image bake. You control when remediation runs and how you re-score.</li>
             </ul>
             <p>Use Base + roles when you already have Ansible pipelines, need to tune exceptions, or want the same role in Packer that you run on fleets. Use Applied when you want the score and evidence on day one without wiring OpenSCAP yourself.</p>
 
             <h2>What Base already did for you</h2>
-            <p>Every Base AMI is built from the official OS ISO, patched at bake, and boot-tested on Nitro EC2. The STIG partition layout (<code>/home</code>, <code>/tmp</code>, <code>/var</code>, <code>/var/log</code>, <code>/var/log/audit</code>, <code>/var/tmp</code>) is applied at install — that layout is painful to retrofit later. SSH is key-only; IMDSv2 is enforced; SSM Agent is present.</p>
-            <p>Browse listings on our <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk">AWS Marketplace seller page</a>, or start from the <a href="/#base-tier">Base catalog</a> on stigready.com. RHEL images are BYOL — you bring a Red Hat subscription.</p>
+            <p>Every Base AMI is built from the official OS ISO, patched at bake, and boot-tested on Nitro EC2. The STIG partition layout (<code>/home</code>, <code>/tmp</code>, <code>/var</code>, <code>/var/log</code>, <code>/var/log/audit</code>, <code>/var/tmp</code>) is applied at install — that layout is painful to retrofit later. SSH is key-only; IMDSv2 is enforced; SSM Agent is present. Details: <a href="/blog/stig-disk-layout-that-wont-fight-you.html">STIG disk layout that won't fight you</a>.</p>
+            <p>Start from the <a href="/#base-tier">Base catalog</a> on stigready.com. AWS Marketplace listings are rolling out — watch the <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk">seller page</a> or <a href="mailto:contact@stigready.com">contact us</a> for early access. RHEL images are BYOL — you bring a Red Hat subscription.</p>
 
             <h2>What StigForge roles add</h2>
             <p>Each public role repo (<code>*-cis</code> / <code>*-stig</code>) is a Galaxy-style Ansible role plus immutable OpenSCAP evidence under <code>compliance/releases/</code>. Factory CI verifies against the <strong class="text-white">raw, unmodified SSG profile</strong> with a 90% floor. Published scores live on <a href="/#stigforge">stigready.com/#stigforge</a>.</p>
@@ -97,6 +97,8 @@
 
             <h2>Hands-on next</h2>
             <ul>
+                <li><a href="/blog/base-vs-applied.html">Base vs Applied: which do you actually need?</a></li>
+                <li><a href="/blog/stig-disk-layout-that-wont-fight-you.html">STIG disk layout that won't fight you</a></li>
                 <li><a href="/blog/rhel9-base-stigforge-stig.html">RHEL 9 Base + <code>rhel9_stig</code></a></li>
                 <li><a href="/blog/ubuntu24-base-stigforge-cis.html">Ubuntu 24.04 Base + <code>ubuntu24_cis</code></a></li>
             </ul>

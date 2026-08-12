@@ -11,7 +11,7 @@
       gtag('config', 'G-R2J9HMP1XX');
     </script>
     <title>RHEL 9 Base + rhel9_stig — StigReady how-to</title>
-    <meta name="description" content="Launch StigReady RHEL 9 Base from AWS Marketplace and apply the public StigForge rhel9_stig Ansible role with a pinned release tag.">
+    <meta name="description" content="Apply the public StigForge rhel9_stig Ansible role on StigReady RHEL 9 Base (BYOL) with a pinned release tag.">
     <meta name="robots" content="index,follow">
     <meta name="theme-color" content="#0C2340">
     <link rel="canonical" href="https://stigready.com/blog/rhel9-base-stigforge-stig.html">
@@ -20,12 +20,12 @@
     <meta property="og:site_name" content="StigReady">
     <meta property="og:url" content="https://stigready.com/blog/rhel9-base-stigforge-stig.html">
     <meta property="og:title" content="RHEL 9 Base + rhel9_stig — StigReady how-to">
-    <meta property="og:description" content="Subscribe to RHEL 9 Base on Marketplace, then remediate with the public rhel9_stig role.">
+    <meta property="og:description" content="Apply the public rhel9_stig role on RHEL 9 Base (BYOL) with a pinned tag.">
     <meta property="og:image" content="https://stigready.com/assets/logo.png">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@Stigready">
     <meta name="twitter:title" content="RHEL 9 Base + rhel9_stig — StigReady how-to">
-    <meta name="twitter:description" content="Subscribe to RHEL 9 Base on Marketplace, then remediate with the public rhel9_stig role.">
+    <meta name="twitter:description" content="Apply the public rhel9_stig role on RHEL 9 Base (BYOL) with a pinned tag.">
     <meta name="twitter:image" content="https://stigready.com/assets/logo.png">
     <script type="application/ld+json">
     {
@@ -33,11 +33,11 @@
       "@type": "BlogPosting",
       "headline": "RHEL 9 Base + rhel9_stig",
       "datePublished": "2026-07-30",
-      "dateModified": "2026-07-30",
+      "dateModified": "2026-08-12",
       "author": { "@type": "Organization", "name": "StigReady" },
       "publisher": { "@type": "Organization", "name": "StigReady", "url": "https://stigready.com/" },
       "mainEntityOfPage": "https://stigready.com/blog/rhel9-base-stigforge-stig.html",
-      "description": "Launch StigReady RHEL 9 Base from AWS Marketplace and apply the public rhel9_stig role."
+      "description": "Apply the public rhel9_stig role on StigReady RHEL 9 Base (BYOL)."
     }
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -80,25 +80,24 @@
         <article class="max-w-3xl mx-auto">
             <p class="text-xs text-gray-500 mb-3"><a href="/blog/" class="text-yellow-500 hover:underline">Blog</a> · 2026-07-30 · Hands-on</p>
             <h1 class="text-3xl md:text-4xl font-black text-white mb-6 tracking-tight">RHEL 9 Base + <span class="gold">rhel9_stig</span></h1>
-            <p class="text-lg text-gray-300 mb-8">Launch <strong class="text-white">StigReady RHEL 9 Base</strong> from AWS Marketplace, then apply the public StigForge role <code>rhel9_stig</code> with a pinned release tag.</p>
+            <p class="text-lg text-gray-300 mb-8">Apply the public StigForge role <code>rhel9_stig</code> on <strong class="text-white">StigReady RHEL 9 Base</strong> (BYOL) with a pinned release tag. AWS Marketplace listings are rolling out — use early access via <a href="mailto:contact@stigready.com">contact</a> until public subscribe is live.</p>
 
             <h2>Before you start</h2>
             <ul>
-                <li>An AWS account and permission to subscribe on Marketplace</li>
+                <li>Access to a StigReady RHEL 9 Base AMI (early access / Private Offer, or Marketplace when listed)</li>
                 <li>A Red Hat subscription for the instance (RHEL Base is <strong class="text-white">BYOL</strong>)</li>
                 <li>Ansible 2.16+ on a control host that can SSH to the instance</li>
                 <li>Role pin used in this post: <code>v0.2.4-private-review</code> — check <a href="https://github.com/stigready/rhel9-stig">stigready/rhel9-stig</a> for newer tags</li>
             </ul>
 
-            <h2>1. Subscribe and launch Base</h2>
+            <h2>1. Launch Base</h2>
             <ol>
-                <li>Open the <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk">StigReady seller page</a> on AWS Marketplace.</li>
-                <li>Choose <strong class="text-white">StigReady RHEL 9 - Minimal STIG-Ready Base</strong> for your arch (x86_64 or arm64).</li>
-                <li>Subscribe, then launch into your VPC with a key pair you control. Prefer a security group that allows SSH from your control host only.</li>
+                <li>Watch the <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk">StigReady seller page</a> for public listings, or <a href="mailto:contact@stigready.com">contact us</a> for early access to RHEL 9 Base (x86_64 or arm64).</li>
+                <li>Launch into your VPC with a key pair you control. Prefer a security group that allows SSH from your control host only.</li>
                 <li>SSH as <code>ec2-user</code> (or use SSM Session Manager — the agent is preinstalled).</li>
             </ol>
             <pre><code>ssh -i your-key.pem ec2-user@&lt;instance-ip&gt;</code></pre>
-            <p>Confirm the STIG mounts exist (<code>lsblk</code>, <code>findmnt</code>) before remediating — Base already laid them down at install.</p>
+            <p>Confirm the STIG mounts exist (<code>lsblk</code>, <code>findmnt</code>) before remediating — Base already laid them down at install. See <a href="/blog/stig-disk-layout-that-wont-fight-you.html">STIG disk layout that won't fight you</a>.</p>
 
             <h2>2. Install the role (pinned tag)</h2>
             <p>On your Ansible control host:</p>
@@ -140,6 +139,8 @@ rhel9-base ansible_host=&lt;instance-ip&gt; ansible_user=ec2-user
             <h2>Related</h2>
             <ul>
                 <li><a href="/blog/base-plus-stigforge-roles.html">Series overview</a></li>
+                <li><a href="/blog/base-vs-applied.html">Base vs Applied</a></li>
+                <li><a href="/blog/stig-disk-layout-that-wont-fight-you.html">STIG disk layout that won't fight you</a></li>
                 <li><a href="/blog/ubuntu24-base-stigforge-cis.html">Ubuntu 24.04 Base + ubuntu24_cis</a></li>
                 <li><a href="https://github.com/stigready/rhel9-stig">github.com/stigready/rhel9-stig</a></li>
             </ul>

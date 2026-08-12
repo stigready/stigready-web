@@ -11,21 +11,22 @@
       gtag('config', 'G-R2J9HMP1XX');
     </script>
     <title>Blog — StigReady Base + StigForge Roles</title>
-    <meta name="description" content="How-tos for launching StigReady Base from AWS Marketplace and applying public StigForge CIS / DISA STIG Ansible roles with published OpenSCAP scores.">
+    <meta name="description" content="Evergreen explainers and how-tos for StigReady Base, Applied, and public StigForge CIS / DISA STIG Ansible roles.">
     <meta name="robots" content="index,follow">
     <meta name="theme-color" content="#0C2340">
     <link rel="canonical" href="https://stigready.com/blog/">
+    <link rel="alternate" type="application/rss+xml" title="StigReady Blog" href="https://stigready.com/blog/rss.xml">
     <link rel="icon" type="image/png" href="https://stigready.com/assets/logo.png">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="StigReady">
     <meta property="og:url" content="https://stigready.com/blog/">
     <meta property="og:title" content="Blog — StigReady Base + StigForge Roles">
-    <meta property="og:description" content="Launch StigReady Base from AWS Marketplace, then remediate with public StigForge Ansible roles.">
+    <meta property="og:description" content="Evergreen explainers and how-tos for StigReady Base, Applied, and public StigForge roles.">
     <meta property="og:image" content="https://stigready.com/assets/logo.png">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@Stigready">
     <meta name="twitter:title" content="Blog — StigReady Base + StigForge Roles">
-    <meta name="twitter:description" content="Launch StigReady Base from AWS Marketplace, then remediate with public StigForge Ansible roles.">
+    <meta name="twitter:description" content="Evergreen explainers and how-tos for StigReady Base, Applied, and public StigForge roles.">
     <meta name="twitter:image" content="https://stigready.com/assets/logo.png">
     <script type="application/ld+json">
     {
@@ -33,7 +34,7 @@
       "@type": "Blog",
       "name": "StigReady Blog",
       "url": "https://stigready.com/blog/",
-      "description": "How-tos for StigReady Base on AWS Marketplace and public StigForge CIS / STIG Ansible roles.",
+      "description": "Evergreen explainers and how-tos for StigReady Base, Applied, and public StigForge CIS / STIG Ansible roles.",
       "publisher": {
         "@type": "Organization",
         "name": "StigReady",
@@ -70,12 +71,17 @@
     <main class="flex-1 py-16 px-4">
         <div class="max-w-3xl mx-auto">
             <p class="text-xs text-yellow-500 font-semibold uppercase tracking-widest mb-2">Blog</p>
-            <h1 class="text-3xl md:text-4xl font-black text-white mb-3">Base + StigForge how-tos</h1>
-            <p class="text-gray-400 mb-10">Subscribe to StigReady Base on AWS Marketplace, then apply public StigForge CIS / STIG Ansible roles.</p>
+            <h1 class="text-3xl md:text-4xl font-black text-white mb-3">Base, Applied, and StigForge</h1>
+            <p class="text-gray-400 mb-10">Evergreen explainers and how-tos. AWS Marketplace listings are rolling out — <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">contact us</a> for early access, or watch the <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk" class="text-yellow-500 hover:underline">seller page</a>.</p>
 
             <section aria-labelledby="published">
                 <h2 id="published" class="text-xl font-bold text-white mb-4">Posts</h2>
                 <ul class="space-y-4">
+                    <li class="bg-gray-800 border border-gray-700 rounded-lg p-5 hover:border-yellow-600 transition">
+                        <p class="text-xs text-gray-500 mb-1">2026-08-12 · Evergreen</p>
+                        <a href="/blog/base-vs-applied.html" class="text-lg font-semibold text-yellow-500 hover:underline">Base vs Applied: which do you actually need?</a>
+                        <p class="text-gray-400 text-sm mt-2">$0.02/hr · $149/yr layout and hardening vs $0.08/hr · $649/yr scored remediation with an evidence bundle.</p>
+                    </li>
                     <li class="bg-gray-800 border border-gray-700 rounded-lg p-5 hover:border-yellow-600 transition">
                         <p class="text-xs text-gray-500 mb-1">2026-08-12 · Launch series</p>
                         <a href="/blog/stig-disk-layout-that-wont-fight-you.html" class="text-lg font-semibold text-yellow-500 hover:underline">STIG disk layout that won't fight you</a>
@@ -89,12 +95,12 @@
                     <li class="bg-gray-800 border border-gray-700 rounded-lg p-5 hover:border-yellow-600 transition">
                         <p class="text-xs text-gray-500 mb-1">2026-07-30 · Hands-on</p>
                         <a href="/blog/rhel9-base-stigforge-stig.html" class="text-lg font-semibold text-yellow-500 hover:underline">RHEL 9 Base + <code class="text-yellow-400">rhel9_stig</code></a>
-                        <p class="text-gray-400 text-sm mt-2">Launch RHEL 9 Base from Marketplace and apply the public DISA STIG role.</p>
+                        <p class="text-gray-400 text-sm mt-2">Apply the public DISA STIG role on RHEL 9 Base (BYOL) with a pinned release tag.</p>
                     </li>
                     <li class="bg-gray-800 border border-gray-700 rounded-lg p-5 hover:border-yellow-600 transition">
                         <p class="text-xs text-gray-500 mb-1">2026-07-30 · Hands-on</p>
                         <a href="/blog/ubuntu24-base-stigforge-cis.html" class="text-lg font-semibold text-yellow-500 hover:underline">Ubuntu 24.04 Base + <code class="text-yellow-400">ubuntu24_cis</code></a>
-                        <p class="text-gray-400 text-sm mt-2">Launch Ubuntu 24.04 Base and apply the public CIS Level 1 role.</p>
+                        <p class="text-gray-400 text-sm mt-2">Apply the public CIS Level 1 role on Ubuntu 24.04 Base with a pinned release tag.</p>
                     </li>
                 </ul>
             </section>
