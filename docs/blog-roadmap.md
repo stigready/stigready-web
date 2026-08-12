@@ -19,9 +19,15 @@ When a post ships: add it to the public Posts list, add the URL to `sitemap.xml`
 4. arm64 (Graviton): Base + roles on the same matrix cell
 5. RHEL 8 and RHEL 10 Base + matching StigForge roles
 6. Re-score after remediation: OpenSCAP evidence and `make prove`
-7. Base vs Applied: buy remediated AMIs or bring your own roles
-8. Pinning role tags in Packer / golden-image pipelines
-9. Amazon Linux 2023 Base today; Applied CIS/STIG when built
+7. Pinning role tags in Packer / golden-image pipelines
+8. Amazon Linux 2023 Base today; Applied CIS/STIG when built
+
+## Shipped evergreen / launch-series (2026-08-12)
+
+- STIG disk layout that won't fight you → `blog/stig-disk-layout-that-wont-fight-you.html` (PR #27)
+- Base vs Applied: which do you actually need? → `blog/base-vs-applied.html` (infra + evergreen PR)
+
+Week 1 launch announcement remains gated on first public Marketplace listing + `marketplace-urls.yml`.
 
 ## Hands-on post template
 

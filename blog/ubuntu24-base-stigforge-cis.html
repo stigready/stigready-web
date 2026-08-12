@@ -11,7 +11,7 @@
       gtag('config', 'G-R2J9HMP1XX');
     </script>
     <title>Ubuntu 24.04 Base + ubuntu24_cis — StigReady how-to</title>
-    <meta name="description" content="Launch StigReady Ubuntu 24.04 Base from AWS Marketplace and apply the public StigForge ubuntu24_cis Ansible role (CIS Level 1 by default).">
+    <meta name="description" content="Apply the public StigForge ubuntu24_cis Ansible role on StigReady Ubuntu 24.04 Base (CIS Level 1 by default).">
     <meta name="robots" content="index,follow">
     <meta name="theme-color" content="#0C2340">
     <link rel="canonical" href="https://stigready.com/blog/ubuntu24-base-stigforge-cis.html">
@@ -20,12 +20,12 @@
     <meta property="og:site_name" content="StigReady">
     <meta property="og:url" content="https://stigready.com/blog/ubuntu24-base-stigforge-cis.html">
     <meta property="og:title" content="Ubuntu 24.04 Base + ubuntu24_cis — StigReady how-to">
-    <meta property="og:description" content="Subscribe to Ubuntu 24.04 Base on Marketplace, then remediate with the public ubuntu24_cis role.">
+    <meta property="og:description" content="Apply the public ubuntu24_cis role on Ubuntu 24.04 Base with a pinned tag.">
     <meta property="og:image" content="https://stigready.com/assets/logo.png">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@Stigready">
     <meta name="twitter:title" content="Ubuntu 24.04 Base + ubuntu24_cis — StigReady how-to">
-    <meta name="twitter:description" content="Subscribe to Ubuntu 24.04 Base on Marketplace, then remediate with the public ubuntu24_cis role.">
+    <meta name="twitter:description" content="Apply the public ubuntu24_cis role on Ubuntu 24.04 Base with a pinned tag.">
     <meta name="twitter:image" content="https://stigready.com/assets/logo.png">
     <script type="application/ld+json">
     {
@@ -33,11 +33,11 @@
       "@type": "BlogPosting",
       "headline": "Ubuntu 24.04 Base + ubuntu24_cis",
       "datePublished": "2026-07-30",
-      "dateModified": "2026-07-30",
+      "dateModified": "2026-08-12",
       "author": { "@type": "Organization", "name": "StigReady" },
       "publisher": { "@type": "Organization", "name": "StigReady", "url": "https://stigready.com/" },
       "mainEntityOfPage": "https://stigready.com/blog/ubuntu24-base-stigforge-cis.html",
-      "description": "Launch StigReady Ubuntu 24.04 Base and apply the public ubuntu24_cis Ansible role."
+      "description": "Apply the public ubuntu24_cis role on StigReady Ubuntu 24.04 Base."
     }
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -80,20 +80,19 @@
         <article class="max-w-3xl mx-auto">
             <p class="text-xs text-gray-500 mb-3"><a href="/blog/" class="text-yellow-500 hover:underline">Blog</a> · 2026-07-30 · Hands-on</p>
             <h1 class="text-3xl md:text-4xl font-black text-white mb-6 tracking-tight">Ubuntu 24.04 Base + <span class="gold">ubuntu24_cis</span></h1>
-            <p class="text-lg text-gray-300 mb-8">Launch <strong class="text-white">StigReady Ubuntu 24.04 Base</strong> from AWS Marketplace, then apply the public StigForge role <code>ubuntu24_cis</code>. Defaults target <strong class="text-white">CIS Level 1</strong>; Level 2 evidence ships in the same release tree.</p>
+            <p class="text-lg text-gray-300 mb-8">Apply the public StigForge role <code>ubuntu24_cis</code> on <strong class="text-white">StigReady Ubuntu 24.04 Base</strong>. Defaults target <strong class="text-white">CIS Level 1</strong>; Level 2 evidence ships in the same release tree. AWS Marketplace listings are rolling out — use early access via <a href="mailto:contact@stigready.com">contact</a> until public subscribe is live.</p>
 
             <h2>Before you start</h2>
             <ul>
-                <li>An AWS account and permission to subscribe on Marketplace</li>
+                <li>Access to a StigReady Ubuntu 24.04 Base AMI (early access / Private Offer, or Marketplace when listed)</li>
                 <li>Ansible 2.16+ on a control host that can SSH to the instance</li>
                 <li>Role pin used in this post: <code>v0.2.4-private-review</code> — check <a href="https://github.com/stigready/ubuntu24-cis">stigready/ubuntu24-cis</a> for newer tags</li>
             </ul>
 
-            <h2>1. Subscribe and launch Base</h2>
+            <h2>1. Launch Base</h2>
             <ol>
-                <li>Open the <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk">StigReady seller page</a> on AWS Marketplace.</li>
-                <li>Choose <strong class="text-white">StigReady Ubuntu 24.04 - Minimal STIG-Ready Base</strong> for your arch (x86_64 or arm64).</li>
-                <li>Subscribe, then launch with a key pair you control.</li>
+                <li>Watch the <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk">StigReady seller page</a> for public listings, or <a href="mailto:contact@stigready.com">contact us</a> for early access to Ubuntu 24.04 Base (x86_64 or arm64).</li>
+                <li>Launch with a key pair you control.</li>
                 <li>SSH as <code>ubuntu</code> (or use SSM Session Manager).</li>
             </ol>
             <pre><code>ssh -i your-key.pem ubuntu@&lt;instance-ip&gt;</code></pre>
@@ -135,6 +134,7 @@ ubuntu24-base ansible_host=&lt;instance-ip&gt; ansible_user=ubuntu
             <h2>Related</h2>
             <ul>
                 <li><a href="/blog/base-plus-stigforge-roles.html">Series overview</a></li>
+                <li><a href="/blog/base-vs-applied.html">Base vs Applied</a></li>
                 <li><a href="/blog/rhel9-base-stigforge-stig.html">RHEL 9 Base + rhel9_stig</a></li>
                 <li><a href="https://github.com/stigready/ubuntu24-cis">github.com/stigready/ubuntu24-cis</a></li>
             </ul>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R2J9HMP1XX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-R2J9HMP1XX');
+    </script>
+    <title>Base vs Applied: which do you actually need? — StigReady</title>
+    <meta name="description" content="StigReady Base ($0.02/hr or $149/yr) is layout and cloud hardening. Applied ($0.08/hr or $649/yr) is scored CIS/STIG remediation with an evidence bundle.">
+    <meta name="robots" content="index,follow">
+    <meta name="theme-color" content="#0C2340">
+    <link rel="canonical" href="https://stigready.com/blog/base-vs-applied.html">
+    <link rel="icon" type="image/png" href="https://stigready.com/assets/logo.png">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="StigReady">
+    <meta property="og:url" content="https://stigready.com/blog/base-vs-applied.html">
+    <meta property="og:title" content="Base vs Applied: which do you actually need? — StigReady">
+    <meta property="og:description" content="Base ($0.02/hr or $149/yr) vs Applied ($0.08/hr or $649/yr) — layout and hardening versus scored remediation plus evidence.">
+    <meta property="og:image" content="https://stigready.com/assets/logo.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@Stigready">
+    <meta name="twitter:title" content="Base vs Applied: which do you actually need? — StigReady">
+    <meta name="twitter:description" content="Base ($0.02/hr or $149/yr) vs Applied ($0.08/hr or $649/yr) — layout and hardening versus scored remediation plus evidence.">
+    <meta name="twitter:image" content="https://stigready.com/assets/logo.png">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Base vs Applied: which do you actually need?",
+      "datePublished": "2026-08-12",
+      "dateModified": "2026-08-12",
+      "author": { "@type": "Organization", "name": "StigReady" },
+      "publisher": { "@type": "Organization", "name": "StigReady", "url": "https://stigready.com/" },
+      "mainEntityOfPage": "https://stigready.com/blog/base-vs-applied.html",
+      "description": "StigReady Base ($0.02/hr) vs Applied ($0.08/hr) — layout and hardening versus scored remediation with evidence."
+    }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gold { color: #C9A84C; }
+        .bg-navy { background-color: #0C2340; }
+        article h2 { font-size: 1.25rem; font-weight: 700; color: #fff; margin: 2rem 0 0.75rem; }
+        article p, article li { color: #d1d5db; line-height: 1.7; }
+        article p { margin-bottom: 1rem; }
+        article ul { list-style: disc; padding-left: 1.25rem; margin-bottom: 1rem; }
+        article a { color: #EAB308; }
+        article a:hover { text-decoration: underline; }
+        article code { color: #facc15; font-size: 0.9em; }
+        article table { width: 100%; font-size: 0.875rem; margin-bottom: 1rem; border-collapse: collapse; }
+        article th { text-align: left; padding: 0.75rem 1rem; background: #0C2340; color: #d1d5db; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; }
+        article td { padding: 0.75rem 1rem; border-top: 1px solid #374151; vertical-align: top; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col">
+        <nav class="bg-navy border-b border-gray-800 px-6 py-4 sticky top-0 z-20">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <a href="/" class="flex items-center space-x-3" aria-label="StigReady home">
+                <img src="/assets/logo.png" alt="StigReady" class="h-10 w-auto" width="40" height="40"/>
+                <span class="text-xl font-black tracking-wide"><span class="text-white">STIG</span><span class="gold">READY</span></span>
+            </a>
+            <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                <a href="/#base-tier" class="text-gray-300 hover:text-white transition">Base</a>
+                <a href="/#applied-tier" class="text-gray-300 hover:text-white transition">Applied</a>
+                <a href="/#stigforge" class="text-gray-300 hover:text-white transition">StigForge</a>
+                <a href="/blog/" class="text-gray-300 hover:text-white transition">Blog</a>
+                <a href="/#pricing" class="text-gray-300 hover:text-white transition">Pricing</a>
+                <a href="mailto:contact@stigready.com" class="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded-md font-semibold transition">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-1 py-16 px-4">
+        <article class="max-w-3xl mx-auto">
+            <p class="text-xs text-gray-500 mb-3"><a href="/blog/" class="text-yellow-500 hover:underline">Blog</a> · 2026-08-12 · Evergreen</p>
+            <h1 class="text-3xl md:text-4xl font-black text-white mb-6 tracking-tight">Base vs Applied: which do you actually need?</h1>
+            <p class="text-lg text-gray-300 mb-8">One hardened foundation, two ways to buy it. <strong class="text-white">Base</strong> at <strong class="text-white">$0.02/hr</strong> (or <strong class="text-white">$149/yr</strong>) is the STIG disk layout and cloud hardening — bring your own profiles. <strong class="text-white">Applied</strong> at <strong class="text-white">$0.08/hr</strong> (or <strong class="text-white">$649/yr</strong>) is that same foundation plus scored CIS or DISA STIG remediation and an evidence bundle.</p>
+
+            <h2>Side by side</h2>
+            <div class="bg-gray-800 rounded-lg overflow-hidden border border-gray-700 mb-4">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Base</th>
+                            <th>Applied</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-white font-semibold">Software fee</td>
+                            <td>$0.02/hr · or $149/yr</td>
+                            <td>$0.08/hr · or $649/yr</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white font-semibold">What you get</td>
+                            <td>STIG partition layout, SSH key-only, IMDSv2, SSM Agent, minimal patched OS</td>
+                            <td>Everything in Base + full CIS L1/L2 or DISA STIG remediation</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white font-semibold">Scoring</td>
+                            <td>None published for Base — you remediate and score yourself</td>
+                            <td>Scored in-build against the raw SSG profile (90% floor, no-regression ratchet)</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white font-semibold">Evidence</td>
+                            <td>Bring your own OpenSCAP / POA&amp;M pipeline</td>
+                            <td>Bundle: ARF, HTML report, POA&amp;M, SBOM, CVE scan</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white font-semibold">Best when</td>
+                            <td>You already run Ansible / Packer and want control</td>
+                            <td>You need a scored AMI and proof on day one</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>EC2 compute is billed separately by AWS either way. See <a href="/#pricing">pricing</a> on stigready.com.</p>
+
+            <h2>Choose Base when…</h2>
+            <ul>
+                <li>You already have CIS / STIG Ansible (or will use public <a href="/#stigforge">StigForge</a> roles) and want the layout done at install.</li>
+                <li>You need to tune exceptions, pin role tags, or bake the same role into Packer that you run on fleets.</li>
+                <li>You want the lower software fee and will own scoring and evidence yourself.</li>
+            </ul>
+            <p>Base is intentionally <strong class="text-white">not</strong> a compliance score product. We do not publish OpenSCAP percentages or CVE counts for Base. Read more about the layout in <a href="/blog/stig-disk-layout-that-wont-fight-you.html">STIG disk layout that won't fight you</a>.</p>
+
+            <h2>Choose Applied when…</h2>
+            <ul>
+                <li>Auditors expect a remediated image and artifacts without wiring OpenSCAP in your pipeline first.</li>
+                <li>You want FIPS-enabled STIG images and published scores on the <a href="/#applied-tier">Applied table</a>.</li>
+                <li>Time-to-evidence matters more than bringing your own roles.</li>
+            </ul>
+            <p>Browse OS and profile coverage on the <a href="/applied/">Applied</a> page. We only show cells that exist in the published catalog — no invented scores.</p>
+
+            <h2>A third path: Base + StigForge roles</h2>
+            <p>If you want Base economics with public, OpenSCAP-verified roles, use <strong class="text-white">Base + StigForge</strong>: launch Base, then pin a <code>*-cis</code> or <code>*-stig</code> role from <a href="https://github.com/orgs/stigready/repositories?q=cis+OR+stig">github.com/stigready</a>. That path is covered in the <a href="/blog/base-plus-stigforge-roles.html">series overview</a> and hands-on how-tos.</p>
+
+            <h2>RHEL note</h2>
+            <p>RHEL Base and Applied images are <strong class="text-white">BYOL</strong>. You attach your own Red Hat subscription. StigReady does not sell Red Hat licenses.</p>
+
+            <h2>How to get started</h2>
+            <ul>
+                <li>Compare tiers on <a href="/">stigready.com</a> — <a href="/#base-tier">Base</a>, <a href="/#applied-tier">Applied</a>, <a href="/#pricing">Pricing</a></li>
+                <li>AWS Marketplace is coming soon for public subscribe/launch — watch the <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk">seller profile</a> or <a href="mailto:contact@stigready.com">contact us</a> for early access, volume, or Private Offers</li>
+            </ul>
+
+            <p class="text-sm text-gray-500 mt-10 pt-6 border-t border-gray-800">Questions? <a href="mailto:contact@stigready.com">contact@stigready.com</a></p>
+        </article>
+    </main>
+
+        <footer class="bg-navy py-10 px-4 mt-auto border-t border-gray-800">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+                <div class="flex items-center space-x-3">
+                    <img src="/assets/logo.png" alt="StigReady" class="h-8 w-auto"/>
+                    <span class="font-black tracking-wide"><span class="text-white">STIG</span><span class="gold">READY</span></span>
+                </div>
+                <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
+                    <a href="/#base-tier" class="hover:text-white transition">Base</a>
+                    <a href="/applied/" class="hover:text-white transition">Applied</a>
+                    <a href="/#stigforge" class="hover:text-white transition">StigForge</a>
+                    <a href="/blog/" class="hover:text-white transition">Blog</a>
+                    <a href="/#pricing" class="hover:text-white transition">Pricing</a>
+                    <a href="mailto:contact@stigready.com" class="hover:text-white transition">contact@stigready.com</a>
+                </div>
+            </div>
+            <p class="text-center text-xs text-gray-600">&copy; 2026 StigReady. All rights reserved.</p>
+            <p class="text-center text-xs text-gray-600 mt-3 max-w-3xl mx-auto">
+                Not affiliated with or endorsed by DISA, DoD, NIST, CIS, Red Hat, or Canonical. All trademarks are the property of their respective owners. Red Hat® and Red Hat Enterprise Linux® are trademarks of Red Hat, Inc. Ubuntu® is a trademark of Canonical Ltd. CIS® and CIS Benchmarks™ are trademarks of the Center for Internet Security, Inc. StigReady does not provide commercial licenses for Red Hat products.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

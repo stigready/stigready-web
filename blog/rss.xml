@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>StigReady Blog</title>
+    <link>https://stigready.com/blog/</link>
+    <description>Evergreen explainers and how-tos for StigReady Base, Applied, and public StigForge CIS / STIG Ansible roles.</description>
+    <language>en-us</language>
+    <atom:link href="https://stigready.com/blog/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Base vs Applied: which do you actually need?</title>
+      <link>https://stigready.com/blog/base-vs-applied.html</link>
+      <guid isPermaLink="true">https://stigready.com/blog/base-vs-applied.html</guid>
+      <pubDate>Wed, 12 Aug 2026 12:00:00 GMT</pubDate>
+      <description>Base ($0.02/hr or $149/yr) is layout and cloud hardening. Applied ($0.08/hr or $649/yr) is scored CIS/STIG remediation with an evidence bundle.</description>
+    </item>
+    <item>
+      <title>STIG disk layout that won't fight you</title>
+      <link>https://stigready.com/blog/stig-disk-layout-that-wont-fight-you.html</link>
+      <guid isPermaLink="true">https://stigready.com/blog/stig-disk-layout-that-wont-fight-you.html</guid>
+      <pubDate>Wed, 12 Aug 2026 12:00:00 GMT</pubDate>
+      <description>Why Base bakes the STIG LVM layout at install — and why retrofitting partitions later is the wrong fight.</description>
+    </item>
+    <item>
+      <title>StigReady Base + StigForge roles</title>
+      <link>https://stigready.com/blog/base-plus-stigforge-roles.html</link>
+      <guid isPermaLink="true">https://stigready.com/blog/base-plus-stigforge-roles.html</guid>
+      <pubDate>Wed, 30 Jul 2026 12:00:00 GMT</pubDate>
+      <description>When to use Base with bring-your-own roles vs Applied, and how the pieces fit.</description>
+    </item>
+    <item>
+      <title>RHEL 9 Base + rhel9_stig</title>
+      <link>https://stigready.com/blog/rhel9-base-stigforge-stig.html</link>
+      <guid isPermaLink="true">https://stigready.com/blog/rhel9-base-stigforge-stig.html</guid>
+      <pubDate>Wed, 30 Jul 2026 12:00:00 GMT</pubDate>
+      <description>Apply the public DISA STIG role on RHEL 9 Base (BYOL) with a pinned release tag.</description>
+    </item>
+    <item>
+      <title>Ubuntu 24.04 Base + ubuntu24_cis</title>
+      <link>https://stigready.com/blog/ubuntu24-base-stigforge-cis.html</link>
+      <guid isPermaLink="true">https://stigready.com/blog/ubuntu24-base-stigforge-cis.html</guid>
+      <pubDate>Wed, 30 Jul 2026 12:00:00 GMT</pubDate>
+      <description>Apply the public CIS Level 1 role on Ubuntu 24.04 Base with a pinned release tag.</description>
+    </item>
+  </channel>
+</rss>
