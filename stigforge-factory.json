@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-08-05",
+  "generated": "2026-08-12",
   "factory_repo": "stigready/stigforge",
   "factory_repo_visibility": "private",
   "factory_commit": "37a1756",
@@ -21,7 +21,7 @@
       "matrix_status": "green",
       "github_repo": "stigready/rhel10-cis",
       "role_repo_visibility": "public",
-      "pinned_commit": "85139941f69e",
+      "pinned_commit": "fa6c0e5ff1c4",
       "profiles": [
         {
           "profile": "cis-l1",
@@ -42,6 +42,14 @@
         {
           "profile": "cis-l2",
           "score_pct": 92.4,
+          "min_score": 90.0,
+          "meets_floor": true,
+          "gate_pass": true,
+          "source": "stigready_inventory"
+        },
+        {
+          "profile": "cis-l1",
+          "score_pct": 90.6,
           "min_score": 90.0,
           "meets_floor": true,
           "gate_pass": true,
@@ -56,7 +64,7 @@
       "matrix_status": "green",
       "github_repo": "stigready/rhel10-stig",
       "role_repo_visibility": "public",
-      "pinned_commit": "a0c9517ba937",
+      "pinned_commit": "afea47c7c90d",
       "profiles": [
         {
           "profile": "cis-l1",
@@ -81,6 +89,14 @@
           "meets_floor": true,
           "gate_pass": true,
           "source": "stigready_inventory"
+        },
+        {
+          "profile": "cis-l1",
+          "score_pct": 90.6,
+          "min_score": 90.0,
+          "meets_floor": true,
+          "gate_pass": true,
+          "source": "stigready_inventory"
         }
       ]
     },
@@ -91,7 +107,7 @@
       "matrix_status": "green",
       "github_repo": "stigready/rhel8-cis",
       "role_repo_visibility": "public",
-      "pinned_commit": "e8f663b37d49",
+      "pinned_commit": "8c4152fea6ea",
       "profiles": [
         {
           "profile": "cis-l1",
@@ -158,7 +174,7 @@
       "matrix_status": "green",
       "github_repo": "stigready/rhel8-stig",
       "role_repo_visibility": "public",
-      "pinned_commit": "72ef98772822",
+      "pinned_commit": "d9da091695dc",
       "profiles": [
         {
           "profile": "cis-l1",
@@ -225,7 +241,7 @@
       "matrix_status": "green",
       "github_repo": "stigready/rhel9-cis",
       "role_repo_visibility": "public",
-      "pinned_commit": "defd1b8779d1",
+      "pinned_commit": "c9e803f2df04",
       "profiles": [
         {
           "profile": "cis-l1",
@@ -268,7 +284,7 @@
       "matrix_status": "green",
       "github_repo": "stigready/rhel9-stig",
       "role_repo_visibility": "public",
-      "pinned_commit": "de581f80eb72",
+      "pinned_commit": "9c967ba7e373",
       "profiles": [
         {
           "profile": "cis-l1",
