@@ -12,8 +12,8 @@
       gtag('config', 'G-R2J9HMP1XX');
     </script>
 
-    <title>StigReady — Hardened AWS AMIs with Published OpenSCAP Scores</title>
-    <meta name="description" content="Hardened AWS AMIs with published OpenSCAP scores. StigReady Base and Applied for CIS and DISA STIG on x86_64 and arm64 — AWS Marketplace.">
+    <title>StigReady — STIG AMI &amp; CIS Hardened AMI with OpenSCAP Scores</title>
+    <meta name="description" content="STIG AMI and CIS hardened AMI images for AWS. StigReady Base and Applied with published OpenSCAP scores on x86_64 and arm64. Marketplace listings rolling out.">
     <meta name="author" content="StigReady">
     <meta name="robots" content="index,follow,max-image-preview:large">
     <meta name="theme-color" content="#0C2340">
@@ -26,16 +26,16 @@
     <meta property="og:site_name" content="StigReady">
     <meta property="og:locale" content="en_US">
     <meta property="og:url" content="https://stigready.com/">
-    <meta property="og:title" content="StigReady — Hardened AWS AMIs with Published OpenSCAP Scores">
-    <meta property="og:description" content="Base and Applied hardened AMIs for AWS. Published OpenSCAP scores on x86_64 and arm64.">
+    <meta property="og:title" content="StigReady — STIG AMI &amp; CIS Hardened AMI with OpenSCAP Scores">
+    <meta property="og:description" content="STIG AMI and CIS hardened AMI images for AWS. Published OpenSCAP scores on x86_64 and arm64.">
     <meta property="og:image" content="https://stigready.com/assets/logo.png">
     <meta property="og:image:alt" content="StigReady logo">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@Stigready">
-    <meta name="twitter:title" content="StigReady — Hardened AWS AMIs with Published OpenSCAP Scores">
-    <meta name="twitter:description" content="Base and Applied hardened AMIs for AWS. Published OpenSCAP scores on x86_64 and arm64.">
+    <meta name="twitter:title" content="StigReady — STIG AMI &amp; CIS Hardened AMI with OpenSCAP Scores">
+    <meta name="twitter:description" content="STIG AMI and CIS hardened AMI images for AWS. Published OpenSCAP scores on x86_64 and arm64.">
     <meta name="twitter:image" content="https://stigready.com/assets/logo.png">
 
     <script type="application/ld+json">
@@ -53,7 +53,7 @@
           },
           "email": "contact@stigready.com",
           "sameAs": ["https://x.com/Stigready"],
-          "description": "Hardened AWS AMIs — StigReady Base and StigReady Applied — with published OpenSCAP scores and auditor-grade evidence."
+          "description": "STIG AMI and CIS hardened AMI images for AWS — StigReady Base and Applied — with published OpenSCAP scores and auditor-grade evidence."
         },
         {
           "@type": "WebSite",
@@ -67,11 +67,58 @@
           "@type": "WebPage",
           "@id": "https://stigready.com/#webpage",
           "url": "https://stigready.com/",
-          "name": "StigReady — Hardened AWS AMIs with Published OpenSCAP Scores",
+          "name": "StigReady — STIG AMI & CIS Hardened AMI with OpenSCAP Scores",
           "isPartOf": { "@id": "https://stigready.com/#website" },
           "about": { "@id": "https://stigready.com/#organization" },
-          "description": "Hardened AWS AMIs with published OpenSCAP scores. StigReady Base and StigReady Applied for CIS Benchmark and DISA STIG workloads on x86_64 and arm64.",
+          "description": "STIG AMI and CIS hardened AMI images for AWS. StigReady Base and Applied with published OpenSCAP scores on x86_64 and arm64.",
           "inLanguage": "en-US"
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://stigready.com/#faq",
+          "isPartOf": { "@id": "https://stigready.com/#webpage" },
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is the difference between StigReady Base and Applied pricing?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "StigReady Base is $0.02/hr or $149/yr per instance — STIG disk layout, SSH hardening, and cloud-ready defaults; you bring your own CIS/STIG profiles. StigReady Applied is $0.08/hr or $649/yr per instance — full CIS Level 1/2 or DISA STIG remediation with published OpenSCAP scores and an evidence bundle. Both fees are Marketplace software fees on top of normal EC2 costs."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What OpenSCAP evidence ships with Applied?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Every Applied image includes an OpenSCAP ARF result, HTML report, POA&M, SBOM, and CVE scan. Scores are measured in-build against the raw, unmodified SSG profile. StigReady is not affiliated with or endorsed by DISA, DoD, NIST, or CIS, and does not claim certified, authorized, or accredited status."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do you support arm64 / Graviton?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. StigReady Base and Applied build for both x86_64 and arm64 (Graviton). Use the architecture filters on the Base and Applied catalogs to see cells we actually build."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Are RHEL images BYOL?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Red Hat Enterprise Linux images are BYOL — you supply your own Red Hat subscription. StigReady does not sell or provide Red Hat commercial licenses."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Are StigReady AMIs available on AWS Marketplace?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "AWS Marketplace listings are rolling out. Watch our seller profile or email contact@stigready.com for early access and Private Offers. We do not publish per-SKU Marketplace listing URLs or AMI IDs on this site."
+              }
+            }
+          ]
         }
       ]
     }
@@ -113,12 +160,12 @@
         <div class="max-w-4xl mx-auto">
             <img src="assets/logo.png" alt="StigReady" class="h-24 w-auto mx-auto mb-8"/>
             <h1 class="text-4xl md:text-5xl font-black mb-4 tracking-tight">
-                <span class="text-white">Build on what auditors expect.</span><br/>
-                <span class="gold">Add proof when you need it.</span>
+                <span class="text-white">STIG AMI &amp; CIS hardened AMI</span><br/>
+                <span class="gold">with published OpenSCAP scores</span>
             </h1>
             <p class="text-lg text-gray-300 mb-6 max-w-2xl mx-auto">
                 One hardened foundation — two ways to use it. All built from the official OS ISO,
-                patched, and boot-tested on real EC2 Nitro. Available on AWS Marketplace.
+                patched, and boot-tested on real EC2 Nitro. AWS Marketplace listings are rolling out.
             </p>
             <!-- Tier pills -->
             <div class="flex flex-col sm:flex-row justify-center gap-4 mb-8">
@@ -138,11 +185,18 @@
                 <div class="font-bold">Public CIS / STIG Ansible roles</div>
                 <div class="text-xs text-gray-400 mt-0.5">OpenSCAP-verified with published scores and evidence per release</div>
             </a>
-            <a href="mailto:contact@stigready.com"
-               class="inline-block bg-yellow-600 hover:bg-yellow-500 text-white px-8 py-3 rounded-md font-bold text-lg transition">
-                Contact Us
-            </a>
-            <p class="text-xs text-gray-500 mt-4">AWS Marketplace · x86_64 and arm64 (Graviton)</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-3 items-center">
+                <a href="mailto:contact@stigready.com"
+                   class="inline-block bg-yellow-600 hover:bg-yellow-500 text-white px-8 py-3 rounded-md font-bold text-lg transition">
+                    Contact for early access
+                </a>
+                <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk"
+                   class="inline-block bg-gray-700 hover:bg-gray-600 text-white px-6 py-3 rounded-md font-semibold transition"
+                   rel="noopener noreferrer">
+                    AWS Marketplace seller profile
+                </a>
+            </div>
+            <p class="text-xs text-gray-500 mt-4">Marketplace listings rolling out · x86_64 and arm64 (Graviton)</p>
         </div>
     </section>
 
@@ -254,7 +308,7 @@
                     <div class="text-center">
                         <div class="bg-yellow-600 text-white w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center font-bold text-xl">1</div>
                         <h4 class="text-lg font-bold mb-2">Pick your OS</h4>
-                        <p class="text-gray-400 text-sm">Choose from the RHEL family (Rocky / Alma / BYOL RHEL 8–10), Ubuntu 24.04 or 26.04, or Amazon Linux 2023. x86_64 and arm64 available. <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">Contact us</a> while Marketplace listings roll out.</p>
+                        <p class="text-gray-400 text-sm">Choose from the RHEL family (Rocky / Alma / BYOL RHEL 8–10), Ubuntu 24.04 or 26.04, or Amazon Linux 2023. x86_64 and arm64 available. <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">Contact us</a> for early access while Marketplace listings roll out, or watch our <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk" class="text-yellow-500 hover:underline" rel="noopener noreferrer">seller profile</a>.</p>
                     </div>
                     <div class="text-center">
                         <div class="bg-yellow-600 text-white w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center font-bold text-xl">2</div>
@@ -277,7 +331,7 @@
             <div class="text-center mb-12">
                 <span class="text-xs text-yellow-500 font-semibold uppercase tracking-widest">StigReady Applied</span>
                 <h2 class="text-3xl font-bold mt-2 text-white">Remediated, scored, and provable</h2>
-                <p class="text-gray-400 mt-3 max-w-2xl mx-auto">The number your auditor asks for — published before you subscribe. We score against the raw, unmodified SSG profile in-build. They don't.</p>
+                <p class="text-gray-400 mt-3 max-w-2xl mx-auto">The number your auditor asks for — published with every image. We score against the raw, unmodified SSG profile in-build. They don't.</p>
                 <p class="text-sm text-gray-500 mt-2"><a href="/applied/" class="text-yellow-500 hover:underline">Applied overview</a> · scores and filters below</p>
             </div>
 
@@ -417,7 +471,7 @@
     <section id="pricing" class="py-20 px-4 bg-gray-800 border-t border-gray-700">
         <div class="max-w-4xl mx-auto text-center">
             <h2 class="text-3xl font-bold mb-3 text-white">Pricing</h2>
-            <p class="text-gray-400 mb-10">Marketplace software fee on top of your normal EC2 costs.</p>
+            <p class="text-gray-400 mb-10">Software fee on top of your normal EC2 costs. Listings are rolling out on <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk" class="text-yellow-500 hover:underline" rel="noopener noreferrer">AWS Marketplace</a>.</p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <!-- Base -->
                 <div class="bg-gray-900 rounded-xl border border-gray-700 p-8 text-left">
@@ -449,7 +503,37 @@
                     </ul>
                 </div>
             </div>
-            <p class="text-sm text-gray-500">Annual contracts and Private Offers available. <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">Contact us</a> for BYOL RHEL, volume pricing, or questions.</p>
+            <p class="text-sm text-gray-500">Annual contracts and Private Offers available. <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">Contact us</a> for early access, BYOL RHEL, volume pricing, or questions — or browse the <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk" class="text-yellow-500 hover:underline" rel="noopener noreferrer">seller profile</a>.</p>
+        </div>
+    </section>
+
+    <!-- ── FAQ ────────────────────────────────────────────────────────── -->
+    <section id="faq" class="py-20 px-4 border-t border-gray-700">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-3 text-white text-center">FAQ</h2>
+            <p class="text-gray-400 mb-10 text-center text-sm">Pricing, OpenSCAP evidence, Graviton, RHEL BYOL, and Marketplace status.</p>
+            <dl class="space-y-6 text-left">
+                <div>
+                    <dt class="font-semibold text-white mb-2">Base vs Applied — what do I pay?</dt>
+                    <dd class="text-gray-400 text-sm">Base is <strong class="text-white">$0.02/hr</strong> or <strong class="text-white">$149/yr</strong> per instance (STIG layout + SSH hardening; bring your own profiles). Applied is <strong class="text-white">$0.08/hr</strong> or <strong class="text-white">$649/yr</strong> (CIS L1/L2 or DISA STIG remediation + OpenSCAP evidence). Both are software fees on top of normal EC2 costs.</dd>
+                </div>
+                <div>
+                    <dt class="font-semibold text-white mb-2">What OpenSCAP evidence ships with Applied?</dt>
+                    <dd class="text-gray-400 text-sm">Every Applied image includes an OpenSCAP ARF result, HTML report, POA&amp;M, SBOM, and CVE scan — scored in-build against the raw, unmodified SSG profile. We do not claim DISA/DoD endorsement, or certified / authorized / accredited status.</dd>
+                </div>
+                <div>
+                    <dt class="font-semibold text-white mb-2">Do you support arm64 / Graviton?</dt>
+                    <dd class="text-gray-400 text-sm">Yes. Base and Applied build for x86_64 and arm64 (Graviton). Use the architecture filters in the catalogs above.</dd>
+                </div>
+                <div>
+                    <dt class="font-semibold text-white mb-2">Are RHEL images BYOL?</dt>
+                    <dd class="text-gray-400 text-sm">Yes. RHEL is bring-your-own-license — you supply a Red Hat subscription. StigReady does not sell Red Hat licenses.</dd>
+                </div>
+                <div>
+                    <dt class="font-semibold text-white mb-2">Are listings live on AWS Marketplace?</dt>
+                    <dd class="text-gray-400 text-sm">Listings are rolling out. Watch our <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk" class="text-yellow-500 hover:underline" rel="noopener noreferrer">seller profile</a> or email <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">contact@stigready.com</a> for early access and Private Offers. We do not publish per-SKU Marketplace URLs or AMI IDs here.</dd>
+                </div>
+            </dl>
         </div>
     </section>
 

@@ -12,8 +12,8 @@
       gtag('config', 'G-R2J9HMP1XX');
     </script>
 
-    <title>StigReady Applied — CIS & DISA STIG Hardened AMIs with Scores</title>
-    <meta name="description" content="CIS Level 1/2 or DISA STIG remediated AMIs, scored in-build against the raw SSG profile, with OpenSCAP evidence. x86_64 and arm64 on AWS Marketplace.">
+    <title>StigReady Applied — CIS Hardened AMI &amp; STIG AMI with OpenSCAP</title>
+    <meta name="description" content="CIS hardened AMI and STIG AMI images with published OpenSCAP scores and evidence. CIS L1/L2 or DISA STIG remediation on x86_64 and arm64 — Marketplace listings rolling out.">
     <meta name="author" content="StigReady">
     <meta name="robots" content="index,follow,max-image-preview:large">
     <meta name="theme-color" content="#0C2340">
@@ -24,33 +24,70 @@
     <meta property="og:site_name" content="StigReady">
     <meta property="og:locale" content="en_US">
     <meta property="og:url" content="https://stigready.com/applied/">
-    <meta property="og:title" content="StigReady Applied — CIS & DISA STIG Hardened AMIs with Scores">
-    <meta property="og:description" content="Remediated, scored AWS AMIs with OpenSCAP evidence. FIPS on STIG images. AWS Marketplace.">
+    <meta property="og:title" content="StigReady Applied — CIS Hardened AMI &amp; STIG AMI with OpenSCAP">
+    <meta property="og:description" content="CIS hardened AMI and STIG AMI images with published OpenSCAP scores and evidence. FIPS on STIG images.">
     <meta property="og:image" content="https://stigready.com/assets/logo.png">
 
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@Stigready">
-    <meta name="twitter:title" content="StigReady Applied — CIS & DISA STIG Hardened AMIs with Scores">
-    <meta name="twitter:description" content="Remediated, scored AWS AMIs with OpenSCAP evidence. FIPS on STIG images. AWS Marketplace.">
+    <meta name="twitter:title" content="StigReady Applied — CIS Hardened AMI &amp; STIG AMI with OpenSCAP">
+    <meta name="twitter:description" content="CIS hardened AMI and STIG AMI images with published OpenSCAP scores and evidence. FIPS on STIG images.">
     <meta name="twitter:image" content="https://stigready.com/assets/logo.png">
 
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebPage",
-      "name": "StigReady Applied",
-      "url": "https://stigready.com/applied/",
-      "description": "CIS Benchmark and DISA STIG hardened AWS AMIs with published OpenSCAP scores and auditor-grade evidence bundles.",
-      "isPartOf": {
-        "@type": "WebSite",
-        "name": "StigReady",
-        "url": "https://stigready.com/"
-      },
-      "about": {
-        "@type": "Organization",
-        "name": "StigReady",
-        "url": "https://stigready.com/"
-      }
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://stigready.com/applied/#webpage",
+          "name": "StigReady Applied — CIS Hardened AMI & STIG AMI with OpenSCAP",
+          "url": "https://stigready.com/applied/",
+          "description": "CIS hardened AMI and STIG AMI images with published OpenSCAP scores and auditor-grade evidence bundles.",
+          "isPartOf": {
+            "@type": "WebSite",
+            "name": "StigReady",
+            "url": "https://stigready.com/"
+          },
+          "about": {
+            "@type": "Organization",
+            "name": "StigReady",
+            "url": "https://stigready.com/",
+            "email": "contact@stigready.com"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://stigready.com/applied/#faq",
+          "isPartOf": { "@id": "https://stigready.com/applied/#webpage" },
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How much does StigReady Applied cost?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Applied is $0.08/hr or $649/yr per instance (software fee on top of EC2). Base is $0.02/hr or $149/yr if you only need the hardened foundation."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What OpenSCAP evidence is included?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "OpenSCAP ARF, HTML report, POA&M, SBOM, and CVE scan with every Applied image. Scores are measured in-build against the raw SSG profile. Not affiliated with or endorsed by DISA or DoD; not certified, authorized, or accredited."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is Applied available on AWS Marketplace?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Listings are rolling out. Watch the StigReady seller profile or contact contact@stigready.com for early access and Private Offers. Per-SKU listing URLs and AMI IDs are not published on this site."
+              }
+            }
+          ]
+        }
+      ]
     }
     </script>
 
@@ -84,29 +121,35 @@
         <div class="max-w-3xl mx-auto text-center">
             <p class="text-xs text-yellow-500 font-semibold uppercase tracking-widest mb-3">StigReady Applied</p>
             <h1 class="text-4xl md:text-5xl font-black mb-4 tracking-tight">
-                <span class="text-white">Remediated, scored,</span><br/>
-                <span class="gold">and provable</span>
+                <span class="text-white">CIS hardened AMI &amp; STIG AMI</span><br/>
+                <span class="gold">with OpenSCAP proof</span>
             </h1>
             <p class="text-lg text-gray-300 mb-6 max-w-2xl mx-auto">
                 Full CIS Benchmark Level&nbsp;1/2 or DISA STIG remediation on the StigReady base —
                 scored in-build against the raw, unmodified SSG profile. The number your auditor
-                asks for, published before you subscribe.
+                asks for, published with every image.
             </p>
             <p class="text-gray-400 mb-10 max-w-2xl mx-auto text-sm">
                 Evidence bundle with every image: OpenSCAP ARF, HTML report, POA&amp;M, SBOM, and CVE scan.
                 FIPS mode enabled on STIG images using the OS vendor's FIPS&nbsp;140-3 validated cryptographic modules.
-                Marketplace price: <strong class="text-white">$0.08/hr</strong> or <strong class="text-white">$649/yr</strong> per instance.
+                Software fee: <strong class="text-white">$0.08/hr</strong> or <strong class="text-white">$649/yr</strong> per instance.
             </p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mb-6">
                 <a href="/#applied-tier"
                    class="bg-yellow-600 hover:bg-yellow-500 text-white px-8 py-3 rounded-md font-bold text-lg transition">
                     View Applied scores
                 </a>
                 <a href="mailto:contact@stigready.com"
                    class="bg-gray-700 hover:bg-gray-600 text-white px-8 py-3 rounded-md font-bold text-lg transition">
-                    Contact us
+                    Contact for early access
                 </a>
             </div>
+            <p class="text-sm text-gray-500 mb-12">
+                AWS Marketplace listings are rolling out —
+                <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk" class="text-yellow-500 hover:underline" rel="noopener noreferrer">seller profile</a>
+                or <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">contact@stigready.com</a>
+                for early access and Private Offers.
+            </p>
             <p class="text-sm text-gray-500">
                 Looking for the roles behind Applied remediation?
                 <a href="/#stigforge" class="text-yellow-500 hover:underline">StigForge</a>
@@ -121,6 +164,24 @@
                 Formerly marketed as StigApplied. Same product line, one brand: StigReady.
             </p>
         </div>
+
+        <section id="faq" class="max-w-3xl mx-auto mt-16 pt-12 border-t border-gray-800 text-left">
+            <h2 class="text-2xl font-bold mb-6 text-white text-center">FAQ</h2>
+            <dl class="space-y-6">
+                <div>
+                    <dt class="font-semibold text-white mb-2">How much does Applied cost?</dt>
+                    <dd class="text-gray-400 text-sm"><strong class="text-white">$0.08/hr</strong> or <strong class="text-white">$649/yr</strong> per instance (on top of EC2). Need only the foundation? <a href="/#pricing" class="text-yellow-500 hover:underline">Base</a> is $0.02/hr or $149/yr.</dd>
+                </div>
+                <div>
+                    <dt class="font-semibold text-white mb-2">What OpenSCAP evidence is included?</dt>
+                    <dd class="text-gray-400 text-sm">ARF, HTML report, POA&amp;M, SBOM, and CVE scan — scored in-build against the raw SSG profile. Not affiliated with or endorsed by DISA or DoD; we do not claim certified, authorized, or accredited status.</dd>
+                </div>
+                <div>
+                    <dt class="font-semibold text-white mb-2">Is Applied on AWS Marketplace yet?</dt>
+                    <dd class="text-gray-400 text-sm">Listings are rolling out. Watch the <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk" class="text-yellow-500 hover:underline" rel="noopener noreferrer">seller profile</a> or email <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">contact@stigready.com</a> for early access. We do not publish per-SKU listing URLs or AMI IDs here.</dd>
+                </div>
+            </dl>
+        </section>
     </main>
 
     <footer class="bg-navy py-8 px-4 border-t border-gray-800">
