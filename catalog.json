@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "generated": "2026-08-13",
+  "generated": "2026-09-18",
   "products": [
     {
       "line": "stigapplied",
@@ -10,12 +10,12 @@
       "profile": "cis-l1",
       "benchmark": "CIS Level 1",
       "fips": false,
-      "score": 97.4,
+      "score": 92.9,
       "boot_verified": true,
-      "version": "1.0.2",
+      "version": "1.0.3",
       "availability": "coming-soon",
       "marketplace_url": null,
-      "support_until": "2028-07-28"
+      "support_until": "2028-08-22"
     },
     {
       "line": "stigapplied",
@@ -25,12 +25,12 @@
       "profile": "cis-l1",
       "benchmark": "CIS Level 1",
       "fips": false,
-      "score": 97.4,
+      "score": null,
       "boot_verified": true,
-      "version": "0.1.0",
+      "version": "0.1.1",
       "availability": "coming-soon",
       "marketplace_url": null,
-      "support_until": "2028-07-19"
+      "support_until": "2028-09-03"
     },
     {
       "line": "stigapplied",
@@ -40,42 +40,12 @@
       "profile": "cis-l1",
       "benchmark": "CIS Level 1",
       "fips": false,
-      "score": 97.2,
+      "score": 95.3,
       "boot_verified": true,
-      "version": "0.1.1",
+      "version": "0.1.3",
       "availability": "coming-soon",
       "marketplace_url": null,
-      "support_until": "2028-07-26"
-    },
-    {
-      "line": "stigapplied",
-      "os": "AlmaLinux 8",
-      "os_key": "alma-8",
-      "arch": "arm64",
-      "profile": "cis-l2",
-      "benchmark": "CIS Level 2",
-      "fips": false,
-      "score": 95.6,
-      "boot_verified": true,
-      "version": "0.1.1",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-26"
-    },
-    {
-      "line": "stigapplied",
-      "os": "AlmaLinux 8",
-      "os_key": "alma-8",
-      "arch": "arm64",
-      "profile": "stig",
-      "benchmark": "DISA STIG",
-      "fips": true,
-      "score": 92.9,
-      "boot_verified": true,
-      "version": "0.1.1",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-26"
+      "support_until": "2028-09-06"
     },
     {
       "line": "stigapplied",
@@ -85,12 +55,12 @@
       "profile": "cis-l1",
       "benchmark": "CIS Level 1",
       "fips": false,
-      "score": 93.7,
+      "score": 94.9,
       "boot_verified": true,
-      "version": "0.1.14",
+      "version": "0.1.15",
       "availability": "coming-soon",
       "marketplace_url": null,
-      "support_until": "2028-08-04"
+      "support_until": "2028-09-05"
     },
     {
       "line": "stigapplied",
@@ -100,12 +70,12 @@
       "profile": "cis-l2",
       "benchmark": "CIS Level 2",
       "fips": false,
-      "score": 91.6,
+      "score": 92.6,
       "boot_verified": true,
-      "version": "0.1.2",
+      "version": "0.1.3",
       "availability": "coming-soon",
       "marketplace_url": null,
-      "support_until": "2028-08-03"
+      "support_until": "2028-09-05"
     },
     {
       "line": "stigapplied",
@@ -117,130 +87,85 @@
       "fips": true,
       "score": 93.4,
       "boot_verified": true,
+      "version": "0.1.3",
+      "availability": "coming-soon",
+      "marketplace_url": null,
+      "support_until": "2028-09-05"
+    },
+    {
+      "line": "stigapplied",
+      "os": "AlmaLinux 9",
+      "os_key": "alma-9",
+      "arch": "arm64",
+      "profile": "cis-l1",
+      "benchmark": "CIS Level 1",
+      "fips": false,
+      "score": 93.5,
+      "boot_verified": true,
+      "version": "1.0.2",
+      "availability": "coming-soon",
+      "marketplace_url": null,
+      "support_until": "2028-08-23"
+    },
+    {
+      "line": "stigapplied",
+      "os": "AlmaLinux 9",
+      "os_key": "alma-9",
+      "arch": "arm64",
+      "profile": "cis-l2",
+      "benchmark": "CIS Level 2",
+      "fips": false,
+      "score": null,
+      "boot_verified": true,
+      "version": "1.0.2",
+      "availability": "coming-soon",
+      "marketplace_url": null,
+      "support_until": "2028-09-03"
+    },
+    {
+      "line": "stigapplied",
+      "os": "AlmaLinux 9",
+      "os_key": "alma-9",
+      "arch": "x86_64",
+      "profile": "cis-l1",
+      "benchmark": "CIS Level 1",
+      "fips": false,
+      "score": 98.9,
+      "boot_verified": true,
+      "version": "0.1.1",
+      "availability": "coming-soon",
+      "marketplace_url": null,
+      "support_until": "2028-09-07"
+    },
+    {
+      "line": "stigapplied",
+      "os": "AlmaLinux 9",
+      "os_key": "alma-9",
+      "arch": "x86_64",
+      "profile": "cis-l2",
+      "benchmark": "CIS Level 2",
+      "fips": false,
+      "score": 98.7,
+      "boot_verified": true,
+      "version": "0.1.1",
+      "availability": "coming-soon",
+      "marketplace_url": null,
+      "support_until": "2028-09-08"
+    },
+    {
+      "line": "stigapplied",
+      "os": "RHEL 10",
+      "os_key": "rhel-10",
+      "arch": "x86_64",
+      "profile": "cis-l1",
+      "benchmark": "CIS Level 1",
+      "fips": false,
+      "score": 91.2,
+      "boot_verified": true,
       "version": "0.1.2",
       "availability": "coming-soon",
       "marketplace_url": null,
-      "support_until": "2028-08-03"
-    },
-    {
-      "line": "stigapplied",
-      "os": "AlmaLinux 9",
-      "os_key": "alma-9",
-      "arch": "arm64",
-      "profile": "cis-l1",
-      "benchmark": "CIS Level 1",
-      "fips": false,
-      "score": 93.1,
-      "boot_verified": true,
-      "version": "1.0.1",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-27"
-    },
-    {
-      "line": "stigapplied",
-      "os": "AlmaLinux 9",
-      "os_key": "alma-9",
-      "arch": "arm64",
-      "profile": "cis-l2",
-      "benchmark": "CIS Level 2",
-      "fips": false,
-      "score": 93.6,
-      "boot_verified": true,
-      "version": "1.0.1",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-27"
-    },
-    {
-      "line": "stigapplied",
-      "os": "AlmaLinux 9",
-      "os_key": "alma-9",
-      "arch": "arm64",
-      "profile": "stig",
-      "benchmark": "DISA STIG",
-      "fips": true,
-      "score": 93.6,
-      "boot_verified": true,
-      "version": "1.0.1",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-27"
-    },
-    {
-      "line": "stigapplied",
-      "os": "AlmaLinux 9",
-      "os_key": "alma-9",
-      "arch": "x86_64",
-      "profile": "cis-l1",
-      "benchmark": "CIS Level 1",
-      "fips": false,
-      "score": 93.1,
-      "boot_verified": true,
-      "version": "0.1.0",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-19"
-    },
-    {
-      "line": "stigapplied",
-      "os": "AlmaLinux 9",
-      "os_key": "alma-9",
-      "arch": "x86_64",
-      "profile": "cis-l2",
-      "benchmark": "CIS Level 2",
-      "fips": false,
-      "score": 93.7,
-      "boot_verified": true,
-      "version": "0.1.0",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-19"
-    },
-    {
-      "line": "stigapplied",
-      "os": "AlmaLinux 9",
-      "os_key": "alma-9",
-      "arch": "x86_64",
-      "profile": "stig",
-      "benchmark": "DISA STIG",
-      "fips": true,
-      "score": 93.8,
-      "boot_verified": true,
-      "version": "0.1.0",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-19"
-    },
-    {
-      "line": "stigapplied",
-      "os": "RHEL 10",
-      "os_key": "rhel-10",
-      "arch": "x86_64",
-      "profile": "cis-l1",
-      "benchmark": "CIS Level 1",
-      "fips": false,
-      "score": 92.5,
-      "boot_verified": true,
-      "version": "0.1.0",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-19"
-    },
-    {
-      "line": "stigapplied",
-      "os": "RHEL 10",
-      "os_key": "rhel-10",
-      "arch": "x86_64",
-      "profile": "cis-l2",
-      "benchmark": "CIS Level 2",
-      "fips": false,
-      "score": 92.4,
-      "boot_verified": true,
-      "version": "0.1.1",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-30"
+      "support_until": "2028-09-06"
     },
     {
       "line": "stigapplied",
@@ -250,57 +175,27 @@
       "profile": "cis-l1",
       "benchmark": "CIS Level 1",
       "fips": false,
-      "score": 98.4,
+      "score": 94.3,
       "boot_verified": true,
-      "version": "0.1.1",
+      "version": "0.1.2",
       "availability": "coming-soon",
       "marketplace_url": null,
-      "support_until": "2028-07-26"
+      "support_until": null
     },
     {
       "line": "stigapplied",
       "os": "RHEL 8",
       "os_key": "rhel-8",
-      "arch": "arm64",
-      "profile": "cis-l2",
-      "benchmark": "CIS Level 2",
+      "arch": "x86_64",
+      "profile": "cis-l1",
+      "benchmark": "CIS Level 1",
       "fips": false,
-      "score": 97.8,
-      "boot_verified": true,
-      "version": "0.1.1",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-26"
-    },
-    {
-      "line": "stigapplied",
-      "os": "RHEL 8",
-      "os_key": "rhel-8",
-      "arch": "arm64",
-      "profile": "stig",
-      "benchmark": "DISA STIG",
-      "fips": true,
-      "score": 94.1,
+      "score": 94.0,
       "boot_verified": true,
       "version": "0.1.3",
       "availability": "coming-soon",
       "marketplace_url": null,
-      "support_until": "2028-07-27"
-    },
-    {
-      "line": "stigapplied",
-      "os": "RHEL 8",
-      "os_key": "rhel-8",
-      "arch": "x86_64",
-      "profile": "cis-l1",
-      "benchmark": "CIS Level 1",
-      "fips": false,
-      "score": 98.1,
-      "boot_verified": true,
-      "version": "0.1.1",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-19"
+      "support_until": "2028-09-06"
     },
     {
       "line": "stigapplied",
@@ -310,27 +205,12 @@
       "profile": "cis-l2",
       "benchmark": "CIS Level 2",
       "fips": false,
-      "score": 94.0,
+      "score": 95.0,
       "boot_verified": true,
-      "version": "0.1.1",
+      "version": "0.1.2",
       "availability": "coming-soon",
       "marketplace_url": null,
-      "support_until": "2028-07-30"
-    },
-    {
-      "line": "stigapplied",
-      "os": "RHEL 8",
-      "os_key": "rhel-8",
-      "arch": "x86_64",
-      "profile": "stig",
-      "benchmark": "DISA STIG",
-      "fips": true,
-      "score": 94.9,
-      "boot_verified": true,
-      "version": "0.1.0",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-19"
+      "support_until": "2028-09-06"
     },
     {
       "line": "stigapplied",
@@ -340,12 +220,27 @@
       "profile": "cis-l1",
       "benchmark": "CIS Level 1",
       "fips": false,
-      "score": 91.3,
+      "score": 98.9,
+      "boot_verified": true,
+      "version": "1.0.2-308e4acc4cb0",
+      "availability": "coming-soon",
+      "marketplace_url": null,
+      "support_until": "2028-08-29"
+    },
+    {
+      "line": "stigapplied",
+      "os": "RHEL 9",
+      "os_key": "rhel-9",
+      "arch": "arm64",
+      "profile": "cis-l2",
+      "benchmark": "CIS Level 2",
+      "fips": false,
+      "score": null,
       "boot_verified": true,
       "version": "1.0.1",
       "availability": "coming-soon",
       "marketplace_url": null,
-      "support_until": "2028-07-28"
+      "support_until": "2028-09-03"
     },
     {
       "line": "stigapplied",
@@ -355,42 +250,27 @@
       "profile": "cis-l1",
       "benchmark": "CIS Level 1",
       "fips": false,
-      "score": 91.3,
-      "boot_verified": true,
-      "version": "0.1.0",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-19"
-    },
-    {
-      "line": "stigapplied",
-      "os": "RHEL 9",
-      "os_key": "rhel-9",
-      "arch": "x86_64",
-      "profile": "cis-l2",
-      "benchmark": "CIS Level 2",
-      "fips": false,
-      "score": 96.3,
+      "score": 98.9,
       "boot_verified": true,
       "version": "0.1.2",
       "availability": "coming-soon",
       "marketplace_url": null,
-      "support_until": "2028-07-30"
+      "support_until": "2028-08-22"
     },
     {
       "line": "stigapplied",
       "os": "RHEL 9",
       "os_key": "rhel-9",
       "arch": "x86_64",
-      "profile": "stig",
-      "benchmark": "DISA STIG",
-      "fips": true,
-      "score": 95.6,
+      "profile": "cis-l2",
+      "benchmark": "CIS Level 2",
+      "fips": false,
+      "score": 97.9,
       "boot_verified": true,
-      "version": "0.1.0",
+      "version": "0.1.3",
       "availability": "coming-soon",
       "marketplace_url": null,
-      "support_until": "2028-07-19"
+      "support_until": "2028-08-22"
     },
     {
       "line": "stigapplied",
@@ -400,27 +280,12 @@
       "profile": "cis-l1",
       "benchmark": "CIS Level 1",
       "fips": false,
-      "score": 92.2,
+      "score": 90.9,
       "boot_verified": true,
-      "version": "1.0.2",
+      "version": "1.0.3",
       "availability": "coming-soon",
       "marketplace_url": null,
-      "support_until": "2028-07-28"
-    },
-    {
-      "line": "stigapplied",
-      "os": "Rocky Linux 10",
-      "os_key": "rocky-10",
-      "arch": "arm64",
-      "profile": "cis-l2",
-      "benchmark": "CIS Level 2",
-      "fips": false,
-      "score": 97.8,
-      "boot_verified": true,
-      "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-28"
+      "support_until": "2028-09-01"
     },
     {
       "line": "stigapplied",
@@ -430,27 +295,12 @@
       "profile": "cis-l1",
       "benchmark": "CIS Level 1",
       "fips": false,
-      "score": 92.2,
-      "boot_verified": true,
-      "version": "0.1.0",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-19"
-    },
-    {
-      "line": "stigapplied",
-      "os": "Rocky Linux 10",
-      "os_key": "rocky-10",
-      "arch": "x86_64",
-      "profile": "cis-l2",
-      "benchmark": "CIS Level 2",
-      "fips": false,
-      "score": 92.2,
+      "score": 90.9,
       "boot_verified": true,
       "version": "0.1.2",
       "availability": "coming-soon",
       "marketplace_url": null,
-      "support_until": "2028-07-30"
+      "support_until": "2028-08-23"
     },
     {
       "line": "stigapplied",
@@ -459,73 +309,43 @@
       "arch": "arm64",
       "profile": "cis-l1",
       "benchmark": "CIS Level 1",
-      "fips": false,
-      "score": 98.1,
-      "boot_verified": true,
-      "version": "0.1.1",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-26"
-    },
-    {
-      "line": "stigapplied",
-      "os": "Rocky Linux 8",
-      "os_key": "rocky-8",
-      "arch": "arm64",
-      "profile": "cis-l2",
-      "benchmark": "CIS Level 2",
-      "fips": false,
-      "score": 97.5,
-      "boot_verified": true,
-      "version": "0.1.1",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-26"
-    },
-    {
-      "line": "stigapplied",
-      "os": "Rocky Linux 8",
-      "os_key": "rocky-8",
-      "arch": "arm64",
-      "profile": "stig",
-      "benchmark": "DISA STIG",
-      "fips": true,
-      "score": 93.8,
-      "boot_verified": true,
-      "version": "0.1.1",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-26"
-    },
-    {
-      "line": "stigapplied",
-      "os": "Rocky Linux 8",
-      "os_key": "rocky-8",
-      "arch": "x86_64",
-      "profile": "cis-l1",
-      "benchmark": "CIS Level 1",
-      "fips": false,
-      "score": 98.1,
-      "boot_verified": true,
-      "version": "0.1.0",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-19"
-    },
-    {
-      "line": "stigapplied",
-      "os": "Rocky Linux 8",
-      "os_key": "rocky-8",
-      "arch": "x86_64",
-      "profile": "cis-l2",
-      "benchmark": "CIS Level 2",
       "fips": false,
       "score": 94.0,
       "boot_verified": true,
-      "version": "0.1.1",
+      "version": "0.1.2",
       "availability": "coming-soon",
       "marketplace_url": null,
-      "support_until": "2028-07-30"
+      "support_until": "2028-09-04"
+    },
+    {
+      "line": "stigapplied",
+      "os": "Rocky Linux 8",
+      "os_key": "rocky-8",
+      "arch": "x86_64",
+      "profile": "cis-l1",
+      "benchmark": "CIS Level 1",
+      "fips": false,
+      "score": 94.0,
+      "boot_verified": true,
+      "version": "0.1.2",
+      "availability": "coming-soon",
+      "marketplace_url": null,
+      "support_until": "2028-09-06"
+    },
+    {
+      "line": "stigapplied",
+      "os": "Rocky Linux 8",
+      "os_key": "rocky-8",
+      "arch": "x86_64",
+      "profile": "cis-l2",
+      "benchmark": "CIS Level 2",
+      "fips": false,
+      "score": 95.0,
+      "boot_verified": true,
+      "version": "0.1.2",
+      "availability": "coming-soon",
+      "marketplace_url": null,
+      "support_until": "2028-09-06"
     },
     {
       "line": "stigapplied",
@@ -537,190 +357,40 @@
       "fips": true,
       "score": 94.5,
       "boot_verified": true,
-      "version": "0.1.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-31"
-    },
-    {
-      "line": "stigapplied",
-      "os": "Rocky Linux 9",
-      "os_key": "rocky-9",
-      "arch": "arm64",
-      "profile": "cis-l1",
-      "benchmark": "CIS Level 1",
-      "fips": false,
-      "score": 91.3,
-      "boot_verified": true,
-      "version": "1.0.1",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-26"
-    },
-    {
-      "line": "stigapplied",
-      "os": "Rocky Linux 9",
-      "os_key": "rocky-9",
-      "arch": "arm64",
-      "profile": "cis-l2",
-      "benchmark": "CIS Level 2",
-      "fips": false,
-      "score": 92.2,
-      "boot_verified": true,
-      "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-26"
-    },
-    {
-      "line": "stigapplied",
-      "os": "Rocky Linux 9",
-      "os_key": "rocky-9",
-      "arch": "arm64",
-      "profile": "stig",
-      "benchmark": "DISA STIG",
-      "fips": true,
-      "score": 95.2,
-      "boot_verified": true,
-      "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-26"
-    },
-    {
-      "line": "stigapplied",
-      "os": "Rocky Linux 9",
-      "os_key": "rocky-9",
-      "arch": "x86_64",
-      "profile": "cis-l1",
-      "benchmark": "CIS Level 1",
-      "fips": false,
-      "score": 91.3,
-      "boot_verified": true,
-      "version": "0.1.0",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-19"
-    },
-    {
-      "line": "stigapplied",
-      "os": "Rocky Linux 9",
-      "os_key": "rocky-9",
-      "arch": "x86_64",
-      "profile": "cis-l2",
-      "benchmark": "CIS Level 2",
-      "fips": false,
-      "score": 92.4,
-      "boot_verified": true,
-      "version": "0.1.0",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-19"
-    },
-    {
-      "line": "stigapplied",
-      "os": "Rocky Linux 9",
-      "os_key": "rocky-9",
-      "arch": "x86_64",
-      "profile": "stig",
-      "benchmark": "DISA STIG",
-      "fips": true,
-      "score": 95.3,
-      "boot_verified": true,
-      "version": "0.1.0",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-19"
-    },
-    {
-      "line": "stigapplied",
-      "os": "Ubuntu 24.04",
-      "os_key": "ubuntu-24.04",
-      "arch": "arm64",
-      "profile": "cis-l1",
-      "benchmark": "CIS Level 1",
-      "fips": false,
-      "score": 96.2,
-      "boot_verified": true,
-      "version": "1.0.1",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-22"
-    },
-    {
-      "line": "stigapplied",
-      "os": "Ubuntu 24.04",
-      "os_key": "ubuntu-24.04",
-      "arch": "arm64",
-      "profile": "cis-l2",
-      "benchmark": "CIS Level 2",
-      "fips": false,
-      "score": 95.6,
-      "boot_verified": true,
-      "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-27"
-    },
-    {
-      "line": "stigapplied",
-      "os": "Ubuntu 24.04",
-      "os_key": "ubuntu-24.04",
-      "arch": "arm64",
-      "profile": "stig",
-      "benchmark": "DISA STIG",
-      "fips": true,
-      "score": 93.2,
-      "boot_verified": true,
-      "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-27"
-    },
-    {
-      "line": "stigapplied",
-      "os": "Ubuntu 24.04",
-      "os_key": "ubuntu-24.04",
-      "arch": "x86_64",
-      "profile": "cis-l1",
-      "benchmark": "CIS Level 1",
-      "fips": false,
-      "score": 96.2,
-      "boot_verified": true,
-      "version": "0.1.0",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-19"
-    },
-    {
-      "line": "stigapplied",
-      "os": "Ubuntu 24.04",
-      "os_key": "ubuntu-24.04",
-      "arch": "x86_64",
-      "profile": "cis-l2",
-      "benchmark": "CIS Level 2",
-      "fips": false,
-      "score": 95.7,
-      "boot_verified": true,
-      "version": "0.1.0",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-19"
-    },
-    {
-      "line": "stigapplied",
-      "os": "Ubuntu 24.04",
-      "os_key": "ubuntu-24.04",
-      "arch": "x86_64",
-      "profile": "stig",
-      "benchmark": "DISA STIG",
-      "fips": true,
-      "score": 93.9,
-      "boot_verified": true,
       "version": "0.1.3",
       "availability": "coming-soon",
       "marketplace_url": null,
-      "support_until": "2028-07-19"
+      "support_until": "2028-09-06"
+    },
+    {
+      "line": "stigapplied",
+      "os": "Rocky Linux 9",
+      "os_key": "rocky-9",
+      "arch": "arm64",
+      "profile": "cis-l1",
+      "benchmark": "CIS Level 1",
+      "fips": false,
+      "score": 98.9,
+      "boot_verified": true,
+      "version": "1.0.2",
+      "availability": "coming-soon",
+      "marketplace_url": null,
+      "support_until": "2028-08-23"
+    },
+    {
+      "line": "stigapplied",
+      "os": "Rocky Linux 9",
+      "os_key": "rocky-9",
+      "arch": "x86_64",
+      "profile": "cis-l1",
+      "benchmark": "CIS Level 1",
+      "fips": false,
+      "score": 98.9,
+      "boot_verified": true,
+      "version": "0.1.2",
+      "availability": "coming-soon",
+      "marketplace_url": null,
+      "support_until": "2028-09-06"
     },
     {
       "line": "stigready",
@@ -732,10 +402,10 @@
       "fips": false,
       "score": null,
       "boot_verified": true,
-      "version": "0.1.1",
+      "version": "0.1.3",
       "availability": "available",
       "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-ecio23vmv52ba",
-      "support_until": "2028-07-22"
+      "support_until": "2028-08-22"
     },
     {
       "line": "stigready",
@@ -750,7 +420,7 @@
       "version": "0.1.1",
       "availability": "available",
       "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-o7g4ftwo2ogxm",
-      "support_until": "2028-07-30"
+      "support_until": "2028-08-17"
     },
     {
       "line": "stigready",
@@ -777,10 +447,10 @@
       "fips": false,
       "score": null,
       "boot_verified": true,
-      "version": "0.1.2",
+      "version": "0.1.3",
       "availability": "available",
       "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-4afqnjtjtawxk",
-      "support_until": "2028-08-03"
+      "support_until": "2028-09-05"
     },
     {
       "line": "stigready",
@@ -792,10 +462,10 @@
       "fips": false,
       "score": null,
       "boot_verified": true,
-      "version": "0.1.5",
+      "version": "0.1.6",
       "availability": "available",
       "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-rto2tbcqfndyu",
-      "support_until": "2028-08-01"
+      "support_until": "2028-08-22"
     },
     {
       "line": "stigready",
@@ -810,7 +480,7 @@
       "version": "0.1.1",
       "availability": "available",
       "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-3fgkiwkrqwb3o",
-      "support_until": "2028-07-30"
+      "support_until": "2028-08-22"
     },
     {
       "line": "stigready",
@@ -822,10 +492,10 @@
       "fips": false,
       "score": null,
       "boot_verified": true,
-      "version": "0.1.15",
+      "version": "0.1.16",
       "availability": "available",
       "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-54ar3a7wardos",
-      "support_until": "2028-08-04"
+      "support_until": "2028-08-12"
     },
     {
       "line": "stigready",
@@ -840,7 +510,7 @@
       "version": "0.1.2",
       "availability": "available",
       "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-akohctb743d6m",
-      "support_until": "2028-07-30"
+      "support_until": "2028-08-18"
     },
     {
       "line": "stigready",
@@ -852,10 +522,10 @@
       "fips": false,
       "score": null,
       "boot_verified": true,
-      "version": "0.1.1",
+      "version": "0.1.9",
       "availability": "available",
       "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-shmrip65fxckk",
-      "support_until": "2028-07-22"
+      "support_until": "2028-08-11"
     },
     {
       "line": "stigready",
@@ -867,10 +537,10 @@
       "fips": false,
       "score": null,
       "boot_verified": true,
-      "version": "0.1.1",
+      "version": "0.1.2",
       "availability": "available",
       "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-u7w6ab7k5z5ou",
-      "support_until": "2028-07-30"
+      "support_until": "2028-08-22"
     },
     {
       "line": "stigready",
@@ -897,10 +567,10 @@
       "fips": false,
       "score": null,
       "boot_verified": true,
-      "version": "0.1.1",
+      "version": "0.1.2-cc9ec3b0d061",
       "availability": "available",
       "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-jesctos6fxgzm",
-      "support_until": "2028-07-30"
+      "support_until": "2028-09-05"
     },
     {
       "line": "stigready",
@@ -912,10 +582,10 @@
       "fips": false,
       "score": null,
       "boot_verified": true,
-      "version": "0.1.4",
+      "version": "0.1.5-5c4e1b2879c2",
       "availability": "available",
       "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-2efmsu7gjwc7i",
-      "support_until": "2028-08-01"
+      "support_until": "2028-09-05"
     },
     {
       "line": "stigready",
@@ -927,10 +597,10 @@
       "fips": false,
       "score": null,
       "boot_verified": true,
-      "version": "0.1.1",
+      "version": "0.1.2",
       "availability": "available",
       "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-o4qcvnpr6bygs",
-      "support_until": "2028-07-30"
+      "support_until": "2028-08-22"
     },
     {
       "line": "stigready",
@@ -942,10 +612,10 @@
       "fips": false,
       "score": null,
       "boot_verified": true,
-      "version": "0.1.1",
+      "version": "0.1.9-96b76fa7ad47",
       "availability": "available",
       "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-fexxr26qmi2km",
-      "support_until": "2028-07-22"
+      "support_until": "2028-08-23"
     },
     {
       "line": "stigready",
@@ -957,10 +627,10 @@
       "fips": false,
       "score": null,
       "boot_verified": true,
-      "version": "0.1.1",
+      "version": "0.1.2-051ca22bd406",
       "availability": "available",
       "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-w6amwabp375sk",
-      "support_until": "2028-07-30"
+      "support_until": "2028-08-22"
     },
     {
       "line": "stigready",
@@ -987,10 +657,10 @@
       "fips": false,
       "score": null,
       "boot_verified": true,
-      "version": "0.1.1",
+      "version": "0.1.2-a4a13a319a56",
       "availability": "available",
       "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-pt7d5ezjt5b2g",
-      "support_until": "2028-07-30"
+      "support_until": "2028-09-06"
     },
     {
       "line": "stigready",
@@ -1002,10 +672,10 @@
       "fips": false,
       "score": null,
       "boot_verified": true,
-      "version": "0.1.3",
+      "version": "0.1.5",
       "availability": "available",
       "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-iupdx4qemj5ec",
-      "support_until": "2028-07-22"
+      "support_until": "2028-08-22"
     },
     {
       "line": "stigready",
@@ -1017,10 +687,10 @@
       "fips": false,
       "score": null,
       "boot_verified": true,
-      "version": "0.1.1",
+      "version": "0.1.2",
       "availability": "available",
       "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-wv5lb64rnhoy2",
-      "support_until": "2028-07-31"
+      "support_until": "2028-08-22"
     },
     {
       "line": "stigready",
@@ -1047,10 +717,10 @@
       "fips": false,
       "score": null,
       "boot_verified": true,
-      "version": "0.1.3",
+      "version": "0.1.4",
       "availability": "available",
       "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-okzgzzzg2du32",
-      "support_until": "2028-08-01"
+      "support_until": "2028-08-13"
     },
     {
       "line": "stigready",
@@ -1081,21 +751,6 @@
       "availability": "available",
       "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-kqjq7rjoi3q4y",
       "support_until": "2028-07-30"
-    },
-    {
-      "line": "stigready",
-      "os": "Windows Server 2022",
-      "os_key": "windows-2022",
-      "arch": "x86_64",
-      "profile": "base",
-      "benchmark": null,
-      "fips": false,
-      "score": null,
-      "boot_verified": true,
-      "version": "0.1.1",
-      "availability": "coming-soon",
-      "marketplace_url": null,
-      "support_until": "2028-07-24"
     }
   ]
 }
