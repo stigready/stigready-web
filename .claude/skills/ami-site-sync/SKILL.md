@@ -2,6 +2,10 @@
 name: ami-site-sync
 description: Sync the Base Catalog table in index.html against the base AMIs actually built in AWS (OS, arch, availability), then stage the diff on a branch and open a draft PR. The AMI list is the source of truth for this site. Use after a build run lands — especially during the aarch64 rollout — or when asked whether the site matches what's built.
 ---
+<!-- GENERATED — DO NOT EDIT HERE.
+     Authored in the claude-agents repo at config/skills/ami-site-sync/SKILL.md
+     Vendored by scripts/sync-agent-config.sh. Edit it there and re-sync;
+     an edit made in this repo is drift and fails the build. -->
 
 # AMI → site sync
 
