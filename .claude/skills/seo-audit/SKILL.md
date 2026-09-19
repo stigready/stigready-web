@@ -6,6 +6,10 @@ description: >-
   stigforge monorepo, no fake Coming soon). Use when asked for an SEO review, pre-launch
   check, sitemap fix, or after adding pages under blog/ or applied/.
 ---
+<!-- GENERATED — DO NOT EDIT HERE.
+     Authored in the claude-agents repo at config/skills/seo-audit/SKILL.md
+     Vendored by scripts/sync-agent-config.sh. Edit it there and re-sync;
+     an edit made in this repo is drift and fails the build. -->
 
 # SEO audit (stigready-web)
 

@@ -6,6 +6,10 @@ description: >-
   removes the item from the maintainer roadmap, and opens a PR. Use when asked to
   write/publish a blog post, ship the next roadmap item, or keep the weekly content cadence.
 ---
+<!-- GENERATED — DO NOT EDIT HERE.
+     Authored in the claude-agents repo at config/skills/blog-ship/SKILL.md
+     Vendored by scripts/sync-agent-config.sh. Edit it there and re-sync;
+     an edit made in this repo is drift and fails the build. -->
 
 # Blog ship (Base + StigForge)
 

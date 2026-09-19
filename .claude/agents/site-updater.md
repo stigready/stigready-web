@@ -3,6 +3,10 @@ name: site-updater
 description: SUPERSEDED — do not use. The AMI list in AWS is now the source of truth for this site, not catalog.public.json. Use the ami-site-sync skill instead. Kept only to record why this approach was retired.
 tools: Read
 ---
+<!-- GENERATED — DO NOT EDIT HERE.
+     Authored in the claude-agents repo at config/agents/site-updater.md
+     Vendored by scripts/sync-agent-config.sh. Edit it there and re-sync;
+     an edit made in this repo is drift and fails the build. -->
 
 # SUPERSEDED — do not use this agent
 

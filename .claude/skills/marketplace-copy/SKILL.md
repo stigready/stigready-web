@@ -6,6 +6,10 @@ description: >-
   OpenSCAP scores. Use when preparing Marketplace text, seller listing updates, or
   aligning site copy with live listings.
 ---
+<!-- GENERATED — DO NOT EDIT HERE.
+     Authored in the claude-agents repo at config/skills/marketplace-copy/SKILL.md
+     Vendored by scripts/sync-agent-config.sh. Edit it there and re-sync;
+     an edit made in this repo is drift and fails the build. -->
 
 # Marketplace copy (StigReady)
 
