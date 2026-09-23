@@ -173,6 +173,37 @@ def check_local_assets(files: list[Path]) -> None:
                 )
 
 
+def check_docs_moved() -> None:
+    """Documentation lives in claude-agents, not here.
+
+    Owner direction, 2026-09-23: "i want all docs reviewd and moved to claude-agents repo.
+    we need all docs in 1 place." The four documents that were in docs/ moved to
+    claude-agents/docs/stigready-web/; docs/README.md is the redirect.
+
+    Without a check the directory refills one convenient file at a time. Across the program
+    that is how 185 documents accumulated in three repos, and how several came to describe
+    mechanisms that had already been deleted -- a doc nobody must keep with its subject
+    drifts away from it.
+    """
+    docs = ROOT / "docs"
+    if not docs.is_dir():
+        return
+    stray = sorted(
+        str(p.relative_to(docs)) for p in docs.rglob("*")
+        if p.is_file() and p.relative_to(docs) != Path("README.md")
+    )
+    if stray:
+        problems.append(
+            "docs/: documentation belongs in claude-agents/docs/stigready-web/, not here — "
+            + ", ".join(stray)
+        )
+    readme = docs / "README.md"
+    if not readme.is_file():
+        problems.append("docs/README.md: the redirect is missing — removing the documents without it just loses them")
+    elif "claude-agents/tree/main/docs/stigready-web" not in readme.read_text(encoding="utf-8"):
+        problems.append("docs/README.md: does not name where the documents went")
+
+
 def check_vendored_config() -> None:
     """The .claude/ tree is VENDORED from claude-agents and must not be hand-edited there.
 
@@ -215,6 +246,7 @@ def main() -> int:
     check_duplicates(files)
     check_local_assets(files)
     check_vendored_config()
+    check_docs_moved()
 
     if problems:
         print(f"validate-site: {len(problems)} problem(s)\n", file=sys.stderr)

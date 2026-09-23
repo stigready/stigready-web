@@ -35,5 +35,5 @@ Match home: Base · Applied · StigForge · Blog · Pricing · Contact.
 ## Content ops
 
 - Public blog = published list only (`blog/index.html`)
-- Upcoming posts queue = `docs/blog-roadmap.md` (maintainer only — do not render on the site)
+- Upcoming posts queue = `https://github.com/stigready/claude-agents/blob/main/docs/stigready-web/blog-roadmap.md` (maintainer only — do not render on the site)
 - Skills: `blog-ship`, `seo-audit`, `marketplace-copy`, `ami-site-sync`
