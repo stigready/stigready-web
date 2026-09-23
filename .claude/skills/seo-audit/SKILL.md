@@ -17,11 +17,11 @@ Read-only first; then fix gaps the user wants fixed. Scope is this static GitHub
 
 ## Pages to cover
 
-- `/` → [index.html](../../../index.html)
-- `/applied/` → [applied/index.html](../../../applied/index.html)
-- `/blog/` → [blog/index.html](../../../blog/index.html)
+- `/` → [index.html](https://github.com/stigready/stigready/blob/main/index.html)
+- `/applied/` → [applied/index.html](https://github.com/stigready/stigready/blob/main/applied/index.html)
+- `/blog/` → [blog/index.html](https://github.com/stigready/stigready/blob/main/blog/index.html)
 - Every `blog/*.html` post
-- [sitemap.xml](../../../sitemap.xml), [robots.txt](../../../robots.txt)
+- [sitemap.xml](https://github.com/stigready/stigready/blob/main/sitemap.xml), [robots.txt](https://github.com/stigready/stigready/blob/main/robots.txt)
 
 ## Checklist (per HTML page)
 

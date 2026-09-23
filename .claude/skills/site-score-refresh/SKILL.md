@@ -19,8 +19,8 @@ Keep published scores and catalog rows honest. Prefer regenerate over hand-edit.
 
 | Data | Source | Site file |
 |---|---|---|
-| Base + Applied product rows / Applied scores | `stigready` `scripts/publish-catalog.py --to-site ../stigready-web` (AWS AMIs + tags) | [catalog.json](../../../catalog.json) |
-| StigForge role scores | `stigforge` `scripts/publish-stigforge-factory-json.py ../stigready-web/stigforge-factory.json` (prefer gate-passing artifacts, including nested `verify-<role>/`) | [stigforge-factory.json](../../../stigforge-factory.json) |
+| Base + Applied product rows / Applied scores | `stigready` `scripts/publish-catalog.py --to-site ../stigready-web` (AWS AMIs + tags) | [catalog.json](https://github.com/stigready/stigready/blob/main/catalog.json) |
+| StigForge role scores | `stigforge` `scripts/publish-stigforge-factory-json.py ../stigready-web/stigforge-factory.json` (prefer gate-passing artifacts, including nested `verify-<role>/`) | [stigforge-factory.json](https://github.com/stigready/stigready/blob/main/stigforge-factory.json) |
 | Base OS/arch existence | [ami-site-sync](../ami-site-sync/SKILL.md) | catalog / Base table |
 
 ## Steps
