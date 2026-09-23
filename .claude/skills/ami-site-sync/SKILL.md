@@ -9,7 +9,7 @@ description: Sync the Base Catalog table in index.html against the base AMIs act
 
 # AMI → site sync
 
-Regenerate the **Base Catalog** rows of [index.html](../../../index.html) from the base AMIs
+Regenerate the **Base Catalog** rows of [index.html](https://github.com/stigready/stigready/blob/main/index.html) from the base AMIs
 that actually exist in AWS, so the site never claims an OS or architecture that isn't built.
 
 ## The AMI list is the source of truth

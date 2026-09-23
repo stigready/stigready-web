@@ -14,7 +14,7 @@ description: >-
 # Marketplace copy (StigReady)
 
 Produce Marketplace-ready text. Do **not** invent scores, OS/arch pairs, or availability.
-AMIs and [catalog.json](../../../catalog.json) / AWS inventory are the source of truth for
+AMIs and [catalog.json](https://github.com/stigready/stigready/blob/main/catalog.json) / AWS inventory are the source of truth for
 what exists. Seller page: https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk
 
 ## Inputs

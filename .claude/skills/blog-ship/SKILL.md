@@ -20,10 +20,10 @@ shows **published posts only** — never render the roadmap on stigready.com.
 
 | Surface | Path |
 |---|---|
-| Queue (private) | [docs/blog-roadmap.md](../../../docs/blog-roadmap.md) |
-| Public list | [blog/index.html](../../../blog/index.html) |
-| Examples | [blog/rhel9-base-stigforge-stig.html](../../../blog/rhel9-base-stigforge-stig.html), [blog/ubuntu24-base-stigforge-cis.html](../../../blog/ubuntu24-base-stigforge-cis.html) |
-| Sitemap | [sitemap.xml](../../../sitemap.xml) |
+| Queue (private) | [docs/blog-roadmap.md](https://github.com/stigready/claude-agents/blob/main/docs/stigready/blog-roadmap.md) |
+| Public list | [blog/index.html](https://github.com/stigready/stigready/blob/main/blog/index.html) |
+| Examples | [blog/rhel9-base-stigforge-stig.html](https://github.com/stigready/stigready/blob/main/blog/rhel9-base-stigforge-stig.html), [blog/ubuntu24-base-stigforge-cis.html](https://github.com/stigready/stigready/blob/main/blog/ubuntu24-base-stigforge-cis.html) |
+| Sitemap | [sitemap.xml](https://github.com/stigready/stigready/blob/main/sitemap.xml) |
 
 ## Standing rules
 
@@ -31,7 +31,7 @@ shows **published posts only** — never render the roadmap on stigready.com.
 - **Never** link `stigready/stigforge` (private monorepo).
 - Pin Ansible to a **git tag** (resolve latest `v*` tag via `gh api repos/stigready/<repo>/tags`), never `main`.
 - Marketplace CTA: `https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk`
-- Match **nav + footer** from [index.html](../../../index.html) / existing blog posts (Base, Applied, StigForge, Blog, Pricing, Contact).
+- Match **nav + footer** from [index.html](https://github.com/stigready/stigready/blob/main/index.html) / existing blog posts (Base, Applied, StigForge, Blog, Pricing, Contact).
 - RHEL Base is **BYOL**. SSH users: RHEL/`ec2-user`, Ubuntu/`ubuntu`.
 
 ## Steps
