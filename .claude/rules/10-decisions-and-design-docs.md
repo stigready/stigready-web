@@ -86,3 +86,16 @@ have moved.
 
 Routines are listed and edited through the `RemoteTrigger` tool; they can be disabled from
 there but only deleted at <https://claude.ai/code/routines>.
+
+**It reads one generated surface, it does not recompute.** The two goals the owner tracks
+live in `docs/reports/program-goals/latest.md`, written every tick by
+`scripts/program-goals-report.py`. The routine quotes that file. A second way of counting is
+a second answer, and the routine is the copy the owner sees on a phone.
+
+**The dependency is declared in the repo, because the repo cannot see the routine.**
+`registry/external-surface-consumers.yml` lists every surface something outside this repo
+reads, with the consumer and — for a routine — the `trig_` id needed to update it. The cinc
+control `external_surface_consumers` fails the build if such a surface stops existing or
+stops having a writer, and names the consumer in the failure. Renaming a surface without
+updating its reader is therefore a red build, not a quiet hour of stale figures. Deleting
+the row instead of fixing the reader defeats the point.
