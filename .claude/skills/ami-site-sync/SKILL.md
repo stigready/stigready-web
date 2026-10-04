@@ -9,16 +9,16 @@ description: Sync the Base Catalog table in index.html against the base AMIs act
 
 # AMI → site sync
 
-Regenerate the **Base Catalog** rows of [index.html](https://github.com/stigready/stigready/blob/main/index.html) from the base AMIs
+Regenerate the **Base Catalog** rows of [index.html](https://github.com/stigready/stigready-web/blob/main/index.html) from the base AMIs
 that actually exist in AWS, so the site never claims an OS or architecture that isn't built.
 
 ## The AMI list is the source of truth
 
 Owner decision, 2026-07-21: **the AMIs in AWS are the source of truth for this site.** Not
 `catalog.public.json` — that endpoint was never built (`cdn.stigready.com` is NXDOMAIN, and
-the bucket behind that name is the private evidence store). The
-[site-updater](../../agents/site-updater.md) agent is **superseded** by this skill. One source
-of truth only; two is how the site drifts.
+the bucket behind that name is the private evidence store). This skill and the
+`site-publisher` agent are the only things that edit the Base table. One source of truth only;
+two is how the site drifts.
 
 ### What the AMI list can and cannot decide
 
@@ -43,10 +43,15 @@ Read **only** AMI `Name` and the `OS` / `Arch` / `Lifecycle` / `Product` tags, v
 - **Never** read the `cdn.stigready.com` bucket. It holds `trivy-cve.json`, OpenSCAP results
   and scores, SBOMs, and disk images — all forbidden on the public site, all irrelevant here.
 - **Never** publish a compliance score, CVE count, or benchmark claim. This is the base tier;
-  those belong to stigapplied and only via the catalog.
+  those belong to the Applied tier at `/applied/` and only via the catalog.
 - **Never** invent availability. An AMI existing means *built*, not *released* — see below.
 - Show only `line == stigready` base images (`stigready-base-*`). Ignore `stigapplied-*`;
-  that's the other site.
+  those are the Applied tier at `/applied/` on the same site (one domain since
+  [0041](https://github.com/stigready/claude-agents/blob/main/design/decisions/0041-stigready-org-and-web.md)).
+- Pre-Q4 images are deprecated
+  ([0035](https://github.com/stigready/claude-agents/blob/main/design/decisions/0035-2026q4-release-rebuild-everything.md));
+  `inventory.sh` lists only `state=available` images, so check `Lifecycle` before treating a
+  pre-Q4 AMI as a reason to keep a row.
 
 ## Built ≠ released
 
