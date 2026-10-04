@@ -14,7 +14,7 @@ description: >-
 # Marketplace copy (StigReady)
 
 Produce Marketplace-ready text. Do **not** invent scores, OS/arch pairs, or availability.
-AMIs and [catalog.json](https://github.com/stigready/stigready/blob/main/catalog.json) / AWS inventory are the source of truth for
+AMIs and [catalog.json](https://github.com/stigready/stigready-web/blob/main/catalog.json) / AWS inventory are the source of truth for
 what exists. Seller page: https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk
 
 ## Inputs
@@ -62,6 +62,9 @@ what exists. Seller page: https://aws.amazon.com/marketplace/seller-profile?id=s
 ```
 
 ## Guardrails
+
+- Draft only. Listing copy reaches the Catalog through an owner-only submit; licensing,
+  trademark, FIPS or agency wording goes past `marketplace-legal-review` first.
 
 - No AMI IDs, account IDs, or private evidence bucket paths on public copy.
 - No “coming soon” if the listing is live — say what’s included instead.

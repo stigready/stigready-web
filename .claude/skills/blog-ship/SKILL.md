@@ -20,10 +20,10 @@ shows **published posts only** — never render the roadmap on stigready.com.
 
 | Surface | Path |
 |---|---|
-| Queue (private) | [docs/blog-roadmap.md](https://github.com/stigready/claude-agents/blob/main/docs/stigready/blog-roadmap.md) |
-| Public list | [blog/index.html](https://github.com/stigready/stigready/blob/main/blog/index.html) |
-| Examples | [blog/rhel9-base-stigforge-stig.html](https://github.com/stigready/stigready/blob/main/blog/rhel9-base-stigforge-stig.html), [blog/ubuntu24-base-stigforge-cis.html](https://github.com/stigready/stigready/blob/main/blog/ubuntu24-base-stigforge-cis.html) |
-| Sitemap | [sitemap.xml](https://github.com/stigready/stigready/blob/main/sitemap.xml) |
+| Queue (private) | [docs/stigready-web/blog-roadmap.md](https://github.com/stigready/claude-agents/blob/main/docs/stigready-web/blog-roadmap.md) (claude-agents) |
+| Public list | [blog/index.html](https://github.com/stigready/stigready-web/blob/main/blog/index.html) |
+| Examples | [blog/rhel9-base-stigforge-stig.html](https://github.com/stigready/stigready-web/blob/main/blog/rhel9-base-stigforge-stig.html), [blog/ubuntu24-base-stigforge-cis.html](https://github.com/stigready/stigready-web/blob/main/blog/ubuntu24-base-stigforge-cis.html) |
+| Sitemap | [sitemap.xml](https://github.com/stigready/stigready-web/blob/main/sitemap.xml) |
 
 ## Standing rules
 
@@ -31,12 +31,12 @@ shows **published posts only** — never render the roadmap on stigready.com.
 - **Never** link `stigready/stigforge` (private monorepo).
 - Pin Ansible to a **git tag** (resolve latest `v*` tag via `gh api repos/stigready/<repo>/tags`), never `main`.
 - Marketplace CTA: `https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk`
-- Match **nav + footer** from [index.html](https://github.com/stigready/stigready/blob/main/index.html) / existing blog posts (Base, Applied, StigForge, Blog, Pricing, Contact).
+- Match **nav + footer** from [index.html](https://github.com/stigready/stigready-web/blob/main/index.html) / existing blog posts (Base, Applied, StigForge, Blog, Pricing, Contact).
 - RHEL Base is **BYOL**. SSH users: RHEL/`ec2-user`, Ubuntu/`ubuntu`.
 
 ## Steps
 
-1. **Pick the next queue item** from `docs/blog-roadmap.md` (or the topic the user named).
+1. **Pick the next queue item** from `docs/stigready-web/blog-roadmap.md` in claude-agents (or the topic the user named).
 2. **Resolve facts**
    - Role repo + latest release tag
    - Marketplace product title for that OS/arch
@@ -44,8 +44,10 @@ shows **published posts only** — never render the roadmap on stigready.com.
 3. **Create** `blog/<slug>.html` using the hands-on template in the roadmap (subscribe → pin role → playbook → evidence). Copy structure/CSS from an existing hands-on post.
 4. **Update** `blog/index.html` — add a Posts list entry (date + title + one-line blurb).
 5. **Update** `sitemap.xml` with the new URL.
-6. **Update** `docs/blog-roadmap.md` — remove the shipped item from the queue.
-7. **Branch + PR** (unless user said not to). Title like `feat(blog): <topic>`. Merge only if the user asks.
+6. **Update** `docs/stigready-web/blog-roadmap.md` — remove the shipped item from the queue
+   (a separate claude-agents PR; docs are authored there).
+7. **Branch + PR** in `stigready-web` (unless user said not to). Title like `feat(blog): <topic>`.
+   Merge only on a green `validate`, and only if the user asks.
 8. **Smoke** — confirm no private monorepo URL; nav matches main site.
 
 ## Hands-on section order
