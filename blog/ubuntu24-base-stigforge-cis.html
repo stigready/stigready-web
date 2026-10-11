@@ -86,7 +86,7 @@
             <ul>
                 <li>Access to a StigReady Ubuntu 24.04 Base AMI (early access / Private Offer, or Marketplace when listed)</li>
                 <li>Ansible 2.16+ on a control host that can SSH to the instance</li>
-                <li>Role pin used in this post: <code>v0.2.4-private-review</code> — check <a href="https://github.com/stigready/ubuntu24-cis">stigready/ubuntu24-cis</a> for newer tags</li>
+                <li>Role pin used in this post: <code>v0.3.3</code> — check <a href="https://github.com/stigready/ubuntu24-cis">stigready/ubuntu24-cis</a> for newer tags</li>
             </ul>
 
             <h2>1. Launch Base</h2>
@@ -102,7 +102,7 @@
 roles:
   - src: https://github.com/stigready/ubuntu24-cis
     scm: git
-    version: v0.2.4-private-review
+    version: v0.3.3
     name: ubuntu24_cis
 </code></pre>
 <pre><code>ansible-galaxy role install -r requirements.yml -p ./roles
@@ -121,14 +121,13 @@ ubuntu24-base ansible_host=&lt;instance-ip&gt; ansible_user=ubuntu
 </code></pre>
 <pre><code>ansible-playbook -i inventory.ini site.yml
 </code></pre>
-            <p>The role default profile is <code>cis-l1</code> (<code>stigforge_profile</code> in <code>defaults/main.yml</code>). CIS Level 2 OpenSCAP evidence for the same release is under <code>compliance/releases/…/cis-l2/</code> — use that when your policy requires L2, and prefer Applied CIS L2 AMIs if you want L2 scored at bake without wiring it yourself.</p>
+            <p>The role default profile is <code>cis-l1</code> (<code>stigforge_profile</code> in <code>defaults/main.yml</code>). Set <code>stigforge_profile: cis-l2</code> when your policy requires Level 2, and prefer the Applied CIS L2 AMI if you want L2 scored at bake without wiring it yourself.</p>
 
-            <h2>4. Check published evidence</h2>
+            <h2>4. Score the instance</h2>
+            <p>The role repo ships a per-tag manifest (factory commit, SSG version, content digest), not a score; container verification was retired because a container cannot evaluate most benchmark rules.</p>
             <ul>
-                <li>L1 evidence: <a href="https://github.com/stigready/ubuntu24-cis/tree/main/compliance/releases/0.2.4-private-review/cis-l1">compliance/releases/0.2.4-private-review/cis-l1</a></li>
-                <li>L2 evidence: <a href="https://github.com/stigready/ubuntu24-cis/tree/main/compliance/releases/0.2.4-private-review/cis-l2">…/cis-l2</a></li>
-                <li>Matrix scores: <a href="/#stigforge">stigready.com/#stigforge</a></li>
-                <li>Re-prove: <code>make prove RELEASE=0.2.4-private-review</code> in the role repo</li>
+                <li>Score this host: <code>oscap xccdf eval --profile xccdf_org.ssgproject.content_profile_cis_level1_server --results results.xml --report report.html /usr/share/xml/scap/ssg/content/ssg-ubuntu2404-ds.xml</code> (<code>cis_level2_server</code> for L2).</li>
+                <li>Published scores for the StigApplied image that bakes the same role: <a href="/#applied-tier">stigready.com/#applied-tier</a></li>
             </ul>
 
             <h2>Related</h2>

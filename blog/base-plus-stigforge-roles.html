@@ -78,7 +78,7 @@
         <article class="max-w-3xl mx-auto">
             <p class="text-xs text-gray-500 mb-3"><a href="/blog/" class="text-yellow-500 hover:underline">Blog</a> · 2026-07-30</p>
             <h1 class="text-3xl md:text-4xl font-black text-white mb-6 tracking-tight">StigReady Base + StigForge roles</h1>
-            <p class="text-lg text-gray-300 mb-8">StigReady Base gives you the STIG disk layout and cloud hardening. StigForge gives you public, OpenSCAP-verified Ansible roles for CIS and DISA STIG. Together they are the bring-your-own remediation path. For a pricing-focused comparison, see <a href="/blog/base-vs-applied.html">Base vs Applied</a>.</p>
+            <p class="text-lg text-gray-300 mb-8">StigReady Base gives you the STIG disk layout and cloud hardening. StigForge gives you public Ansible roles for CIS and DISA STIG, generated from the SSG datastream and scored by OpenSCAP on the StigApplied images that bake them. Together they are the bring-your-own remediation path. For a pricing-focused comparison, see <a href="/blog/base-vs-applied.html">Base vs Applied</a>.</p>
 
             <h2>The two paths</h2>
             <ul>
@@ -92,8 +92,8 @@
             <p>Start from the <a href="/#base-tier">Base catalog</a> on stigready.com. AWS Marketplace listings are rolling out — watch the <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk">seller page</a> or <a href="mailto:contact@stigready.com">contact us</a> for early access. RHEL images are BYOL — you bring a Red Hat subscription.</p>
 
             <h2>What StigForge roles add</h2>
-            <p>Each public role repo (<code>*-cis</code> / <code>*-stig</code>) is a Galaxy-style Ansible role plus immutable OpenSCAP evidence under <code>compliance/releases/</code>. Factory CI verifies against the <strong class="text-white">raw, unmodified SSG profile</strong> with a 90% floor. Published scores live on <a href="/#stigforge">stigready.com/#stigforge</a>.</p>
-            <p>Install with a pinned tag (example: <code>v0.2.4-private-review</code>). Do not float on <code>main</code>.</p>
+            <p>Each public role repo (<code>*-cis</code> / <code>*-stig</code>) is a Galaxy-style Ansible role with an immutable per-tag manifest under <code>compliance/releases/</code> (factory commit, SSG version, content digest). The score is measured by OpenSCAP against the <strong class="text-white">raw, unmodified SSG profile</strong> on the StigApplied image that bakes the role, with a 90% floor; those scores live on <a href="/#applied-tier">stigready.com/#applied-tier</a>.</p>
+            <p>Install with a pinned tag (example: <code>v0.3.3</code>). Do not float on <code>main</code>.</p>
 
             <h2>Hands-on next</h2>
             <ul>

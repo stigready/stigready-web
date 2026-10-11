@@ -183,7 +183,7 @@
             <a href="#stigforge" class="block max-w-xl mx-auto mb-8 bg-gray-800 border border-gray-700 hover:border-yellow-600 text-white px-6 py-3 rounded-lg transition text-left">
                 <div class="text-xs text-yellow-500 font-semibold uppercase tracking-wider mb-0.5">StigForge</div>
                 <div class="font-bold">Public CIS / STIG Ansible roles</div>
-                <div class="text-xs text-gray-400 mt-0.5">OpenSCAP-verified with published scores and evidence per release</div>
+                <div class="text-xs text-gray-400 mt-0.5">Generated from SSG; scored by OpenSCAP on the images that bake them</div>
             </a>
             <div class="flex flex-col sm:flex-row justify-center gap-3 items-center">
                 <a href="mailto:contact@stigready.com"
@@ -340,7 +340,7 @@
                 <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
                     <i data-lucide="shield-check" class="w-9 h-9 mb-3 text-yellow-500"></i>
                     <h3 class="font-bold mb-2">StigForge roles</h3>
-                    <p class="text-gray-400 text-sm">Remediation is driven by <strong class="text-gray-200">StigForge</strong> — public CIS / STIG Ansible roles generated from SSG, OpenSCAP-verified, with published scores and evidence per release.</p>
+                    <p class="text-gray-400 text-sm">Remediation is driven by <strong class="text-gray-200">StigForge</strong> — public CIS / STIG Ansible roles generated from the SSG datastream. Each release pins its factory commit and SSG version; the OpenSCAP score and evidence come from the StigApplied image build that bakes it, never from a container.</p>
                 </div>
                 <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
                     <i data-lucide="chart-bar" class="w-9 h-9 mb-3 text-yellow-500"></i>
@@ -369,7 +369,7 @@
                 <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-5">
                     <div>
                         <h3 class="text-xl font-bold text-white">Applied Scores</h3>
-                        <p class="text-gray-400 text-sm mt-1">All scores as of build 2026-07 · scored against the raw, unmodified SSG profile</p>
+                        <p class="text-gray-400 text-sm mt-1">All scores as of <span id="catalog-generated">the latest published catalog</span> · scored against the raw, unmodified SSG profile</p>
                     </div>
                     <div class="flex flex-col gap-2">
                         <div class="flex gap-2 flex-wrap" id="applied-arch-filters">
@@ -428,9 +428,9 @@
         <div class="max-w-6xl mx-auto">
             <div class="text-center mb-10">
                 <span class="text-xs text-yellow-500 font-semibold uppercase tracking-widest">StigForge</span>
-                <h2 class="text-3xl font-bold mt-2 text-white">Verified Ansible roles</h2>
+                <h2 class="text-3xl font-bold mt-2 text-white">Public Ansible roles</h2>
                 <p class="text-gray-400 mt-3 max-w-3xl mx-auto">
-                    Public CIS and STIG role exports — OpenSCAP-verified against the raw SSG profile, with published scores and immutable evidence per release.
+                    Public CIS and STIG role exports, generated from the raw SSG profile and pinned by immutable tag. Scores are measured by OpenSCAP on the StigApplied image that consumes each release and published on this page; the evidence bundle ships with that image.
                     <a href="/blog/" class="text-yellow-500 hover:underline">How-tos: Base + roles →</a>
                 </p>
             </div>
@@ -445,7 +445,7 @@
 
             <div class="bg-gray-800 rounded-xl border border-gray-700 p-6">
                 <h3 class="text-xl font-bold text-white mb-2">Scores</h3>
-                <p class="text-gray-400 text-sm mb-4">OpenSCAP verify against the raw SSG profile.</p>
+                <p class="text-gray-400 text-sm mb-4">Measured by OpenSCAP against the raw SSG profile on the StigApplied image build that consumes each role, not in the role repo.</p>
                 <div class="overflow-x-auto border border-gray-700 rounded-lg">
                     <table class="w-full text-sm min-w-[560px]">
                         <thead class="bg-navy text-gray-300 uppercase text-xs tracking-wider">
@@ -631,6 +631,12 @@
         try {
             const res = await fetch('catalog.json');
             if (!res.ok) throw new Error(`catalog.json HTTP ${res.status}`);
+            // The "as of" date is the catalog's own `generated` stamp, never typed by hand.
+            try {
+                const stamp = (await res.clone().json()).generated;
+                const el = document.getElementById('catalog-generated');
+                if (el && stamp) el.textContent = `catalog ${stamp}`;
+            } catch (_) { /* leave the fallback text */ }
             const data = await res.json();
             if (!data || !Array.isArray(data.products)) {
                 throw new Error('catalog.json missing products[]');
