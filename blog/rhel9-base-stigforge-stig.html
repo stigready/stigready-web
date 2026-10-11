@@ -87,7 +87,7 @@
                 <li>Access to a StigReady RHEL 9 Base AMI (early access / Private Offer, or Marketplace when listed)</li>
                 <li>A Red Hat subscription for the instance (RHEL Base is <strong class="text-white">BYOL</strong>)</li>
                 <li>Ansible 2.16+ on a control host that can SSH to the instance</li>
-                <li>Role pin used in this post: <code>v0.2.4-private-review</code> — check <a href="https://github.com/stigready/rhel9-stig">stigready/rhel9-stig</a> for newer tags</li>
+                <li>Role pin used in this post: <code>v0.3.3</code> — check <a href="https://github.com/stigready/rhel9-stig">stigready/rhel9-stig</a> for newer tags</li>
             </ul>
 
             <h2>1. Launch Base</h2>
@@ -105,7 +105,7 @@
 roles:
   - src: https://github.com/stigready/rhel9-stig
     scm: git
-    version: v0.2.4-private-review
+    version: v0.3.3
     name: rhel9_stig
 </code></pre>
 <pre><code>ansible-galaxy role install -r requirements.yml -p ./roles
@@ -127,14 +127,13 @@ rhel9-base ansible_host=&lt;instance-ip&gt; ansible_user=ec2-user
 </code></pre>
             <p>Expect a reboot-friendly run: FIPS / crypto policy and auth changes may require a reboot before services settle. Plan a maintenance window.</p>
 
-            <h2>4. Check published evidence</h2>
-            <p>Factory-verified scores and artifacts for this tag live under the role repo:</p>
+            <h2>4. Score the instance</h2>
+            <p>What the role repo ships for each tag is a manifest (<code>compliance/releases/&lt;version&gt;/manifest.json</code>) pinning the factory commit, the SSG version and a content digest. It does not ship a score.</p>
             <ul>
-                <li>Release evidence: <a href="https://github.com/stigready/rhel9-stig/tree/main/compliance/releases/0.2.4-private-review/stig">compliance/releases/0.2.4-private-review/stig</a></li>
-                <li>Matrix scores: <a href="/#stigforge">stigready.com/#stigforge</a></li>
-                <li>Customer re-prove helper: <code>make prove RELEASE=0.2.4-private-review</code> in the role repo</li>
+                <li>Score this host: <code>oscap xccdf eval --profile xccdf_org.ssgproject.content_profile_stig --results results.xml --report report.html /usr/share/xml/scap/ssg/content/ssg-rhel9-ds.xml</code>, after the reboot.</li>
+                <li>Published scores for the StigApplied image that bakes the same role: <a href="/#applied-tier">stigready.com/#applied-tier</a></li>
             </ul>
-            <p>Your live host score can differ from docker verify (cloud exceptions, packages, timing). Use OpenSCAP against the raw SSG <code>stig</code> profile when you need an auditor-facing number for <em>this</em> instance.</p>
+            <p>The role repo ships no container score (container verification was retired because a container cannot evaluate most STIG rules). The number that counts is OpenSCAP against the raw SSG <code>stig</code> profile on <em>this</em> instance, after the reboot; that is also what StigReady publishes for the StigApplied image that bakes the same role.</p>
 
             <h2>Related</h2>
             <ul>
