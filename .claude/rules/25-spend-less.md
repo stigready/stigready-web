@@ -7,7 +7,7 @@
 **Owner, 2026-09-24:** *"we need to alwau look to spend less"* — said when offered
 "raise the Actions budget" as one of two fixes for a CI outage.
 
-Record: [0050](https://github.com/stigready/claude-agents/blob/main/design/decisions/0050-pr-checks-run-on-the-fleet-we-own.md)
+Record: [0052](https://github.com/stigready/claude-agents/blob/main/design/decisions/0052-pr-checks-run-on-the-fleet-we-own.md)
 
 ## The rule
 
@@ -22,7 +22,7 @@ Record: [0050](https://github.com/stigready/claude-agents/blob/main/design/decis
 ## Never at the cost of a gate
 
 Spending less does **not** license weakening a gate, a floor, a baseline or branch
-protection. 0050 changes *where* checks run, never *whether* they run. A merge freeze is
+protection. 0052 changes *where* checks run, never *whether* they run. A merge freeze is
 preferable to an unreviewed merge — see
 [`20-security-invariants.md`](20-security-invariants.md).
 
@@ -59,4 +59,4 @@ a CI run every time.
 ## Query it properly
 
 Pass `year` and `month`. Without them the endpoint returns a first page that can attribute
-the spend to the wrong repo — it did, and the first version of 0050 blamed stigforge.
+the spend to the wrong repo — it did, and the first version of 0052 blamed stigforge.
