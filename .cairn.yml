@@ -1,0 +1,20 @@
+# Cairn pipeline (stigready/cairn). Mirrors .github/workflows/validate.yml for commits to main; GitHub Actions stays
+# authoritative until the cutover.
+version: 1
+name: stigready-web
+
+triggers:
+  manual: true
+  poll:
+    branches: [main]
+    interval: 5m
+
+jobs:
+  - name: validate
+    stage: verify
+    timeout: 15m
+    run:
+      exec:
+        steps:
+          - name: validate-site
+            run: python3 scripts/validate-site.py
