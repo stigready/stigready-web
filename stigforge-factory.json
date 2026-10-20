@@ -1,14 +1,7 @@
 {
   "schema": 1,
   "generated": "2026-08-13",
-  "factory_repo": "stigready/stigforge",
-  "factory_repo_visibility": "private",
-  "factory_commit": "37a1756",
-  "factory_commit_full": "37a17569e3cce801f884f70b363ffee8d93efc0b",
   "min_score_default": 90,
-  "image_cutover": "complete",
-  "image_cutover_note": "StigApplied AMIs bake StigForge-exported roles only (see stigready/stigready ansible/requirements.yml). OpenSCAP scores on the site come from released inventory.",
-  "factory_cutover_ready": true,
   "role_repos": {
     "github_org": "stigready",
     "default_visibility": "public"
@@ -438,11 +431,5 @@
         }
       ]
     }
-  ],
-  "phases": {
-    "A_stigready_base": "in_progress",
-    "B_stigforge_pins": "stable",
-    "C_marketplace": "in_progress",
-    "D_site_truth": "automated"
-  }
+  ]
 }
