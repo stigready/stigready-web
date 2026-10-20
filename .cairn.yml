@@ -8,6 +8,9 @@ triggers:
   poll:
     branches: [main]
     interval: 5m
+  pull_requests:   # same-repository PRs into main; no secrets, never forks
+    branches: [main]
+    interval: 5m
 
 jobs:
   - name: validate
