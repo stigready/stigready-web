@@ -15,6 +15,7 @@ triggers:
 jobs:
   - name: validate
     stage: verify
+    status: validate   # the context branch protection requires (was the GitHub Actions job)
     timeout: 15m
     run:
       exec:
