@@ -1,0 +1,34 @@
+# The green check IS the control (.claude/rules/00-program-agent-contract.md).
+#
+# This repo had NO workflows and `required_status_checks: null` on `main`, so branch
+# protection here enforced nothing — `enforce_admins: true` over an empty check list. Every
+# other program repo merges on a green `validate`; this one merged on nothing, and it is the
+# repo that publishes to customers.
+#
+# The job is named `validate` to match the other repos, so it can be set as the required
+# status check on `main` without renaming anything later.
+name: validate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # No dependencies on purpose: the validator uses only the standard library, so this
+      # check cannot be broken by a registry outage or a transitive pin.
+      - name: Validate the published site
+        run: python3 scripts/validate-site.py
