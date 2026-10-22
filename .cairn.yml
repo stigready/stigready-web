@@ -21,3 +21,64 @@ jobs:
         steps:
           - name: validate-site
             run: python3 scripts/validate-site.py
+
+  # Scanners (decision 0076 part B; owner 2026-10-21: "we should be running trivy and any other tools that make sence").
+  # The same job as stigready's `scan`, fitted to this repo: static HTML/JSON and one Python validator; no shell
+  # scripts, so no shellcheck.
+  # ADVISORY: every step is allow_failure, so findings show as "failed (allowed)" and the job passes. The job sets no
+  # `status:`, so it never touches a required context; it only feeds the pipeline aggregate. A scanner becomes required
+  # by deleting its allow_failure once its findings are fixed or triaged (baseline 2026-10-21,
+  # qemu-2:/var/tmp/scanbase-20261021/results/stigready-web). Commands live here, not in a repo script, because pull requests
+  # run main's pipeline: a PR cannot change the commands. It CAN still add the tools' own ignore files and inline
+  # suppressions (.trivyignore, .gitleaksignore, nosemgrep, shellcheck disable): before a step becomes required, its
+  # config must come from the image (e.g. gitleaks --config, trivy --ignorefile), not from the checkout. Image: Cairn's
+  # `scan` (tools pinned, Trivy DB and Semgrep packs baked in; /opt/scan/VERSIONS has the versions and DB dates).
+  - name: scan
+    stage: verify
+    timeout: 20m
+    run:
+      exec:
+        image: scan
+        steps:
+          - name: versions-and-db-age
+            allow_failure: true
+            run: |-
+              cat /opt/scan/VERSIONS
+              python3 - <<'PY'
+              import datetime, re, sys
+              t = open("/opt/scan/VERSIONS").read()
+              # Line format: "trivy-db: <UpdatedAt>, sha256 <hex>". Only the date is parsed: robust to the comma and to
+              # nanosecond timestamps.
+              m = re.search(r"^trivy-db: (\d{4}-\d{2}-\d{2})", t, re.M)
+              if not m:
+                  sys.exit("::error::/opt/scan/VERSIONS has no trivy-db date")
+              age = datetime.datetime.now(datetime.timezone.utc).date() - datetime.date.fromisoformat(m.group(1))
+              print(f"trivy-db age: {age.days} days")
+              if age.days > 14:
+                  sys.exit(f"::error::the Trivy DB is {age.days} days old (limit 14): rebuild Cairn's scan image")
+              PY
+          - name: trivy-vuln-secret-misconfig-high-critical
+            allow_failure: true
+            run: trivy fs --scanners vuln,secret,misconfig --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 .
+          - name: gitleaks
+            allow_failure: true
+            run: gitleaks detect --no-git --redact --no-banner --source . --exit-code 1
+          # JSON, then only path:line, rule and severity are printed: semgrep's text output shows the matched source line,
+          # and the baked p/secrets pack would put a real secret into the log (security review of stigready#4999).
+          - name: semgrep-error
+            allow_failure: true
+            run: |-
+              semgrep scan --config /opt/semgrep-rules --metrics off --severity ERROR --quiet --json -o "${TMPDIR:-/tmp}/semgrep.json" . || true
+              python3 - "${TMPDIR:-/tmp}/semgrep.json" <<'PY'
+              import json, sys
+              d = json.load(open(sys.argv[1]))
+              rs = d.get("results", [])
+              for r in rs:
+                  print(f'{r["path"]}:{r["start"]["line"]}  {r["check_id"]}  {r["extra"].get("severity", "")}')
+              print(f"semgrep: {len(rs)} ERROR finding(s); {len(d.get('errors', []))} scan error(s)")
+              sys.exit(1 if rs else 0)
+              PY
+          - name: yamllint-errors
+            allow_failure: true
+            run: |-
+              git ls-files -z '*.yml' '*.yaml' | xargs -0 -r yamllint -d relaxed --no-warnings
