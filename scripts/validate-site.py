@@ -11,15 +11,16 @@ about the published artefacts, not style:
   1. every JSON and XML file parses (catalog.json drives the rendered catalog)
   2. catalog.json's shape: required keys, known availability values, sane scores
   3. AVAILABILITY DISCIPLINE — `availability: "available"` is the public "available" badge.
-     Per .claude/rules/aws-marketplace.md it may only be set once a customer can actually
+     It may only be set once a customer can actually
      subscribe, so it must carry a real Marketplace URL. A product claiming availability
      with no listing is a false public claim, which is the one failure mode on this repo
      that reaches customers rather than developers.
-  4. no macOS "<name> 2.ext" duplicates (G191 — committed three times in one week)
+  4. no macOS "<name> 2.ext" duplicates
   5. locally-referenced assets exist
-  6. the vendored .claude/ config matches its recorded hashes — claude-agents' manifest
-     says "a drift check fails the build if one is [hand-edited]", and with no workflow
-     in this repo that check had nowhere to run
+  6. NOTHING PRIVATE IS PUBLISHED — this repo is public and served as-is, so agent/editor
+     config (.claude/, .cursor/, CLAUDE.md, AGENTS.md) must not be tracked, and no tracked
+     file may reference a private org repository
+  7. no docs/ tree (documentation is maintained elsewhere)
 
 Exit 1 on any finding, with every finding printed — a validator that stops at the first
 problem turns one fix round into five.
@@ -113,7 +114,7 @@ def check_duplicates(files: list[Path]) -> None:
     for f in dupes:
         problems.append(
             f"{f.relative_to(ROOT)}: macOS duplicate committed — a stale second copy of an "
-            "authored file, and nothing says which is real (G191)"
+            "authored file, and nothing says which is real"
         )
 
 
@@ -173,70 +174,46 @@ def check_local_assets(files: list[Path]) -> None:
                 )
 
 
-def check_docs_moved() -> None:
-    """Documentation lives in claude-agents, not here.
+PRIVATE_REPOS = (
+    "stigforge", "claude-agents", "stigready", "stigvalidated", "cairn", "build-reports",
+    "cmmc-agents-field-manual",
+)
+# stigready/<private> not followed by another name character, so public repos such as
+# stigready/stigready-web or stigready/rhel9-stig never match.
+PRIVATE_REF = re.compile(
+    r"stigready/(?:" + "|".join(re.escape(r) for r in PRIVATE_REPOS) + r")(?:-\w+)?(?![\w-])"
+    r"|stigready/stigvalidated-\w+"
+)
+AGENT_CONFIG = (".claude/", ".cursor/")
+AGENT_FILES = {"CLAUDE.md", "AGENTS.md"}
+TEXT_SUFFIXES = {".html", ".json", ".xml", ".txt", ".md", ".js", ".css", ".py", ".sh", ".yml", ".yaml", ""}
 
-    Owner direction, 2026-09-23: "i want all docs reviewd and moved to claude-agents repo.
-    we need all docs in 1 place." The four documents that were in docs/ moved to
-    claude-agents/docs/stigready-web/; docs/README.md is the redirect.
 
-    Without a check the directory refills one convenient file at a time. Across the program
-    that is how 185 documents accumulated in three repos, and how several came to describe
-    mechanisms that had already been deleted -- a doc nobody must keep with its subject
-    drifts away from it.
+def check_nothing_private(files: list[Path]) -> None:
+    """This repo is public and GitHub Pages serves every tracked file.
+
+    Agent and editor config once rode along here and was reachable on the live site. It
+    describes internal infrastructure and has no place in a public repo, so it must not be
+    tracked at all. Likewise no published file may point at a private repository: a
+    visitor gets a 404, and the reference itself discloses internal structure.
     """
-    docs = ROOT / "docs"
-    if not docs.is_dir():
-        return
-    stray = sorted(
-        str(p.relative_to(docs)) for p in docs.rglob("*")
-        if p.is_file() and p.relative_to(docs) != Path("README.md")
-    )
+    for f in files:
+        rel = f.relative_to(ROOT).as_posix()
+        if rel.startswith(AGENT_CONFIG) or f.name in AGENT_FILES:
+            problems.append(f"{rel}: agent/editor config must not be tracked in this public repo")
+            continue
+        if rel == "scripts/validate-site.py" or f.suffix not in TEXT_SUFFIXES or not f.is_file():
+            continue
+        for n, line in enumerate(f.read_text(encoding="utf-8", errors="ignore").splitlines(), 1):
+            m = PRIVATE_REF.search(line)
+            if m:
+                problems.append(f"{rel}:{n}: references private repository {m.group(0)!r}")
+
+
+def check_no_docs(files: list[Path]) -> None:
+    stray = sorted(f.relative_to(ROOT).as_posix() for f in files if f.relative_to(ROOT).parts[0] == "docs")
     if stray:
-        problems.append(
-            "docs/: documentation belongs in claude-agents/docs/stigready-web/, not here — "
-            + ", ".join(stray)
-        )
-    readme = docs / "README.md"
-    if not readme.is_file():
-        problems.append("docs/README.md: the redirect is missing — removing the documents without it just loses them")
-    elif "claude-agents/tree/main/docs/stigready-web" not in readme.read_text(encoding="utf-8"):
-        problems.append("docs/README.md: does not name where the documents went")
-
-
-def check_vendored_config() -> None:
-    """The .claude/ tree is VENDORED from claude-agents and must not be hand-edited there.
-
-    .sync-manifest.sha256 records the hash of every vendored file, so drift is detectable
-    from this repo alone — no sibling clone, which matters because CI runners check out one
-    repo. A file listed in the manifest that is missing or altered means someone edited the
-    copy instead of the source, and the next sync will silently overwrite their work.
-    """
-    manifest = ROOT / ".claude" / ".sync-manifest.sha256"
-    if not manifest.is_file():
-        return  # repo may legitimately vendor nothing
-
-    import hashlib
-
-    for line in manifest.read_text(encoding="utf-8").splitlines():
-        line = line.strip()
-        if not line or line.startswith("#"):
-            continue
-        try:
-            want, rel = line.split(None, 1)
-        except ValueError:
-            problems.append(f".claude/.sync-manifest.sha256: unparseable line {line!r}")
-            continue
-        target = ROOT / rel.strip()
-        if not target.is_file():
-            problems.append(f"{rel.strip()}: vendored file is missing — re-run sync-agent-config.sh")
-            continue
-        got = hashlib.sha256(target.read_bytes()).hexdigest()
-        if got != want:
-            problems.append(
-                f"{rel.strip()}: vendored config edited in place. Author it in "
-                "claude-agents/config/ and re-vendor; the next sync overwrites this copy."
-            )
+        problems.append("docs/: documentation is not published from this repo — " + ", ".join(stray))
 
 
 def main() -> int:
@@ -245,8 +222,8 @@ def main() -> int:
     check_catalog()
     check_duplicates(files)
     check_local_assets(files)
-    check_vendored_config()
-    check_docs_moved()
+    check_nothing_private(files)
+    check_no_docs(files)
 
     if problems:
         print(f"validate-site: {len(problems)} problem(s)\n", file=sys.stderr)

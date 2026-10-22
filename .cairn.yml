@@ -1,5 +1,4 @@
-# Cairn pipeline (stigready/cairn). Mirrors .github/workflows/validate.yml for commits to main; GitHub Actions stays
-# authoritative until the cutover.
+# Cairn pipeline: validates every commit and same-repo PR to main.
 version: 1
 name: stigready-web
 

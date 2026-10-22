@@ -564,9 +564,8 @@
     <script>
     'use strict';
 
-    // catalog.json is published from the factory repo (stigready/public/catalog.json via
-    // scripts/publish-catalog.py --to-site). Do not hand-edit product rows — arch lists
-    // and scores come from that file. Schema v2: see factory https://github.com/stigready/claude-agents/blob/main/docs/stigready/web-data-governance.md.
+    // catalog.json is generated. Do not hand-edit product rows — arch lists and scores
+    // come from that file.
     // Marketplace listing state is not tracked on this site.
     let catalog = null;
     let factory = null;

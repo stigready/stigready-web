@@ -1,0 +1,5 @@
+# Agent and editor config is authored privately; never publish it with the site.
+.claude/
+.cursor/
+CLAUDE.md
+AGENTS.md
