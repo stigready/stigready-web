@@ -23,62 +23,37 @@ jobs:
             run: python3 scripts/validate-site.py
 
   # Scanners (decision 0076 part B; owner 2026-10-21: "we should be running trivy and any other tools that make sence").
-  # The same job as stigready's `scan`, fitted to this repo: static HTML/JSON and one Python validator; no shell
-  # scripts, so no shellcheck.
-  # ADVISORY: every step is allow_failure, so findings show as "failed (allowed)" and the job passes. The job sets no
-  # `status:`, so it never touches a required context; it only feeds the pipeline aggregate. A scanner becomes required
-  # by deleting its allow_failure once its findings are fixed or triaged (baseline 2026-10-21,
-  # qemu-2:/var/tmp/scanbase-20261021/results/stigready-web). Commands live here, not in a repo script, because pull requests
-  # run main's pipeline: a PR cannot change the commands. It CAN still add the tools' own ignore files and inline
-  # suppressions (.trivyignore, .gitleaksignore, nosemgrep, shellcheck disable): before a step becomes required, its
-  # config must come from the image (e.g. gitleaks --config, trivy --ignorefile), not from the checkout. Image: Cairn's
-  # `scan` (tools pinned, Trivy DB and Semgrep packs baked in; /opt/scan/VERSIONS has the versions and DB dates).
+  # Fitted to this repo: static HTML/JSON and one Python validator.
+  # Cairn's `cairn-scan` (in its `scan` image) runs each tool offline against the image's baked
+  # Trivy DBs and Semgrep packs (until Cairn v0.4.2 no step saw the image's offline settings, so every pull request
+  # run's trivy tried to download its DB and failed), keeps a JSON result per tool (artifact scan-results/) and a
+  # summary of counts, and writes `<tool>=<findings>`.
+  # ADVISORY: never in the aggregate. Its own `scan` context (status_counts) reads "clean: trivy=0 ...", "findings:
+  # ..." (failure) or "incomplete: trivy=? ..." (error: a scanner did not run). A scanner that cannot run fails its step
+  # (exit 2, no allow_failure), so "did not run" is never a pass. Findings fail the context, not the job. Commands live
+  # here (main's pipeline, which a PR cannot change); tool config never comes from the checkout, but its ignore files
+  # do (.trivyignore, .gitleaksignore, nosemgrep): the summary names them, and before a scanner becomes required they
+  # must come from the base branch.
   - name: scan
     stage: verify
+    advisory: true
+    status: scan
+    status_counts: [trivy, gitleaks, semgrep, yamllint]
+    artifacts: {paths: [scan-results]}
     timeout: 20m
     run:
       exec:
         image: scan
         steps:
-          - name: versions-and-db-age
-            allow_failure: true
-            run: |-
-              cat /opt/scan/VERSIONS
-              python3 - <<'PY'
-              import datetime, re, sys
-              t = open("/opt/scan/VERSIONS").read()
-              # Line format: "trivy-db: <UpdatedAt>, sha256 <hex>". Only the date is parsed: robust to the comma and to
-              # nanosecond timestamps.
-              m = re.search(r"^trivy-db: (\d{4}-\d{2}-\d{2})", t, re.M)
-              if not m:
-                  sys.exit("::error::/opt/scan/VERSIONS has no trivy-db date")
-              age = datetime.datetime.now(datetime.timezone.utc).date() - datetime.date.fromisoformat(m.group(1))
-              print(f"trivy-db age: {age.days} days")
-              if age.days > 14:
-                  sys.exit(f"::error::the Trivy DB is {age.days} days old (limit 14): rebuild Cairn's scan image")
-              PY
-          - name: trivy-vuln-secret-misconfig-high-critical
-            allow_failure: true
-            run: trivy fs --scanners vuln,secret,misconfig --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 .
+          - name: versions
+            run: cairn-scan versions
+          - name: trivy
+            run: cairn-scan trivy --scanners vuln,secret,misconfig --severity HIGH,CRITICAL --ignore-unfixed .
           - name: gitleaks
-            allow_failure: true
-            run: gitleaks detect --no-git --redact --no-banner --source . --exit-code 1
-          # JSON, then only path:line, rule and severity are printed: semgrep's text output shows the matched source line,
-          # and the baked p/secrets pack would put a real secret into the log (security review of stigready#4999).
-          - name: semgrep-error
-            allow_failure: true
-            run: |-
-              semgrep scan --config /opt/semgrep-rules --metrics off --severity ERROR --quiet --json -o "${TMPDIR:-/tmp}/semgrep.json" . || true
-              python3 - "${TMPDIR:-/tmp}/semgrep.json" <<'PY'
-              import json, sys
-              d = json.load(open(sys.argv[1]))
-              rs = d.get("results", [])
-              for r in rs:
-                  print(f'{r["path"]}:{r["start"]["line"]}  {r["check_id"]}  {r["extra"].get("severity", "")}')
-              print(f"semgrep: {len(rs)} ERROR finding(s); {len(d.get('errors', []))} scan error(s)")
-              sys.exit(1 if rs else 0)
-              PY
-          - name: yamllint-errors
-            allow_failure: true
-            run: |-
-              git ls-files -z '*.yml' '*.yaml' | xargs -0 -r yamllint -d relaxed --no-warnings
+            run: cairn-scan gitleaks
+          - name: semgrep
+            run: cairn-scan semgrep --severity ERROR .
+          - name: yamllint
+            run: cairn-scan yamllint
+          - name: verdict
+            run: cairn-scan verdict trivy gitleaks semgrep yamllint
