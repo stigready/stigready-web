@@ -84,7 +84,7 @@
             <p>That is the point of <a href="/blog/stig-disk-layout-that-wont-fight-you.html">STIG disk layout that won't fight you</a>: bake the mounts once at install, then remediate on a disk that already matches the profile. You do not re-carve partitions when you pick a Graviton instance type.</p>
 
             <h2>Applied arm64: scored CIS/STIG plus evidence</h2>
-            <p><a href="/#applied-tier">StigReady Applied</a> arm64 cells are CIS Level 1/2 or DISA STIG remediated images, scored in-build against the raw SSG profile, with a published score on the Applied table. The evidence bundle (ARF, HTML, POA&amp;M, SBOM, CVE scan) travels with the AMI the same way it does on x86 — see <a href="/blog/openscap-evidence-bundles.html">OpenSCAP evidence bundles auditors actually open</a>.</p>
+            <p><a href="/#applied-tier">StigReady Applied</a> arm64 cells are CIS Level 1/2 or DISA STIG remediated images, scored in-build against the raw SSG profile, with a published score on the Applied table. The evidence bundle (ARF, HTML, POA&amp;M, SBOM, and a CVE scan except on RHEL 10) is available on request the same way it is on x86 — see <a href="/blog/openscap-evidence-bundles.html">OpenSCAP evidence bundles auditors actually open</a>.</p>
             <p>Scores and factory gates are engineering proof for buyers and auditors. They are not certification, authorization, or accreditation — and StigReady is not endorsed by DISA or DoD.</p>
 
             <h2>Base arm64: layout and hardening, bring your own roles</h2>
