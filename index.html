@@ -592,24 +592,29 @@
         }
     }
 
+    // Catalog and factory JSON are data from PRs: escape every field before it goes into innerHTML (claude-agents#155).
+    function esc(v) {
+        return String(v == null ? '' : v).replace(/[&<>"']/g, ch => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[ch]));
+    }
+
     function renderRoleList() {
         const list = document.getElementById('stigforge-role-list');
         if (!list || !factory || !factory.cells) return;
         list.innerHTML = factory.cells.map(c => {
-            const repo = `https://github.com/${c.github_repo}`;
+            const repo = `https://github.com/${esc(c.github_repo)}`;
             const vis = c.role_repo_visibility === 'private' ? 'private' : 'public';
             const visClass = vis === 'public' ? 'text-green-400' : 'text-gray-500';
             return `<li class="bg-gray-900/60 border border-gray-700 rounded-lg px-3 py-3">
-                <a href="${repo}" class="font-mono text-yellow-500 hover:underline text-sm">${c.github_repo}</a>
-                <div class="text-xs text-gray-500 mt-1">${c.matrix_role} · <span class="${visClass}">${vis}</span></div>
+                <a href="${repo}" class="font-mono text-yellow-500 hover:underline text-sm">${esc(c.github_repo)}</a>
+                <div class="text-xs text-gray-500 mt-1">${esc(c.matrix_role)} · <span class="${visClass}">${vis}</span></div>
             </li>`;
         }).join('');
     }
 
     function profileSummary(profiles) {
         return profiles.map(p => {
-            const score = p.score_pct != null ? `${p.score_pct}%` : (p.verify_note ? 'CI ✓' : '—');
-            return `<span class="inline-block mr-2 mb-1"><code class="text-yellow-400/90">${p.profile}</code> <span class="text-green-400">${score}</span></span>`;
+            const score = p.score_pct != null ? `${esc(p.score_pct)}%` : (p.verify_note ? 'CI ✓' : '—');
+            return `<span class="inline-block mr-2 mb-1"><code class="text-yellow-400/90">${esc(p.profile)}</code> <span class="text-green-400">${score}</span></span>`;
         }).join('');
     }
 
@@ -617,11 +622,11 @@
         const tbody = document.getElementById('stigforge-tbody');
         if (!tbody || !factory || !factory.cells) return;
         tbody.innerHTML = factory.cells.map(c => {
-            const repo = `https://github.com/${c.github_repo}`;
+            const repo = `https://github.com/${esc(c.github_repo)}`;
             return `<tr class="hover:bg-gray-900/50 transition">
-                <td class="px-4 py-3 font-mono text-sm text-white">${c.matrix_role}</td>
+                <td class="px-4 py-3 font-mono text-sm text-white">${esc(c.matrix_role)}</td>
                 <td class="px-4 py-3 text-xs">${profileSummary(c.profiles)}</td>
-                <td class="px-4 py-3"><a href="${repo}" class="text-yellow-500 hover:underline">${c.github_repo}</a></td>
+                <td class="px-4 py-3"><a href="${repo}" class="text-yellow-500 hover:underline">${esc(c.github_repo)}</a></td>
             </tr>`;
         }).join('');
     }
@@ -673,7 +678,7 @@
         const cls = arch === 'arm64'
             ? 'bg-indigo-900 text-indigo-300'
             : 'bg-gray-700 text-gray-300';
-        return `<span class="${cls} px-2 py-0.5 rounded font-mono text-xs">${arch}</span>`;
+        return `<span class="${cls} px-2 py-0.5 rounded font-mono text-xs">${esc(arch)}</span>`;
     }
 
     function byolTag() {
@@ -699,7 +704,7 @@
         }
         tbody.innerHTML = products.map(p => `
             <tr class="hover:bg-gray-800 transition">
-                <td class="px-4 py-3 font-semibold text-white">${p.os}${isByol(p) ? byolTag() : ''}</td>
+                <td class="px-4 py-3 font-semibold text-white">${esc(p.os)}${isByol(p) ? byolTag() : ''}</td>
                 <td class="px-4 py-3">${archBadge(p.arch)}</td>
             </tr>
         `).join('');
@@ -728,10 +733,10 @@
         const label = buildLabel();
         tbody.innerHTML = products.map(p => `
             <tr class="hover:bg-gray-800 transition">
-                <td class="px-4 py-3 font-semibold text-white">${p.os}${isByol(p) ? byolTag() : ''}</td>
+                <td class="px-4 py-3 font-semibold text-white">${esc(p.os)}${isByol(p) ? byolTag() : ''}</td>
                 <td class="px-4 py-3">${archBadge(p.arch)}</td>
-                <td class="px-4 py-3 text-gray-300 text-sm">${p.benchmark}</td>
-                <td class="px-4 py-3 font-mono text-green-400">${p.score != null ? `${p.score}%` : '—'}<span class="text-gray-500 text-xs ml-1">build ${label}</span></td>
+                <td class="px-4 py-3 text-gray-300 text-sm">${esc(p.benchmark)}</td>
+                <td class="px-4 py-3 font-mono text-green-400">${p.score != null ? `${esc(p.score)}%` : '—'}<span class="text-gray-500 text-xs ml-1">build ${esc(label)}</span></td>
                 <td class="px-4 py-3 text-sm">${p.fips ? '<span class="text-green-400 font-medium">✓</span>' : '<span class="text-gray-600">—</span>'}</td>
             </tr>
         `).join('');
