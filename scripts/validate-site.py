@@ -216,6 +216,14 @@ def check_no_docs(files: list[Path]) -> None:
         problems.append("docs/: documentation is not published from this repo — " + ", ".join(stray))
 
 
+def check_json_fields_are_escaped() -> None:
+    """claude-agents#155: catalog/factory JSON reaches innerHTML, so a field must go through esc()."""
+    page = ROOT / "index.html"
+    for n, line in enumerate(page.read_text().splitlines(), 1):
+        for m in re.finditer(r"\$\{\s*([cp])\.(\w+)\s*\}", line):
+            problems.append(f"index.html:{n}: ${{{m.group(1)}.{m.group(2)}}} is interpolated without esc()")
+
+
 def main() -> int:
     files = tracked()
     check_parsers(files)
@@ -224,6 +232,7 @@ def main() -> int:
     check_local_assets(files)
     check_nothing_private(files)
     check_no_docs(files)
+    check_json_fields_are_escaped()
 
     if problems:
         print(f"validate-site: {len(problems)} problem(s)\n", file=sys.stderr)
