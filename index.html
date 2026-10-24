@@ -340,7 +340,7 @@
                 <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
                     <i data-lucide="shield-check" class="w-9 h-9 mb-3 text-yellow-500"></i>
                     <h3 class="font-bold mb-2">StigForge roles</h3>
-                    <p class="text-gray-400 text-sm">Remediation is driven by <strong class="text-gray-200">StigForge</strong> — public CIS / STIG Ansible roles generated from the SSG datastream. Each release pins its factory commit and SSG version; the OpenSCAP score and evidence come from the StigApplied image build that bakes it, never from a container.</p>
+                    <p class="text-gray-400 text-sm">Remediation is driven by <strong class="text-gray-200">StigForge</strong> — public CIS / STIG Ansible roles generated from the SSG datastream. Each release pins its factory commit and SSG version; the OpenSCAP score comes from the StigReady Applied image build that bakes it, never from a container; evidence is available on request.</p>
                 </div>
                 <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
                     <i data-lucide="chart-bar" class="w-9 h-9 mb-3 text-yellow-500"></i>
@@ -429,7 +429,7 @@
                 <span class="text-xs text-yellow-500 font-semibold uppercase tracking-widest">StigForge</span>
                 <h2 class="text-3xl font-bold mt-2 text-white">Public Ansible roles</h2>
                 <p class="text-gray-400 mt-3 max-w-3xl mx-auto">
-                    Public CIS and STIG role exports, generated from the raw SSG profile and pinned by immutable tag. Scores are measured by OpenSCAP on the StigApplied image that consumes each release and published on this page; the evidence bundle ships with that image.
+                    Public CIS and STIG role exports, generated from the raw SSG profile and pinned by immutable tag. Scores are measured by OpenSCAP on the StigReady Applied image built with the role version shown next to each score, and published on this page; evidence is available from support@stigready.com on request.
                     <a href="/blog/" class="text-yellow-500 hover:underline">How-tos: Base + roles →</a>
                 </p>
             </div>
@@ -444,7 +444,7 @@
 
             <div class="bg-gray-800 rounded-xl border border-gray-700 p-6">
                 <h3 class="text-xl font-bold text-white mb-2">Scores</h3>
-                <p class="text-gray-400 text-sm mb-4">Measured by OpenSCAP against the raw SSG profile on the StigApplied image build that consumes each role, not in the role repo.</p>
+                <p class="text-gray-400 text-sm mb-4">Measured by OpenSCAP against the raw SSG profile on the StigReady Applied image build, for the role version shown; not in the role repo.</p>
                 <div class="overflow-x-auto border border-gray-700 rounded-lg">
                     <table class="w-full text-sm min-w-[560px]">
                         <thead class="bg-navy text-gray-300 uppercase text-xs tracking-wider">
@@ -622,9 +622,15 @@
         // One entry per profile and arch; a role not built into a StigReady image has none.
         if (!profiles || profiles.length === 0) return '<span class="text-gray-600">—</span>';
         return profiles.map(p => {
-            const score = p.score_pct != null ? `${esc(p.score_pct)}%` : (p.verify_note ? 'CI ✓' : '—');
+            // A score is shown only with the role version it was measured with (and the image version): the public role
+            // repos move ahead of the role built into the image, so an unlabelled score would read as the newest release's.
+            const labelled = p.score_pct != null && p.role_version;
+            const score = labelled ? `${esc(p.score_pct)}%` : (p.verify_note ? 'CI ✓' : '—');
             const arch = p.arch ? ` <span class="text-gray-500">${esc(p.arch)}</span>` : '';
-            return `<span class="inline-block mr-2 mb-1"><code class="text-yellow-400/90">${esc(p.profile)}</code>${arch} <span class="text-green-400">${score}</span></span>`;
+            const built = labelled
+                ? ` <span class="text-gray-500">(role ${esc(p.role_version)}${p.image_version ? `, image v${esc(p.image_version)}` : ''})</span>`
+                : '';
+            return `<span class="inline-block mr-2 mb-1"><code class="text-yellow-400/90">${esc(p.profile)}</code>${arch} <span class="text-green-400">${score}</span>${built}</span>`;
         }).join('');
     }
 
