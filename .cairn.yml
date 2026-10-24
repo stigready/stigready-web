@@ -45,6 +45,10 @@ jobs:
               fi
           - name: validate-site
             run: .ci-venv/bin/python scripts/validate-site.py
+          # Decision 0003: the assertions about pinned assets, the CSP and site.css freshness are CINC controls
+          # (claude-agents#152). The default runner image carries cinc-auditor.
+          - name: cinc-stigready-web
+            run: cinc-auditor exec cinc/profiles/stigready-web --no-color --chef-license accept-silent
 
   # Scanners (decision 0076 part B; owner 2026-10-21: "we should be running trivy and any other tools that make sence").
   # Fitted to this repo: static HTML/JSON and one Python validator.
