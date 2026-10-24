@@ -19,8 +19,12 @@ jobs:
     run:
       exec:
         steps:
+          # The validator's own packages, hash-pinned (stigready-web#57: defusedxml). A pull request runs main's pipeline
+          # with its own checkout, so this step lands before the validator imports anything from it.
+          - name: deps
+            run: python3 -m venv .ci-venv && .ci-venv/bin/pip install --quiet --require-hashes -r scripts/requirements-validate.txt
           - name: validate-site
-            run: python3 scripts/validate-site.py
+            run: .ci-venv/bin/python scripts/validate-site.py
 
   # Scanners (decision 0076 part B; owner 2026-10-21: "we should be running trivy and any other tools that make sence").
   # Fitted to this repo: static HTML/JSON and one Python validator.
