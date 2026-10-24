@@ -1,7 +1,7 @@
 # claude-agents#152: every page loads its scripts from this site (pinned under assets/vendor/) and no stylesheet from a
 # third party but Google Fonts, never the Tailwind Play CDN, never an @latest URL, and carries a Content-Security-Policy
-# meta tag. Ported from validate-site.py check 8
-# (decision 0003: CINC asserts, Python never does).
+# meta tag whose script-src and style-src admit no other third party (stigready-web#67). Ported from validate-site.py
+# check 8 (decision 0003: CINC asserts, Python never does).
 
 WEB_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..', '..'))
 # The published pages: every tracked .html file (git ls-files, as validate-site.py walks the tree).
@@ -10,6 +10,14 @@ WEB_PAGES = Dir.chdir(WEB_ROOT) { IO.popen(%w[git ls-files -z -- *.html], &:read
 ALLOWED_SCRIPT_HOSTS = ['https://www.googletagmanager.com/gtag/js'].freeze
 # The one third-party stylesheet the site allows (Google Fonts, as the CSP's style-src names it).
 ALLOWED_STYLESHEET_HOSTS = ['https://fonts.googleapis.com/css2'].freeze
+# stigready-web#67: the only sources a page's CSP may give script-src and style-src. Keywords are matched as written
+# (lower case). 'unsafe-inline' is still allowed in both until the inline scripts and styles move out (a separate
+# finding); the hosts are exactly ALLOWED_SCRIPT_HOSTS and ALLOWED_STYLESHEET_HOSTS. Anything else fails, including
+# *, data:, blob:, a scheme alone (https:) and any other host.
+CSP_SCRIPT_SOURCES = ["'self'", "'unsafe-inline'", 'https://www.googletagmanager.com'].freeze
+CSP_STYLE_SOURCES = ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'].freeze
+# A <meta> start tag (same quoting rule as WEB_TAG).
+WEB_META = /<meta\b((?:[^>"']|"[^"]*"|'[^']*')*)>/i
 # A <script> or <link> start tag. A quoted attribute value may hold '>', so the tag ends at the first unquoted one.
 WEB_TAG = /<(script|link)\b((?:[^>"']|"[^"]*"|'[^']*')*)>/i
 # One attribute: double-quoted, single-quoted or unquoted value, or a bare name (stigready-web#67: the former
@@ -37,6 +45,26 @@ module WebAssets
       end
     end
     [scripts, sheets]
+  end
+
+  # Each Content-Security-Policy meta tag's policy as {directive => [sources]}. A browser enforces every such tag, so
+  # each is checked on its own. Directive names are case-insensitive; the first occurrence of a directive wins, as in
+  # the CSP spec.
+  def csp_policies(body)
+    body.scan(WEB_META).filter_map do |(text)|
+      a = attrs(text)
+      next unless a['http-equiv'].to_s.casecmp?('content-security-policy')
+
+      a['content'].to_s.split(';').each_with_object({}) do |part, policy|
+        name, *sources = part.strip.split(/\s+/)
+        policy[name.downcase] ||= sources unless name.nil?
+      end
+    end
+  end
+
+  # The sources in a directive that are not in the allowed list (a missing directive has none).
+  def disallowed(sources, allowed)
+    Array(sources).reject { |src| allowed.include?(src) }
   end
 
   def external?(url)
@@ -85,11 +113,30 @@ end
 
 control 'web-csp-on-every-page' do
   impact 1.0
-  title 'Every page carries a Content-Security-Policy meta tag'
+  title 'Every page carries a Content-Security-Policy meta tag whose script-src and style-src admit no third party'
+  desc 'stigready-web#67 (review/security on #62): assert what the policy says, not only that the tag is present. ' \
+       'script-src must be stated, with no third-party host but the allowed analytics one, no * and no data:; ' \
+       'style-src may add only fonts.googleapis.com. This closes the parser evasions the src/href controls miss, ' \
+       'because the browser enforces the policy whatever the markup looks like.'
   WEB_PAGES.each do |rel|
-    describe "#{rel} Content-Security-Policy meta tag" do
-      subject { WEB_BODIES[rel] }
-      it { should include 'http-equiv="Content-Security-Policy"' }
+    policies = WebAssets.csp_policies(WEB_BODIES[rel])
+    describe "#{rel} Content-Security-Policy meta tags" do
+      subject { policies }
+      it { should_not be_empty }
+    end
+    policies.each_with_index do |policy, i|
+      describe "#{rel} CSP #{i + 1} script-src (stated, not left to default-src)" do
+        subject { policy }
+        it { should include 'script-src' }
+      end
+      describe "#{rel} CSP #{i + 1} script-src sources not allowed (no third party, no *, no data:)" do
+        subject { WebAssets.disallowed(policy['script-src'], CSP_SCRIPT_SOURCES) }
+        it { should be_empty }
+      end
+      describe "#{rel} CSP #{i + 1} style-src sources not allowed (only fonts.googleapis.com is added)" do
+        subject { WebAssets.disallowed(policy.fetch('style-src', policy['default-src']), CSP_STYLE_SOURCES) }
+        it { should be_empty }
+      end
     end
   end
 end
