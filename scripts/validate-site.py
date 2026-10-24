@@ -181,10 +181,14 @@ PRIVATE_REPOS = (
     "stigforge", "claude-agents", "stigready", "stigvalidated", "cairn", "build-reports",
     "cmmc-agents-field-manual",
 )
+# Public repos whose names start with a private one; the optional -suffix below would
+# otherwise match them (stigready/stigready-baseline is a public StigForge role repo).
+PUBLIC_REPOS = ("stigready-web", "stigready-baseline")
 # stigready/<private> not followed by another name character, so public repos such as
 # stigready/stigready-web or stigready/rhel9-stig never match.
 PRIVATE_REF = re.compile(
-    r"stigready/(?:" + "|".join(re.escape(r) for r in PRIVATE_REPOS) + r")(?:-\w+)?(?![\w-])"
+    r"stigready/(?!(?:" + "|".join(re.escape(r) for r in PUBLIC_REPOS) + r")(?![\w-]))"
+    r"(?:" + "|".join(re.escape(r) for r in PRIVATE_REPOS) + r")(?:-\w+)?(?![\w-])"
     r"|stigready/stigvalidated-\w+"
 )
 AGENT_CONFIG = (".claude/", ".cursor/")
