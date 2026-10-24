@@ -231,8 +231,6 @@ def check_json_fields_are_escaped() -> None:
             problems.append(f"index.html:{n}: ${{{m.group(1)}.{m.group(2)}}} is interpolated without esc()")
 
 
-# The one third-party script a page may load: Google's tag, which is versioned by Google and
-# cannot carry an integrity hash. Everything else is served from this repo (claude-agents#152).
 def main() -> int:
     files = tracked()
     check_parsers(files)
