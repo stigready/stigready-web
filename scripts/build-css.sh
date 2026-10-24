@@ -5,3 +5,5 @@
 set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 npx --yes tailwindcss@3.4.17 -c tailwind.config.js -i assets/css/tailwind.input.css -o assets/css/site.css --minify
+# Record what this CSS was built from; validate-site.py fails when the pages, config or CSS no longer match it.
+python3 scripts/css_stamp.py --write

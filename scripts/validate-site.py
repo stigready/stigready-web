@@ -22,6 +22,8 @@ about the published artefacts, not style:
      file may reference a private org repository
   7. no docs/ tree (documentation is maintained elsewhere)
   8. no Play CDN or unpinned third-party script, and a CSP meta tag on every page
+  9. assets/css/site.css is what scripts/build-css.sh wrote for the current pages, config and
+     Tailwind version (scripts/css_stamp.py; the runners cannot run Tailwind, so the build stamps it)
 
 Exit 1 on any finding, with every finding printed — a validator that stops at the first
 problem turns one fix round into five.
@@ -248,6 +250,15 @@ def check_pinned_assets(files: list[Path]) -> None:
             problems.append(f"{rel}: no Content-Security-Policy meta tag")
 
 
+def check_css_fresh() -> None:
+    """9. assets/css/site.css is what scripts/build-css.sh wrote for the current pages (claude-agents#152)."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("css_stamp", ROOT / "scripts" / "css_stamp.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    problems.extend(mod.problems())
+
+
 def main() -> int:
     files = tracked()
     check_parsers(files)
@@ -258,6 +269,7 @@ def main() -> int:
     check_no_docs(files)
     check_json_fields_are_escaped()
     check_pinned_assets(files)
+    check_css_fresh()
 
     if problems:
         print(f"validate-site: {len(problems)} problem(s)\n", file=sys.stderr)
