@@ -21,6 +21,7 @@ about the published artefacts, not style:
      config (.claude/, .cursor/, CLAUDE.md, AGENTS.md) must not be tracked, and no tracked
      file may reference a private org repository
   7. no docs/ tree (documentation is maintained elsewhere)
+  8. no Play CDN or unpinned third-party script, and a CSP meta tag on every page
 
 Exit 1 on any finding, with every finding printed — a validator that stops at the first
 problem turns one fix round into five.
@@ -224,6 +225,29 @@ def check_json_fields_are_escaped() -> None:
             problems.append(f"index.html:{n}: ${{{m.group(1)}.{m.group(2)}}} is interpolated without esc()")
 
 
+# The one third-party script a page may load: Google's tag, which is versioned by Google and
+# cannot carry an integrity hash. Everything else is served from this repo (claude-agents#152).
+ALLOWED_SCRIPT_HOSTS = ("https://www.googletagmanager.com/gtag/js",)
+SCRIPT_SRC = re.compile(r"<script\b[^>]*\bsrc=\"([^\"]+)\"", re.I)
+
+
+def check_pinned_assets(files: list[Path]) -> None:
+    """claude-agents#152: no Play CDN, no unpinned third-party script, a CSP on every page."""
+    for html in [f for f in files if f.suffix == ".html"]:
+        rel = html.relative_to(ROOT).as_posix()
+        body = html.read_text(encoding="utf-8", errors="ignore")
+        for src in SCRIPT_SRC.findall(body):
+            if src.startswith(("http://", "https://", "//")) and not src.startswith(ALLOWED_SCRIPT_HOSTS):
+                problems.append(f"{rel}: third-party script {src!r}: self-host it under assets/vendor/ "
+                                f"(pinned version) instead")
+        if "cdn.tailwindcss.com" in body:
+            problems.append(f"{rel}: Tailwind Play CDN: link /assets/css/site.css (scripts/build-css.sh)")
+        if "@latest" in body:
+            problems.append(f"{rel}: an @latest asset URL: pin the version")
+        if 'http-equiv="Content-Security-Policy"' not in body:
+            problems.append(f"{rel}: no Content-Security-Policy meta tag")
+
+
 def main() -> int:
     files = tracked()
     check_parsers(files)
@@ -233,6 +257,7 @@ def main() -> int:
     check_nothing_private(files)
     check_no_docs(files)
     check_json_fields_are_escaped()
+    check_pinned_assets(files)
 
     if problems:
         print(f"validate-site: {len(problems)} problem(s)\n", file=sys.stderr)
