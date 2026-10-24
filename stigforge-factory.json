@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-08-13",
+  "generated": "2026-10-24",
   "min_score_default": 90,
   "role_repos": {
     "github_org": "stigready",
@@ -8,45 +8,129 @@
   },
   "cells": [
     {
+      "matrix_role": "al2023_cis",
+      "product": "al2023_cis",
+      "required": false,
+      "matrix_status": "unknown",
+      "github_repo": "stigready/al2023-cis",
+      "role_repo_visibility": "public",
+      "pinned_commit": null,
+      "profiles": []
+    },
+    {
+      "matrix_role": "cs10_cis",
+      "product": "cs10_cis",
+      "required": false,
+      "matrix_status": "unknown",
+      "github_repo": "stigready/cs10-cis",
+      "role_repo_visibility": "public",
+      "pinned_commit": null,
+      "profiles": []
+    },
+    {
+      "matrix_role": "cs10_stig",
+      "product": "cs10_stig",
+      "required": false,
+      "matrix_status": "unknown",
+      "github_repo": "stigready/cs10-stig",
+      "role_repo_visibility": "public",
+      "pinned_commit": null,
+      "profiles": []
+    },
+    {
+      "matrix_role": "cs9_cis",
+      "product": "cs9_cis",
+      "required": false,
+      "matrix_status": "unknown",
+      "github_repo": "stigready/cs9-cis",
+      "role_repo_visibility": "public",
+      "pinned_commit": null,
+      "profiles": []
+    },
+    {
+      "matrix_role": "cs9_stig",
+      "product": "cs9_stig",
+      "required": false,
+      "matrix_status": "unknown",
+      "github_repo": "stigready/cs9-stig",
+      "role_repo_visibility": "public",
+      "pinned_commit": null,
+      "profiles": []
+    },
+    {
+      "matrix_role": "debian12_cis",
+      "product": "debian12_cis",
+      "required": false,
+      "matrix_status": "unknown",
+      "github_repo": "stigready/debian12-cis",
+      "role_repo_visibility": "public",
+      "pinned_commit": null,
+      "profiles": []
+    },
+    {
+      "matrix_role": "ol10_stig",
+      "product": "ol10_stig",
+      "required": false,
+      "matrix_status": "unknown",
+      "github_repo": "stigready/ol10-stig",
+      "role_repo_visibility": "public",
+      "pinned_commit": null,
+      "profiles": []
+    },
+    {
+      "matrix_role": "ol9_stig",
+      "product": "ol9_stig",
+      "required": false,
+      "matrix_status": "unknown",
+      "github_repo": "stigready/ol9-stig",
+      "role_repo_visibility": "public",
+      "pinned_commit": null,
+      "profiles": []
+    },
+    {
       "matrix_role": "rhel10_cis",
       "product": "rhel10",
       "required": true,
       "matrix_status": "green",
       "github_repo": "stigready/rhel10-cis",
       "role_repo_visibility": "public",
-      "pinned_commit": "fa6c0e5ff1c4",
+      "pinned_commit": "c9ce4e9f8b4e",
       "profiles": [
         {
           "profile": "cis-l1",
-          "score_pct": 92.5,
+          "arch": "x86_64",
+          "score_pct": 99.0,
           "min_score": 90.0,
           "meets_floor": true,
           "gate_pass": true,
-          "source": "stigready_inventory"
-        },
-        {
-          "profile": "cis-l2",
-          "score_pct": 98.1,
-          "min_score": 90.0,
-          "meets_floor": true,
-          "gate_pass": true,
-          "source": "stigready_inventory"
-        },
-        {
-          "profile": "cis-l2",
-          "score_pct": 92.4,
-          "min_score": 90.0,
-          "meets_floor": true,
-          "gate_pass": true,
-          "source": "stigready_inventory"
+          "source": "stigready_catalog"
         },
         {
           "profile": "cis-l1",
-          "score_pct": 90.6,
+          "arch": "arm64",
+          "score_pct": 99.0,
           "min_score": 90.0,
           "meets_floor": true,
           "gate_pass": true,
-          "source": "stigready_inventory"
+          "source": "stigready_catalog"
+        },
+        {
+          "profile": "cis-l2",
+          "arch": "x86_64",
+          "score_pct": 98.8,
+          "min_score": 90.0,
+          "meets_floor": true,
+          "gate_pass": true,
+          "source": "stigready_catalog"
+        },
+        {
+          "profile": "cis-l2",
+          "arch": "arm64",
+          "score_pct": 98.8,
+          "min_score": 90.0,
+          "meets_floor": true,
+          "gate_pass": true,
+          "source": "stigready_catalog"
         }
       ]
     },
@@ -57,39 +141,25 @@
       "matrix_status": "green",
       "github_repo": "stigready/rhel10-stig",
       "role_repo_visibility": "public",
-      "pinned_commit": "afea47c7c90d",
+      "pinned_commit": "c114605d2cb5",
       "profiles": [
         {
-          "profile": "cis-l1",
-          "score_pct": 92.5,
+          "profile": "stig",
+          "arch": "x86_64",
+          "score_pct": 97.2,
           "min_score": 90.0,
           "meets_floor": true,
           "gate_pass": true,
-          "source": "stigready_inventory"
+          "source": "stigready_catalog"
         },
         {
-          "profile": "cis-l2",
-          "score_pct": 98.1,
+          "profile": "stig",
+          "arch": "arm64",
+          "score_pct": 97.2,
           "min_score": 90.0,
           "meets_floor": true,
           "gate_pass": true,
-          "source": "stigready_inventory"
-        },
-        {
-          "profile": "cis-l2",
-          "score_pct": 92.4,
-          "min_score": 90.0,
-          "meets_floor": true,
-          "gate_pass": true,
-          "source": "stigready_inventory"
-        },
-        {
-          "profile": "cis-l1",
-          "score_pct": 90.6,
-          "min_score": 90.0,
-          "meets_floor": true,
-          "gate_pass": true,
-          "source": "stigready_inventory"
+          "source": "stigready_catalog"
         }
       ]
     },
@@ -100,63 +170,43 @@
       "matrix_status": "green",
       "github_repo": "stigready/rhel8-cis",
       "role_repo_visibility": "public",
-      "pinned_commit": "8c4152fea6ea",
+      "pinned_commit": "78dc1ce37159",
       "profiles": [
         {
           "profile": "cis-l1",
-          "score_pct": 98.1,
+          "arch": "x86_64",
+          "score_pct": 99.1,
           "min_score": 90.0,
           "meets_floor": true,
           "gate_pass": true,
-          "source": "stigready_inventory"
-        },
-        {
-          "profile": "cis-l2",
-          "score_pct": 97.6,
-          "min_score": 90.0,
-          "meets_floor": true,
-          "gate_pass": true,
-          "source": "stigready_inventory"
-        },
-        {
-          "profile": "stig",
-          "score_pct": 94.9,
-          "min_score": 90.0,
-          "meets_floor": true,
-          "gate_pass": true,
-          "source": "stigready_inventory"
-        },
-        {
-          "profile": "cis-l2",
-          "score_pct": 94.0,
-          "min_score": 90.0,
-          "meets_floor": true,
-          "gate_pass": true,
-          "source": "stigready_inventory"
+          "source": "stigready_catalog"
         },
         {
           "profile": "cis-l1",
-          "score_pct": 98.4,
+          "arch": "arm64",
+          "score_pct": 99.1,
           "min_score": 90.0,
           "meets_floor": true,
           "gate_pass": true,
-          "source": "stigready_inventory"
+          "source": "stigready_catalog"
         },
         {
           "profile": "cis-l2",
-          "score_pct": 97.8,
+          "arch": "x86_64",
+          "score_pct": 98.8,
           "min_score": 90.0,
           "meets_floor": true,
           "gate_pass": true,
-          "source": "stigready_inventory"
+          "source": "stigready_catalog"
         },
         {
-          "profile": "stig",
-          "score_pct": 94.1,
+          "profile": "cis-l2",
+          "arch": "arm64",
+          "score_pct": 98.8,
           "min_score": 90.0,
           "meets_floor": true,
           "gate_pass": true,
-          "source": "stigready_inventory"
+          "source": "stigready_catalog"
         }
       ]
     },
@@ -167,63 +217,25 @@
       "matrix_status": "green",
       "github_repo": "stigready/rhel8-stig",
       "role_repo_visibility": "public",
-      "pinned_commit": "d9da091695dc",
+      "pinned_commit": "5db96e12b885",
       "profiles": [
         {
-          "profile": "cis-l1",
-          "score_pct": 98.1,
+          "profile": "stig",
+          "arch": "x86_64",
+          "score_pct": 96.1,
           "min_score": 90.0,
           "meets_floor": true,
           "gate_pass": true,
-          "source": "stigready_inventory"
-        },
-        {
-          "profile": "cis-l2",
-          "score_pct": 97.6,
-          "min_score": 90.0,
-          "meets_floor": true,
-          "gate_pass": true,
-          "source": "stigready_inventory"
+          "source": "stigready_catalog"
         },
         {
           "profile": "stig",
-          "score_pct": 94.9,
+          "arch": "arm64",
+          "score_pct": 95.9,
           "min_score": 90.0,
           "meets_floor": true,
           "gate_pass": true,
-          "source": "stigready_inventory"
-        },
-        {
-          "profile": "cis-l2",
-          "score_pct": 94.0,
-          "min_score": 90.0,
-          "meets_floor": true,
-          "gate_pass": true,
-          "source": "stigready_inventory"
-        },
-        {
-          "profile": "cis-l1",
-          "score_pct": 98.4,
-          "min_score": 90.0,
-          "meets_floor": true,
-          "gate_pass": true,
-          "source": "stigready_inventory"
-        },
-        {
-          "profile": "cis-l2",
-          "score_pct": 97.8,
-          "min_score": 90.0,
-          "meets_floor": true,
-          "gate_pass": true,
-          "source": "stigready_inventory"
-        },
-        {
-          "profile": "stig",
-          "score_pct": 94.1,
-          "min_score": 90.0,
-          "meets_floor": true,
-          "gate_pass": true,
-          "source": "stigready_inventory"
+          "source": "stigready_catalog"
         }
       ]
     },
@@ -234,39 +246,43 @@
       "matrix_status": "green",
       "github_repo": "stigready/rhel9-cis",
       "role_repo_visibility": "public",
-      "pinned_commit": "c9e803f2df04",
+      "pinned_commit": "9b15d42b1e7a",
       "profiles": [
         {
           "profile": "cis-l1",
-          "score_pct": 91.3,
+          "arch": "x86_64",
+          "score_pct": 99.3,
           "min_score": 90.0,
           "meets_floor": true,
           "gate_pass": true,
-          "source": "stigready_inventory"
+          "source": "stigready_catalog"
+        },
+        {
+          "profile": "cis-l1",
+          "arch": "arm64",
+          "score_pct": 99.3,
+          "min_score": 90.0,
+          "meets_floor": true,
+          "gate_pass": true,
+          "source": "stigready_catalog"
         },
         {
           "profile": "cis-l2",
-          "score_pct": 92.4,
+          "arch": "x86_64",
+          "score_pct": 99.2,
           "min_score": 90.0,
           "meets_floor": true,
           "gate_pass": true,
-          "source": "stigready_inventory"
-        },
-        {
-          "profile": "stig",
-          "score_pct": 95.6,
-          "min_score": 90.0,
-          "meets_floor": true,
-          "gate_pass": true,
-          "source": "stigready_inventory"
+          "source": "stigready_catalog"
         },
         {
           "profile": "cis-l2",
-          "score_pct": 96.3,
+          "arch": "arm64",
+          "score_pct": 99.2,
           "min_score": 90.0,
           "meets_floor": true,
           "gate_pass": true,
-          "source": "stigready_inventory"
+          "source": "stigready_catalog"
         }
       ]
     },
@@ -277,41 +293,57 @@
       "matrix_status": "green",
       "github_repo": "stigready/rhel9-stig",
       "role_repo_visibility": "public",
-      "pinned_commit": "9c967ba7e373",
+      "pinned_commit": "bf6b0ad1c39a",
       "profiles": [
         {
-          "profile": "cis-l1",
-          "score_pct": 91.3,
+          "profile": "stig",
+          "arch": "x86_64",
+          "score_pct": 96.4,
           "min_score": 90.0,
           "meets_floor": true,
           "gate_pass": true,
-          "source": "stigready_inventory"
-        },
-        {
-          "profile": "cis-l2",
-          "score_pct": 92.4,
-          "min_score": 90.0,
-          "meets_floor": true,
-          "gate_pass": true,
-          "source": "stigready_inventory"
+          "source": "stigready_catalog"
         },
         {
           "profile": "stig",
-          "score_pct": 95.6,
-          "min_score": 90.0,
-          "meets_floor": true,
-          "gate_pass": true,
-          "source": "stigready_inventory"
-        },
-        {
-          "profile": "cis-l2",
+          "arch": "arm64",
           "score_pct": 96.3,
           "min_score": 90.0,
           "meets_floor": true,
           "gate_pass": true,
-          "source": "stigready_inventory"
+          "source": "stigready_catalog"
         }
       ]
+    },
+    {
+      "matrix_role": "stigready_baseline",
+      "product": "stigready_baseline",
+      "required": false,
+      "matrix_status": "unknown",
+      "github_repo": "stigready/stigready-baseline",
+      "role_repo_visibility": "public",
+      "pinned_commit": null,
+      "profiles": []
+    },
+    {
+      "matrix_role": "ubuntu22_cis",
+      "product": "ubuntu22_cis",
+      "required": false,
+      "matrix_status": "unknown",
+      "github_repo": "stigready/ubuntu22-cis",
+      "role_repo_visibility": "public",
+      "pinned_commit": null,
+      "profiles": []
+    },
+    {
+      "matrix_role": "ubuntu22_stig",
+      "product": "ubuntu22_stig",
+      "required": false,
+      "matrix_status": "unknown",
+      "github_repo": "stigready/ubuntu22-stig",
+      "role_repo_visibility": "public",
+      "pinned_commit": null,
+      "profiles": []
     },
     {
       "matrix_role": "ubuntu24_cis",
@@ -320,55 +352,43 @@
       "matrix_status": "green",
       "github_repo": "stigready/ubuntu24-cis",
       "role_repo_visibility": "public",
-      "pinned_commit": "c7d986ab4bce",
+      "pinned_commit": "fc5f7a89fd83",
       "profiles": [
         {
           "profile": "cis-l1",
-          "score_pct": 96.2,
+          "arch": "x86_64",
+          "score_pct": 99.2,
           "min_score": 90.0,
           "meets_floor": true,
           "gate_pass": true,
-          "source": "stigready_inventory"
-        },
-        {
-          "profile": "cis-l2",
-          "score_pct": 95.7,
-          "min_score": 90.0,
-          "meets_floor": true,
-          "gate_pass": true,
-          "source": "stigready_inventory"
-        },
-        {
-          "profile": "stig",
-          "score_pct": 93.9,
-          "min_score": 90.0,
-          "meets_floor": true,
-          "gate_pass": true,
-          "source": "stigready_inventory"
+          "source": "stigready_catalog"
         },
         {
           "profile": "cis-l1",
-          "score_pct": 96.2,
+          "arch": "arm64",
+          "score_pct": 99.2,
           "min_score": 90.0,
           "meets_floor": true,
           "gate_pass": true,
-          "source": "stigready_inventory"
+          "source": "stigready_catalog"
         },
         {
           "profile": "cis-l2",
-          "score_pct": 95.6,
+          "arch": "x86_64",
+          "score_pct": 98.9,
           "min_score": 90.0,
           "meets_floor": true,
           "gate_pass": true,
-          "source": "stigready_inventory"
+          "source": "stigready_catalog"
         },
         {
-          "profile": "stig",
-          "score_pct": 93.2,
+          "profile": "cis-l2",
+          "arch": "arm64",
+          "score_pct": 98.9,
           "min_score": 90.0,
           "meets_floor": true,
           "gate_pass": true,
-          "source": "stigready_inventory"
+          "source": "stigready_catalog"
         }
       ]
     },
@@ -379,55 +399,25 @@
       "matrix_status": "green",
       "github_repo": "stigready/ubuntu24-stig",
       "role_repo_visibility": "public",
-      "pinned_commit": "307af0cd4e30",
+      "pinned_commit": "328fdce766a0",
       "profiles": [
         {
-          "profile": "cis-l1",
-          "score_pct": 96.2,
+          "profile": "stig",
+          "arch": "x86_64",
+          "score_pct": 93.6,
           "min_score": 90.0,
           "meets_floor": true,
           "gate_pass": true,
-          "source": "stigready_inventory"
-        },
-        {
-          "profile": "cis-l2",
-          "score_pct": 95.7,
-          "min_score": 90.0,
-          "meets_floor": true,
-          "gate_pass": true,
-          "source": "stigready_inventory"
+          "source": "stigready_catalog"
         },
         {
           "profile": "stig",
-          "score_pct": 93.9,
+          "arch": "arm64",
+          "score_pct": 93.4,
           "min_score": 90.0,
           "meets_floor": true,
           "gate_pass": true,
-          "source": "stigready_inventory"
-        },
-        {
-          "profile": "cis-l1",
-          "score_pct": 96.2,
-          "min_score": 90.0,
-          "meets_floor": true,
-          "gate_pass": true,
-          "source": "stigready_inventory"
-        },
-        {
-          "profile": "cis-l2",
-          "score_pct": 95.6,
-          "min_score": 90.0,
-          "meets_floor": true,
-          "gate_pass": true,
-          "source": "stigready_inventory"
-        },
-        {
-          "profile": "stig",
-          "score_pct": 93.2,
-          "min_score": 90.0,
-          "meets_floor": true,
-          "gate_pass": true,
-          "source": "stigready_inventory"
+          "source": "stigready_catalog"
         }
       ]
     }
