@@ -53,7 +53,7 @@
           },
           "email": "contact@stigready.com",
           "sameAs": ["https://x.com/Stigready"],
-          "description": "STIG AMI and CIS hardened AMI images for AWS — StigReady Base and Applied — with published OpenSCAP scores and auditor-grade evidence."
+          "description": "STIG AMI and CIS hardened AMI images for AWS — StigReady Base and Applied — with published OpenSCAP scores and evidence on request."
         },
         {
           "@type": "WebSite",
@@ -88,10 +88,10 @@
             },
             {
               "@type": "Question",
-              "name": "What OpenSCAP evidence ships with Applied?",
+              "name": "What OpenSCAP evidence is available for Applied?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Every Applied image includes an OpenSCAP ARF result, HTML report, POA&M, SBOM, and CVE scan. Scores are measured in-build against the raw, unmodified SSG profile. StigReady is not affiliated with or endorsed by DISA, DoD, NIST, or CIS, and does not claim certified, authorized, or accredited status."
+                "text": "Every Applied image has an OpenSCAP ARF result, HTML report, POA&M and SBOM, and every Applied image except RHEL 10 has a CVE scan, available from support@stigready.com on request. Scores are measured in-build against the raw, unmodified SSG profile. StigReady is not affiliated with or endorsed by DISA, DoD, NIST, or CIS, and does not claim certified, authorized, or accredited status."
               }
             },
             {
@@ -177,7 +177,7 @@
                 <a href="#applied-tier" class="bg-gray-800 border border-yellow-700 hover:border-yellow-500 text-white px-6 py-3 rounded-lg transition text-left">
                     <div class="text-xs text-yellow-500 font-semibold uppercase tracking-wider mb-0.5">StigReady Applied</div>
                     <div class="font-bold">Remediated, scored, and provable</div>
-                    <div class="text-xs text-gray-400 mt-0.5">$0.08/hr · Evidence bundle included</div>
+                    <div class="text-xs text-gray-400 mt-0.5">$0.08/hr · Evidence bundle on request</div>
                 </a>
             </div>
             <a href="#stigforge" class="block max-w-xl mx-auto mb-8 bg-gray-800 border border-gray-700 hover:border-yellow-600 text-white px-6 py-3 rounded-lg transition text-left">
@@ -267,7 +267,6 @@
                 </div>
                 <div class="mt-4 space-y-2 text-xs text-gray-500">
                     <p><span class="text-sky-400 font-semibold">BYOL</span> — Red Hat Enterprise Linux images are Bring Your Own License. You supply the Red Hat subscription; StigReady does not provide commercial Red Hat licenses. Red Hat, Inc. holds the trademarks for Red Hat® and Red Hat Enterprise Linux®.</p>
-                    <p>Windows Server 2022 — planned for a future release. Not part of the initial 24-image rollout.</p>
                 </div>
             </div>
 
@@ -331,7 +330,7 @@
             <div class="text-center mb-12">
                 <span class="text-xs text-yellow-500 font-semibold uppercase tracking-widest">StigReady Applied</span>
                 <h2 class="text-3xl font-bold mt-2 text-white">Remediated, scored, and provable</h2>
-                <p class="text-gray-400 mt-3 max-w-2xl mx-auto">The number your auditor asks for — published with every image. We score against the raw, unmodified SSG profile in-build. They don't.</p>
+                <p class="text-gray-400 mt-3 max-w-2xl mx-auto">The number your auditor asks for — published with every image. We score against the raw, unmodified SSG profile in-build.</p>
                 <p class="text-sm text-gray-500 mt-2"><a href="/applied/" class="text-yellow-500 hover:underline">Applied overview</a> · scores and filters below</p>
             </div>
 
@@ -349,13 +348,13 @@
                 </div>
                 <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
                     <i data-lucide="file-text" class="w-9 h-9 mb-3 text-yellow-500"></i>
-                    <h3 class="font-bold mb-2">Auditor-grade evidence bundle</h3>
-                    <p class="text-gray-400 text-sm">Every image ships with an OpenSCAP ARF result, an HTML report, a POA&amp;M, an SBOM, and a CVE scan — everything your auditor needs, attached before you ever launch.</p>
+                    <h3 class="font-bold mb-2">Evidence bundle</h3>
+                    <p class="text-gray-400 text-sm">Every image has an OpenSCAP ARF result, an HTML report, a POA&amp;M and an SBOM, and every image except RHEL 10 has a CVE scan. They are available from support@stigready.com on request.</p>
                 </div>
                 <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
                     <i data-lucide="lock" class="w-9 h-9 mb-3 text-yellow-500"></i>
                     <h3 class="font-bold mb-2">FIPS mode on STIG images</h3>
-                    <p class="text-gray-400 text-sm">DISA STIG images run with FIPS mode enabled, using the OS vendor's FIPS 140-3 validated cryptographic modules (CMVP certificate numbers available on request).</p>
+                    <p class="text-gray-400 text-sm">DISA STIG images run with FIPS mode enabled, using the OS vendor's FIPS cryptographic modules.</p>
                 </div>
                 <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
                     <i data-lucide="cpu" class="w-9 h-9 mb-3 text-yellow-500"></i>
@@ -417,7 +416,6 @@
                 </div>
                 <div class="mt-4 space-y-2 text-xs text-gray-500">
                     <p><span class="text-sky-400 font-semibold">BYOL</span> — Red Hat Enterprise Linux images require you to supply your own Red Hat subscription. StigReady does not provide Red Hat commercial licenses.</p>
-                    <p>Windows Server 2022 STIG hardening is planned. It is not part of the initial release and currently does not include a CVE scan or SBOM.</p>
                 </div>
             </div>
         </div>
@@ -498,7 +496,7 @@
                         <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Full DISA STIG or CIS Level 1/2 remediation</li>
                         <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Scored in-build against the raw SSG profile</li>
                         <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>90% floor · no-regression ratchet</li>
-                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Evidence bundle: ARF, HTML report, POA&amp;M, SBOM, CVE scan</li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Evidence bundle on request: ARF, HTML report, POA&amp;M, SBOM, CVE scan (not RHEL 10)</li>
                         <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>FIPS mode enabled on STIG images</li>
                     </ul>
                 </div>
@@ -518,8 +516,8 @@
                     <dd class="text-gray-400 text-sm">Base is <strong class="text-white">$0.02/hr</strong> or <strong class="text-white">$149/yr</strong> per instance (STIG layout + SSH hardening; bring your own profiles). Applied is <strong class="text-white">$0.08/hr</strong> or <strong class="text-white">$649/yr</strong> (CIS L1/L2 or DISA STIG remediation + OpenSCAP evidence). Both are software fees on top of normal EC2 costs. The same rate applies to every instance type; it does not change with instance size.</dd>
                 </div>
                 <div>
-                    <dt class="font-semibold text-white mb-2">What OpenSCAP evidence ships with Applied?</dt>
-                    <dd class="text-gray-400 text-sm">Every Applied image includes an OpenSCAP ARF result, HTML report, POA&amp;M, SBOM, and CVE scan — scored in-build against the raw, unmodified SSG profile. We do not claim DISA/DoD endorsement, or certified / authorized / accredited status.</dd>
+                    <dt class="font-semibold text-white mb-2">What OpenSCAP evidence is available for Applied?</dt>
+                    <dd class="text-gray-400 text-sm">Every Applied image has an OpenSCAP ARF result, HTML report, POA&amp;M and SBOM, and every Applied image except RHEL 10 has a CVE scan, available from support@stigready.com on request. Scores are measured in-build against the raw, unmodified SSG profile. We do not claim DISA/DoD endorsement, or certified / authorized / accredited status.</dd>
                 </div>
                 <div>
                     <dt class="font-semibold text-white mb-2">Do you support arm64 / Graviton?</dt>
