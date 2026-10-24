@@ -83,10 +83,10 @@
 
             <h2>The two paths</h2>
             <ul>
-                <li><strong class="text-white">StigReady Applied</strong> — a CIS or STIG AMI that is already remediated, scored in-build, and ships an evidence bundle. See <a href="/applied/">Applied</a> and the <a href="/#applied-tier">score table</a>.</li>
+                <li><strong class="text-white">StigReady Applied</strong> — a CIS or STIG AMI that is already remediated, scored in-build, with an evidence bundle on request. See <a href="/applied/">Applied</a> and the <a href="/#applied-tier">score table</a>.</li>
                 <li><strong class="text-white">StigReady Base + StigForge</strong> — run Base, then a public role from <a href="https://github.com/orgs/stigready/repositories?q=cis+OR+stig">github.com/stigready</a> in your own playbooks or image bake. You control when remediation runs and how you re-score.</li>
             </ul>
-            <p>Use Base + roles when you already have Ansible pipelines, need to tune exceptions, or want the same role in Packer that you run on fleets. Use Applied when you want the score and evidence on day one without wiring OpenSCAP yourself.</p>
+            <p>Use Base + roles when you already have Ansible pipelines, need to tune exceptions, or want the same role in Packer that you run on fleets. Use Applied when you want the score on day one, and the evidence on request, without wiring OpenSCAP yourself.</p>
 
             <h2>What Base already did for you</h2>
             <p>Every Base AMI is built from the official OS ISO, patched at bake, and boot-tested on Nitro EC2. The STIG partition layout (<code>/home</code>, <code>/tmp</code>, <code>/var</code>, <code>/var/log</code>, <code>/var/log/audit</code>, <code>/var/tmp</code>) is applied at install — that layout is painful to retrofit later. SSH is key-only; IMDSv2 is enforced; SSM Agent is present. Details: <a href="/blog/stig-disk-layout-that-wont-fight-you.html">STIG disk layout that won't fight you</a>.</p>
