@@ -1,0 +1,11 @@
+name: stigready-web
+title: stigready.com published-site invariants
+maintainer: StigReady program
+license: MIT
+summary: >-
+  Assertions about the published site, run against the checked-out tree in the `validate` job.
+  Decision 0003: CINC is the only test framework, so these replace validate-site.py's former
+  checks 8 (pinned assets, CSP) and 9 (site.css matches its build stamp).
+version: 0.1.0
+supports:
+  - platform: os

@@ -22,6 +22,9 @@ about the published artefacts, not style:
      file may reference a private org repository
   7. no docs/ tree (documentation is maintained elsewhere)
 
+Pinned assets, the CSP on every page, and site.css matching its build stamp (claude-agents#152) are
+CINC controls, not checks here (decision 0003): cinc/profiles/stigready-web, run by the same job.
+
 Exit 1 on any finding, with every finding printed — a validator that stops at the first
 problem turns one fix round into five.
 """
@@ -228,6 +231,8 @@ def check_json_fields_are_escaped() -> None:
             problems.append(f"index.html:{n}: ${{{m.group(1)}.{m.group(2)}}} is interpolated without esc()")
 
 
+# The one third-party script a page may load: Google's tag, which is versioned by Google and
+# cannot carry an integrity hash. Everything else is served from this repo (claude-agents#152).
 def main() -> int:
     files = tracked()
     check_parsers(files)
