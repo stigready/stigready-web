@@ -165,8 +165,8 @@
                 <span class="gold">with published OpenSCAP scores</span>
             </h1>
             <p class="text-lg text-gray-300 mb-6 max-w-2xl mx-auto">
-                One hardened foundation — two ways to use it. All built from the official OS ISO,
-                patched, and boot-tested on real EC2 Nitro. StigReady Base is on AWS Marketplace; Applied listings are coming soon.
+                One hardened foundation — two ways to use it. All built from the official OS ISO (Amazon Linux 2023: from
+                Amazon's prebuilt disk image), patched, and boot-tested on real EC2 Nitro. StigReady Base is on AWS Marketplace; Applied listings are coming soon.
             </p>
             <!-- Tier pills -->
             <div class="flex flex-col sm:flex-row justify-center gap-4 mb-8">
@@ -215,7 +215,7 @@
                 <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
                     <i data-lucide="folder-tree" class="w-10 h-10 mb-4 text-yellow-500"></i>
                     <h3 class="text-lg font-bold mb-2">STIG Partition Layout</h3>
-                    <p class="text-gray-400 text-sm">Separate hardened mounts for <code class="text-yellow-400">/home</code>, <code class="text-yellow-400">/tmp</code>, <code class="text-yellow-400">/var</code>, <code class="text-yellow-400">/var/log</code>, <code class="text-yellow-400">/var/log/audit</code>, and <code class="text-yellow-400">/var/tmp</code> — identical across all OS families.</p>
+                    <p class="text-gray-400 text-sm">Separate hardened mounts for <code class="text-yellow-400">/home</code>, <code class="text-yellow-400">/tmp</code>, <code class="text-yellow-400">/var</code>, <code class="text-yellow-400">/var/log</code>, <code class="text-yellow-400">/var/log/audit</code>, and <code class="text-yellow-400">/var/tmp</code> on the images built from the OS installer. Amazon Linux 2023 is built from Amazon's prebuilt disk image and gets a separate <code class="text-yellow-400">/var/log/audit</code>, the one partition its STIG requires.</p>
                 </div>
                 <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
                     <i data-lucide="key-round" class="w-10 h-10 mb-4 text-yellow-500"></i>
@@ -225,7 +225,7 @@
                 <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
                     <i data-lucide="refresh-cw" class="w-10 h-10 mb-4 text-yellow-500"></i>
                     <h3 class="text-lg font-bold mb-2">Minimal &amp; Patched</h3>
-                    <p class="text-gray-400 text-sm">Built from the official OS ISO with a minimal footprint and fully updated packages on a monthly cadence — smaller attack surface, no surprise packages.</p>
+                    <p class="text-gray-400 text-sm">Built from the official OS ISO (Amazon Linux 2023: Amazon's prebuilt disk image) with a minimal footprint and fully updated packages on a monthly cadence — smaller attack surface, no surprise packages.</p>
                 </div>
                 <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
                     <i data-lucide="cloud" class="w-10 h-10 mb-4 text-yellow-500"></i>
@@ -275,7 +275,7 @@
             <!-- Partition Layout -->
             <div id="partitions" class="mt-16">
                 <h3 class="text-2xl font-bold text-center mb-3 text-white">Partition Layout</h3>
-                <p class="text-center text-gray-400 mb-8">GPT disk · LVM volume group <code class="text-yellow-400">vg_root</code> · separate STIG filesystems on every base image</p>
+                <p class="text-center text-gray-400 mb-8">GPT disk · LVM volume group <code class="text-yellow-400">vg_root</code> · separate STIG filesystems on every image built from the OS installer. Amazon Linux 2023 is built from Amazon's prebuilt disk image and gets only a separate <code class="text-yellow-400">/var/log/audit</code> (volume group <code class="text-yellow-400">vg_stig</code>), the one partition its STIG requires.</p>
                 <div class="bg-gray-800 rounded-lg overflow-hidden border border-gray-700 overflow-x-auto max-w-2xl mx-auto">
                     <table class="w-full text-sm min-w-[480px]">
                         <thead class="bg-navy text-gray-300 uppercase text-xs tracking-wider">
@@ -490,7 +490,7 @@
                     <p class="text-gray-500 text-sm mb-5">Same rate on every instance type; EC2 instance costs billed separately by AWS</p>
                     <ul class="space-y-2 text-sm text-gray-300">
                         <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>STIG partition layout &amp; SSH hardening</li>
-                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Built from official ISO, patched at build time</li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Built from official ISO (Amazon Linux 2023: Amazon's prebuilt image), patched at build time</li>
                         <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Boot-verified on real Nitro EC2</li>
                         <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>x86_64 and arm64 (Graviton)</li>
                         <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Bring your own profiles and tooling</li>

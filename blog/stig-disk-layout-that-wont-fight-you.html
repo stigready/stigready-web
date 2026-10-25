@@ -86,7 +86,7 @@
             <p>The durable fix is install-time layout: kickstart (or equivalent) creates the LVM volumes before the image ever boots in EC2.</p>
 
             <h2>What Base bakes in</h2>
-            <p>Every <a href="/#base-tier">StigReady Base</a> AMI is built from the official OS ISO. At install, a GPT disk and LVM volume group <code>vg_root</code> get the separate STIG-aligned filesystems — identical across OS families in the catalog. Typical mounts include:</p>
+            <p>Every <a href="/#base-tier">StigReady Base</a> AMI built from the official OS ISO gets, at install, a GPT disk and LVM volume group <code>vg_root</code> with the separate STIG-aligned filesystems, the same on every ISO-built OS family in the catalog. Amazon Linux 2023 is built from Amazon's prebuilt disk image and gets a separate <code>/var/log/audit</code>, the one partition its STIG requires. On the ISO-built images, typical mounts include:</p>
             <ul>
                 <li><code>/home</code></li>
                 <li><code>/tmp</code></li>
