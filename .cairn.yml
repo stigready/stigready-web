@@ -23,16 +23,19 @@ jobs:
           # with its own checkout, so this step lands before the validator imports anything from it.
           # Mirror first, as stigready's scripts/pip-install-locked.sh does (decision 0102): each verified wheelhouse
           # offline ($MIRROR_DIR when set, /opt/mirror baked into the Cairn runner images, /mnt/stigready/mirror), then
-          # the package index only when none holds the whole set. --require-hashes on every attempt. Inline rather than
-          # a script in the checkout, so open pull requests that predate it still find it (main's pipeline).
+          # the package index only when none holds the whole set. --require-hashes and --only-binary :all: on every
+          # attempt (wheels only: pip never builds the sdist the lock also hashes), and "${MIRROR_DIR:-}" quoted so a
+          # value with spaces or glob characters stays one path (stigready-web#67; CINC controls web-deps-*). Inline
+          # rather than a script in the checkout, so open pull requests that predate it still find it (main's pipeline).
           - name: deps
             run: |-
               python3 -m venv .ci-venv
               REQ=scripts/requirements-validate.txt
               src=
-              for d in ${MIRROR_DIR:-} /opt/mirror /mnt/stigready/mirror; do
+              for d in "${MIRROR_DIR:-}" /opt/mirror /mnt/stigready/mirror; do
                 [ -d "$d/pypi" ] || continue
-                if .ci-venv/bin/pip install --quiet --require-hashes --no-index --find-links "$d/pypi" -r "$REQ"; then
+                if .ci-venv/bin/pip install --quiet --require-hashes --only-binary :all: --no-index \
+                    --find-links "$d/pypi" -r "$REQ"; then
                   src="$d/pypi"; break
                 fi
                 echo "deps: $d/pypi does not hold all of $REQ; trying the next source" >&2
@@ -41,7 +44,7 @@ jobs:
                 echo "deps: $REQ installed offline from $src" >&2
               else
                 echo "deps: $REQ from the package index (hash-checked)" >&2
-                .ci-venv/bin/pip install --quiet --require-hashes -r "$REQ"
+                .ci-venv/bin/pip install --quiet --require-hashes --only-binary :all: -r "$REQ"
               fi
           - name: validate-site
             run: .ci-venv/bin/python scripts/validate-site.py
