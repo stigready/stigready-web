@@ -88,3 +88,50 @@ jobs:
             run: cairn-scan yamllint
           - name: verdict
             run: cairn-scan verdict trivy gitleaks semgrep yamllint
+
+  # Decision 0105 (claude-agents design/decisions/0105-*.md, approved): the three decision-0100 reviews, one Cairn review
+  # job each, on every pull request head. Cairn's code, not a model, decides each status, under Cairn's app
+  # (cairn-ci-stigready[bot], on claude-agents config/merge-rules.yml review_identities), so a head the merge train makes
+  # with update-branch gets its verdicts back without anyone posting them.
+  # CARRY-OVER ONLY (0105 section 2) until review.ANTHROPIC_API_KEY is in Vault: the model is never called. Success only
+  # when the change's patch-id (git diff --binary --full-index <merge-base> <head> | git patch-id --stable) equals that
+  # of an earlier head of this PR whose newest review/<role> by a base_identities login was success, and every require
+  # context was success there in Cairn's own runs: "carry-over: patch-id <12> unchanged since full review at <12>".
+  # Anything else (a PR commit, a conflict resolution, a failure or no verdict on the earlier head, red there) is
+  # pending "full review needed: <reason>", never success; the program agent then reviews in full (0100 interim).
+  # - No review.paths and no skip_branches: a skipped review reports success, and a filter pinned here could lag the
+  #   train's public-facing list (read from claude-agents main), so no filter may skip a PR the train treats as
+  #   public-facing. A PR that touches no public-facing path sees these pending; the train does not gate on them.
+  # - advisory: a needs-review job fails, and must not turn the aggregate red. timeout bounds how long it can hold it.
+  # - The agents are each role's primary 0100 agent, pinned; they are read only for a full review (not before the key).
+  # CINC review-jobs-0105-* keeps all of this.
+  - name: review-security
+    stage: review
+    advisory: true
+    status: review/security
+    timeout: 10m
+    review:
+      agent: {repo: stigready/claude-agents, ref: 2039af2e77b675ec0d4fa26e65d873fe8e74b613, path: config/agents/image-security.md}
+      model: claude-sonnet-5-5
+      require: [validate]
+      base_identities: [sclark007]
+  - name: review-marketing
+    stage: review
+    advisory: true
+    status: review/marketing
+    timeout: 10m
+    review:
+      agent: {repo: stigready/claude-agents, ref: 2039af2e77b675ec0d4fa26e65d873fe8e74b613, path: config/agents/marketplace-legal.md}
+      model: claude-sonnet-5-5
+      require: [validate]
+      base_identities: [sclark007]
+  - name: review-qa
+    stage: review
+    advisory: true
+    status: review/qa
+    timeout: 10m
+    review:
+      agent: {repo: stigready/claude-agents, ref: 2039af2e77b675ec0d4fa26e65d873fe8e74b613, path: config/agents/build-qa.md}
+      model: claude-sonnet-5-5
+      require: [validate]
+      base_identities: [sclark007]
