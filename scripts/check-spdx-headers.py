@@ -17,7 +17,9 @@ another party's copyright or SPDX header are reported and left alone: add them t
 exclusions in .spdx-headers so their upstream notice is kept.
 
 Config: .spdx-headers at the repository root, one directive per line:
-    license <SPDX expression>     the first is what --fix writes; any listed one passes
+    license <SPDX expression>      the first is what --fix writes; any listed one passes
+    license-for <glob> <SPDX>      files matching the glob carry exactly this licence (a part of
+                                   the repo that already declares its own, e.g. a CINC profile)
     exclude <glob>                 fnmatch glob on the repo-relative path (** matches /)
 Standard library only; the file list comes from `git ls-files`.
 """
@@ -76,12 +78,13 @@ def header_lines(style: str, license_id: str) -> list[str]:
     return [f"<!-- {a} -->", f"<!-- {b} -->"]
 
 
-def load_config(root: Path) -> tuple[list[str], list[str]]:
+def load_config(root: Path) -> tuple[list[str], list[str], list[tuple[str, str]]]:
     cfg = root / ".spdx-headers"
     if not cfg.is_file():
         sys.exit(f"check-spdx-headers: {cfg} is missing")
     licenses: list[str] = []
     excludes: list[str] = []
+    overrides: list[tuple[str, str]] = []
     for raw in cfg.read_text().splitlines():
         line = raw.strip()
         if not line or line.startswith("#"):
@@ -91,11 +94,14 @@ def load_config(root: Path) -> tuple[list[str], list[str]]:
             licenses.append(value.strip())
         elif key == "exclude":
             excludes.append(value.strip())
+        elif key == "license-for":
+            glob, _, expr = value.strip().partition(" ")
+            overrides.append((glob, expr.strip()))
         else:
             sys.exit(f"check-spdx-headers: unknown directive {key!r} in .spdx-headers")
     if not licenses:
         sys.exit("check-spdx-headers: .spdx-headers names no licence")
-    return licenses, excludes
+    return licenses, excludes, overrides
 
 
 def excluded(path: str, globs: list[str]) -> bool:
@@ -144,7 +150,7 @@ def main() -> int:
     ap.add_argument("--root", default=".", help="repository root (default: .)")
     args = ap.parse_args()
     root = Path(args.root).resolve()
-    licenses, excludes = load_config(root)
+    licenses, excludes, overrides = load_config(root)
 
     missing: list[str] = []
     wrong_license: list[str] = []
@@ -162,9 +168,11 @@ def main() -> int:
         if style is None or excluded(path, excludes):
             continue
         head = "\n".join(text.splitlines()[:HEAD_LINES])
+        own = next((expr for glob, expr in overrides if excluded(path, [glob])), None)
+        allowed = [own] if own else licenses
         if COPYRIGHT_RE.search(head):
             m = LICENSE_RE.search(head)
-            if not m or m.group(1) not in licenses:
+            if not m or m.group(1) not in allowed:
                 wrong_license.append(f"{path}: {m.group(1) if m else 'no SPDX-License-Identifier'}")
             continue
         if GENERATED_RE.search(head):
@@ -178,7 +186,7 @@ def main() -> int:
             continue
         lines = text.split("\n")
         at = insert_at(lines, style, path)
-        add = header_lines(style, licenses[0])
+        add = header_lines(style, allowed[0])
         if style == "slash" and path.endswith(".go"):
             add = add + [""]
         lines[at:at] = add
@@ -199,7 +207,7 @@ def main() -> int:
             print(f"  {p}")
     if wrong_license:
         rc = 1
-        print(f"check-spdx-headers: licence not one of {licenses}:")
+        print(f"check-spdx-headers: licence not the one .spdx-headers sets for the path (default {licenses}):")
         for p in wrong_license:
             print(f"  {p}")
     if third_party and not args.fix:

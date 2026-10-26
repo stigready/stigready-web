@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2026 StigReady
-# SPDX-License-Identifier: LicenseRef-StigReady-Proprietary
+# SPDX-License-Identifier: MIT
 # claude-agents#152: assets/css/site.css is what scripts/build-css.sh wrote for the current pages, config and Tailwind
 # version. The runners cannot run Tailwind, so build-css.sh records a stamp (scripts/css_stamp.py --write, building)
 # and this control recomputes every field exactly as css_stamp.py defines it and compares (decision 0003: the

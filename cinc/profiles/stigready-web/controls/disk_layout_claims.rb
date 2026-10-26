@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2026 StigReady
-# SPDX-License-Identifier: LicenseRef-StigReady-Proprietary
+# SPDX-License-Identifier: MIT
 # stigready#5177: Amazon Linux 2023 is built from Amazon's prebuilt disk image (stigready registry/images.yml
 # disk_image: true), and its build creates only a separate /var/log/audit (AZLX-23-002020, the one separate partition
 # the AL2023 STIG requires). The site said the six-mount ISO layout was "identical across all OS families" and that

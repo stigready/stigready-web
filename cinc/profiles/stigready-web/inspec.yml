@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2026 StigReady
-# SPDX-License-Identifier: LicenseRef-StigReady-Proprietary
+# SPDX-License-Identifier: MIT
 name: stigready-web
 title: stigready.com published-site invariants
 maintainer: StigReady program

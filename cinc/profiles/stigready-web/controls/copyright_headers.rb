@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2026 StigReady
-# SPDX-License-Identifier: LicenseRef-StigReady-Proprietary
+# SPDX-License-Identifier: MIT
 # Copyright-header guard (owner, 2026-10-26: "we need to get everything copyrighted"). Every tracked source file
 # carries "SPDX-FileCopyrightText: <year> StigReady" and an SPDX-License-Identifier allowed in .spdx-headers, unless
 # .spdx-headers excludes it as generated or third-party; and no tracked file names an organisation this org's files
