@@ -1,7 +1,10 @@
 <!DOCTYPE html>
+<!-- SPDX-FileCopyrightText: 2026 StigReady -->
+<!-- SPDX-License-Identifier: LicenseRef-StigReady-Proprietary -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self'">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-R2J9HMP1XX"></script>
     <script>
@@ -40,7 +43,7 @@
       "description": "StigReady Base ($0.02/hr) vs Applied ($0.08/hr) — layout and hardening versus scored remediation with evidence."
     }
     </script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/assets/css/site.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
@@ -111,7 +114,7 @@
                         <tr>
                             <td class="text-white font-semibold">Evidence</td>
                             <td>Bring your own OpenSCAP / POA&amp;M pipeline</td>
-                            <td>Bundle: ARF, HTML report, POA&amp;M, SBOM, CVE scan</td>
+                            <td>Bundle on request: ARF, HTML report, POA&amp;M, SBOM, CVE scan (not RHEL 10)</td>
                         </tr>
                         <tr>
                             <td class="text-white font-semibold">Best when</td>
@@ -148,7 +151,7 @@
             <h2>How to get started</h2>
             <ul>
                 <li>Compare tiers on <a href="/">stigready.com</a> — <a href="/#base-tier">Base</a>, <a href="/#applied-tier">Applied</a>, <a href="/#pricing">Pricing</a></li>
-                <li>AWS Marketplace is coming soon for public subscribe/launch — watch the <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk">seller profile</a> or <a href="mailto:contact@stigready.com">contact us</a> for early access, volume, or Private Offers</li>
+                <li>StigReady Base and Applied are on AWS Marketplace: the <a href="/#base-tier">Base</a> and <a href="/#applied-tier">Applied</a> catalogs link each image to its listing. Browse the <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk">seller profile</a> or <a href="mailto:contact@stigready.com">contact us</a> for volume or Private Offers</li>
             </ul>
 
             <p class="text-sm text-gray-500 mt-10 pt-6 border-t border-gray-800">Questions? <a href="mailto:contact@stigready.com">contact@stigready.com</a></p>

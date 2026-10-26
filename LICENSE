@@ -1,0 +1,16 @@
+stigready-web -- licence
+
+Copyright (c) 2026 StigReady. All rights reserved.
+
+SPDX-License-Identifier: LicenseRef-StigReady-Proprietary
+
+The text, design, images, page source and scripts of this repository and of the site it
+publishes (https://stigready.com) are StigReady's. No licence to copy, modify or
+redistribute them is granted, except that the public may view the published site.
+
+Exception: the CINC profile under cinc/profiles/stigready-web/ keeps the MIT licence its
+inspec.yml declares; its files say so in their SPDX header.
+
+Third-party components keep their own licences; NOTICE lists them. Product names and
+trademarks named on the site belong to their owners, and StigReady is not affiliated with
+or endorsed by them (the non-affiliation statement on every page).

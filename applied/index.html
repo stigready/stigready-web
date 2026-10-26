@@ -1,7 +1,10 @@
 <!DOCTYPE html>
+<!-- SPDX-FileCopyrightText: 2026 StigReady -->
+<!-- SPDX-License-Identifier: LicenseRef-StigReady-Proprietary -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self'">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-R2J9HMP1XX"></script>
@@ -12,8 +15,8 @@
       gtag('config', 'G-R2J9HMP1XX');
     </script>
 
-    <title>StigReady Applied — CIS Hardened AMI &amp; STIG AMI with OpenSCAP</title>
-    <meta name="description" content="CIS hardened AMI and STIG AMI images with published OpenSCAP scores and evidence. CIS L1/L2 or DISA STIG remediation on x86_64 and arm64 — Marketplace listings rolling out.">
+    <title>StigReady Applied — CIS Benchmark L1/L2 AMI &amp; STIG AMI with OpenSCAP</title>
+    <meta name="description" content="AMIs hardened to the CIS Benchmark, and STIG AMIs, with published OpenSCAP scores and evidence. CIS L1/L2 or DISA STIG remediation on x86_64 and arm64. On AWS Marketplace now.">
     <meta name="author" content="StigReady">
     <meta name="robots" content="index,follow,max-image-preview:large">
     <meta name="theme-color" content="#0C2340">
@@ -24,14 +27,14 @@
     <meta property="og:site_name" content="StigReady">
     <meta property="og:locale" content="en_US">
     <meta property="og:url" content="https://stigready.com/applied/">
-    <meta property="og:title" content="StigReady Applied — CIS Hardened AMI &amp; STIG AMI with OpenSCAP">
-    <meta property="og:description" content="CIS hardened AMI and STIG AMI images with published OpenSCAP scores and evidence. FIPS on STIG images.">
+    <meta property="og:title" content="StigReady Applied — CIS Benchmark L1/L2 AMI &amp; STIG AMI with OpenSCAP">
+    <meta property="og:description" content="AMIs hardened to the CIS Benchmark, and STIG AMIs, with published OpenSCAP scores and evidence. FIPS on STIG images.">
     <meta property="og:image" content="https://stigready.com/assets/logo.png">
 
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@Stigready">
-    <meta name="twitter:title" content="StigReady Applied — CIS Hardened AMI &amp; STIG AMI with OpenSCAP">
-    <meta name="twitter:description" content="CIS hardened AMI and STIG AMI images with published OpenSCAP scores and evidence. FIPS on STIG images.">
+    <meta name="twitter:title" content="StigReady Applied — CIS Benchmark L1/L2 AMI &amp; STIG AMI with OpenSCAP">
+    <meta name="twitter:description" content="AMIs hardened to the CIS Benchmark, and STIG AMIs, with published OpenSCAP scores and evidence. FIPS on STIG images.">
     <meta name="twitter:image" content="https://stigready.com/assets/logo.png">
 
     <script type="application/ld+json">
@@ -41,9 +44,9 @@
         {
           "@type": "WebPage",
           "@id": "https://stigready.com/applied/#webpage",
-          "name": "StigReady Applied — CIS Hardened AMI & STIG AMI with OpenSCAP",
+          "name": "StigReady Applied — CIS Benchmark L1/L2 AMI & STIG AMI with OpenSCAP",
           "url": "https://stigready.com/applied/",
-          "description": "CIS hardened AMI and STIG AMI images with published OpenSCAP scores and auditor-grade evidence bundles.",
+          "description": "AMIs hardened to the CIS Benchmark, and STIG AMIs, with published OpenSCAP scores and evidence bundles on request.",
           "isPartOf": {
             "@type": "WebSite",
             "name": "StigReady",
@@ -74,7 +77,7 @@
               "name": "What OpenSCAP evidence is included?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "OpenSCAP ARF, HTML report, POA&M, SBOM, and CVE scan with every Applied image. Scores are measured in-build against the raw SSG profile. Not affiliated with or endorsed by DISA or DoD; not certified, authorized, or accredited."
+                "text": "OpenSCAP ARF, HTML report, POA&M, SBOM, and a CVE scan (except on RHEL 10) for every Applied image, available from support@stigready.com on request. Scores are measured in-build against the raw SSG profile. Not affiliated with or endorsed by DISA or DoD; not certified, authorized, or accredited."
               }
             },
             {
@@ -82,7 +85,7 @@
               "name": "Is Applied available on AWS Marketplace?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Listings are rolling out. Watch the StigReady seller profile or contact contact@stigready.com for early access and Private Offers. Per-SKU listing URLs and AMI IDs are not published on this site."
+                "text": "Yes. All 56 StigReady Applied images are on AWS Marketplace: CIS Benchmark Level 1, CIS Benchmark Level 2 and DISA STIG (FIPS mode) for RHEL 8, 9 and 10, Rocky Linux 8, 9 and 10, AlmaLinux 8 and 9, and Ubuntu 24.04, plus AlmaLinux 10 CIS Benchmark Level 1, each on x86_64 and arm64 (Graviton). The Applied catalog on stigready.com links each image to its listing. StigReady Base is on AWS Marketplace too. Email contact@stigready.com for annual contracts and Private Offers. AMI IDs are not published on this site."
               }
             }
           ]
@@ -91,7 +94,7 @@
     }
     </script>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/assets/css/site.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
@@ -121,7 +124,7 @@
         <div class="max-w-3xl mx-auto text-center">
             <p class="text-xs text-yellow-500 font-semibold uppercase tracking-widest mb-3">StigReady Applied</p>
             <h1 class="text-4xl md:text-5xl font-black mb-4 tracking-tight">
-                <span class="text-white">CIS hardened AMI &amp; STIG AMI</span><br/>
+                <span class="text-white">CIS Benchmark L1/L2 AMI &amp; STIG AMI</span><br/>
                 <span class="gold">with OpenSCAP proof</span>
             </h1>
             <p class="text-lg text-gray-300 mb-6 max-w-2xl mx-auto">
@@ -130,8 +133,8 @@
                 asks for, published with every image.
             </p>
             <p class="text-gray-400 mb-10 max-w-2xl mx-auto text-sm">
-                Evidence bundle with every image: OpenSCAP ARF, HTML report, POA&amp;M, SBOM, and CVE scan.
-                FIPS mode enabled on STIG images using the OS vendor's FIPS&nbsp;140-3 validated cryptographic modules.
+                Evidence for every image (OpenSCAP ARF, HTML report, POA&amp;M, SBOM, and a CVE scan except on RHEL 10) is available from support@stigready.com on request.
+                FIPS mode enabled on STIG images using the OS vendor's FIPS cryptographic modules.
                 Software fee: <strong class="text-white">$0.08/hr</strong> or <strong class="text-white">$649/yr</strong> per instance.
             </p>
             <div class="flex flex-col sm:flex-row justify-center gap-4 mb-6">
@@ -141,14 +144,15 @@
                 </a>
                 <a href="mailto:contact@stigready.com"
                    class="bg-gray-700 hover:bg-gray-600 text-white px-8 py-3 rounded-md font-bold text-lg transition">
-                    Contact for early access
+                    Contact us
                 </a>
             </div>
             <p class="text-sm text-gray-500 mb-12">
-                AWS Marketplace listings are rolling out —
-                <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk" class="text-yellow-500 hover:underline" rel="noopener noreferrer">seller profile</a>
-                or <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">contact@stigready.com</a>
-                for early access and Private Offers.
+                StigReady Applied is on AWS Marketplace now: the
+                <a href="/#applied-tier" class="text-yellow-500 hover:underline">Applied catalog</a> links each image to its listing, or browse the
+                <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk" class="text-yellow-500 hover:underline" rel="noopener noreferrer">seller profile</a>.
+                Email <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">contact@stigready.com</a>
+                for annual contracts and Private Offers.
             </p>
             <p class="text-sm text-gray-500">
                 Looking for the roles behind Applied remediation?
@@ -174,11 +178,11 @@
                 </div>
                 <div>
                     <dt class="font-semibold text-white mb-2">What OpenSCAP evidence is included?</dt>
-                    <dd class="text-gray-400 text-sm">ARF, HTML report, POA&amp;M, SBOM, and CVE scan — scored in-build against the raw SSG profile. Not affiliated with or endorsed by DISA or DoD; we do not claim certified, authorized, or accredited status.</dd>
+                    <dd class="text-gray-400 text-sm">ARF, HTML report, POA&amp;M, SBOM, and a CVE scan (except on RHEL 10), available from support@stigready.com on request — scored in-build against the raw SSG profile. Not affiliated with or endorsed by DISA or DoD; we do not claim certified, authorized, or accredited status.</dd>
                 </div>
                 <div>
-                    <dt class="font-semibold text-white mb-2">Is Applied on AWS Marketplace yet?</dt>
-                    <dd class="text-gray-400 text-sm">Listings are rolling out. Watch the <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk" class="text-yellow-500 hover:underline" rel="noopener noreferrer">seller profile</a> or email <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">contact@stigready.com</a> for early access. We do not publish per-SKU listing URLs or AMI IDs here.</dd>
+                    <dt class="font-semibold text-white mb-2">Is Applied on AWS Marketplace?</dt>
+                    <dd class="text-gray-400 text-sm">Yes. All 56 StigReady Applied images are on AWS Marketplace: CIS Benchmark Level 1, CIS Benchmark Level 2 and DISA STIG (FIPS mode) for RHEL 8, 9 and 10, Rocky Linux 8, 9 and 10, AlmaLinux 8 and 9, and Ubuntu 24.04, plus AlmaLinux 10 CIS Benchmark Level 1, each on x86_64 and arm64 (Graviton). The <a href="/#applied-tier" class="text-yellow-500 hover:underline">Applied catalog</a> links each image to its listing. StigReady Base is on AWS Marketplace too (<a href="/#base-tier" class="text-yellow-500 hover:underline">Base catalog</a>). Email <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">contact@stigready.com</a> for annual contracts and Private Offers. We do not publish AMI IDs here.</dd>
                 </div>
             </dl>
         </section>
@@ -187,8 +191,7 @@
     <footer class="bg-navy py-8 px-4 border-t border-gray-800">
         <p class="text-center text-xs text-gray-600">&copy; 2026 StigReady. All rights reserved.</p>
         <p class="text-center text-xs text-gray-600 mt-3 max-w-3xl mx-auto">
-            Not affiliated with or endorsed by DISA, DoD, NIST, CIS, Red Hat, or Canonical.
-            StigReady does not provide commercial licenses for Red Hat products.
+            Not affiliated with or endorsed by DISA, DoD, NIST, CIS, Red Hat, or Canonical. All trademarks are the property of their respective owners. Red Hat® and Red Hat Enterprise Linux® are trademarks of Red Hat, Inc. Ubuntu® is a trademark of Canonical Ltd. CIS® and CIS Benchmarks™ are trademarks of the Center for Internet Security, Inc. StigReady does not provide commercial licenses for Red Hat products.
         </p>
     </footer>
 </body>

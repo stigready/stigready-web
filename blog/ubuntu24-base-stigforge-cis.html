@@ -1,7 +1,10 @@
 <!DOCTYPE html>
+<!-- SPDX-FileCopyrightText: 2026 StigReady -->
+<!-- SPDX-License-Identifier: LicenseRef-StigReady-Proprietary -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self'">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-R2J9HMP1XX"></script>
     <script>
@@ -40,7 +43,7 @@
       "description": "Apply the public ubuntu24_cis role on StigReady Ubuntu 24.04 Base."
     }
     </script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/assets/css/site.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
@@ -80,18 +83,18 @@
         <article class="max-w-3xl mx-auto">
             <p class="text-xs text-gray-500 mb-3"><a href="/blog/" class="text-yellow-500 hover:underline">Blog</a> · 2026-07-30 · Hands-on</p>
             <h1 class="text-3xl md:text-4xl font-black text-white mb-6 tracking-tight">Ubuntu 24.04 Base + <span class="gold">ubuntu24_cis</span></h1>
-            <p class="text-lg text-gray-300 mb-8">Apply the public StigForge role <code>ubuntu24_cis</code> on <strong class="text-white">StigReady Ubuntu 24.04 Base</strong>. Defaults target <strong class="text-white">CIS Level 1</strong>; Level 2 evidence ships in the same release tree. AWS Marketplace listings are rolling out — use early access via <a href="mailto:contact@stigready.com">contact</a> until public subscribe is live.</p>
+            <p class="text-lg text-gray-300 mb-8">Apply the public StigForge role <code>ubuntu24_cis</code> on <strong class="text-white">StigReady Ubuntu 24.04 Base</strong>. Defaults target <strong class="text-white">CIS Level 1</strong>; Level 2 evidence ships in the same release tree. StigReady Ubuntu 24.04 Base is on AWS Marketplace: the <a href="/#base-tier">Base catalog</a> links to its listing.</p>
 
             <h2>Before you start</h2>
             <ul>
-                <li>Access to a StigReady Ubuntu 24.04 Base AMI (early access / Private Offer, or Marketplace when listed)</li>
+                <li>A subscription to StigReady Ubuntu 24.04 Base on AWS Marketplace (the <a href="/#base-tier">Base catalog</a> links to its listing), or a Private Offer</li>
                 <li>Ansible 2.16+ on a control host that can SSH to the instance</li>
-                <li>Role pin used in this post: <code>v0.3.3</code> — check <a href="https://github.com/stigready/ubuntu24-cis">stigready/ubuntu24-cis</a> for newer tags</li>
+                <li>Role pin used in this post: <code>v0.3.49</code>, the newest tag on 2026-10-24 — check <a href="https://github.com/stigready/ubuntu24-cis/tags">stigready/ubuntu24-cis tags</a> for newer ones</li>
             </ul>
 
             <h2>1. Launch Base</h2>
             <ol>
-                <li>Watch the <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk">StigReady seller page</a> for public listings, or <a href="mailto:contact@stigready.com">contact us</a> for early access to Ubuntu 24.04 Base (x86_64 or arm64).</li>
+                <li>Subscribe to Ubuntu 24.04 Base (x86_64 or arm64) from its AWS Marketplace listing, linked from the <a href="/#base-tier">Base catalog</a>, or browse the <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk">StigReady seller page</a>. <a href="mailto:contact@stigready.com">Contact us</a> for a Private Offer.</li>
                 <li>Launch with a key pair you control.</li>
                 <li>SSH as <code>ubuntu</code> (or use SSM Session Manager).</li>
             </ol>
@@ -102,7 +105,7 @@
 roles:
   - src: https://github.com/stigready/ubuntu24-cis
     scm: git
-    version: v0.3.3
+    version: v0.3.49
     name: ubuntu24_cis
 </code></pre>
 <pre><code>ansible-galaxy role install -r requirements.yml -p ./roles
@@ -127,7 +130,7 @@ ubuntu24-base ansible_host=&lt;instance-ip&gt; ansible_user=ubuntu
             <p>The role repo ships a per-tag manifest (factory commit, SSG version, content digest), not a score; container verification was retired because a container cannot evaluate most benchmark rules.</p>
             <ul>
                 <li>Score this host: <code>oscap xccdf eval --profile xccdf_org.ssgproject.content_profile_cis_level1_server --results results.xml --report report.html /usr/share/xml/scap/ssg/content/ssg-ubuntu2404-ds.xml</code> (<code>cis_level2_server</code> for L2).</li>
-                <li>Published scores for the StigApplied image that bakes the same role: <a href="/#applied-tier">stigready.com/#applied-tier</a></li>
+                <li>Published scores for the StigReady Applied image built with this role: <a href="/#applied-tier">stigready.com/#applied-tier</a> (the <a href="/#stigforge">StigForge table</a> names the role version each score was measured with)</li>
             </ul>
 
             <h2>Related</h2>

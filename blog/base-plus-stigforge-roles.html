@@ -1,7 +1,10 @@
 <!DOCTYPE html>
+<!-- SPDX-FileCopyrightText: 2026 StigReady -->
+<!-- SPDX-License-Identifier: LicenseRef-StigReady-Proprietary -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self'">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-R2J9HMP1XX"></script>
     <script>
@@ -40,7 +43,7 @@
       "description": "Use StigReady Base with public StigForge CIS / STIG roles, or choose Applied for scored AMIs."
     }
     </script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/assets/css/site.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
@@ -82,18 +85,18 @@
 
             <h2>The two paths</h2>
             <ul>
-                <li><strong class="text-white">StigReady Applied</strong> — a CIS or STIG AMI that is already remediated, scored in-build, and ships an evidence bundle. See <a href="/applied/">Applied</a> and the <a href="/#applied-tier">score table</a>.</li>
+                <li><strong class="text-white">StigReady Applied</strong> — a CIS or STIG AMI that is already remediated, scored in-build, with an evidence bundle on request. See <a href="/applied/">Applied</a> and the <a href="/#applied-tier">score table</a>.</li>
                 <li><strong class="text-white">StigReady Base + StigForge</strong> — run Base, then a public role from <a href="https://github.com/orgs/stigready/repositories?q=cis+OR+stig">github.com/stigready</a> in your own playbooks or image bake. You control when remediation runs and how you re-score.</li>
             </ul>
-            <p>Use Base + roles when you already have Ansible pipelines, need to tune exceptions, or want the same role in Packer that you run on fleets. Use Applied when you want the score and evidence on day one without wiring OpenSCAP yourself.</p>
+            <p>Use Base + roles when you already have Ansible pipelines, need to tune exceptions, or want the same role in Packer that you run on fleets. Use Applied when you want the score on day one, and the evidence on request, without wiring OpenSCAP yourself.</p>
 
             <h2>What Base already did for you</h2>
-            <p>Every Base AMI is built from the official OS ISO, patched at bake, and boot-tested on Nitro EC2. The STIG partition layout (<code>/home</code>, <code>/tmp</code>, <code>/var</code>, <code>/var/log</code>, <code>/var/log/audit</code>, <code>/var/tmp</code>) is applied at install — that layout is painful to retrofit later. SSH is key-only; IMDSv2 is enforced; SSM Agent is present. Details: <a href="/blog/stig-disk-layout-that-wont-fight-you.html">STIG disk layout that won't fight you</a>.</p>
-            <p>Start from the <a href="/#base-tier">Base catalog</a> on stigready.com. AWS Marketplace listings are rolling out — watch the <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk">seller page</a> or <a href="mailto:contact@stigready.com">contact us</a> for early access. RHEL images are BYOL — you bring a Red Hat subscription.</p>
+            <p>Every Base AMI is patched at bake and boot-tested on Nitro EC2. On the images built from the official OS ISO, the STIG partition layout (<code>/home</code>, <code>/tmp</code>, <code>/var</code>, <code>/var/log</code>, <code>/var/log/audit</code>, <code>/var/tmp</code>) is applied at install — that layout is painful to retrofit later. Amazon Linux 2023 is built from Amazon's prebuilt disk image and gets a separate <code>/var/log/audit</code>, the one partition its STIG requires. SSH is key-only; IMDSv2 is enforced; SSM Agent is present. Details: <a href="/blog/stig-disk-layout-that-wont-fight-you.html">STIG disk layout that won't fight you</a>.</p>
+            <p>Start from the <a href="/#base-tier">Base catalog</a> on stigready.com: StigReady Base is on AWS Marketplace, and the catalog links each image to its listing. You can also browse our <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk">seller page</a> or <a href="mailto:contact@stigready.com">contact us</a>. RHEL images are BYOL — you bring a Red Hat subscription.</p>
 
             <h2>What StigForge roles add</h2>
             <p>Each public role repo (<code>*-cis</code> / <code>*-stig</code>) is a Galaxy-style Ansible role with an immutable per-tag manifest under <code>compliance/releases/</code> (factory commit, SSG version, content digest). The score is measured by OpenSCAP against the <strong class="text-white">raw, unmodified SSG profile</strong> on the StigApplied image that bakes the role, with a 90% floor; those scores live on <a href="/#applied-tier">stigready.com/#applied-tier</a>.</p>
-            <p>Install with a pinned tag (example: <code>v0.3.3</code>). Do not float on <code>main</code>.</p>
+            <p>Install with a pinned tag (example: <code>v0.3.49</code>, the newest on 2026-10-24; take the newest from the role repo's tags). Do not float on <code>main</code>.</p>
 
             <h2>Hands-on next</h2>
             <ul>

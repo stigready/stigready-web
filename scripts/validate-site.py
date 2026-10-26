@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 StigReady
+# SPDX-License-Identifier: LicenseRef-StigReady-Proprietary
 """Validate the published site before it reaches stigready.com.
 
 This repo had NO workflows and `required_status_checks: null` on `main`, so branch
@@ -22,6 +24,9 @@ about the published artefacts, not style:
      file may reference a private org repository
   7. no docs/ tree (documentation is maintained elsewhere)
 
+Pinned assets, the CSP on every page, and site.css matching its build stamp (claude-agents#152) are
+CINC controls, not checks here (decision 0003): cinc/profiles/stigready-web, run by the same job.
+
 Exit 1 on any finding, with every finding printed — a validator that stops at the first
 problem turns one fix round into five.
 """
@@ -31,7 +36,6 @@ import json
 import re
 import subprocess
 import sys
-import xml.etree.ElementTree as ET
 from pathlib import Path
 
 # The site's XML/SVG is parsed without expanding entities: in a pull request run these files are the pull request's
@@ -64,7 +68,7 @@ def check_parsers(files: list[Path]) -> None:
         elif f.suffix in {".xml", ".svg"}:
             try:
                 DET.parse(f)
-            except ET.ParseError as e:
+            except DET.ParseError as e:
                 problems.append(f"{f.relative_to(ROOT)}: invalid XML — {e}")
             except defusedxml.DefusedXmlException as e:
                 problems.append(f"{f.relative_to(ROOT)}: XML declares an entity or external reference, refused — {e}")
@@ -185,10 +189,14 @@ PRIVATE_REPOS = (
     "stigforge", "claude-agents", "stigready", "stigvalidated", "cairn", "build-reports",
     "cmmc-agents-field-manual",
 )
+# Public repos whose names start with a private one; the optional -suffix below would
+# otherwise match them (stigready/stigready-baseline is a public StigForge role repo).
+PUBLIC_REPOS = ("stigready-web", "stigready-baseline")
 # stigready/<private> not followed by another name character, so public repos such as
 # stigready/stigready-web or stigready/rhel9-stig never match.
 PRIVATE_REF = re.compile(
-    r"stigready/(?:" + "|".join(re.escape(r) for r in PRIVATE_REPOS) + r")(?:-\w+)?(?![\w-])"
+    r"stigready/(?!(?:" + "|".join(re.escape(r) for r in PUBLIC_REPOS) + r")(?![\w-]))"
+    r"(?:" + "|".join(re.escape(r) for r in PRIVATE_REPOS) + r")(?:-\w+)?(?![\w-])"
     r"|stigready/stigvalidated-\w+"
 )
 AGENT_CONFIG = (".claude/", ".cursor/")
