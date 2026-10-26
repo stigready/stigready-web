@@ -58,19 +58,28 @@ jobs:
               fi
           - name: validate-site
             run: .ci-venv/bin/python scripts/validate-site.py
+          # Decision 0114: the copy-truth controls render pages with Node and jsdom, pinned (scripts/render/setup.sh:
+          # the runner image's /opt/node or a sha256-checked tarball, then npm ci from the lock). No renderer, no pass.
+          - name: render-setup
+            run: |-
+              set -eu
+              mkdir -p .render
+              bash scripts/render/setup.sh scripts/render .render/node > .render/node-path
           # Decision 0003: the assertions about pinned assets, the CSP and site.css freshness are CINC controls
           # (claude-agents#152). The default runner image carries cinc-auditor.
           - name: cinc-stigready-web
-            run: cinc-auditor exec cinc/profiles/stigready-web --no-color --chef-license accept-silent
+            run: COPY_TRUTH_NODE="$(cat .render/node-path)" cinc-auditor exec cinc/profiles/stigready-web --no-color --chef-license accept-silent
 
   # Decision 0114 (claude-agents): public copy must match production. stigready-web#70 showed all 56 StigReady Applied
   # products as "Coming soon" while all 56 were Public on AWS Marketplace, and every review passed because each compared
-  # the copy with catalog.json. Both PR checks run the checker, signers and fixtures from origin/$CAIRN_BASE_REF (git
-  # archive of the base), never from the PR, so a PR cannot change what judges it. CINC web-copy-truth-01..04.
+  # the copy with catalog.json. Both PR checks take the checker, the renderer (scripts/render: Node v24.21.0 and jsdom
+  # 30.1.1, pinned) and the signers from origin/$CAIRN_BASE_REF, never from the PR, so a PR cannot change what judges
+  # it. Pages are judged by what they RENDER: each page's own scripts and styles run against its catalog.json, and a
+  # product counts as purchasable only if a visible link to its listing is rendered. CINC web-copy-truth-01..04.
   #
   # L1 copy-truth: the PR's site against the live Marketplace snapshot. PR runs get no AWS credentials (Cairn), so the
   # snapshot is the file stigready's marketplace-live-snapshot job (marketplace-ro) writes to this repo's
-  # live/marketplace branch. A missing or >26 h old snapshot exits 2 (production state unknown).
+  # live/marketplace branch. A missing, empty or >26 h old snapshot exits 2 (production state unknown).
   # ADVISORY until that job has run under its cairn-server.yml grant and written the branch: then drop `advisory`
   # and add copy-truth to main's required contexts. Prices only warn until cairn-marketplace-ro can read Offers.
   - name: copy-truth
@@ -78,7 +87,7 @@ jobs:
     when: pull_request
     advisory: true
     status: copy-truth
-    timeout: 10m
+    timeout: 15m
     run:
       exec:
         steps:
@@ -88,21 +97,28 @@ jobs:
               t=$(mktemp -d)
               mkdir -p "$t/base" "$t/snap"
               git archive "origin/${CAIRN_BASE_REF:?}" | tar -x -C "$t/base"
+              node=$(bash "$t/base/scripts/render/setup.sh" "$t/base/scripts/render" "$t/node")
               git -C "$t/snap" init -q
               git -C "$t/snap" fetch -q --depth 1 https://github.com/stigready/stigready-web.git live/marketplace
               git -C "$t/snap" show FETCH_HEAD:marketplace-live.json > "$t/marketplace-live.json"
-              python3 -I "$t/base/scripts/check-copy-vs-marketplace.py" --mode pr --site . \
+              python3 -I "$t/base/scripts/check-copy-vs-marketplace.py" --mode pr --site . --node "$node" \
+                --renderer "$t/base/scripts/render/render.mjs" \
                 --snapshot "$t/marketplace-live.json" --out copy-truth/report.md
 
-  # L2 copy-removal-gate: fails when a product moves down (purchasable > no claim > coming soon), disappears, or loses a
-  # price or region claim, or config/owner-signers changes, unless approvals/owner/<digest>.{txt,sig} carries the
-  # owner's signature by a FIDO2 key listed in the BASE's config/owner-signers (approvals/owner/README.md). Needs no
-  # credentials: required from the day it lands (the program agent adds copy-removal-gate to main's required contexts).
+  # L2 copy-removal-gate: the PR head against the base, both read from git objects. Fails when a product moves down
+  # (purchasable > no claim > coming soon > not shown), disappears, or loses a price or region claim; when the code or
+  # styles that render the catalog change; or when config/owner-signers changes in any way (edited, emptied, deleted,
+  # symlinked). It passes only with approvals/owner/<digest>.{txt,sig} over this PR number and its merge base, signed
+  # by a key listed in config/owner-signers ON THE BASE (approvals/owner/README.md). With no key on main, nothing can
+  # be approved: the first key lands through a PR the owner merges by hand.
+  # REQUIRED once it lands: the program agent adds it to main's branch protection pinned to the Cairn app, as validate
+  # is: required_status_checks.checks += {context: copy-removal-gate, app_id: 5393122}. Unpinned, the login the owner
+  # shares with the program agent (a repo admin) could post the status itself.
   - name: copy-removal-gate
     stage: verify
     when: pull_request
     status: copy-removal-gate
-    timeout: 10m
+    timeout: 15m
     run:
       exec:
         steps:
@@ -112,14 +128,17 @@ jobs:
               t=$(mktemp -d)
               mkdir -p "$t/base"
               git archive "origin/${CAIRN_BASE_REF:?}" | tar -x -C "$t/base"
-              python3 -I "$t/base/scripts/check-copy-vs-marketplace.py" --mode removal --base-site "$t/base" --site . \
-                --signers "$t/base/config/owner-signers" --head-signers config/owner-signers
+              node=$(bash "$t/base/scripts/render/setup.sh" "$t/base/scripts/render" "$t/node")
+              python3 -I "$t/base/scripts/check-copy-vs-marketplace.py" --mode removal --node "$node" \
+                --renderer "$t/base/scripts/render/render.mjs" \
+                --repo . --base-ref "origin/${CAIRN_BASE_REF:?}" --head-ref HEAD --pr "${CAIRN_PR:?}"
 
-  # L3 copy-drift-watch: nightly (schedule copy-drift), read-only. Fetches stigready.com live (sitemap pages and
-  # /catalog.json), the public role READMEs and the pages in config/copy-truth-sources.yml, checks them against the
-  # live snapshot (at most 2 h old) and each README's release against its newest v* tag. On drift the run fails (ntfy,
-  # decision 0073) and the one `copy-drift` issue is opened or updated; a clean night closes it. GitHub: a minted
-  # token with issues: write on this repo only (cairn-server.yml github_write.grants.stigready-web.copy-drift-watch;
+  # L3 copy-drift-watch: nightly (schedule copy-drift), read-only. Fetches stigready.com live (sitemap pages, the scripts
+  # and stylesheets they load, /catalog.json), renders it, checks it against the live snapshot (at most 2 h old), and
+  # checks the public role READMEs (release against the newest v* tag) and the pages in config/copy-truth-sources.yml.
+  # On drift the run fails (ntfy, decision 0073) and the one issue titled "copy drift: public copy differs from
+  # production" is opened or updated (a comment only when the findings change); a clean night closes it. GitHub: a
+  # minted token with issues: write on this repo only (cairn-server.yml github_write.grants.stigready-web.copy-drift-watch;
   # until it is granted, a run is refused at start). No AWS credential: the snapshot carries production.
   - name: copy-drift-watch
     stage: watch
@@ -136,11 +155,13 @@ jobs:
             run: |-
               set -eu
               t=$(mktemp -d)
+              node=$(bash scripts/render/setup.sh scripts/render "$t/node")
               git -C "$t" init -q
               git -C "$t" fetch -q --depth 1 https://github.com/stigready/stigready-web.git live/marketplace
               git -C "$t" show FETCH_HEAD:marketplace-live.json > "$t/marketplace-live.json"
-              python3 -I scripts/check-copy-vs-marketplace.py --mode drift --snapshot "$t/marketplace-live.json" \
-                --max-age-hours 2 --sources config/copy-truth-sources.yml --out copy-drift/report.md --issue
+              python3 -I scripts/check-copy-vs-marketplace.py --mode drift --node "$node" \
+                --snapshot "$t/marketplace-live.json" --max-age-hours 2 --sources config/copy-truth-sources.yml \
+                --out copy-drift/report.md --issue
 
   # Scanners (decision 0076 part B; owner 2026-10-21: "we should be running trivy and any other tools that make sence").
   # Fitted to this repo: static HTML/JSON and one Python validator.
