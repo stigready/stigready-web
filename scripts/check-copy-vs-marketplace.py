@@ -450,8 +450,8 @@ def git_tree(repo: Path, ref: str, into: Path) -> Path:
 
     data = git(repo, "archive", "--format=tar", ref, binary=True)
     into.mkdir(parents=True, exist_ok=True)
-    with tarfile.open(fileobj=io.BytesIO(data)) as tf:
-        # data_filter (inside no_links) refuses absolute and ../ paths; no_links drops every link.
+    # data_filter (inside no_links) refuses absolute and ../ paths; no_links drops every link.
+    with tarfile.open(fileobj=io.BytesIO(data)) as tf:  # nosemgrep
         tf.extractall(into, filter=no_links)  # nosemgrep
     return into
 
