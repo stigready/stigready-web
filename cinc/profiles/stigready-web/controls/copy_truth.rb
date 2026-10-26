@@ -24,6 +24,9 @@ require 'yaml'
 #                      software or unlisted key, an edited, expired or too-long approval) all fail; only a signature
 #                      by a FIDO2-type key listed on the base, over this PR and base, passes
 #   web-copy-truth-04  the pipeline runs the checks from the base branch, the renderer pinned, no test hooks
+#   web-copy-truth-05  hardened visibility evaluation and checker isolation: markup that hides the listings, a page
+#                      the renderer cannot evaluate, and page scripts acting on the checker all fail; the script
+#                      stage refuses to run unhardened
 #
 # The FIDO2-type key in these tests is made in software (SoftSK below), as the security review showed anyone can:
 # the key TYPE proves no touch. What protects the gate is that only the owner's key is listed on the base, and that
@@ -582,5 +585,135 @@ control 'web-copy-truth-04' do
 
   describe file(File.join(ROOT_CT, 'config', 'owner-signers')) do
     it { should exist }
+  end
+end
+
+# ----------------------------------------------------------------------------------------------- render hardening
+
+# Security re-review of stigready-web#74: hardened visibility evaluation and checker isolation. Each case hides the
+# 56 Applied listings from a visitor, or makes a page the renderer cannot evaluate, or is a page script acting on the
+# checker; each must fail L1 (and the removal gate, where noted).
+CT_EDIT = lambda do |rel, from, to|
+  lambda do |dir|
+    f = File.join(dir, rel)
+    s = File.read(f)
+    raise "fixture: #{from} not in #{rel}" unless s.include?(from)
+
+    File.write(f, s.sub(from, to))
+  end
+end
+CT_TBODY = '<tbody id="applied-tbody" class="'.freeze
+CT_TB_ATTR = ->(attr) { CT_EDIT.call('index.html', CT_TBODY, %(<tbody id="applied-tbody" #{attr} class=")) }
+CT_BOTH = ->(*muts) { ->(dir) { muts.each { |m| m.call(dir) } } }
+CT_PAGE = ->(name, body) { ->(dir) { File.write(File.join(dir, name), body) } }
+CT_TW = lambda do |css, cls|
+  CT_BOTH.call(->(dir) { File.open(File.join(dir, 'assets', 'css', 'site.css'), 'a') { |f| f.write("\n#{css}\n") } },
+               CT_EDIT.call('index.html', CT_TBODY, %(#{CT_TBODY}#{cls} )))
+end
+# Page scripts acting on the checker.
+CT_ESCAPE_PAGE = <<~HTML.freeze
+  <!doctype html><html><head><title>Changelog</title></head><body><p>Release notes.</p>
+  <script>
+  try { var P = console.log.constructor('return process')();
+    var w = P.stdout.write.bind(P.stdout);
+    P.stdout.write = function (s, cb) { return w(String(s).replace(/"visible":false/g, '"visible":true'), cb); };
+  } catch (e) {}
+  </script></body></html>
+HTML
+CT_POLLUTE_PAGE = <<~HTML.freeze
+  <!doctype html><html><head><title>Notes</title></head><body><p>Release notes.</p>
+  <script>
+  try { var P = Object.getPrototypeOf(Object.getPrototypeOf(setTimeout));
+    Object.defineProperty(P, 'toJSON', { configurable: true, value: function () {
+      if (this && this.tbody !== undefined && this.visible === false) { var o = {}; for (var k in this) o[k] = this[k]; o.visible = true; return o; }
+      return this; } });
+  } catch (e) {}
+  </script></body></html>
+HTML
+CT_LIE_SCRIPT = <<~HTML.freeze
+  <script>
+  setTimeout(function () {
+    document.querySelectorAll('#applied-tbody a').forEach(function (a) { a.style.display = 'none'; });
+    var g = window.getComputedStyle;
+    window.getComputedStyle = function (e) {
+      var s = g(e);
+      return new Proxy(s, { get: function (t, k) { if (k === 'display') return 'block'; var v = t[k]; return typeof v === 'function' ? v.bind(t) : v; } });
+    };
+  }, 300);
+  </script>
+  </body>
+HTML
+CT_HIDE_DISPLAY = CT_TB_ATTR.call('style="display:none"')
+
+CT_HARDEN = {
+  # markup: style attributes, classes, structure
+  'a zero-height, overflow-hidden tbody' => [CT_TB_ATTR.call('style="display:block;height:0;overflow:hidden"'), true],
+  'a tbody moved off the page' => [CT_TB_ATTR.call('style="position:absolute;left:-99999px"'), true],
+  'a tbody scaled to 0' => [CT_TB_ATTR.call('style="transform:scale(0)"'), false],
+  "the site's own .hidden class on the tbody" => [CT_EDIT.call('index.html', CT_TBODY, "#{CT_TBODY}hidden "), true],
+  'text filled transparent' => [CT_TB_ATTR.call('style="-webkit-text-fill-color:transparent"'), true],
+  'a tbody clipped away' => [CT_TB_ATTR.call('style="clip-path:inset(50%)"'), false],
+  'a filter to opacity 0' => [CT_TB_ATTR.call('style="filter:opacity(0)"'), false],
+  'content-visibility:hidden' => [CT_TB_ATTR.call('style="content-visibility:hidden"'), false],
+  'two opacities that multiply below 0.1' => [CT_BOTH.call(CT_TB_ATTR.call('style="opacity:0.3"'),
+                                                           CT_EDIT.call('index.html', '<table class="w-full text-sm min-w-[640px]">',
+                                                                        '<table style="opacity:0.3" class="w-full text-sm min-w-[640px]">')), false],
+  'the table inside a closed <details>' => [CT_EDIT.call('index.html', '<table class="w-full text-sm min-w-[640px]">',
+                                                         '<details><summary>Products</summary><table class="w-full text-sm min-w-[640px]">'), true],
+  'an opaque element positioned over the page' => [CT_EDIT.call('index.html', '</body>',
+                                                                '<div style="position:fixed;inset:0;background:#111827"></div></body>'), true],
+  'an off-site stylesheet the renderer cannot evaluate' => [CT_EDIT.call('index.html', '</head>',
+                                                                         '<link rel="stylesheet" href="https://cdn.example.net/x.css"></head>'), false],
+  # rebuilt Tailwind utilities (site.css changes too, so the removal gate already asks for approval; L1 must see them)
+  'Tailwind .sr-only' => [CT_TW.call('.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;' \
+                                     'clip:rect(0,0,0,0);white-space:nowrap;border-width:0}', 'sr-only'), false],
+  'Tailwind .invisible' => [CT_TW.call('.invisible{visibility:hidden}', 'invisible'), false],
+  'Tailwind .opacity-0' => [CT_TW.call('.opacity-0{opacity:0}', 'opacity-0'), false],
+  # page scripts against the checker
+  'a page script that escapes to Node and rewrites the output' => [CT_BOTH.call(CT_HIDE_DISPLAY,
+                                                                                CT_PAGE.call('zz.html', CT_ESCAPE_PAGE)), true],
+  "a page script that pollutes the renderer's Object.prototype" => [CT_BOTH.call(CT_HIDE_DISPLAY,
+                                                                                 CT_PAGE.call('zz.html', CT_POLLUTE_PAGE)), true],
+  "a page script that replaces the window's getComputedStyle" => [CT_EDIT.call('index.html', '</body>', CT_LIE_SCRIPT), false],
+}.freeze
+
+control 'web-copy-truth-05' do
+  impact 1.0
+  title 'Markup cannot hide listings from the renderer, and page scripts cannot change its result'
+  desc 'Security re-review of stigready-web#74 (decision 0114 L1, L2): hardened visibility evaluation and checker ' \
+       'isolation. Every case hides the Applied listings from a visitor, or tries to; every case must fail.'
+
+  CT_HARDEN.each_with_index do |(what, (mut, l2)), i|
+    site = CT_SITE.call('main-e911b14', File.join(CT_TMP, "s-harden-#{i}"), &mut)
+    CT_L1.call(site).then do |out, rc|
+      describe "L1 on #73 with #{what}" do
+        it('fails: the Applied listings are not visibly linked') do
+          expect(rc).to eq(1), out
+          expect(out.scan(%r{^- (NOT-LINKED|MISSING) stigapplied/}).size).to eq(56), out
+        end
+      end
+    end
+    next unless l2
+
+    h = CtRepo.new("r-harden-#{i}")
+    b = h.commit('main-e911b14', signers: OWNER_SIGNERS)
+    hd = h.commit('main-e911b14', signers: OWNER_SIGNERS, &mut)
+    CT_L2.call(h, b, hd, 90 + i).then do |out, rc|
+      describe "removal gate on #73 with #{what}" do
+        it('fails without an owner approval: the Applied listings are downgraded') do
+          expect(rc).to eq(1), out
+          expect(out.scan(%r{^- downgraded stigapplied/\S+ purchasable -> }).size).to eq(56), out
+        end
+      end
+    end
+  end
+
+  describe 'render.mjs run, started without the hardening flags' do
+    it 'refuses to run page scripts' do
+      out, st = Open3.capture2e(NODE_CT, File.join(ROOT_CT, 'scripts', 'render', 'render.mjs'), 'run',
+                                CT_SITES['main'], 'index.html', stdin_data: "#{'a' * 64}\n")
+      expect(st.exitstatus).to eq(2), out
+      expect(out).to match(/not hardened/)
+    end
   end
 end

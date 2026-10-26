@@ -22,8 +22,10 @@ Modes:
                   with --issue, opens, updates or closes the one `copy-drift` issue.
 
 What a page shows is what it renders: scripts/render/render.mjs (Node, jsdom pinned in scripts/render/package-lock.json)
-runs each page's own scripts and styles against its catalog.json and reports the rows, the AWS Marketplace links and the
-text a visitor can see. A product counts as purchasable only if a visible link to its listing is rendered.
+runs each page's own scripts against its catalog.json in a locked-down process, then a separate process that runs no
+page code decides from the resulting markup and the page's styles which rows, AWS Marketplace links and text a visitor
+can see; anything it cannot evaluate counts as not visible. A product counts as purchasable only if a visible link to
+its listing is rendered.
 
 Exit 0: no finding. 1: findings. 2: cannot check (bad input, stale or empty snapshot, fetch failure, no renderer): never
 a pass.
@@ -37,6 +39,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import hashlib
+import hmac
 import html
 import html.parser
 import json
@@ -244,21 +247,46 @@ def site_pages(root: Path) -> dict[str, str]:
     return pages
 
 
+# Page scripts run in their own Node process (render.mjs `run`): code generation from strings off, intrinsics frozen,
+# the permission model on (read only: the site and the renderer; no child processes, workers or writes). Its output is
+# authenticated with a fresh key passed on stdin; what is visible is then decided by a second process that never runs
+# page code (render.mjs `eval`).
+RUN_FLAGS = ("--disallow-code-generation-from-strings", "--frozen-intrinsics", "--no-warnings", "--permission")
+
+
 def render(root: Path, pages: list[str], node: str, renderer: Path) -> list[dict]:
-    """Run the pages' own scripts and styles (scripts/render/render.mjs). No renderer: cannot check."""
+    """Run the pages' own scripts, then evaluate what a visitor sees (scripts/render/render.mjs). No renderer: cannot
+    check."""
     if not renderer.is_file():
         raise CannotCheck(f"renderer {renderer} missing")
+    root, rdir = root.resolve(), renderer.resolve().parent
+    reads = [f"--allow-fs-read={root}", f"--allow-fs-read={rdir}"]
+    key = os.urandom(32)
     try:
-        p = subprocess.run([node, str(renderer), str(root), *pages], capture_output=True, timeout=600)
+        p = subprocess.run([node, *RUN_FLAGS, *reads, str(renderer), "run", str(root), *pages],
+                           input=key.hex().encode(), capture_output=True, timeout=600)
     except (OSError, subprocess.TimeoutExpired) as exc:
         raise CannotCheck(f"renderer could not run ({node}): {type(exc).__name__}") from exc
     if p.returncode != 0:
         raise CannotCheck(f"renderer failed (rc {p.returncode}): {p.stderr.decode(errors='replace').strip()[-300:]}")
+    mac, _, body = p.stdout.partition(b"\n")
+    want = hmac.new(key, body, hashlib.sha256).hexdigest().encode()
+    if not hmac.compare_digest(mac, want):
+        raise CannotCheck("renderer output is not authentic: a page changed what the renderer reports")
     try:
-        out = json.loads(p.stdout)
+        e = subprocess.run([node, "--permission", *reads, str(renderer), "eval", str(root)],
+                           input=body, capture_output=True, timeout=600)
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        raise CannotCheck(f"renderer could not evaluate ({node}): {type(exc).__name__}") from exc
+    if e.returncode != 0:
+        raise CannotCheck(f"renderer evaluation failed (rc {e.returncode}): "
+                          f"{e.stderr.decode(errors='replace').strip()[-300:]}")
+    try:
+        out = json.loads(e.stdout)
         assert isinstance(out, list) and len(out) == len(pages)
+        assert [r.get("page") for r in out] == list(pages)
         return out
-    except (ValueError, AssertionError) as exc:
+    except (ValueError, AssertionError, AttributeError) as exc:
         raise CannotCheck("renderer output unreadable") from exc
 
 
@@ -287,19 +315,29 @@ def load_site(root: Path, node: str = "node", renderer: Path = RENDERER) -> dict
         raise CannotCheck(f"{cat_path}: unreadable catalog ({type(exc).__name__})") from exc
     pages = site_pages(root)
     rendered = render(root, list(pages), node, renderer) if pages else []
-    claims, links, rows, errors = [], set(), [], []
+    claims, linked, rows, errors = [], [], [], []
     for r in rendered:
         rel = r["page"]
         claims += claims_from_text(rel, meta_text(pages[rel]) + "\n" + r.get("text", ""))
-        links |= {lk["href"] for lk in r.get("links") or [] if lk.get("visible")}
-        rows += [(rel, row) for row in r.get("rows") or [] if row.get("visible") and row.get("tbody") in TBODY_LINE]
+        page_rows = r.get("rows") or []
+        # A listing link counts only where a visitor can tell what it is for: visible, in a visible row of a catalog
+        # table whose own cells name the product (a row whose name is made invisible does not, even if its link is).
+        for lk in r.get("links") or []:
+            i = lk.get("row")
+            if lk.get("visible") and isinstance(i, int) and 0 <= i < len(page_rows):
+                row = page_rows[i]
+                if row.get("visible") and row.get("tbody") in TBODY_LINE:
+                    linked.append((lk["href"], row))
+        rows += [(rel, row) for row in page_rows if row.get("visible") and row.get("tbody") in TBODY_LINE]
         errors += [f"{rel}: {e}" for e in r.get("errors") or []]
     withheld_lines = {c["line"] for c in claims if c["kind"] == "withheld"}
     state = {}
     for p in products:
         url = p.get("marketplace_url")
         mine = [row for _, row in rows if TBODY_LINE[row["tbody"]] == p.get("line") and _row_matches(p, row["cells"])]
-        if isinstance(url, str) and url.startswith(PP_PREFIX) and url in links:
+        if isinstance(url, str) and url.startswith(PP_PREFIX) and any(
+                href == url and TBODY_LINE[row["tbody"]] == p.get("line") and _row_matches(p, row["cells"])
+                for href, row in linked):
             row = "purchasable"
         elif any(WITHHELD_RE.search(r["text"]) for r in mine):
             row = "withheld"
