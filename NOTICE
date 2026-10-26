@@ -1,0 +1,18 @@
+stigready-web
+Copyright (c) 2026 StigReady. All rights reserved.
+
+This repository and stigready.com include third-party components under their own licences:
+
+- Lucide icons v1.54.0 (assets/vendor/lucide-1.54.0.min.js), ISC License,
+  Copyright (c) 2026 Lucide Icons and Contributors; parts Copyright (c) 2013-present Cole Bemis.
+  Full text: assets/vendor/lucide-LICENSE.txt.
+- Tailwind CSS v3.4.17 (output compiled into assets/css/site.css by scripts/build-css.sh),
+  MIT License, Copyright (c) Tailwind Labs, Inc. https://github.com/tailwindlabs/tailwindcss
+
+Names and marks on the site: DISA STIG content is published by the US Defense Information
+Systems Agency. CIS(R) and CIS Benchmarks(TM) are trademarks of the Center for Internet
+Security, Inc.; StigReady's CIS coverage is the ComplianceAsCode (SCAP Security Guide)
+implementation, and no CIS machine-readable content is used (decision 0033). Red Hat(R) and
+Red Hat Enterprise Linux(R) are trademarks of Red Hat, Inc. Ubuntu(R) is a trademark of
+Canonical Ltd. StigReady is not affiliated with or endorsed by DISA, DoD, NIST, CIS, Red Hat
+or Canonical.
