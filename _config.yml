@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2026 StigReady
+# SPDX-License-Identifier: LicenseRef-StigReady-Proprietary
+#
+# GitHub Pages builds stigready.com from main with Jekyll. Jekyll copies files without front matter byte for byte and
+# leaves out every name below, so the CI pipeline, test profiles, build scripts and repository papers stay in the repo
+# and off the site (stigready-web#77). Dotfiles and _-prefixed names are never published.
+#
+# Nothing on the site is a Jekyll page: no file starts with front matter, and there is no Markdown, Sass or layout.
+# CINC control web-published-paths-site-only checks that, and fails if anything outside the site's own paths would be
+# published. A new top-level file or directory that is not part of the site goes in this list.
+
+# No theme (GitHub Pages would otherwise add its default one). GitHub Pages' default plugins stay on, but each acts only
+# on Markdown files or front-matter pages, and the site has neither.
+theme: null
+
+exclude:
+  - README.md
+  - LICENSE
+  - NOTICE
+  - cinc
+  - scripts
+  - approvals
+  - config
+  - tailwind.config.js
+  - assets/css/tailwind.input.css
+  - assets/css/site.css.stamp.json
