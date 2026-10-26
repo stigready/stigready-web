@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 StigReady
+# SPDX-License-Identifier: LicenseRef-StigReady-Proprietary
 # stigready-web#67 (review/security on #64): the validate job's deps step installs only hash-pinned wheels, and its
 # mirror list cannot split or glob-expand. Every `pip install` line passes --require-hashes and --only-binary :all:
 # (the sdist hash in scripts/requirements-validate.txt must never let pip build from source), and $MIRROR_DIR appears

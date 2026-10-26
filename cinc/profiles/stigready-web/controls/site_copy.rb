@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 StigReady
+# SPDX-License-Identifier: LicenseRef-StigReady-Proprietary
 # Site copy invariants (decision 0003: CINC asserts).
 # - Decision 0094 (claude-agents#153): no page uses "CIS Hardened AMI/Image(s)" as a label for our images (CIS
 #   Hardened Images is CIS's own product), and every page carries the non-affiliation and trademark sentences.

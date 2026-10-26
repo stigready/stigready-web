@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 StigReady
+# SPDX-License-Identifier: LicenseRef-StigReady-Proprietary
 # claude-agents#155: how-to role pins cannot fall behind the role our images were built with, and the sitemap
 # dates every URL (decision 0003: CINC asserts).
 # - A how-to post that pins a public StigForge role (`src: https://github.com/stigready/<repo>` + `version: vX.Y.Z`)

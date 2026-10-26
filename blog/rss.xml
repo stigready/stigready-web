@@ -5,6 +5,7 @@
     <link>https://stigready.com/blog/</link>
     <description>Evergreen explainers and how-tos for StigReady Base, Applied, and public StigForge CIS / STIG Ansible roles.</description>
     <language>en-us</language>
+    <copyright>Copyright (c) 2026 StigReady. All rights reserved.</copyright>
     <atom:link href="https://stigready.com/blog/rss.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>Graviton and arm64 hardened AMIs for STIG and CIS workloads</title>

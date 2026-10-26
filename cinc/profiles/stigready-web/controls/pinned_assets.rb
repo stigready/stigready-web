@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 StigReady
+# SPDX-License-Identifier: LicenseRef-StigReady-Proprietary
 # claude-agents#152: every page loads its scripts from this site (pinned under assets/vendor/) and no stylesheet from a
 # third party but Google Fonts, never the Tailwind Play CDN, never an @latest URL, and carries a Content-Security-Policy
 # meta tag whose script-src and style-src admit no other third party (stigready-web#67). Ported from validate-site.py
