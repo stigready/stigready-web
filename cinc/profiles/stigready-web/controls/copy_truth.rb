@@ -3,6 +3,7 @@ require 'fileutils'
 require 'json'
 require 'open3'
 require 'openssl'
+require 'shellwords'
 require 'tmpdir'
 require 'yaml'
 
@@ -27,6 +28,9 @@ require 'yaml'
 #   web-copy-truth-05  hardened visibility evaluation and checker isolation: markup that hides the listings, a page
 #                      the renderer cannot evaluate, and page scripts acting on the checker all fail; the script
 #                      stage refuses to run unhardened
+#   web-copy-truth-06  claims are read from all text (hiding a sentence never removes it), an unevaluable catalog
+#                      page fails, listings count only from the catalog page, and the script stage's output cannot
+#                      be replayed or forged
 #
 # The FIDO2-type key in these tests is made in software (SoftSK below), as the security review showed anyone can:
 # the key TYPE proves no touch. What protects the gate is that only the owner's key is listed on the base, and that
@@ -714,6 +718,116 @@ control 'web-copy-truth-05' do
                                 CT_SITES['main'], 'index.html', stdin_data: "#{'a' * 64}\n")
       expect(st.exitstatus).to eq(2), out
       expect(out).to match(/not hardened/)
+    end
+  end
+end
+
+# ------------------------------------------------------------------------------------- claims, catalog, stage 1
+
+CT_CLAIM = 'StigReady Applied is coming soon.'.freeze
+CT_SAY = ->(style) { CT_EDIT.call('index.html', '</body>', %(<p style="#{style}">#{CT_CLAIM}</p></body>)) }
+CT_CLAIMS = {
+  'display:none' => CT_SAY.call('display:none'),
+  'clip-path' => CT_SAY.call('clip-path:inset(0)'),
+  'a 3D rotation' => CT_SAY.call('transform:rotateX(1deg)'),
+  'a negative z-index' => CT_SAY.call('z-index:-1'),
+  'a relative offset' => CT_SAY.call('position:relative;top:1000px'),
+  'a mask' => CT_SAY.call('mask-image:linear-gradient(#000,#000)'),
+  'a page the renderer cannot evaluate' => CT_PAGE.call('zz.html', <<~HTML),
+    <!doctype html><html><head><title>Notes</title><script src="https://cdn.example.com/x.js"></script></head>
+    <body><p>#{CT_CLAIM}</p></body></html>
+  HTML
+}.freeze
+# The catalog hidden on its page, and a working copy of it on another page.
+CT_DECOY = CT_BOTH.call(lambda do |dir|
+  FileUtils.mkdir_p(File.join(dir, 'notes'))
+  File.write(File.join(dir, 'notes', 'archive.html'),
+             File.read(File.join(dir, 'index.html')).sub("fetch('catalog.json')", "fetch('/catalog.json')"))
+end, CT_HIDE_DISPLAY)
+
+control 'web-copy-truth-06' do
+  impact 1.0
+  title 'Claims cannot be hidden, listings count only from the catalog page, and the script stage cannot be impersonated'
+  desc 'Security re-review of stigready-web#74, round 3: claims and catalog location; stage-1 output integrity.'
+
+  CT_CLAIMS.each_with_index do |(how, mut), i|
+    site = CT_SITE.call('main-e911b14', File.join(CT_TMP, "s-claim-#{i}"), &mut)
+    CT_L1.call(site).then do |out, rc|
+      describe "L1 with a false \"Applied is coming soon\" hidden by #{how}" do
+        it('fails on the claim') do
+          expect(rc).to eq(1), out
+          expect(out).to match(/^- WITHHELD-TEXT \S+: StigReady Applied has 56 live Public listings/), out
+        end
+      end
+    end
+  end
+
+  unev = CT_SITE.call('main-e911b14', File.join(CT_TMP, 's-unev-catalog'),
+                      &CT_EDIT.call('index.html', '</head>', '<link rel="stylesheet" href="https://cdn.example.net/x.css"></head>'))
+  CT_L1.call(unev).then do |out, rc|
+    describe 'L1 on a catalog page the renderer cannot evaluate' do
+      it('fails as UNEVALUABLE, not a warning') do
+        expect(rc).to eq(1), out
+        expect(out).to match(/^- UNEVALUABLE index\.html: the page loads an off-site stylesheet/)
+      end
+    end
+  end
+
+  CT_L1.call(CT_SITE.call('main-e911b14', File.join(CT_TMP, 's-decoy'), &CT_DECOY)).then do |out, rc|
+    describe 'L1 with the catalog hidden and a working copy of it on another page' do
+      it('fails: links elsewhere do not count') do
+        expect(rc).to eq(1), out
+        expect(out.scan(%r{^- (NOT-LINKED|MISSING) stigapplied/}).size).to eq(56), out
+      end
+    end
+  end
+  d = CtRepo.new('r-decoy')
+  db = d.commit('main-e911b14', signers: OWNER_SIGNERS)
+  dh = d.commit('main-e911b14', signers: OWNER_SIGNERS, &CT_DECOY)
+  CT_L2.call(d, db, dh, 97).then do |out, rc|
+    describe 'removal gate with the catalog hidden and a working copy of it on another page' do
+      it('fails without an owner approval') do
+        expect(rc).to eq(1), out
+        expect(out.scan(%r{^- downgraded stigapplied/\S+ purchasable -> }).size).to eq(56), out
+      end
+    end
+  end
+
+  # Stage 1's output, replayed from another run or forged, is refused. The fake `node` answers the `run` stage with
+  # a saved output and passes everything else to the real one.
+  real = Open3.capture2(NODE_CT, '-p', 'process.execPath').first.strip
+  cap = File.join(CT_TMP, 'stage1.out')
+  fake = lambda do |name, body|
+    f = File.join(CT_TMP, name)
+    File.write(f, "#!/bin/bash\nfor a in \"$@\"; do [ \"$a\" = run ] && { #{body}; }; done\nexec #{real.shellescape} \"$@\"\n")
+    File.chmod(0o755, f)
+    f
+  end
+  l1 = lambda do |node|
+    Open3.capture2e('python3', CHECK_CT, '--node', node, '--mode', 'pr', '--site', CT_SITES['main'],
+                    '--snapshot', SNAP_CT, '--now', NOW_CT)
+  end
+  cap_out, cap_st = l1.call(fake.call('node-capture', %(#{real.shellescape} "$@" | tee #{cap.shellescape}; exit "${PIPESTATUS[0]}")))
+  describe 'L1 through a node that only records the script stage' do
+    it('passes, as without it') { expect(cap_st.exitstatus).to eq(0), cap_out }
+  end
+  replay = fake.call('node-replay', "cat #{cap.shellescape}; exit 0")
+  rep_out, rep_st = l1.call(replay)
+  describe 'a script-stage output replayed from another run' do
+    it('is refused: cannot check') do
+      expect(rep_st.exitstatus).to eq(2), rep_out
+      expect(rep_out).to match(/not authentic/)
+    end
+  end
+  saved = File.file?(cap) ? File.read(cap) : "x\n{}"
+  body = saved.split("\n", 2)[1].to_s.gsub('"visible":false', '"visible":true')
+  forged = File.join(CT_TMP, 'stage1.forged')
+  File.write(forged, "#{OpenSSL::HMAC.hexdigest('SHA256', 'k' * 32, body)}\n#{body}")
+  forge_out, forge_st = l1.call(fake.call('node-forge', "cat #{forged.shellescape}; exit 0"))
+  describe 'a script-stage output forged with another key' do
+    it('is refused: cannot check') do
+      expect(forge_st.exitstatus).to eq(2), forge_out
+      expect(forge_out).to match(/not authentic/)
     end
   end
 end

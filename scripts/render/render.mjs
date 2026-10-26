@@ -17,8 +17,8 @@
 // distinguish. Anything it cannot evaluate makes the page's listings count as not visible (fail closed).
 //
 // Output of `eval`, per page: the rows of every <tbody> (cells' visible text, visible or not), every link to an AWS
-// Marketplace listing (href, visible or not, and the index of the row it sits in, or -1), the page's visible text, and
-// errors (including why a page could not be evaluated).
+// Marketplace listing (href, visible or not, and the index of the row it sits in, or -1), the page's visible text, all
+// of its body text (visible or not: the claims are read from this), why it could not be evaluated, and errors.
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -1144,9 +1144,23 @@ function evaluatePage(pg, JSDOM, csstree) {
     .map((a) => ({ href: a.href, visible: visibleAll(a) && visibleText(a).trim() !== '',
                    tbody: (a.closest('tbody') || {}).id || '', row: rowIndex.get(a.closest('tr')) ?? -1 }));
   const text = unevaluable ? '' : visibleText(doc.body || doc.documentElement);
+  // Every word of copy in the body, visible or not: claims are checked on all of it, so hiding a sentence (or making
+  // the page unevaluable) can never make a claim disappear.
+  const all = [];
+  const walkAll = (n) => {
+    if (n.nodeType === 3) { all.push(n.nodeValue); return; }
+    if (n.nodeType !== 1) return;
+    if (['script', 'style', 'template'].includes(n.localName)) return;
+    const block = !['a', 'span', 'b', 'i', 'em', 'strong', 'code', 'small', 'sup', 'sub', 'abbr', 'mark', 'u', 's'].includes(n.localName);
+    if (block) all.push('\n');
+    for (const ch of n.childNodes) walkAll(ch);
+    if (block) all.push('\n');
+  };
+  walkAll(doc.body || doc.documentElement);
+  const textAll = all.join('').replace(/[ \t\r\f\v]+/g, ' ');
   for (const r of pageReasons) errors.push(`not evaluated, listings count as not visible: ${r}`);
   dom.window.close();
-  return { page: pg.page, rows, links, text, errors };
+  return { page: pg.page, rows, links, text, text_all: textAll, unevaluable: pageReasons, errors };
 }
 
 // --------------------------------------------------------------------------------------------------- conditions

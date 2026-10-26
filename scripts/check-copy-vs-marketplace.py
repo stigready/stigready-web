@@ -274,6 +274,12 @@ def render(root: Path, pages: list[str], node: str, renderer: Path) -> list[dict
     if not hmac.compare_digest(mac, want):
         raise CannotCheck("renderer output is not authentic: a page changed what the renderer reports")
     try:
+        got = [pg.get("page") for pg in json.loads(body)["pages"]]
+    except (ValueError, KeyError, TypeError, AttributeError) as exc:
+        raise CannotCheck("renderer output unreadable") from exc
+    if got != list(pages):
+        raise CannotCheck("renderer output is for other pages than were asked for")
+    try:
         e = subprocess.run([node, "--permission", *reads, str(renderer), "eval", str(root)],
                            input=body, capture_output=True, timeout=600)
     except (OSError, subprocess.TimeoutExpired) as exc:
@@ -291,6 +297,13 @@ def render(root: Path, pages: list[str], node: str, renderer: Path) -> list[dict
 
 
 TBODY_LINE = {"base-tbody": "stigready", "applied-tbody": "stigapplied"}
+# The catalog's one location: the page that carries the Base and Applied tables. A listing counts only from its row
+# there; the same table or link on any other page (an archive, a copy, a decoy) counts for nothing.
+CATALOG_PAGE = "index.html"
+
+
+def is_catalog_page(rel: str, raw: str) -> bool:
+    return rel == CATALOG_PAGE or "catalog.json" in raw
 
 
 def _row_matches(p: dict, cells: list[str]) -> bool:
@@ -303,7 +316,8 @@ def _row_matches(p: dict, cells: list[str]) -> bool:
 
 
 def load_site(root: Path, node: str = "node", renderer: Path = RENDERER) -> dict:
-    """What a visitor sees: each catalog product's rendered state, and the claims in every page's visible text."""
+    """What a visitor sees: each catalog product's rendered state on the catalog page, and the claims in every page's
+    text. Claims are read from all of a page's text, visible or not: hiding a sentence never removes a claim."""
     cat_path = root / "catalog.json"
     try:
         if cat_path.is_symlink():
@@ -315,10 +329,15 @@ def load_site(root: Path, node: str = "node", renderer: Path = RENDERER) -> dict
         raise CannotCheck(f"{cat_path}: unreadable catalog ({type(exc).__name__})") from exc
     pages = site_pages(root)
     rendered = render(root, list(pages), node, renderer) if pages else []
-    claims, linked, rows, errors = [], [], [], []
+    claims, linked, rows, errors, unevaluable = [], [], [], [], []
     for r in rendered:
         rel = r["page"]
-        claims += claims_from_text(rel, meta_text(pages[rel]) + "\n" + r.get("text", ""))
+        claims += claims_from_text(rel, meta_text(pages[rel]) + "\n" + r.get("text_all", r.get("text", "")))
+        if is_catalog_page(rel, pages[rel]):
+            unevaluable += [f"{rel}: {why}" for why in r.get("unevaluable") or []]
+        errors += [f"{rel}: {e}" for e in r.get("errors") or []]
+        if rel != CATALOG_PAGE:
+            continue
         page_rows = r.get("rows") or []
         # A listing link counts only where a visitor can tell what it is for: visible, in a visible row of a catalog
         # table whose own cells name the product (a row whose name is made invisible does not, even if its link is).
@@ -329,7 +348,6 @@ def load_site(root: Path, node: str = "node", renderer: Path = RENDERER) -> dict
                 if row.get("visible") and row.get("tbody") in TBODY_LINE:
                     linked.append((lk["href"], row))
         rows += [(rel, row) for row in page_rows if row.get("visible") and row.get("tbody") in TBODY_LINE]
-        errors += [f"{rel}: {e}" for e in r.get("errors") or []]
     withheld_lines = {c["line"] for c in claims if c["kind"] == "withheld"}
     state = {}
     for p in products:
@@ -349,7 +367,7 @@ def load_site(root: Path, node: str = "node", renderer: Path = RENDERER) -> dict
         if row == "neutral" and p.get("line") in withheld_lines:
             shown = "withheld"
         state[ident(p)] = {"row": row, "shown": shown, "product": p}
-    return {"rows": state, "claims": claims, "render_errors": errors, "pages": pages}
+    return {"rows": state, "claims": claims, "render_errors": errors, "unevaluable": unevaluable, "pages": pages}
 
 
 # ------------------------------------------------------------------------------------------------------------ snapshot
@@ -429,6 +447,8 @@ def check_pr(site: dict, snap: dict) -> tuple[list[str], list[str]]:
         fails.append(f"UNIDENTIFIED {snap['unidentified']} live Public listing(s) the snapshot could not match to a "
                      "catalog product: the site cannot be checked against them")
     warns += [f"RENDER {e}" for e in site.get("render_errors") or []]
+    # A catalog page the renderer cannot evaluate is never a pass.
+    fails += [f"UNEVALUABLE {u}" for u in site.get("unevaluable") or []]
     for k, r in sorted(rows.items(), key=lambda kv: ident_str(kv[0])):
         if r["row"] == "purchasable" and k not in live:
             fails.append(f"NOT-LIVE {ident_str(k)}: shown as purchasable but no live Public listing")
@@ -535,6 +555,8 @@ def rendering_surface(root: Path, pages: dict[str, str]) -> dict[str, str]:
 def downgrades(base: dict, head: dict, base_surface: dict, head_surface: dict,
                base_signers: tuple[str, str], head_signers: tuple[str, str]) -> list[str]:
     out = []
+    for u in sorted(set(head.get("unevaluable") or []) - set(base.get("unevaluable") or [])):
+        out.append(f"catalog page cannot be evaluated: {u}")
     for k, b in base["rows"].items():
         h = head["rows"].get(k)
         if h is None:
