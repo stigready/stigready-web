@@ -34,7 +34,22 @@ CHECK_CT = File.join(ROOT_CT, 'scripts', 'check-copy-vs-marketplace.py')
 FIX_CT   = File.join(File.dirname(__FILE__), '..', 'files', 'copy-truth')
 SNAP_CT  = File.join(FIX_CT, 'marketplace-live-2026-10-26.json')
 NOW_CT   = '2026-10-26T12:00:00Z'.freeze
-NODE_CT  = ENV['COPY_TRUTH_NODE'] || 'node'
+CT_TMP = Dir.mktmpdir('copy-truth-')
+at_exit { FileUtils.rm_rf(CT_TMP) }
+
+# The renderer's Node, with jsdom installed in scripts/render. COPY_TRUTH_NODE when the pipeline set it up; else a
+# `node` that already has jsdom here; else scripts/render/setup.sh now (pinned Node and npm ci from the lock), so the
+# controls do not depend on which pipeline version runs them. If none works, every render fails and so do these tests.
+NODE_CT = lambda do
+  return ENV['COPY_TRUTH_NODE'] if ENV['COPY_TRUTH_NODE'].to_s != ''
+
+  render_dir = File.join(ROOT_CT, 'scripts', 'render')
+  _, st = Open3.capture2e('node', '-e', 'require("jsdom")', chdir: render_dir) rescue [nil, nil]
+  return 'node' if st&.success?
+
+  out, st = Open3.capture2('bash', File.join(render_dir, 'setup.sh'), render_dir, File.join(CT_TMP, 'node'))
+  st.success? ? out.strip : 'node'
+end.call
 NS_CT    = 'stigready-owner-approval'.freeze
 
 # An sk-ssh-ed25519@openssh.com key and SSHSIG signature made in software, user-presence flag set.
@@ -62,9 +77,6 @@ module SoftSK
     "-----BEGIN SSH SIGNATURE-----\n#{Base64.strict_encode64(raw).scan(/.{1,70}/).join("\n")}\n-----END SSH SIGNATURE-----\n"
   end
 end
-
-CT_TMP = Dir.mktmpdir('copy-truth-')
-at_exit { FileUtils.rm_rf(CT_TMP) }
 
 # Materialise a fixture site into dir (*.fixture -> real name), then let a block mutate it.
 CT_SITE = lambda do |name, dir, &mutate|
