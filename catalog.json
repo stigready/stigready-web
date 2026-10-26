@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "generated": "2026-10-24",
+  "generated": "2026-10-26",
   "products": [
     {
       "line": "stigapplied",
@@ -13,8 +13,8 @@
       "score": 98.7,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-legomgpozhorc",
       "support_until": "2028-10-21"
     },
     {
@@ -28,8 +28,8 @@
       "score": 98.7,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-svh2d7xet6tti",
       "support_until": "2028-10-19"
     },
     {
@@ -43,8 +43,8 @@
       "score": 98.7,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-bpwwf2nstavyw",
       "support_until": "2028-10-21"
     },
     {
@@ -58,8 +58,8 @@
       "score": 98.5,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-5vsihvepowzfu",
       "support_until": "2028-10-20"
     },
     {
@@ -73,8 +73,8 @@
       "score": 95.3,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-jdl3ysvtodhlc",
       "support_until": "2028-10-21"
     },
     {
@@ -88,8 +88,8 @@
       "score": 98.7,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-fx44zhkn3zklk",
       "support_until": "2028-10-19"
     },
     {
@@ -103,8 +103,8 @@
       "score": 98.6,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-eyfwnyoyac4y6",
       "support_until": "2028-10-19"
     },
     {
@@ -118,8 +118,8 @@
       "score": 95.5,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-ht3keot2zy2g2",
       "support_until": "2028-10-20"
     },
     {
@@ -133,8 +133,8 @@
       "score": 98.9,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-kp7xhqezmmpyg",
       "support_until": "2028-10-20"
     },
     {
@@ -148,8 +148,8 @@
       "score": 98.9,
       "boot_verified": true,
       "version": "1.0.1",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-acpri2zzqe3kg",
       "support_until": "2028-10-20"
     },
     {
@@ -163,8 +163,8 @@
       "score": 95.8,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-eciuhmmot6nxs",
       "support_until": "2028-10-21"
     },
     {
@@ -178,8 +178,8 @@
       "score": 98.9,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-5qfxum5mm5nw2",
       "support_until": "2028-10-19"
     },
     {
@@ -193,8 +193,8 @@
       "score": 99.0,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-gwrwdwyqijt22",
       "support_until": "2028-10-19"
     },
     {
@@ -208,8 +208,8 @@
       "score": 95.9,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-rgeykpmdx6ppo",
       "support_until": "2028-10-19"
     },
     {
@@ -223,8 +223,8 @@
       "score": 99.0,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-27lgkmv6o2xrk",
       "support_until": "2028-10-19"
     },
     {
@@ -238,8 +238,8 @@
       "score": 98.8,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-26ybrhglhdhwc",
       "support_until": "2028-10-21"
     },
     {
@@ -253,8 +253,8 @@
       "score": 97.2,
       "boot_verified": true,
       "version": "1.0.1",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-hw5krpj4w4z2m",
       "support_until": "2028-10-21"
     },
     {
@@ -268,8 +268,8 @@
       "score": 99.0,
       "boot_verified": true,
       "version": "1.0.3",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-4ctg4slpbsq5s",
       "support_until": "2028-10-19"
     },
     {
@@ -283,8 +283,8 @@
       "score": 98.8,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-fmopjb7sads5w",
       "support_until": "2028-10-18"
     },
     {
@@ -298,8 +298,8 @@
       "score": 97.2,
       "boot_verified": true,
       "version": "1.0.1",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-v2kld2u34ju2w",
       "support_until": "2028-10-19"
     },
     {
@@ -313,8 +313,8 @@
       "score": 99.1,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-dxcogd7iooeug",
       "support_until": "2028-10-20"
     },
     {
@@ -328,8 +328,8 @@
       "score": 98.8,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-p7hpxrjdkbmgm",
       "support_until": "2028-10-21"
     },
     {
@@ -343,8 +343,8 @@
       "score": 95.9,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-v7qik5j2d3dh6",
       "support_until": "2028-10-21"
     },
     {
@@ -358,8 +358,8 @@
       "score": 99.1,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-ip462ca4fflms",
       "support_until": "2028-10-19"
     },
     {
@@ -373,8 +373,8 @@
       "score": 98.8,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-oudh6nh3fn6i4",
       "support_until": "2028-10-19"
     },
     {
@@ -388,8 +388,8 @@
       "score": 96.1,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-vryff36ryoxea",
       "support_until": "2028-10-19"
     },
     {
@@ -403,8 +403,8 @@
       "score": 99.3,
       "boot_verified": true,
       "version": "1.0.4",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-aw4fytqnzycry",
       "support_until": "2028-10-17"
     },
     {
@@ -418,8 +418,8 @@
       "score": 99.2,
       "boot_verified": true,
       "version": "1.0.3",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-2av3p3iuv2xsq",
       "support_until": "2028-10-17"
     },
     {
@@ -433,8 +433,8 @@
       "score": 96.3,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-wgvod2da5jg2e",
       "support_until": "2028-10-18"
     },
     {
@@ -448,8 +448,8 @@
       "score": 99.3,
       "boot_verified": true,
       "version": "1.0.4",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-a3aher65aoaqg",
       "support_until": "2028-10-17"
     },
     {
@@ -463,8 +463,8 @@
       "score": 99.2,
       "boot_verified": true,
       "version": "1.0.4",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-4z7buowhjktb4",
       "support_until": "2028-10-17"
     },
     {
@@ -478,8 +478,8 @@
       "score": 96.4,
       "boot_verified": true,
       "version": "1.0.3",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-bi6vzkqxkbx6a",
       "support_until": "2028-10-17"
     },
     {
@@ -493,8 +493,8 @@
       "score": 98.7,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-7vncf75lpyazy",
       "support_until": "2028-10-20"
     },
     {
@@ -508,8 +508,8 @@
       "score": 98.6,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-4egjngwoa2ym6",
       "support_until": "2028-10-20"
     },
     {
@@ -523,8 +523,8 @@
       "score": 96.5,
       "boot_verified": true,
       "version": "1.0.1",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-din4cb7s7aq6o",
       "support_until": "2028-10-21"
     },
     {
@@ -538,8 +538,8 @@
       "score": 98.7,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-rahgza5zk34dm",
       "support_until": "2028-10-19"
     },
     {
@@ -553,8 +553,8 @@
       "score": 98.6,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-tzfagameesg56",
       "support_until": "2028-10-19"
     },
     {
@@ -568,8 +568,8 @@
       "score": 96.6,
       "boot_verified": true,
       "version": "1.0.1",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-jyaelwvo5figu",
       "support_until": "2028-10-19"
     },
     {
@@ -583,8 +583,8 @@
       "score": 98.7,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-xa7sqmoofm57a",
       "support_until": "2028-10-20"
     },
     {
@@ -598,8 +598,8 @@
       "score": 98.5,
       "boot_verified": true,
       "version": "1.0.1",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-j5cgw4dxfbj6i",
       "support_until": "2028-10-21"
     },
     {
@@ -613,8 +613,8 @@
       "score": 95.3,
       "boot_verified": true,
       "version": "1.0.1",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-3opohbnebhvxo",
       "support_until": "2028-10-22"
     },
     {
@@ -628,8 +628,8 @@
       "score": 98.7,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-tt5revu3iye3i",
       "support_until": "2028-10-19"
     },
     {
@@ -643,8 +643,8 @@
       "score": 98.6,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-52vrpzgimqqri",
       "support_until": "2028-10-19"
     },
     {
@@ -658,8 +658,8 @@
       "score": 95.5,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-ozza5fzgmyzkw",
       "support_until": "2028-10-19"
     },
     {
@@ -673,8 +673,8 @@
       "score": 98.9,
       "boot_verified": true,
       "version": "1.0.1",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-ook6acfaiwmcs",
       "support_until": "2028-10-19"
     },
     {
@@ -688,8 +688,8 @@
       "score": 98.9,
       "boot_verified": true,
       "version": "1.0.1",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-uvrssxeaodkxi",
       "support_until": "2028-10-20"
     },
     {
@@ -703,8 +703,8 @@
       "score": 95.6,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-zcyh5bfjbpjs4",
       "support_until": "2028-10-20"
     },
     {
@@ -718,8 +718,8 @@
       "score": 98.9,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-oopovrzsdmsqa",
       "support_until": "2028-10-18"
     },
     {
@@ -733,8 +733,8 @@
       "score": 99.0,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-pfjjoccmotkng",
       "support_until": "2028-10-19"
     },
     {
@@ -748,8 +748,8 @@
       "score": 95.7,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-65t6u3cw6iw7w",
       "support_until": "2028-10-19"
     },
     {
@@ -763,8 +763,8 @@
       "score": 99.2,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-6uugsude573uq",
       "support_until": "2028-10-20"
     },
     {
@@ -778,8 +778,8 @@
       "score": 98.9,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-er7kp5ryqklyw",
       "support_until": "2028-10-21"
     },
     {
@@ -793,8 +793,8 @@
       "score": 93.4,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-jbyuumswzt42o",
       "support_until": "2028-10-21"
     },
     {
@@ -808,8 +808,8 @@
       "score": 99.2,
       "boot_verified": true,
       "version": "1.0.1",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-lr2datxiek5fy",
       "support_until": "2028-10-19"
     },
     {
@@ -823,8 +823,8 @@
       "score": 98.9,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-pwfmu7ba5y33m",
       "support_until": "2028-10-19"
     },
     {
@@ -838,8 +838,8 @@
       "score": 93.6,
       "boot_verified": true,
       "version": "1.0.2",
-      "availability": "coming-soon",
-      "marketplace_url": null,
+      "availability": "available",
+      "marketplace_url": "https://aws.amazon.com/marketplace/pp/prodview-lnqtbudmfllcg",
       "support_until": "2028-10-19"
     },
     {

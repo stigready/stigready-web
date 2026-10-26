@@ -84,3 +84,41 @@ control 'web-one-availability-story' do
     end
   end
 end
+
+# stigready-web#70 left every page saying StigReady Applied was "coming soon" / "Not yet" / a "planned" price while
+# all 56 Applied listings were Public on AWS Marketplace. While catalog.json marks any Applied row available, no page
+# may say Applied is not on Marketplace; a page that states an Applied count must state the catalog's count.
+COPY_APPLIED = COPY_CATALOG.fetch('products', []).select { |p| p['line'] == 'stigapplied' }
+COPY_APPLIED_AVAILABLE = COPY_APPLIED.count { |p| p['availability'] == 'available' }
+APPLIED_NOT_LIVE_PHRASES = [
+  /Applied\s+(?:listings?\s+)?(?:(?:on\s+AWS\s+Marketplace\s+)?(?:are|is)\s+)?coming\s+soon/i,
+  /Applied[^.<"]{0,60}listings\s+are\s+coming\s+soon/i,
+  /Not\s+yet\.\s+StigReady\s+Applied/i,
+  /Is\s+Applied\s+on\s+AWS\s+Marketplace\s+yet/i,
+  /Planned\s+software\s+fee/i,
+  /planned\s+price/i,
+  /early\s+access\s+to\s+Applied/i,
+  /Marketplace\s+listings\s+coming\s+soon/i
+].freeze
+APPLIED_COUNT_CLAIM = /(?:All\s+(\d+)\s+StigReady\s+Applied\s+images|StigReady\s+Applied\s+\((\d+)\s+images\))/
+
+control 'web-applied-availability-story' do
+  impact 1.0
+  title 'Applied copy agrees with catalog.json: no "coming soon" while Applied rows are available, and counts match'
+  describe 'catalog.json Applied rows' do
+    subject { COPY_APPLIED }
+    it { should_not be_empty }
+  end
+  COPY_PAGES.each do |rel|
+    if COPY_APPLIED_AVAILABLE.positive?
+      describe "#{rel} 'Applied not on Marketplace' wording while #{COPY_APPLIED_AVAILABLE} Applied rows are available" do
+        subject { APPLIED_NOT_LIVE_PHRASES.flat_map { |re| COPY_BODIES[rel].scan(re) } }
+        it { should be_empty }
+      end
+    end
+    describe "#{rel} Applied counts stated in copy" do
+      subject { COPY_BODIES[rel].scan(APPLIED_COUNT_CLAIM).flatten.compact.map(&:to_i).uniq - [COPY_APPLIED_AVAILABLE] }
+      it { should be_empty }
+    end
+  end
+end
