@@ -1,0 +1,1467 @@
+{
+ "schema": "stigready-marketplace-live/1",
+ "generated": "2026-10-26T10:06:46Z",
+ "source": "AWS Marketplace Catalog ListEntities/DescribeEntity as cairn-marketplace-ro (read-only)",
+ "products": [
+  {
+   "line": "stigapplied",
+   "profile": "cis-l1",
+   "os_key": "alma-10",
+   "arch": "arm64",
+   "product_id": "prod-554wcab5krmeq",
+   "product_code": "bk5mxplzk11oyt2hfy4go1wfj",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=bk5mxplzk11oyt2hfy4go1wfj",
+   "title": "StigReady Applied - AlmaLinux 10 CIS Benchmark aligned Level 1 (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l1",
+   "os_key": "alma-10",
+   "arch": "x86_64",
+   "product_id": "prod-5e2psi7go4jea",
+   "product_code": "c889fh7vlzzqoc5dkcq8lcm98",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=c889fh7vlzzqoc5dkcq8lcm98",
+   "title": "StigReady Applied - AlmaLinux 10 CIS Benchmark aligned Level 1 (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "af-south-1",
+    "ap-east-1",
+    "ap-east-2",
+    "ap-northeast-1",
+    "ap-northeast-2",
+    "ap-northeast-3",
+    "ap-south-1",
+    "ap-south-2",
+    "ap-southeast-1",
+    "ap-southeast-2",
+    "ap-southeast-3",
+    "ap-southeast-4",
+    "ap-southeast-5",
+    "ap-southeast-6",
+    "ap-southeast-7",
+    "ca-central-1",
+    "ca-west-1",
+    "eu-central-1",
+    "eu-central-2",
+    "eu-north-1",
+    "eu-south-1",
+    "eu-south-2",
+    "eu-west-1",
+    "eu-west-2",
+    "eu-west-3",
+    "il-central-1",
+    "me-central-1",
+    "me-south-1",
+    "mx-central-1",
+    "sa-east-1",
+    "us-east-1",
+    "us-east-2",
+    "us-gov-east-1",
+    "us-gov-west-1",
+    "us-west-1",
+    "us-west-2"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l1",
+   "os_key": "alma-8",
+   "arch": "arm64",
+   "product_id": "prod-w735ailid3tt2",
+   "product_code": "e1r1znlfq5w8xrt231jejn22f",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=e1r1znlfq5w8xrt231jejn22f",
+   "title": "StigReady Applied - AlmaLinux 8 CIS Benchmark aligned Level 1 (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l1",
+   "os_key": "alma-8",
+   "arch": "x86_64",
+   "product_id": "prod-bquxf4cxt4z46",
+   "product_code": "7xxat9z7ltnv0gju920wpiavd",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=7xxat9z7ltnv0gju920wpiavd",
+   "title": "StigReady Applied - AlmaLinux 8 CIS Benchmark aligned Level 1 (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l1",
+   "os_key": "alma-9",
+   "arch": "arm64",
+   "product_id": "prod-aqh7tuwpp5tzk",
+   "product_code": "cxjt4pw4kzn2j1ct3sojbv1ji",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=cxjt4pw4kzn2j1ct3sojbv1ji",
+   "title": "StigReady Applied - AlmaLinux 9 CIS Benchmark aligned Level 1 (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l1",
+   "os_key": "alma-9",
+   "arch": "x86_64",
+   "product_id": "prod-e6s3obs2ugyio",
+   "product_code": "dxumrzabii63uewkqsjoljlch",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=dxumrzabii63uewkqsjoljlch",
+   "title": "StigReady Applied - AlmaLinux 9 CIS Benchmark aligned Level 1 (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l1",
+   "os_key": "rhel-10",
+   "arch": "arm64",
+   "product_id": "prod-chzg2yzuby3ry",
+   "product_code": "6ouqrx7kwpww5czbxz63wyhxy",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=6ouqrx7kwpww5czbxz63wyhxy",
+   "title": "StigReady Applied - RHEL 10 CIS Benchmark aligned Level 1 (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l1",
+   "os_key": "rhel-10",
+   "arch": "x86_64",
+   "product_id": "prod-rl2gg2uyp6rpe",
+   "product_code": "6qxdgqkt6doskyywlec8uuei9",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=6qxdgqkt6doskyywlec8uuei9",
+   "title": "StigReady Applied - RHEL 10 CIS Benchmark aligned Level 1 (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.3"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l1",
+   "os_key": "rhel-8",
+   "arch": "arm64",
+   "product_id": "prod-tyxookthilxca",
+   "product_code": "6apte3f1x8vmha1nbjjngzfgs",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=6apte3f1x8vmha1nbjjngzfgs",
+   "title": "StigReady Applied - RHEL 8 CIS Benchmark aligned Level 1 (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l1",
+   "os_key": "rhel-8",
+   "arch": "x86_64",
+   "product_id": "prod-23rsboe7oauey",
+   "product_code": "4tub4tvtf88gliyfjpmaoha79",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=4tub4tvtf88gliyfjpmaoha79",
+   "title": "StigReady Applied - RHEL 8 CIS Benchmark aligned Level 1 (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l1",
+   "os_key": "rhel-9",
+   "arch": "arm64",
+   "product_id": "prod-hpmt44v6fo5qg",
+   "product_code": "2od64taotef0s46ai7h35bky9",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=2od64taotef0s46ai7h35bky9",
+   "title": "StigReady Applied - RHEL 9 CIS Benchmark aligned Level 1 (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.4"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l1",
+   "os_key": "rhel-9",
+   "arch": "x86_64",
+   "product_id": "prod-65ojl4bfhk43k",
+   "product_code": "4zzuj05km261tsbustm7j6r2b",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=4zzuj05km261tsbustm7j6r2b",
+   "title": "StigReady Applied - RHEL 9 CIS Benchmark aligned Level 1 (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.4"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l1",
+   "os_key": "rocky-10",
+   "arch": "arm64",
+   "product_id": "prod-hvv62hvtdajnu",
+   "product_code": "9chhfa27iu5ir9i37py2hi8f2",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=9chhfa27iu5ir9i37py2hi8f2",
+   "title": "StigReady Applied - Rocky 10 CIS Benchmark aligned Level 1 (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l1",
+   "os_key": "rocky-10",
+   "arch": "x86_64",
+   "product_id": "prod-4hvqatzgy7bkc",
+   "product_code": "ex7hcvsaco5v1ioxhdbjryh9d",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=ex7hcvsaco5v1ioxhdbjryh9d",
+   "title": "StigReady Applied - Rocky 10 CIS Benchmark aligned Level 1 (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l1",
+   "os_key": "rocky-8",
+   "arch": "arm64",
+   "product_id": "prod-obiw3eiym2gr6",
+   "product_code": "19rhnq14xfxx2ggsikqdubdtw",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=19rhnq14xfxx2ggsikqdubdtw",
+   "title": "StigReady Applied - Rocky 8 CIS Benchmark aligned Level 1 (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l1",
+   "os_key": "rocky-8",
+   "arch": "x86_64",
+   "product_id": "prod-7kh7f4xa6npp6",
+   "product_code": "fdjwac3pboeg0qloiyabdszd",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=fdjwac3pboeg0qloiyabdszd",
+   "title": "StigReady Applied - Rocky 8 CIS Benchmark aligned Level 1 (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l1",
+   "os_key": "rocky-9",
+   "arch": "arm64",
+   "product_id": "prod-nmeky5btte3mu",
+   "product_code": "5b9dvd8nffpucmhdw3ytjjo9n",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=5b9dvd8nffpucmhdw3ytjjo9n",
+   "title": "StigReady Applied - Rocky 9 CIS Benchmark aligned Level 1 (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.1"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l1",
+   "os_key": "rocky-9",
+   "arch": "x86_64",
+   "product_id": "prod-ctyzvon2syuu2",
+   "product_code": "299172rqu7etoxbuxk3t6zy57",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=299172rqu7etoxbuxk3t6zy57",
+   "title": "StigReady Applied - Rocky 9 CIS Benchmark aligned Level 1 (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l1",
+   "os_key": "ubuntu-24.04",
+   "arch": "arm64",
+   "product_id": "prod-kogap45xn4ies",
+   "product_code": "52s03y9xmpuii5bv0ipzyagh9",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=52s03y9xmpuii5bv0ipzyagh9",
+   "title": "StigReady Applied - Ubuntu 24.04 CIS Benchmark aligned Level 1 (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l1",
+   "os_key": "ubuntu-24.04",
+   "arch": "x86_64",
+   "product_id": "prod-hptctmpkdgeee",
+   "product_code": "bwrdggab7x9ogknb1p2hc0lbp",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=bwrdggab7x9ogknb1p2hc0lbp",
+   "title": "StigReady Applied - Ubuntu 24.04 CIS Benchmark aligned Level 1 (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.1"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l2",
+   "os_key": "alma-8",
+   "arch": "arm64",
+   "product_id": "prod-7ifzbg3g2y2iw",
+   "product_code": "18kcuis5yryrnrnhctnkca7p9",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=18kcuis5yryrnrnhctnkca7p9",
+   "title": "StigReady Applied - AlmaLinux 8 CIS Benchmark aligned Level 2 (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l2",
+   "os_key": "alma-8",
+   "arch": "x86_64",
+   "product_id": "prod-ltnvhdhuwmumi",
+   "product_code": "2ksw6tz68j8vu985wg4ga3uqr",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=2ksw6tz68j8vu985wg4ga3uqr",
+   "title": "StigReady Applied - AlmaLinux 8 CIS Benchmark aligned Level 2 (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l2",
+   "os_key": "alma-9",
+   "arch": "arm64",
+   "product_id": "prod-pawifaguuwggk",
+   "product_code": "9egzxmjjqqy1fu3j4c0woe22s",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=9egzxmjjqqy1fu3j4c0woe22s",
+   "title": "StigReady Applied - AlmaLinux 9 CIS Benchmark aligned Level 2 (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.1"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l2",
+   "os_key": "alma-9",
+   "arch": "x86_64",
+   "product_id": "prod-23vyz5i377rqa",
+   "product_code": "483nmh0kxnidbp1idof48gi0u",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=483nmh0kxnidbp1idof48gi0u",
+   "title": "StigReady Applied - AlmaLinux 9 CIS Benchmark aligned Level 2 (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l2",
+   "os_key": "rhel-10",
+   "arch": "arm64",
+   "product_id": "prod-dm35kdffwo6lk",
+   "product_code": "6a0rdgc7bdh2lcfs6ix8d968e",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=6a0rdgc7bdh2lcfs6ix8d968e",
+   "title": "StigReady Applied - RHEL 10 CIS Benchmark aligned Level 2 (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l2",
+   "os_key": "rhel-10",
+   "arch": "x86_64",
+   "product_id": "prod-2z3fvtaiabhpc",
+   "product_code": "ecxjf1udahs50r4l6tzc9ud5i",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=ecxjf1udahs50r4l6tzc9ud5i",
+   "title": "StigReady Applied - RHEL 10 CIS Benchmark aligned Level 2 (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l2",
+   "os_key": "rhel-8",
+   "arch": "arm64",
+   "product_id": "prod-cyk7ukiysswjk",
+   "product_code": "f5d57h608imuze8iyezqektc3",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=f5d57h608imuze8iyezqektc3",
+   "title": "StigReady Applied - RHEL 8 CIS Benchmark aligned Level 2 (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l2",
+   "os_key": "rhel-8",
+   "arch": "x86_64",
+   "product_id": "prod-3hltnp76bu654",
+   "product_code": "5l0dux4lwbk27nupy2uq6xhxj",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=5l0dux4lwbk27nupy2uq6xhxj",
+   "title": "StigReady Applied - RHEL 8 CIS Benchmark aligned Level 2 (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l2",
+   "os_key": "rhel-9",
+   "arch": "arm64",
+   "product_id": "prod-gim3paup3cscc",
+   "product_code": "9ygmiieva96642mfcqolz4jco",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=9ygmiieva96642mfcqolz4jco",
+   "title": "StigReady Applied - RHEL 9 CIS Benchmark aligned Level 2 (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.3"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l2",
+   "os_key": "rhel-9",
+   "arch": "x86_64",
+   "product_id": "prod-jfg2qwwelt2w6",
+   "product_code": "1bhuacwidzc3w1s9dfbf3i1py",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=1bhuacwidzc3w1s9dfbf3i1py",
+   "title": "StigReady Applied - RHEL 9 CIS Benchmark aligned Level 2 (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.4"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l2",
+   "os_key": "rocky-10",
+   "arch": "arm64",
+   "product_id": "prod-kq7cuxegqvd5i",
+   "product_code": "472a10ocszap91p2sbiz5flwu",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=472a10ocszap91p2sbiz5flwu",
+   "title": "StigReady Applied - Rocky 10 CIS Benchmark aligned Level 2 (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l2",
+   "os_key": "rocky-10",
+   "arch": "x86_64",
+   "product_id": "prod-7sqz52aymsic2",
+   "product_code": "5lu0m3g8tynzelfqn1domewiq",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=5lu0m3g8tynzelfqn1domewiq",
+   "title": "StigReady Applied - Rocky 10 CIS Benchmark aligned Level 2 (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l2",
+   "os_key": "rocky-8",
+   "arch": "arm64",
+   "product_id": "prod-gbt5rfpktjum6",
+   "product_code": "4gbs4raw92to8mj992sp6sjtf",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=4gbs4raw92to8mj992sp6sjtf",
+   "title": "StigReady Applied - Rocky 8 CIS Benchmark aligned Level 2 (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.1"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l2",
+   "os_key": "rocky-8",
+   "arch": "x86_64",
+   "product_id": "prod-j5thixuwor36g",
+   "product_code": "d6ggqlxisz05rlnwrk8oz05jx",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=d6ggqlxisz05rlnwrk8oz05jx",
+   "title": "StigReady Applied - Rocky 8 CIS Benchmark aligned Level 2 (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l2",
+   "os_key": "rocky-9",
+   "arch": "arm64",
+   "product_id": "prod-ejvv32lxw3udw",
+   "product_code": "2qm3uhekraw0hpywbrgs8aktw",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=2qm3uhekraw0hpywbrgs8aktw",
+   "title": "StigReady Applied - Rocky 9 CIS Benchmark aligned Level 2 (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.1"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l2",
+   "os_key": "rocky-9",
+   "arch": "x86_64",
+   "product_id": "prod-qwq63fqynr4fk",
+   "product_code": "5pxw0jqevvknz91n1rkcdhrp5",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=5pxw0jqevvknz91n1rkcdhrp5",
+   "title": "StigReady Applied - Rocky 9 CIS Benchmark aligned Level 2 (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l2",
+   "os_key": "ubuntu-24.04",
+   "arch": "arm64",
+   "product_id": "prod-rebsqn7lwzyfc",
+   "product_code": "eqq6ungmth35kqn0kigkoj630",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=eqq6ungmth35kqn0kigkoj630",
+   "title": "StigReady Applied - Ubuntu 24.04 CIS Benchmark aligned Level 2 (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "cis-l2",
+   "os_key": "ubuntu-24.04",
+   "arch": "x86_64",
+   "product_id": "prod-aimrq6ef575y6",
+   "product_code": "4w9vfa85l8c38tdyrvluwjq87",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=4w9vfa85l8c38tdyrvluwjq87",
+   "title": "StigReady Applied - Ubuntu 24.04 CIS Benchmark aligned Level 2 (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "stig",
+   "os_key": "alma-8",
+   "arch": "arm64",
+   "product_id": "prod-4vn4n3wa7cs5o",
+   "product_code": "a1b3clyz3th2gsc77xl60ak6f",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=a1b3clyz3th2gsc77xl60ak6f",
+   "title": "StigReady Applied - AlmaLinux 8 DISA STIG (FIPS mode) (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "stig",
+   "os_key": "alma-8",
+   "arch": "x86_64",
+   "product_id": "prod-hf5t4sk66fepg",
+   "product_code": "12si04q0iyg4u29yo8zvscvt4",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=12si04q0iyg4u29yo8zvscvt4",
+   "title": "StigReady Applied - AlmaLinux 8 DISA STIG (FIPS mode) (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "stig",
+   "os_key": "alma-9",
+   "arch": "arm64",
+   "product_id": "prod-l7o56xmhgz4a2",
+   "product_code": "862y751r3ehx6npfaisn8ls9l",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=862y751r3ehx6npfaisn8ls9l",
+   "title": "StigReady Applied - AlmaLinux 9 DISA STIG (FIPS mode) (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "stig",
+   "os_key": "alma-9",
+   "arch": "x86_64",
+   "product_id": "prod-dulzo3t4jycq4",
+   "product_code": "8zt4hhvmfyra3km00ot5ds2j",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=8zt4hhvmfyra3km00ot5ds2j",
+   "title": "StigReady Applied - AlmaLinux 9 DISA STIG (FIPS mode) (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "stig",
+   "os_key": "rhel-10",
+   "arch": "arm64",
+   "product_id": "prod-nahtgjsnw2uuk",
+   "product_code": "314vuxxswgmwavlv2io4ti3z0",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=314vuxxswgmwavlv2io4ti3z0",
+   "title": "StigReady Applied - RHEL 10 DISA STIG (FIPS mode) (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.1"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "stig",
+   "os_key": "rhel-10",
+   "arch": "x86_64",
+   "product_id": "prod-3ykuyux2ukc6o",
+   "product_code": "9umsb06tdpcd7mi175vqrqfla",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=9umsb06tdpcd7mi175vqrqfla",
+   "title": "StigReady Applied - RHEL 10 DISA STIG (FIPS mode) (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.1"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "stig",
+   "os_key": "rhel-8",
+   "arch": "arm64",
+   "product_id": "prod-ppifcihxukrpi",
+   "product_code": "7wp4jnnukafp9998bozcx6roz",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=7wp4jnnukafp9998bozcx6roz",
+   "title": "StigReady Applied - RHEL 8 DISA STIG (FIPS mode) (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "stig",
+   "os_key": "rhel-8",
+   "arch": "x86_64",
+   "product_id": "prod-6ede7ui3dw2gc",
+   "product_code": "ec5itswv2ngijfuqb4pkra2k7",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=ec5itswv2ngijfuqb4pkra2k7",
+   "title": "StigReady Applied - RHEL 8 DISA STIG (FIPS mode) (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "stig",
+   "os_key": "rhel-9",
+   "arch": "arm64",
+   "product_id": "prod-ma3q2sxeedw3g",
+   "product_code": "7c8agtan6be8iqkw9zh3p06q3",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=7c8agtan6be8iqkw9zh3p06q3",
+   "title": "StigReady Applied - RHEL 9 DISA STIG (FIPS mode) (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "stig",
+   "os_key": "rhel-9",
+   "arch": "x86_64",
+   "product_id": "prod-zt5syq7i7rw4y",
+   "product_code": "njdn3thut4b45t9z6jk8sw89",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=njdn3thut4b45t9z6jk8sw89",
+   "title": "StigReady Applied - RHEL 9 DISA STIG (FIPS mode) (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.3"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "stig",
+   "os_key": "rocky-10",
+   "arch": "arm64",
+   "product_id": "prod-67g7d4duit7p2",
+   "product_code": "e383eyk110iit0qb79qnwmmvy",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=e383eyk110iit0qb79qnwmmvy",
+   "title": "StigReady Applied - Rocky 10 DISA STIG (FIPS mode) (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.1"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "stig",
+   "os_key": "rocky-10",
+   "arch": "x86_64",
+   "product_id": "prod-aabirw7r4fuvc",
+   "product_code": "18x3kbaikxse85un1pshlq3qd",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=18x3kbaikxse85un1pshlq3qd",
+   "title": "StigReady Applied - Rocky 10 DISA STIG (FIPS mode) (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.1"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "stig",
+   "os_key": "rocky-8",
+   "arch": "arm64",
+   "product_id": "prod-a3tbzzxyawa2w",
+   "product_code": "2479m99c6041mgkboid4m5ski",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=2479m99c6041mgkboid4m5ski",
+   "title": "StigReady Applied - Rocky 8 DISA STIG (FIPS mode) (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.1"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "stig",
+   "os_key": "rocky-8",
+   "arch": "x86_64",
+   "product_id": "prod-gd5vquelu3sau",
+   "product_code": "c6f2h7vxfgvsf47sh160kn8dc",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=c6f2h7vxfgvsf47sh160kn8dc",
+   "title": "StigReady Applied - Rocky 8 DISA STIG (FIPS mode) (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "stig",
+   "os_key": "rocky-9",
+   "arch": "arm64",
+   "product_id": "prod-id6ofwn4d63sq",
+   "product_code": "93lo9nu0x80bqx11jm2jz6gue",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=93lo9nu0x80bqx11jm2jz6gue",
+   "title": "StigReady Applied - Rocky 9 DISA STIG (FIPS mode) (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "stig",
+   "os_key": "rocky-9",
+   "arch": "x86_64",
+   "product_id": "prod-5mwcrt5lfekne",
+   "product_code": "4wej3jimj2wondi8fl5u7zqeu",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=4wej3jimj2wondi8fl5u7zqeu",
+   "title": "StigReady Applied - Rocky 9 DISA STIG (FIPS mode) (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1",
+    "us-gov-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "stig",
+   "os_key": "ubuntu-24.04",
+   "arch": "arm64",
+   "product_id": "prod-ds7hxyygq67ee",
+   "product_code": "84ysxpmn5l6ndmhl1zqalebf0",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=84ysxpmn5l6ndmhl1zqalebf0",
+   "title": "StigReady Applied - Ubuntu 24.04 DISA STIG (FIPS mode) (arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigapplied",
+   "profile": "stig",
+   "os_key": "ubuntu-24.04",
+   "arch": "x86_64",
+   "product_id": "prod-p2kq4bloa4fsi",
+   "product_code": "bm5ukli700lvae0cwl17kc5cb",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=bm5ukli700lvae0cwl17kc5cb",
+   "title": "StigReady Applied - Ubuntu 24.04 DISA STIG (FIPS mode) (x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1"
+   ],
+   "versions": [
+    "v1.0.2"
+   ]
+  },
+  {
+   "line": "stigready",
+   "profile": "base",
+   "os_key": "alma-10",
+   "arch": "arm64",
+   "product_id": "prod-57hrrz44sdffu",
+   "product_code": "8c4ol7ll54yxozc9c71js49x8",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=8c4ol7ll54yxozc9c71js49x8",
+   "title": "StigReady Base - AlmaLinux 10 (STIG disk layout, arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1",
+    "us-gov-east-1"
+   ],
+   "versions": [
+    "v0.1.1",
+    "v0.1.3",
+    "v1.0.8"
+   ]
+  },
+  {
+   "line": "stigready",
+   "profile": "base",
+   "os_key": "alma-10",
+   "arch": "x86_64",
+   "product_id": "prod-gafzzrp3ltr7y",
+   "product_code": "19163tbcvkk7bta8l2dybws0g",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=19163tbcvkk7bta8l2dybws0g",
+   "title": "StigReady Base - AlmaLinux 10 (STIG disk layout, x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1",
+    "us-gov-east-1"
+   ],
+   "versions": [
+    "v0.1.0",
+    "v0.1.1",
+    "v1.0.8"
+   ]
+  },
+  {
+   "line": "stigready",
+   "profile": "base",
+   "os_key": "alma-8",
+   "arch": "arm64",
+   "product_id": "prod-e6mu7eyrvxsei",
+   "product_code": "d5jm4dg1c2u2yj0b24629pnow",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=d5jm4dg1c2u2yj0b24629pnow",
+   "title": "StigReady Base - AlmaLinux 8 (STIG disk layout, arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1",
+    "us-gov-east-1"
+   ],
+   "versions": [
+    "v0.1.1",
+    "v1.0.8"
+   ]
+  },
+  {
+   "line": "stigready",
+   "profile": "base",
+   "os_key": "alma-8",
+   "arch": "x86_64",
+   "product_id": "prod-l3mfkxt6s7bpq",
+   "product_code": "ak4vx2bkmysbp4mhuxfud0as",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=ak4vx2bkmysbp4mhuxfud0as",
+   "title": "StigReady Base - AlmaLinux 8 (STIG disk layout, x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1",
+    "us-gov-east-1"
+   ],
+   "versions": [
+    "v0.1.0",
+    "v0.1.2",
+    "v1.0.8"
+   ]
+  },
+  {
+   "line": "stigready",
+   "profile": "base",
+   "os_key": "alma-9",
+   "arch": "arm64",
+   "product_id": "prod-meggbnsddeeqg",
+   "product_code": "1m0hpmmsi60ufe06yyopgtlkm",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=1m0hpmmsi60ufe06yyopgtlkm",
+   "title": "StigReady Base - AlmaLinux 9 (STIG disk layout, arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1",
+    "us-gov-east-1"
+   ],
+   "versions": [
+    "v0.1.1",
+    "v0.1.6",
+    "v1.0.8"
+   ]
+  },
+  {
+   "line": "stigready",
+   "profile": "base",
+   "os_key": "alma-9",
+   "arch": "x86_64",
+   "product_id": "prod-r7dk7v2hntp4g",
+   "product_code": "2525e70fxu4oyntov38qwyn",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=2525e70fxu4oyntov38qwyn",
+   "title": "StigReady Base - AlmaLinux 9 (STIG disk layout, x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1",
+    "us-gov-east-1"
+   ],
+   "versions": [
+    "v0.1.0",
+    "v0.1.1",
+    "v1.0.8"
+   ]
+  },
+  {
+   "line": "stigready",
+   "profile": "base",
+   "os_key": "amazon-2023",
+   "arch": "arm64",
+   "product_id": "prod-6mxble4gjotgo",
+   "product_code": "f0b9q1m2hcciffsqfjortuer9",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=f0b9q1m2hcciffsqfjortuer9",
+   "title": "StigReady Base - Amazon Linux 2023 (STIG disk layout, arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1",
+    "us-gov-east-1"
+   ],
+   "versions": [
+    "v0.1.1",
+    "v0.1.16",
+    "v1.0.8"
+   ]
+  },
+  {
+   "line": "stigready",
+   "profile": "base",
+   "os_key": "amazon-2023",
+   "arch": "x86_64",
+   "product_id": "prod-ynq77iqkfa3kc",
+   "product_code": "2h6eda17rkfj7k69psq992387",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=2h6eda17rkfj7k69psq992387",
+   "title": "StigReady Base - Amazon Linux 2023 (STIG disk layout, x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1",
+    "us-gov-east-1"
+   ],
+   "versions": [
+    "v0.1.1",
+    "v0.1.2",
+    "v1.0.8"
+   ]
+  },
+  {
+   "line": "stigready",
+   "profile": "base",
+   "os_key": "rhel-10",
+   "arch": "arm64",
+   "product_id": "prod-dvinkbc5brrmq",
+   "product_code": "dn2ehr267or73e7dbb5ezgdoy",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=dn2ehr267or73e7dbb5ezgdoy",
+   "title": "StigReady Base - RHEL 10 (STIG disk layout, arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1",
+    "us-gov-east-1"
+   ],
+   "versions": [
+    "v0.1.1",
+    "v0.1.9",
+    "v1.0.7"
+   ]
+  },
+  {
+   "line": "stigready",
+   "profile": "base",
+   "os_key": "rhel-10",
+   "arch": "x86_64",
+   "product_id": "prod-fqbbijecygomg",
+   "product_code": "6reycxau3gw6sy3djqoij3ue3",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=6reycxau3gw6sy3djqoij3ue3",
+   "title": "StigReady Base - RHEL 10 (STIG disk layout, x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1",
+    "us-gov-east-1"
+   ],
+   "versions": [
+    "v0.1.0",
+    "v0.1.2",
+    "v1.0.8"
+   ]
+  },
+  {
+   "line": "stigready",
+   "profile": "base",
+   "os_key": "rhel-8",
+   "arch": "arm64",
+   "product_id": "prod-b34kukjrhxu6k",
+   "product_code": "a5tl6zcr87960tdgey19osvb0",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=a5tl6zcr87960tdgey19osvb0",
+   "title": "StigReady Base - RHEL 8 (STIG disk layout, arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1",
+    "us-gov-east-1"
+   ],
+   "versions": [
+    "v0.1.1",
+    "v1.0.8"
+   ]
+  },
+  {
+   "line": "stigready",
+   "profile": "base",
+   "os_key": "rhel-8",
+   "arch": "x86_64",
+   "product_id": "prod-4pw24rla76ek4",
+   "product_code": "1bfdl7agtxk0nn0p5fljpc41z",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=1bfdl7agtxk0nn0p5fljpc41z",
+   "title": "StigReady Base - RHEL 8 (STIG disk layout, x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1",
+    "us-gov-east-1"
+   ],
+   "versions": [
+    "v0.1.0",
+    "v1.0.8"
+   ]
+  },
+  {
+   "line": "stigready",
+   "profile": "base",
+   "os_key": "rhel-9",
+   "arch": "arm64",
+   "product_id": "prod-a24elx2nol3uk",
+   "product_code": "3l1ct1nkww3dnd8tjonarbelp",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=3l1ct1nkww3dnd8tjonarbelp",
+   "title": "StigReady Base - RHEL 9 (STIG disk layout, arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1",
+    "us-gov-east-1"
+   ],
+   "versions": [
+    "v0.1.1",
+    "v1.0.10"
+   ]
+  },
+  {
+   "line": "stigready",
+   "profile": "base",
+   "os_key": "rhel-9",
+   "arch": "x86_64",
+   "product_id": "prod-ccq3ojs7u5gdq",
+   "product_code": "8pko6ux1fnba24w6vt9plxf67",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=8pko6ux1fnba24w6vt9plxf67",
+   "title": "StigReady Base - RHEL 9 (STIG disk layout, x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1",
+    "us-gov-east-1"
+   ],
+   "versions": [
+    "v0.1.0",
+    "v0.1.2",
+    "v1.0.10"
+   ]
+  },
+  {
+   "line": "stigready",
+   "profile": "base",
+   "os_key": "rocky-10",
+   "arch": "arm64",
+   "product_id": "prod-6tfh4q6xrdols",
+   "product_code": "1ypqjtn3suhs35vwduiodimlo",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=1ypqjtn3suhs35vwduiodimlo",
+   "title": "StigReady Base - Rocky Linux 10 (STIG disk layout, arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1",
+    "us-gov-east-1"
+   ],
+   "versions": [
+    "v0.1.1",
+    "v1.0.6"
+   ]
+  },
+  {
+   "line": "stigready",
+   "profile": "base",
+   "os_key": "rocky-10",
+   "arch": "x86_64",
+   "product_id": "prod-76adkumxdtnse",
+   "product_code": "5djjrxobh5ekb2ebwqe5gbbtb",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=5djjrxobh5ekb2ebwqe5gbbtb",
+   "title": "StigReady Base - Rocky Linux 10 (STIG disk layout, x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1",
+    "us-gov-east-1"
+   ],
+   "versions": [
+    "v0.1.0",
+    "v1.0.8"
+   ]
+  },
+  {
+   "line": "stigready",
+   "profile": "base",
+   "os_key": "rocky-8",
+   "arch": "arm64",
+   "product_id": "prod-bvzysmquag3o4",
+   "product_code": "9u1ikvuuyp76slxfy803jbeqr",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=9u1ikvuuyp76slxfy803jbeqr",
+   "title": "StigReady Base - Rocky Linux 8 (STIG disk layout, arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1",
+    "us-gov-east-1"
+   ],
+   "versions": [
+    "v0.1.2",
+    "v1.0.7"
+   ]
+  },
+  {
+   "line": "stigready",
+   "profile": "base",
+   "os_key": "rocky-8",
+   "arch": "x86_64",
+   "product_id": "prod-42hx37ch35r2q",
+   "product_code": "bvdwbwj106kjkryk0ws0abr6f",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=bvdwbwj106kjkryk0ws0abr6f",
+   "title": "StigReady Base - Rocky Linux 8 (STIG disk layout, x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1",
+    "us-gov-east-1"
+   ],
+   "versions": [
+    "v0.1.0",
+    "v1.0.8"
+   ]
+  },
+  {
+   "line": "stigready",
+   "profile": "base",
+   "os_key": "rocky-9",
+   "arch": "arm64",
+   "product_id": "prod-u75q4pgciyvmw",
+   "product_code": "dx0pd99eu1some9el4t815hbr",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=dx0pd99eu1some9el4t815hbr",
+   "title": "StigReady Base - Rocky Linux 9 (STIG disk layout, arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1",
+    "us-gov-east-1"
+   ],
+   "versions": [
+    "v0.1.3",
+    "v1.0.7"
+   ]
+  },
+  {
+   "line": "stigready",
+   "profile": "base",
+   "os_key": "rocky-9",
+   "arch": "x86_64",
+   "product_id": "prod-yqqqdayswvqag",
+   "product_code": "ka9wk5trjnz2xlovvoul5up8",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=ka9wk5trjnz2xlovvoul5up8",
+   "title": "StigReady Base - Rocky Linux 9 (STIG disk layout, x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1",
+    "us-gov-east-1"
+   ],
+   "versions": [
+    "v0.1.0",
+    "v1.0.8"
+   ]
+  },
+  {
+   "line": "stigready",
+   "profile": "base",
+   "os_key": "ubuntu-24.04",
+   "arch": "arm64",
+   "product_id": "prod-mxccnjlflp46y",
+   "product_code": "6ixx1eed2jieuc2eq32ccwird",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=6ixx1eed2jieuc2eq32ccwird",
+   "title": "StigReady Base - Ubuntu 24.04 LTS (STIG disk layout, arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1",
+    "us-gov-east-1"
+   ],
+   "versions": [
+    "v0.1.6",
+    "v1.0.6"
+   ]
+  },
+  {
+   "line": "stigready",
+   "profile": "base",
+   "os_key": "ubuntu-24.04",
+   "arch": "x86_64",
+   "product_id": "prod-433xdd45p4dgo",
+   "product_code": "8w79obfzt9q7n2k6dxcx6skbs",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=8w79obfzt9q7n2k6dxcx6skbs",
+   "title": "StigReady Base - Ubuntu 24.04 LTS (STIG disk layout, x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1",
+    "us-gov-east-1"
+   ],
+   "versions": [
+    "v0.1.1",
+    "v1.0.7"
+   ]
+  },
+  {
+   "line": "stigready",
+   "profile": "base",
+   "os_key": "ubuntu-26.04",
+   "arch": "arm64",
+   "product_id": "prod-uo4xiei4r35di",
+   "product_code": "a3pd4ueq82w129eiba0ucgpiw",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=a3pd4ueq82w129eiba0ucgpiw",
+   "title": "StigReady Base - Ubuntu 26.04 LTS (STIG disk layout, arm64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1",
+    "us-gov-east-1"
+   ],
+   "versions": [
+    "v0.1.1",
+    "v1.0.6"
+   ]
+  },
+  {
+   "line": "stigready",
+   "profile": "base",
+   "os_key": "ubuntu-26.04",
+   "arch": "x86_64",
+   "product_id": "prod-esbozvhgqpbxw",
+   "product_code": "5v89gkk7w9pve1fqwj5fu8ux0",
+   "sku_url": "https://aws.amazon.com/marketplace/pp?sku=5v89gkk7w9pve1fqwj5fu8ux0",
+   "title": "StigReady Base - Ubuntu 26.04 LTS (STIG disk layout, x86_64)",
+   "visibility": "Public",
+   "regions": [
+    "us-east-1",
+    "us-gov-east-1"
+   ],
+   "versions": [
+    "v0.1.0",
+    "v1.0.7"
+   ]
+  }
+ ],
+ "not_public": {},
+ "prices": {
+  "stigready": null,
+  "stigapplied": null
+ },
+ "price_source": "unavailable: describe offer: CatalogUnavailable"
+}

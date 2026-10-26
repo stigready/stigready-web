@@ -1,0 +1,27 @@
+# Public copy the nightly drift watch (decision 0114 L3, job copy-drift-watch) reads besides stigready.com itself.
+# role_repos: each README's release must equal the repo's newest v* tag, and its availability and price sentences
+# must match the live Marketplace snapshot. pages: other public pages, read for availability sentences.
+# stigvalidated has no public repo or site yet: its section of stigready.com is covered by the site fetch. Add its
+# public pages under pages: when they exist.
+role_repos:
+  - stigready/al2023-cis
+  - stigready/cs9-cis
+  - stigready/cs9-stig
+  - stigready/cs10-cis
+  - stigready/cs10-stig
+  - stigready/debian12-cis
+  - stigready/ol9-stig
+  - stigready/ol10-stig
+  - stigready/rhel8-cis
+  - stigready/rhel8-stig
+  - stigready/rhel9-cis
+  - stigready/rhel9-stig
+  - stigready/rhel10-cis
+  - stigready/rhel10-stig
+  - stigready/ubuntu22-cis
+  - stigready/ubuntu22-stig
+  - stigready/ubuntu24-cis
+  - stigready/ubuntu24-stig
+  - stigready/stigready-baseline
+pages:
+  - https://github.com/stigready

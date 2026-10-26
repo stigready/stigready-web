@@ -10,6 +10,16 @@ triggers:
   pull_requests:   # same-repository PRs into main; no secrets, never forks
     branches: [main]
     interval: 5m
+  # Decision 0114 L3: the nightly drift watch. Cairn loads a new schedule PAUSED: it runs only when cairn-server.yml
+  # schedules.allow lists stigready-web/copy-drift and an admin enables it. 06:30 UTC follows stigready's
+  # marketplace-snapshot schedule (every 6 h, on the hour), so the snapshot it reads is at most 2 h old.
+  schedule:
+    - name: copy-drift
+      cron: "30 6 * * *"
+      timezone: UTC
+      jobs: [copy-drift-watch]
+      overlap: skip
+      catch_up: true
 
 jobs:
   - name: validate
@@ -52,6 +62,85 @@ jobs:
           # (claude-agents#152). The default runner image carries cinc-auditor.
           - name: cinc-stigready-web
             run: cinc-auditor exec cinc/profiles/stigready-web --no-color --chef-license accept-silent
+
+  # Decision 0114 (claude-agents): public copy must match production. stigready-web#70 showed all 56 StigReady Applied
+  # products as "Coming soon" while all 56 were Public on AWS Marketplace, and every review passed because each compared
+  # the copy with catalog.json. Both PR checks run the checker, signers and fixtures from origin/$CAIRN_BASE_REF (git
+  # archive of the base), never from the PR, so a PR cannot change what judges it. CINC web-copy-truth-01..04.
+  #
+  # L1 copy-truth: the PR's site against the live Marketplace snapshot. PR runs get no AWS credentials (Cairn), so the
+  # snapshot is the file stigready's marketplace-live-snapshot job (marketplace-ro) writes to this repo's
+  # live/marketplace branch. A missing or >26 h old snapshot exits 2 (production state unknown).
+  # ADVISORY until that job has run under its cairn-server.yml grant and written the branch: then drop `advisory`
+  # and add copy-truth to main's required contexts. Prices only warn until cairn-marketplace-ro can read Offers.
+  - name: copy-truth
+    stage: verify
+    when: pull_request
+    advisory: true
+    status: copy-truth
+    timeout: 10m
+    run:
+      exec:
+        steps:
+          - name: check
+            run: |-
+              set -eu
+              t=$(mktemp -d)
+              mkdir -p "$t/base" "$t/snap"
+              git archive "origin/${CAIRN_BASE_REF:?}" | tar -x -C "$t/base"
+              git -C "$t/snap" init -q
+              git -C "$t/snap" fetch -q --depth 1 https://github.com/stigready/stigready-web.git live/marketplace
+              git -C "$t/snap" show FETCH_HEAD:marketplace-live.json > "$t/marketplace-live.json"
+              python3 -I "$t/base/scripts/check-copy-vs-marketplace.py" --mode pr --site . \
+                --snapshot "$t/marketplace-live.json" --out copy-truth/report.md
+
+  # L2 copy-removal-gate: fails when a product moves down (purchasable > no claim > coming soon), disappears, or loses a
+  # price or region claim, or config/owner-signers changes, unless approvals/owner/<digest>.{txt,sig} carries the
+  # owner's signature by a FIDO2 key listed in the BASE's config/owner-signers (approvals/owner/README.md). Needs no
+  # credentials: required from the day it lands (the program agent adds copy-removal-gate to main's required contexts).
+  - name: copy-removal-gate
+    stage: verify
+    when: pull_request
+    status: copy-removal-gate
+    timeout: 10m
+    run:
+      exec:
+        steps:
+          - name: gate
+            run: |-
+              set -eu
+              t=$(mktemp -d)
+              mkdir -p "$t/base"
+              git archive "origin/${CAIRN_BASE_REF:?}" | tar -x -C "$t/base"
+              python3 -I "$t/base/scripts/check-copy-vs-marketplace.py" --mode removal --base-site "$t/base" --site . \
+                --signers "$t/base/config/owner-signers" --head-signers config/owner-signers
+
+  # L3 copy-drift-watch: nightly (schedule copy-drift), read-only. Fetches stigready.com live (sitemap pages and
+  # /catalog.json), the public role READMEs and the pages in config/copy-truth-sources.yml, checks them against the
+  # live snapshot (at most 2 h old) and each README's release against its newest v* tag. On drift the run fails (ntfy,
+  # decision 0073) and the one `copy-drift` issue is opened or updated; a clean night closes it. GitHub: a minted
+  # token with issues: write on this repo only (cairn-server.yml github_write.grants.stigready-web.copy-drift-watch;
+  # until it is granted, a run is refused at start). No AWS credential: the snapshot carries production.
+  - name: copy-drift-watch
+    stage: watch
+    when: manual
+    timeout: 20m
+    github_token:
+      repositories: [stigready/stigready-web]
+      permissions: {issues: write}
+    artifacts: {paths: [copy-drift]}
+    run:
+      exec:
+        steps:
+          - name: drift
+            run: |-
+              set -eu
+              t=$(mktemp -d)
+              git -C "$t" init -q
+              git -C "$t" fetch -q --depth 1 https://github.com/stigready/stigready-web.git live/marketplace
+              git -C "$t" show FETCH_HEAD:marketplace-live.json > "$t/marketplace-live.json"
+              python3 -I scripts/check-copy-vs-marketplace.py --mode drift --snapshot "$t/marketplace-live.json" \
+                --max-age-hours 2 --sources config/copy-truth-sources.yml --out copy-drift/report.md --issue
 
   # Scanners (decision 0076 part B; owner 2026-10-21: "we should be running trivy and any other tools that make sence").
   # Fitted to this repo: static HTML/JSON and one Python validator.
