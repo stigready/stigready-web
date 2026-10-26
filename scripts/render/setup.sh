@@ -39,6 +39,10 @@ if [ -z "$node" ]; then
 fi
 npm="$(dirname "$node")/npm"
 export PATH="$(dirname "$node"):$PATH"
+# The runner's HOME is not writable: npm gets its own cache and no update check. HTTPS_PROXY (a PR runner's only way
+# out) is honoured by npm as it is by pip.
+npm_config_cache="$(mktemp -d)"
+export npm_config_cache npm_config_update_notifier=false
 
 done_ci=
 for d in "${MIRROR_DIR:-}" /opt/mirror /mnt/stigready/mirror; do
