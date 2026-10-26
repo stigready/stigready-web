@@ -1,6 +1,10 @@
+# SPDX-FileCopyrightText: 2026 StigReady
+# SPDX-License-Identifier: MIT
 name: stigready-web
 title: stigready.com published-site invariants
 maintainer: StigReady program
+copyright: StigReady
+copyright_email: contact@stigready.com
 license: MIT
 summary: >-
   Assertions about the published site, run against the checked-out tree in the `validate` job.

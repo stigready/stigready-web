@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 StigReady
+# SPDX-License-Identifier: LicenseRef-StigReady-Proprietary
 """Validate the published site before it reaches stigready.com.
 
 This repo had NO workflows and `required_status_checks: null` on `main`, so branch

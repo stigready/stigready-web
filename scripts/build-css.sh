@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# SPDX-FileCopyrightText: 2026 StigReady
+# SPDX-License-Identifier: LicenseRef-StigReady-Proprietary
 # Compile assets/css/site.css from every page's Tailwind classes (claude-agents#152).
 # Pinned CLI version: the pages used the unversioned Play CDN, which is not for production and
 # cannot carry an integrity hash. Run after changing classes on any page, and commit the CSS.
