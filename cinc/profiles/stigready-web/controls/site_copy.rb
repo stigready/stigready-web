@@ -19,6 +19,17 @@ COPY_AVAILABLE = COPY_CATALOG.fetch('products', []).count { |p| p['availability'
 CIS_PRODUCT_LABEL = /\bCIS\s+hardened\s+(?:AMIs?|images?)\b/i
 NON_AFFILIATION = 'Not affiliated with or endorsed by DISA, DoD, NIST, CIS, Red Hat, or Canonical.'
 CIS_TRADEMARK = 'CIS® and CIS Benchmarks™ are trademarks of the Center for Internet Security, Inc.'
+# stigready-web#72: every OS family catalog.json sells carries its trademark attribution on every page, in the wording
+# of the role-README notice (stigforge#216, generator/generate_role.py _OS_MARKS and _LINUX_MARK). Keyed by the start
+# of catalog.json's `os` value; an OS with no entry here fails until its mark is added.
+OS_TRADEMARKS = {
+  'RHEL' => 'Red Hat® and Red Hat Enterprise Linux® are trademarks of Red Hat, Inc.',
+  'Ubuntu' => 'Ubuntu® is a trademark of Canonical Ltd.',
+  'Amazon Linux' => 'Amazon Linux is a trademark of Amazon.com, Inc. or its affiliates.',
+  'Rocky Linux' => 'Rocky Linux is a trademark of the Rocky Enterprise Software Foundation.',
+  'AlmaLinux' => 'AlmaLinux is a trademark of the AlmaLinux OS Foundation.'
+}.freeze
+LINUX_TRADEMARK = 'Linux is the registered trademark of Linus Torvalds in the U.S. and other countries.'
 # Phrases that say no listing is live, or that listing URLs are withheld.
 NOT_LIVE_PHRASES = [
   /listings?\s+(?:are\s+)?(?:rolling|roll)\s+out/i,
@@ -62,6 +73,25 @@ control 'web-non-affiliation-on-every-page' do
       subject { COPY_BODIES[rel] }
       it { should include NON_AFFILIATION }
       it { should include CIS_TRADEMARK }
+    end
+  end
+end
+
+COPY_OS_NAMES = COPY_CATALOG.fetch('products', []).map { |p| p['os'].to_s }.uniq.sort
+COPY_OS_FAMILIES = COPY_OS_NAMES.map { |os| [os, OS_TRADEMARKS.keys.find { |k| os.start_with?("#{k} ") || os == k }] }
+
+control 'web-os-trademarks-on-every-page' do
+  impact 1.0
+  title 'Every page attributes the trademark of each OS family catalog.json sells, and Linux (stigready-web#72)'
+  describe 'catalog.json OS names with no trademark sentence in OS_TRADEMARKS' do
+    subject { COPY_OS_FAMILIES.select { |_os, fam| fam.nil? }.map(&:first) }
+    it { should be_empty }
+  end
+  marks = COPY_OS_FAMILIES.map(&:last).compact.uniq.sort.map { |fam| OS_TRADEMARKS[fam] } + [LINUX_TRADEMARK]
+  COPY_PAGES.each do |rel|
+    describe "#{rel} OS trademark sentences missing" do
+      subject { marks.reject { |m| COPY_BODIES[rel].include?(m) } }
+      it { should be_empty }
     end
   end
 end
