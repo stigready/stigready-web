@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-+IIVvmt4jNSGoL1yl8Su0MIJgOfKjF4KOe9KdU/2x/0=' 'sha256-wgBTLuQsDQtBLzzLLdwf5zECkvfEIKf99YpMGaxHeso=' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self'">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-R2J9HMP1XX"></script>
@@ -245,14 +245,11 @@
                     </div>
                     <div class="flex gap-2 flex-wrap" id="base-arch-filters">
                         <button class="px-3 py-1.5 rounded text-sm font-medium bg-yellow-600 text-white transition"
-                                data-filter-group="base" data-filter-key="arch" data-filter-val="all"
-                                onclick="setFilter('base','arch','all')">All arches</button>
+                                data-filter-group="base" data-filter-key="arch" data-filter-val="all">All arches</button>
                         <button class="px-3 py-1.5 rounded text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
-                                data-filter-group="base" data-filter-key="arch" data-filter-val="x86_64"
-                                onclick="setFilter('base','arch','x86_64')">x86_64</button>
+                                data-filter-group="base" data-filter-key="arch" data-filter-val="x86_64">x86_64</button>
                         <button class="px-3 py-1.5 rounded text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
-                                data-filter-group="base" data-filter-key="arch" data-filter-val="arm64"
-                                onclick="setFilter('base','arch','arm64')">arm64 (Graviton)</button>
+                                data-filter-group="base" data-filter-key="arch" data-filter-val="arm64">arm64 (Graviton)</button>
                     </div>
                 </div>
                 <div class="bg-gray-900 rounded-lg overflow-x-auto border border-gray-700">
@@ -377,28 +374,21 @@
                     <div class="flex flex-col gap-2">
                         <div class="flex gap-2 flex-wrap" id="applied-arch-filters">
                             <button class="px-3 py-1.5 rounded text-sm font-medium bg-yellow-600 text-white transition"
-                                    data-filter-group="applied" data-filter-key="arch" data-filter-val="all"
-                                    onclick="setFilter('applied','arch','all')">All arches</button>
+                                    data-filter-group="applied" data-filter-key="arch" data-filter-val="all">All arches</button>
                             <button class="px-3 py-1.5 rounded text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
-                                    data-filter-group="applied" data-filter-key="arch" data-filter-val="x86_64"
-                                    onclick="setFilter('applied','arch','x86_64')">x86_64</button>
+                                    data-filter-group="applied" data-filter-key="arch" data-filter-val="x86_64">x86_64</button>
                             <button class="px-3 py-1.5 rounded text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
-                                    data-filter-group="applied" data-filter-key="arch" data-filter-val="arm64"
-                                    onclick="setFilter('applied','arch','arm64')">arm64</button>
+                                    data-filter-group="applied" data-filter-key="arch" data-filter-val="arm64">arm64</button>
                         </div>
                         <div class="flex gap-2 flex-wrap" id="applied-profile-filters">
                             <button class="px-3 py-1.5 rounded text-sm font-medium bg-yellow-600 text-white transition"
-                                    data-filter-group="applied" data-filter-key="profile" data-filter-val="all"
-                                    onclick="setFilter('applied','profile','all')">All baselines</button>
+                                    data-filter-group="applied" data-filter-key="profile" data-filter-val="all">All baselines</button>
                             <button class="px-3 py-1.5 rounded text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
-                                    data-filter-group="applied" data-filter-key="profile" data-filter-val="stig"
-                                    onclick="setFilter('applied','profile','stig')">DISA STIG</button>
+                                    data-filter-group="applied" data-filter-key="profile" data-filter-val="stig">DISA STIG</button>
                             <button class="px-3 py-1.5 rounded text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
-                                    data-filter-group="applied" data-filter-key="profile" data-filter-val="cis-l1"
-                                    onclick="setFilter('applied','profile','cis-l1')">CIS Level 1</button>
+                                    data-filter-group="applied" data-filter-key="profile" data-filter-val="cis-l1">CIS Level 1</button>
                             <button class="px-3 py-1.5 rounded text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
-                                    data-filter-group="applied" data-filter-key="profile" data-filter-val="cis-l2"
-                                    onclick="setFilter('applied','profile','cis-l2')">CIS Level 2</button>
+                                    data-filter-group="applied" data-filter-key="profile" data-filter-val="cis-l2">CIS Level 2</button>
                         </div>
                     </div>
                 </div>
@@ -567,7 +557,7 @@
             </div>
             <p class="text-center text-xs text-gray-600">&copy; 2026 StigReady. All rights reserved.</p>
             <p class="text-center text-xs text-gray-600 mt-3 max-w-3xl mx-auto">
-                Not affiliated with or endorsed by DISA, DoD, NIST, CIS, Red Hat, or Canonical. All trademarks are the property of their respective owners. Red Hat® and Red Hat Enterprise Linux® are trademarks of Red Hat, Inc. Ubuntu® is a trademark of Canonical Ltd. CIS® and CIS Benchmarks™ are trademarks of the Center for Internet Security, Inc. StigReady does not provide commercial licenses for Red Hat products.
+                Not affiliated with or endorsed by DISA, DoD, NIST, CIS, Red Hat, or Canonical. All trademarks are the property of their respective owners. Red Hat® and Red Hat Enterprise Linux® are trademarks of Red Hat, Inc. Ubuntu® is a trademark of Canonical Ltd. Amazon Linux is a trademark of Amazon.com, Inc. or its affiliates. Rocky Linux is a trademark of the Rocky Enterprise Software Foundation. AlmaLinux is a trademark of the AlmaLinux OS Foundation. Linux is the registered trademark of Linus Torvalds in the U.S. and other countries. CIS® and CIS Benchmarks™ are trademarks of the Center for Internet Security, Inc. StigReady does not provide commercial licenses for Red Hat products.
             </p>
         </div>
     </footer>
@@ -790,6 +780,11 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+        // The filter buttons carry data-filter-*; their click handlers attach here (the CSP admits page scripts only by hash).
+        document.querySelectorAll('button[data-filter-group]').forEach(btn => {
+            btn.addEventListener('click', () =>
+                setFilter(btn.dataset.filterGroup, btn.dataset.filterKey, btn.dataset.filterVal));
+        });
         loadCatalog();
         loadFactory();
         try { lucide.createIcons(); } catch (e) { console.error('lucide', e); }
