@@ -1,0 +1,6 @@
+# SPDX-FileCopyrightText: 2026 StigReady
+# SPDX-License-Identifier: LicenseRef-StigReady-Proprietary
+# stigready-web#85: "class_tokens_sha256" on line 6 is the SHA-256 of the public pages' CSS class tokens
+# (scripts/css_stamp.py), not a credential; generic-api-key fires on the word "token". One fingerprint only;
+# CINC control web-scan-suppressions keeps this file to exactly this entry.
+assets/css/site.css.stamp.json:generic-api-key:6
