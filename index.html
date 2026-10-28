@@ -1,8 +1,10 @@
 <!DOCTYPE html>
+<!-- SPDX-FileCopyrightText: 2026 StigReady -->
+<!-- SPDX-License-Identifier: LicenseRef-StigReady-Proprietary -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-+IIVvmt4jNSGoL1yl8Su0MIJgOfKjF4KOe9KdU/2x/0=' 'sha256-wgBTLuQsDQtBLzzLLdwf5zECkvfEIKf99YpMGaxHeso=' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self'">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-R2J9HMP1XX"></script>
@@ -14,7 +16,7 @@
     </script>
 
     <title>StigReady — STIG AMI &amp; CIS Benchmark L1/L2 AMI with OpenSCAP Scores</title>
-    <meta name="description" content="STIG AMIs and AMIs hardened to the CIS Benchmark, for AWS. StigReady Base and Applied with published OpenSCAP scores on x86_64 and arm64. Base is on AWS Marketplace; Applied is coming soon.">
+    <meta name="description" content="STIG AMIs and AMIs hardened to the CIS Benchmark, for AWS. StigReady Base and Applied with published OpenSCAP scores on x86_64 and arm64. Base and Applied are on AWS Marketplace.">
     <meta name="author" content="StigReady">
     <meta name="robots" content="index,follow,max-image-preview:large">
     <meta name="theme-color" content="#0C2340">
@@ -116,7 +118,7 @@
               "name": "Are StigReady AMIs available on AWS Marketplace?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "StigReady Base is on AWS Marketplace: the Base catalog on stigready.com links each image to its listing. StigReady Applied listings are coming soon. Watch our seller profile or email contact@stigready.com for early access and Private Offers. We do not publish AMI IDs on this site."
+                "text": "Yes. StigReady Base (24 images) and StigReady Applied (56 images) are on AWS Marketplace: the Base and Applied catalogs on stigready.com link each image to its listing. Email contact@stigready.com for annual contracts and Private Offers. We do not publish AMI IDs on this site."
               }
             }
           ]
@@ -166,7 +168,7 @@
             </h1>
             <p class="text-lg text-gray-300 mb-6 max-w-2xl mx-auto">
                 One hardened foundation — two ways to use it. All built from the official OS ISO (Amazon Linux 2023: from
-                Amazon's prebuilt disk image), patched, and boot-tested on real EC2 Nitro. StigReady Base is on AWS Marketplace; Applied listings are coming soon.
+                Amazon's prebuilt disk image), patched, and boot-tested on real EC2 Nitro. StigReady Base and Applied are on AWS Marketplace.
             </p>
             <!-- Tier pills -->
             <div class="flex flex-col sm:flex-row justify-center gap-4 mb-8">
@@ -189,7 +191,7 @@
             <div class="flex flex-col sm:flex-row justify-center gap-3 items-center">
                 <a href="mailto:contact@stigready.com"
                    class="inline-block bg-yellow-600 hover:bg-yellow-500 text-white px-8 py-3 rounded-md font-bold text-lg transition">
-                    Contact for early access
+                    Contact us
                 </a>
                 <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk"
                    class="inline-block bg-gray-700 hover:bg-gray-600 text-white px-6 py-3 rounded-md font-semibold transition"
@@ -197,7 +199,7 @@
                     AWS Marketplace seller profile
                 </a>
             </div>
-            <p class="text-xs text-gray-500 mt-4">Base on AWS Marketplace · Applied coming soon · x86_64 and arm64 (Graviton)</p>
+            <p class="text-xs text-gray-500 mt-4">Base and Applied on AWS Marketplace · x86_64 and arm64 (Graviton)</p>
         </div>
     </section>
 
@@ -243,14 +245,11 @@
                     </div>
                     <div class="flex gap-2 flex-wrap" id="base-arch-filters">
                         <button class="px-3 py-1.5 rounded text-sm font-medium bg-yellow-600 text-white transition"
-                                data-filter-group="base" data-filter-key="arch" data-filter-val="all"
-                                onclick="setFilter('base','arch','all')">All arches</button>
+                                data-filter-group="base" data-filter-key="arch" data-filter-val="all">All arches</button>
                         <button class="px-3 py-1.5 rounded text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
-                                data-filter-group="base" data-filter-key="arch" data-filter-val="x86_64"
-                                onclick="setFilter('base','arch','x86_64')">x86_64</button>
+                                data-filter-group="base" data-filter-key="arch" data-filter-val="x86_64">x86_64</button>
                         <button class="px-3 py-1.5 rounded text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
-                                data-filter-group="base" data-filter-key="arch" data-filter-val="arm64"
-                                onclick="setFilter('base','arch','arm64')">arm64 (Graviton)</button>
+                                data-filter-group="base" data-filter-key="arch" data-filter-val="arm64">arm64 (Graviton)</button>
                     </div>
                 </div>
                 <div class="bg-gray-900 rounded-lg overflow-x-auto border border-gray-700">
@@ -375,28 +374,21 @@
                     <div class="flex flex-col gap-2">
                         <div class="flex gap-2 flex-wrap" id="applied-arch-filters">
                             <button class="px-3 py-1.5 rounded text-sm font-medium bg-yellow-600 text-white transition"
-                                    data-filter-group="applied" data-filter-key="arch" data-filter-val="all"
-                                    onclick="setFilter('applied','arch','all')">All arches</button>
+                                    data-filter-group="applied" data-filter-key="arch" data-filter-val="all">All arches</button>
                             <button class="px-3 py-1.5 rounded text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
-                                    data-filter-group="applied" data-filter-key="arch" data-filter-val="x86_64"
-                                    onclick="setFilter('applied','arch','x86_64')">x86_64</button>
+                                    data-filter-group="applied" data-filter-key="arch" data-filter-val="x86_64">x86_64</button>
                             <button class="px-3 py-1.5 rounded text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
-                                    data-filter-group="applied" data-filter-key="arch" data-filter-val="arm64"
-                                    onclick="setFilter('applied','arch','arm64')">arm64</button>
+                                    data-filter-group="applied" data-filter-key="arch" data-filter-val="arm64">arm64</button>
                         </div>
                         <div class="flex gap-2 flex-wrap" id="applied-profile-filters">
                             <button class="px-3 py-1.5 rounded text-sm font-medium bg-yellow-600 text-white transition"
-                                    data-filter-group="applied" data-filter-key="profile" data-filter-val="all"
-                                    onclick="setFilter('applied','profile','all')">All baselines</button>
+                                    data-filter-group="applied" data-filter-key="profile" data-filter-val="all">All baselines</button>
                             <button class="px-3 py-1.5 rounded text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
-                                    data-filter-group="applied" data-filter-key="profile" data-filter-val="stig"
-                                    onclick="setFilter('applied','profile','stig')">DISA STIG</button>
+                                    data-filter-group="applied" data-filter-key="profile" data-filter-val="stig">DISA STIG</button>
                             <button class="px-3 py-1.5 rounded text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
-                                    data-filter-group="applied" data-filter-key="profile" data-filter-val="cis-l1"
-                                    onclick="setFilter('applied','profile','cis-l1')">CIS Level 1</button>
+                                    data-filter-group="applied" data-filter-key="profile" data-filter-val="cis-l1">CIS Level 1</button>
                             <button class="px-3 py-1.5 rounded text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
-                                    data-filter-group="applied" data-filter-key="profile" data-filter-val="cis-l2"
-                                    onclick="setFilter('applied','profile','cis-l2')">CIS Level 2</button>
+                                    data-filter-group="applied" data-filter-key="profile" data-filter-val="cis-l2">CIS Level 2</button>
                         </div>
                     </div>
                 </div>
@@ -466,7 +458,7 @@
                 </p>
             </div>
 
-            <!-- stigvalidated: decision 0062 point 4. Coming soon until its criteria hold: no figures,
+            <!-- stigvalidated: coming soon until its criteria hold: no figures,
                  no "verified" or "independently checked", no private repo links, kept out of the meta description. -->
             <div id="stigvalidated" class="bg-gray-800 rounded-xl border border-gray-700 p-6 mt-4 scroll-mt-24">
                 <h3 class="text-xl font-bold text-white mb-2">stigvalidated <span class="text-xs text-yellow-500 font-semibold uppercase tracking-widest ml-1">Coming soon</span></h3>
@@ -480,7 +472,7 @@
     <section id="pricing" class="py-20 px-4 bg-gray-800 border-t border-gray-700">
         <div class="max-w-4xl mx-auto text-center">
             <h2 class="text-3xl font-bold mb-3 text-white">Pricing</h2>
-            <p class="text-gray-400 mb-10">Software fee on top of your normal EC2 costs. StigReady Base is on <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk" class="text-yellow-500 hover:underline" rel="noopener noreferrer">AWS Marketplace</a>. StigReady Applied listings are coming soon, so its price below is the planned price.</p>
+            <p class="text-gray-400 mb-10">Software fee on top of your normal EC2 costs. StigReady Base and StigReady Applied are on <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk" class="text-yellow-500 hover:underline" rel="noopener noreferrer">AWS Marketplace</a> at the prices below.</p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <!-- Base -->
                 <div class="bg-gray-900 rounded-xl border border-gray-700 p-8 text-left">
@@ -512,7 +504,7 @@
                     </ul>
                 </div>
             </div>
-            <p class="text-sm text-gray-500">Annual contracts and Private Offers available. <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">Contact us</a> for early access, BYOL RHEL, volume pricing, or questions — or browse the <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk" class="text-yellow-500 hover:underline" rel="noopener noreferrer">seller profile</a>.</p>
+            <p class="text-sm text-gray-500">Annual contracts and Private Offers available. <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">Contact us</a> for BYOL RHEL, volume pricing, or questions — or browse the <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk" class="text-yellow-500 hover:underline" rel="noopener noreferrer">seller profile</a>.</p>
         </div>
     </section>
 
@@ -540,7 +532,7 @@
                 </div>
                 <div>
                     <dt class="font-semibold text-white mb-2">Are listings live on AWS Marketplace?</dt>
-                    <dd class="text-gray-400 text-sm">StigReady Base is: the <a href="#base-tier" class="text-yellow-500 hover:underline">Base catalog</a> links each image to its listing. StigReady Applied listings are coming soon. Watch our <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk" class="text-yellow-500 hover:underline" rel="noopener noreferrer">seller profile</a> or email <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">contact@stigready.com</a> for early access and Private Offers. We do not publish AMI IDs here.</dd>
+                    <dd class="text-gray-400 text-sm">Yes. StigReady Base (24 images) and StigReady Applied (56 images) are: the <a href="#base-tier" class="text-yellow-500 hover:underline">Base</a> and <a href="#applied-tier" class="text-yellow-500 hover:underline">Applied</a> catalogs link each image to its listing, or browse our <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk" class="text-yellow-500 hover:underline" rel="noopener noreferrer">seller profile</a>. Email <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">contact@stigready.com</a> for annual contracts and Private Offers. We do not publish AMI IDs here.</dd>
                 </div>
             </dl>
         </div>
@@ -565,7 +557,7 @@
             </div>
             <p class="text-center text-xs text-gray-600">&copy; 2026 StigReady. All rights reserved.</p>
             <p class="text-center text-xs text-gray-600 mt-3 max-w-3xl mx-auto">
-                Not affiliated with or endorsed by DISA, DoD, NIST, CIS, Red Hat, or Canonical. All trademarks are the property of their respective owners. Red Hat® and Red Hat Enterprise Linux® are trademarks of Red Hat, Inc. Ubuntu® is a trademark of Canonical Ltd. CIS® and CIS Benchmarks™ are trademarks of the Center for Internet Security, Inc. StigReady does not provide commercial licenses for Red Hat products.
+                Not affiliated with or endorsed by DISA, DoD, NIST, CIS, Red Hat, or Canonical. All trademarks are the property of their respective owners. Red Hat® and Red Hat Enterprise Linux® are trademarks of Red Hat, Inc. Ubuntu® is a trademark of Canonical Ltd. Amazon Linux is a trademark of Amazon.com, Inc. or its affiliates. Rocky Linux is a trademark of the Rocky Enterprise Software Foundation. AlmaLinux is a trademark of the AlmaLinux OS Foundation. Linux is the registered trademark of Linus Torvalds in the U.S. and other countries. CIS® and CIS Benchmarks™ are trademarks of the Center for Internet Security, Inc. StigReady does not provide commercial licenses for Red Hat products.
             </p>
         </div>
     </footer>
@@ -601,7 +593,7 @@
         }
     }
 
-    // Catalog and factory JSON are data from PRs: escape every field before it goes into innerHTML (claude-agents#155).
+    // Catalog and factory JSON are data from PRs: escape every field before it goes into innerHTML.
     function esc(v) {
         return String(v == null ? '' : v).replace(/[&<>"']/g, ch => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[ch]));
     }
@@ -703,8 +695,8 @@
         return '<span class="bg-sky-900 text-sky-300 px-1.5 py-0.5 rounded text-xs ml-1 font-semibold">BYOL</span>';
     }
 
-    // One availability story (claude-agents#154): a row links its AWS Marketplace listing only when catalog.json marks it
-    // available (publish-catalog.py does that only while the reconcile reports the listing Public on the current AMI)
+    // One availability story: a row links its AWS Marketplace listing only when catalog.json marks it
+    // available (publish-catalog.py does that while the reconcile reports the listing Public, delivering a StigReady release)
     // and the URL is an AWS Marketplace listing; every other row says "Coming soon".
     function availabilityCell(p) {
         const url = typeof p.marketplace_url === 'string' && p.marketplace_url.startsWith('https://aws.amazon.com/marketplace/pp/')
@@ -788,6 +780,11 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+        // The filter buttons carry data-filter-*; their click handlers attach here (the CSP admits page scripts only by hash).
+        document.querySelectorAll('button[data-filter-group]').forEach(btn => {
+            btn.addEventListener('click', () =>
+                setFilter(btn.dataset.filterGroup, btn.dataset.filterKey, btn.dataset.filterVal));
+        });
         loadCatalog();
         loadFactory();
         try { lucide.createIcons(); } catch (e) { console.error('lucide', e); }

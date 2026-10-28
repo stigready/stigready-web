@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 StigReady
+# SPDX-License-Identifier: LicenseRef-StigReady-Proprietary
 """Validate the published site before it reaches stigready.com.
 
 This repo had NO workflows and `required_status_checks: null` on `main`, so branch
@@ -8,7 +10,7 @@ this repo there was no check to be green. Anything committed went live.
 What is checked here is deliberately narrow — things that are objectively true or false
 about the published artefacts, not style:
 
-  1. every JSON and XML file parses (catalog.json drives the rendered catalog)
+  1. every JSON and XML file parses (catalog.json drives the rendered catalog), and no XML/SVG declares an entity
   2. catalog.json's shape: required keys, known availability values, sane scores
   3. AVAILABILITY DISCIPLINE — `availability: "available"` is the public "available" badge.
      It may only be set once a customer can actually
@@ -34,8 +36,12 @@ import json
 import re
 import subprocess
 import sys
-import xml.etree.ElementTree as ET
 from pathlib import Path
+
+# The site's XML/SVG is parsed without expanding entities: in a pull request run these files are the pull request's
+# own (stigready-web#57). Installed by the validate job from scripts/requirements-validate.txt.
+import defusedxml
+import defusedxml.ElementTree as DET
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -61,9 +67,11 @@ def check_parsers(files: list[Path]) -> None:
                 problems.append(f"{f.relative_to(ROOT)}: invalid JSON — {e}")
         elif f.suffix in {".xml", ".svg"}:
             try:
-                ET.parse(f)
-            except ET.ParseError as e:
+                DET.parse(f)
+            except DET.ParseError as e:
                 problems.append(f"{f.relative_to(ROOT)}: invalid XML — {e}")
+            except defusedxml.DefusedXmlException as e:
+                problems.append(f"{f.relative_to(ROOT)}: XML declares an entity or external reference, refused — {e}")
 
 
 def check_catalog() -> None:
