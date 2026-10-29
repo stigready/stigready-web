@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# SPDX-FileCopyrightText: 2026 StigReady
+# SPDX-License-Identifier: LicenseRef-StigReady-Proprietary
 # Node and the renderer's packages for check-copy-vs-marketplace.py (decision 0114), pinned.
 #
 #   scripts/render/setup.sh <render-dir> <node-dir>    prints the node binary's path on stdout

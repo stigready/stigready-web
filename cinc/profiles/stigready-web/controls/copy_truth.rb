@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 StigReady
+# SPDX-License-Identifier: MIT
 require 'base64'
 require 'fileutils'
 require 'json'

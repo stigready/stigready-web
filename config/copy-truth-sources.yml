@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 StigReady
+# SPDX-License-Identifier: LicenseRef-StigReady-Proprietary
 # Public copy the nightly drift watch (decision 0114 L3, job copy-drift-watch) reads besides stigready.com itself.
 # role_repos: each README's release must equal the repo's newest v* tag, and its availability and price sentences
 # must match the live Marketplace snapshot. pages: other public pages, read for availability sentences.

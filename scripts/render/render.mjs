@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2026 StigReady
+// SPDX-License-Identifier: LicenseRef-StigReady-Proprietary
 // Render the site's pages with their own scripts and styles, as a browser would, and report what a visitor can see
 // (decision 0114: copy is judged by what the page renders, not by strings in its source). stigready-web#70's lesson:
 // one token in availabilityCell or one CSS rule can hide every listing while the source still "looks" right.

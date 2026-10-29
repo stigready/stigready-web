@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 StigReady
+# SPDX-License-Identifier: LicenseRef-StigReady-Proprietary
 """Public copy must match production (claude-agents decision 0114).
 
 Modes:
