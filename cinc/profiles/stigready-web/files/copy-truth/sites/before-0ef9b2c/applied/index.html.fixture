@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R2J9HMP1XX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-R2J9HMP1XX');
+    </script>
+
+    <title>StigReady Applied — CIS Hardened AMI &amp; STIG AMI with OpenSCAP</title>
+    <meta name="description" content="CIS hardened AMI and STIG AMI images with published OpenSCAP scores and evidence. CIS L1/L2 or DISA STIG remediation on x86_64 and arm64 — Marketplace listings rolling out.">
+    <meta name="author" content="StigReady">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta name="theme-color" content="#0C2340">
+    <link rel="canonical" href="https://stigready.com/applied/">
+    <link rel="icon" type="image/png" href="https://stigready.com/assets/logo.png">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="StigReady">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:url" content="https://stigready.com/applied/">
+    <meta property="og:title" content="StigReady Applied — CIS Hardened AMI &amp; STIG AMI with OpenSCAP">
+    <meta property="og:description" content="CIS hardened AMI and STIG AMI images with published OpenSCAP scores and evidence. FIPS on STIG images.">
+    <meta property="og:image" content="https://stigready.com/assets/logo.png">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@Stigready">
+    <meta name="twitter:title" content="StigReady Applied — CIS Hardened AMI &amp; STIG AMI with OpenSCAP">
+    <meta name="twitter:description" content="CIS hardened AMI and STIG AMI images with published OpenSCAP scores and evidence. FIPS on STIG images.">
+    <meta name="twitter:image" content="https://stigready.com/assets/logo.png">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://stigready.com/applied/#webpage",
+          "name": "StigReady Applied — CIS Hardened AMI & STIG AMI with OpenSCAP",
+          "url": "https://stigready.com/applied/",
+          "description": "CIS hardened AMI and STIG AMI images with published OpenSCAP scores and evidence bundles on request.",
+          "isPartOf": {
+            "@type": "WebSite",
+            "name": "StigReady",
+            "url": "https://stigready.com/"
+          },
+          "about": {
+            "@type": "Organization",
+            "name": "StigReady",
+            "url": "https://stigready.com/",
+            "email": "contact@stigready.com"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://stigready.com/applied/#faq",
+          "isPartOf": { "@id": "https://stigready.com/applied/#webpage" },
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How much does StigReady Applied cost?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Applied is $0.08/hr or $649/yr per instance (software fee on top of EC2). Base is $0.02/hr or $149/yr if you only need the hardened foundation. The same rate applies to every instance type; it does not change with instance size."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What OpenSCAP evidence is included?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "OpenSCAP ARF, HTML report, POA&M, SBOM, and a CVE scan (except on RHEL 10) for every Applied image, available from support@stigready.com on request. Scores are measured in-build against the raw SSG profile. Not affiliated with or endorsed by DISA or DoD; not certified, authorized, or accredited."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is Applied available on AWS Marketplace?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Listings are rolling out. Watch the StigReady seller profile or contact contact@stigready.com for early access and Private Offers. Per-SKU listing URLs and AMI IDs are not published on this site."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <link rel="stylesheet" href="/assets/css/site.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gold { color: #C9A84C; }
+        .bg-navy { background-color: #0C2340; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col">
+        <nav class="bg-navy border-b border-gray-800 px-6 py-4 sticky top-0 z-20">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <a href="/" class="flex items-center space-x-3" aria-label="StigReady home">
+                <img src="/assets/logo.png" alt="StigReady" class="h-10 w-auto" width="40" height="40"/>
+                <span class="text-xl font-black tracking-wide"><span class="text-white">STIG</span><span class="gold">READY</span></span>
+            </a>
+            <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                <a href="/#base-tier" class="text-gray-300 hover:text-white transition">Base</a>
+                <a href="/#applied-tier" class="text-white">Applied</a>
+                <a href="/#stigforge" class="text-gray-300 hover:text-white transition">StigForge</a>
+                <a href="/blog/" class="text-gray-300 hover:text-white transition">Blog</a>
+                <a href="/#pricing" class="text-gray-300 hover:text-white transition">Pricing</a>
+                <a href="mailto:contact@stigready.com" class="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded-md font-semibold transition">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-1 py-20 px-4">
+        <div class="max-w-3xl mx-auto text-center">
+            <p class="text-xs text-yellow-500 font-semibold uppercase tracking-widest mb-3">StigReady Applied</p>
+            <h1 class="text-4xl md:text-5xl font-black mb-4 tracking-tight">
+                <span class="text-white">CIS hardened AMI &amp; STIG AMI</span><br/>
+                <span class="gold">with OpenSCAP proof</span>
+            </h1>
+            <p class="text-lg text-gray-300 mb-6 max-w-2xl mx-auto">
+                Full CIS Benchmark Level&nbsp;1/2 or DISA STIG remediation on the StigReady base —
+                scored in-build against the raw, unmodified SSG profile. The number your auditor
+                asks for, published with every image.
+            </p>
+            <p class="text-gray-400 mb-10 max-w-2xl mx-auto text-sm">
+                Evidence for every image (OpenSCAP ARF, HTML report, POA&amp;M, SBOM, and a CVE scan except on RHEL 10) is available from support@stigready.com on request.
+                FIPS mode enabled on STIG images using the OS vendor's FIPS cryptographic modules.
+                Software fee: <strong class="text-white">$0.08/hr</strong> or <strong class="text-white">$649/yr</strong> per instance.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mb-6">
+                <a href="/#applied-tier"
+                   class="bg-yellow-600 hover:bg-yellow-500 text-white px-8 py-3 rounded-md font-bold text-lg transition">
+                    View Applied scores
+                </a>
+                <a href="mailto:contact@stigready.com"
+                   class="bg-gray-700 hover:bg-gray-600 text-white px-8 py-3 rounded-md font-bold text-lg transition">
+                    Contact for early access
+                </a>
+            </div>
+            <p class="text-sm text-gray-500 mb-12">
+                AWS Marketplace listings are rolling out —
+                <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk" class="text-yellow-500 hover:underline" rel="noopener noreferrer">seller profile</a>
+                or <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">contact@stigready.com</a>
+                for early access and Private Offers.
+            </p>
+            <p class="text-sm text-gray-500">
+                Looking for the roles behind Applied remediation?
+                <a href="/#stigforge" class="text-yellow-500 hover:underline">StigForge</a>
+                — public CIS / STIG Ansible roles with published OpenSCAP scores.
+            </p>
+            <p class="text-sm text-gray-500 mt-4">
+                Looking for the minimal base instead?
+                <a href="/#base-tier" class="text-yellow-500 hover:underline">StigReady Base</a>
+                — STIG partition layout, SSH hardening, bring your own profiles.
+            </p>
+            <p class="text-xs text-gray-600 mt-8">
+                Formerly marketed as StigApplied. Same product line, one brand: StigReady.
+            </p>
+        </div>
+
+        <section id="faq" class="max-w-3xl mx-auto mt-16 pt-12 border-t border-gray-800 text-left">
+            <h2 class="text-2xl font-bold mb-6 text-white text-center">FAQ</h2>
+            <dl class="space-y-6">
+                <div>
+                    <dt class="font-semibold text-white mb-2">How much does Applied cost?</dt>
+                    <dd class="text-gray-400 text-sm"><strong class="text-white">$0.08/hr</strong> or <strong class="text-white">$649/yr</strong> per instance (on top of EC2), the same rate on every instance type. Need only the foundation? <a href="/#pricing" class="text-yellow-500 hover:underline">Base</a> is $0.02/hr or $149/yr.</dd>
+                </div>
+                <div>
+                    <dt class="font-semibold text-white mb-2">What OpenSCAP evidence is included?</dt>
+                    <dd class="text-gray-400 text-sm">ARF, HTML report, POA&amp;M, SBOM, and a CVE scan (except on RHEL 10), available from support@stigready.com on request — scored in-build against the raw SSG profile. Not affiliated with or endorsed by DISA or DoD; we do not claim certified, authorized, or accredited status.</dd>
+                </div>
+                <div>
+                    <dt class="font-semibold text-white mb-2">Is Applied on AWS Marketplace yet?</dt>
+                    <dd class="text-gray-400 text-sm">Listings are rolling out. Watch the <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk" class="text-yellow-500 hover:underline" rel="noopener noreferrer">seller profile</a> or email <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">contact@stigready.com</a> for early access. We do not publish per-SKU listing URLs or AMI IDs here.</dd>
+                </div>
+            </dl>
+        </section>
+    </main>
+
+    <footer class="bg-navy py-8 px-4 border-t border-gray-800">
+        <p class="text-center text-xs text-gray-600">&copy; 2026 StigReady. All rights reserved.</p>
+        <p class="text-center text-xs text-gray-600 mt-3 max-w-3xl mx-auto">
+            Not affiliated with or endorsed by DISA, DoD, NIST, CIS, Red Hat, or Canonical.
+            StigReady does not provide commercial licenses for Red Hat products.
+        </p>
+    </footer>
+</body>
+</html>

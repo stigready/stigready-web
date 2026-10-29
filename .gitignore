@@ -6,3 +6,9 @@ AGENTS.md
 
 # The validate job's virtualenv (.cairn.yml deps step).
 .ci-venv/
+
+# The renderer's packages (scripts/render, npm ci from package-lock.json).
+node_modules/
+
+# The renderer's Node and packages in CI (scripts/render/setup.sh).
+.render/
