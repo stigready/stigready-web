@@ -7,6 +7,7 @@
 # - web-validator-xml-entity-refused: a scratch repository holding validate-site.py and one SVG that declares an
 #   entity; the validator must exit 1 and name the SVG as refused. A plain SVG in the same scratch tree is not named.
 # The validator runs with the validate job's venv (.ci-venv, where the deps step installed defusedxml) when present.
+require 'json'
 require 'open3'
 require 'tmpdir'
 require 'fileutils'
@@ -24,17 +25,29 @@ VX_ENTITY_SVG = <<~SVG.freeze
 SVG
 VX_PLAIN_SVG = %(<svg xmlns="http://www.w3.org/2000/svg"><text>ok</text></svg>\n).freeze
 
-VX_OUT, VX_RC = Dir.mktmpdir('validator-xml') do |dir|
-  FileUtils.mkdir_p(File.join(dir, 'scripts'))
-  FileUtils.cp(VX_SCRIPT, File.join(dir, 'scripts')) if File.file?(VX_SCRIPT)
-  File.write(File.join(dir, 'entity.svg'), VX_ENTITY_SVG)
-  File.write(File.join(dir, 'plain.svg'), VX_PLAIN_SVG)
-  File.write(File.join(dir, 'index.html'), "<!doctype html>\n") # the validator reads the home page
-  Open3.capture2e('git', '-C', dir, 'init', '-q')
-  Open3.capture2e('git', '-C', dir, 'add', '-A')
-  out, st = Open3.capture2e(VX_PYTHON, File.join(dir, 'scripts', 'validate-site.py'))
-  [out, st.exitstatus]
+# stigready-web#84: the validator also requires catalog.json (check_catalog), so a scratch tree without one exits 1
+# whatever else is in it. The scratch tree carries a catalog.json (one row of the real one, so it follows
+# REQUIRED_KEYS), which makes the exit status mean what the control says: 1 only for the SVG's entity, 0 without it.
+VX_CATALOG_FILE = File.join(VX_ROOT, 'catalog.json')
+VX_CATALOG = JSON.generate('products' => JSON.parse(File.read(VX_CATALOG_FILE)).fetch('products').first(1)).freeze
+
+def vx_run(with_entity)
+  Dir.mktmpdir('validator-xml') do |dir|
+    FileUtils.mkdir_p(File.join(dir, 'scripts'))
+    FileUtils.cp(VX_SCRIPT, File.join(dir, 'scripts')) if File.file?(VX_SCRIPT)
+    File.write(File.join(dir, 'entity.svg'), VX_ENTITY_SVG) if with_entity
+    File.write(File.join(dir, 'plain.svg'), VX_PLAIN_SVG)
+    File.write(File.join(dir, 'catalog.json'), VX_CATALOG)
+    File.write(File.join(dir, 'index.html'), "<!doctype html>\n") # the validator reads the home page
+    Open3.capture2e('git', '-C', dir, 'init', '-q')
+    Open3.capture2e('git', '-C', dir, 'add', '-A')
+    out, st = Open3.capture2e(VX_PYTHON, File.join(dir, 'scripts', 'validate-site.py'))
+    [out, st.exitstatus]
+  end
 end
+
+VX_OUT, VX_RC = vx_run(true)
+VX_CLEAN_OUT, VX_CLEAN_RC = vx_run(false)
 
 control 'web-validator-xml-defused' do
   impact 1.0
@@ -61,6 +74,12 @@ control 'web-validator-xml-entity-refused' do
   describe 'its report' do
     subject { VX_OUT }
     it { should match(/entity\.svg: XML declares an entity or external reference, refused/) }
+    it { should match(/validate-site: 1 problem\(s\)/) }
     it { should_not match(/plain\.svg/) }
+    it { should_not match(/catalog\.json/) }
+  end
+  describe 'validate-site.py exit status on the same tree without the entity-bearing SVG' do
+    subject { VX_CLEAN_RC }
+    it { should eq 0 }
   end
 end
