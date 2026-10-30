@@ -4,5 +4,6 @@
 CLAUDE.md
 AGENTS.md
 
-# The validate job's virtualenv (.cairn.yml deps step).
-.ci-venv/
+# The validate job's virtualenv (.cairn.yml deps step). No trailing slash: a pattern ending in / never matches a
+# symlink, so a local .ci-venv link was once committed (stigready-web#84).
+.ci-venv
