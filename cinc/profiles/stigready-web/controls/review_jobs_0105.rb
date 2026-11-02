@@ -1,19 +1,21 @@
 # SPDX-FileCopyrightText: 2026 StigReady
 # SPDX-License-Identifier: MIT
-# Decision 0105 (claude-agents design/decisions/0105-review-jobs-carry-over-their-own-verdicts-after-a-train-update.md,
-# approved): review/security, review/marketing and review/qa come from Cairn review jobs on every pull request head, so a
-# head the merge train makes with update-branch gets its verdicts back from Cairn's own code (a carry-over when the
-# change's patch-id is unchanged), not from a person. Until the review key is in Vault the jobs are carry-over only
-# (0105 section 2): their base is the newest review/<role> by a base_identities login on an earlier head, and anything
-# that is not a clean carry-over is pending "full review needed", never success.
+# Decision 0105, as amended by 0116 (approved): review/security, review/marketing and review/qa come from Cairn review
+# jobs on every pull request head, so a head the merge train makes with update-branch gets its verdicts back from
+# Cairn's own code (a carry-over when the head's tree equals the reviewed head merged with main), not from a person.
+# Until the review key is in place the jobs are carry-over only (0105 section 2): their base is the newest
+# review/<role> by a base_identities login on an earlier head, and anything that is not a clean carry-over is pending
+# "full review needed", never success.
 #
-# What these controls keep, because each one is a way a review status could turn green without a review:
-#   - one job per context, a real review job (Cairn's code decides its status), the role's pinned 0100 agent;
+# What these controls keep, because each one is a way a review status could turn green without a review, or a way
+# this public repository could name a private one:
+#   - one job per context, a real review job (Cairn's code decides its status), naming its role (agent_role) and never
+#     an agent repository: Cairn's server config maps the role to the pinned agent (decision 0116 part 2), and the
+#     pipeline says public: true so Cairn refuses any repository it names;
 #   - nothing can skip it: no review.paths, no skip_branches, no if/run_on/needs, pull requests only. A skipped review
-#     reports success under the context, and a path filter pinned here could lag the train's public-facing list, which
-#     the train reads from claude-agents main on every run;
+#     reports success under the context, and a path filter pinned here could lag the merge train's public-facing list;
 #   - the carry-over rests on the right history: require names exactly the contexts branch protection requires here
-#     (the validate-history rule, #5168), and base_identities is only the 0100 interim poster;
+#     (the validate-history rule), and base_identities is only the 0100 interim poster;
 #   - advisory, with a timeout: a needs-review job fails, and must neither turn the aggregate red nor hold it.
 require 'yaml'
 
@@ -23,11 +25,11 @@ RJ0105_JOBS = Array(RJ0105_PIPELINE['jobs'])
 # The contexts branch protection requires on main here (stigready scripts/merge-train.py POLICY "expect").
 RJ0105_REQUIRED = %w[validate].freeze
 RJ0105_ROLES = {
-  'review/security' => 'config/agents/image-security.md',
-  'review/marketing' => 'config/agents/marketplace-legal.md',
-  'review/qa' => 'config/agents/build-qa.md',
+  'review/security' => 'security',
+  'review/marketing' => 'marketing',
+  'review/qa' => 'qa',
 }.freeze
-RJ0105_INTERIM_POSTER = 'sclark007' # claude-agents config/merge-rules.yml review_identities, the 0100 interim poster
+RJ0105_INTERIM_POSTER = 'sclark007' # the merge rules' review identity for this repo, the 0100 interim poster
 
 module ReviewJobs0105
   module_function
@@ -44,20 +46,25 @@ end
 
 control 'review-jobs-0105-01' do
   impact 1.0
-  title 'review/security, review/marketing and review/qa each come from exactly one Cairn review job with its 0100 agent'
-  desc 'Decision 0105 section 1: the verdict and its carry-over come from one job, one context and Cairn\'s app.'
-  RJ0105_ROLES.each do |ctx, agent|
+  title 'review/security, review/marketing and review/qa each come from exactly one Cairn review job naming its role'
+  desc 'Decision 0105 section 1: the verdict and its carry-over come from one job, one context and Cairn\'s app. ' \
+       'Decision 0116 part 2: the job names its role, never an agent repository, and the pipeline is public.'
+  describe 'the pipeline' do
+    subject { RJ0105_PIPELINE }
+    its(['public']) { should eq true }
+    it { should_not have_key 'include' }
+  end
+  RJ0105_ROLES.each do |ctx, role|
     jobs = ReviewJobs0105.jobs_for(ctx)
     describe "jobs reporting #{ctx}" do
       subject { jobs.size }
       it { should eq 1 }
     end
     review = (jobs.first || {})['review'] || {}
-    describe "#{ctx}: review.agent" do
-      subject { review['agent'] || {} }
-      its(['repo']) { should eq 'stigready/claude-agents' }
-      its(['ref']) { should match(/\A[0-9a-f]{40}\z/) }
-      its(['path']) { should eq agent }
+    describe "#{ctx}: review" do
+      subject { review }
+      its(['agent_role']) { should eq role }
+      it { should_not have_key 'agent' }
     end
     describe "#{ctx}: the job runs nothing of its own" do
       subject { (jobs.first || {}).keys }
@@ -75,7 +82,7 @@ control 'review-jobs-0105-02' do
   impact 1.0
   title 'Nothing can skip a review job on a pull request (a skipped review reports success)'
   desc 'No review.paths, no skip_branches, no if/run_on/needs, and pull requests only: no filter may skip a PR the ' \
-       'merge train treats as public-facing (claude-agents config/public-facing-paths.yml, read from main).'
+       'merge train treats as public-facing.'
   RJ0105_ROLES.each_key do |ctx|
     job = ReviewJobs0105.jobs_for(ctx).first || {}
     review = job['review'] || {}
