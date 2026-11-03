@@ -1,9 +1,9 @@
 # SPDX-FileCopyrightText: 2026 StigReady
 # SPDX-License-Identifier: MIT
-# claude-agents#152: every page loads its scripts from this site (pinned under assets/vendor/) and no stylesheet from a
+# Every page loads its scripts from this site (pinned under assets/vendor/) and no stylesheet from a
 # third party but Google Fonts, never the Tailwind Play CDN, never an @latest URL, and carries a Content-Security-Policy
-# meta tag whose script-src and style-src admit no other third party (stigready-web#67). Ported from validate-site.py
-# check 8 (decision 0003: CINC asserts, Python never does).
+# meta tag whose script-src and style-src admit no other third party. Ported from validate-site.py
+# check 8 (CINC asserts, Python never does).
 require 'digest'
 
 WEB_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..', '..'))
@@ -13,7 +13,7 @@ WEB_PAGES = Dir.chdir(WEB_ROOT) { IO.popen(%w[git ls-files -z -- *.html], &:read
 ALLOWED_SCRIPT_HOSTS = [].freeze
 # The one third-party stylesheet the site allows (Google Fonts, as the CSP's style-src names it).
 ALLOWED_STYLESHEET_HOSTS = ['https://fonts.googleapis.com/css2'].freeze
-# stigready-web#67: the only sources a page's CSP may give script-src and style-src. Keywords are matched as written
+# The only sources a page's CSP may give script-src and style-src. Keywords are matched as written
 # (lower case). script-src has no 'unsafe-inline': each inline script is admitted by its 'sha256-...' hash
 # (CSP_HASH_SOURCE, checked against the page by web-csp-inline-scripts-hashed). style-src keeps 'unsafe-inline' for
 # now (inline style attributes). The hosts are exactly ALLOWED_SCRIPT_HOSTS and ALLOWED_STYLESHEET_HOSTS. Anything
@@ -25,7 +25,7 @@ CSP_STYLE_SOURCES = ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'
 WEB_META = /<meta\b((?:[^>"']|"[^"]*"|'[^']*')*)>/i
 # A <script> or <link> start tag. A quoted attribute value may hold '>', so the tag ends at the first unquoted one.
 WEB_TAG = /<(script|link)\b((?:[^>"']|"[^"]*"|'[^']*')*)>/i
-# One attribute: double-quoted, single-quoted or unquoted value, or a bare name (stigready-web#67: the former
+# One attribute: double-quoted, single-quoted or unquoted value, or a bare name (the former
 # src="..." pattern let <script src='https://evil.example/x.js'> and src=https://... through).
 WEB_ATTR = /([^\s"'<>\/=]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/
 # A whole <script> element: its start-tag attributes and its text.
@@ -144,7 +144,7 @@ end
 control 'web-csp-on-every-page' do
   impact 1.0
   title 'Every page carries a Content-Security-Policy meta tag whose script-src and style-src admit no third party'
-  desc 'stigready-web#67 (review/security on #62): assert what the policy says, not only that the tag is present. ' \
+  desc 'Assert what the policy says, not only that the tag is present. ' \
        'script-src must be stated, with no third-party host, no * and no data:; ' \
        'style-src may add only fonts.googleapis.com. This closes the parser evasions the src/href controls miss, ' \
        'because the browser enforces the policy whatever the markup looks like.'
@@ -174,7 +174,7 @@ end
 control 'web-csp-inline-scripts-hashed' do
   impact 1.0
   title "Inline scripts run by hash, not 'unsafe-inline': each page's script-src lists exactly its inline scripts"
-  desc "stigready-web#67 (review/security on #62): with 'unsafe-inline' an injected inline script would run. Each " \
+  desc "With 'unsafe-inline' an injected inline script would run. Each " \
        "inline <script>'s sha256 must be in that page's script-src, no listed hash may be stale, and no element may " \
        'carry an inline event handler (the browser blocks them). After editing an inline script run ' \
        'scripts/csp-script-hashes.py --write.'
@@ -203,7 +203,7 @@ control 'web-csp-inline-scripts-hashed' do
   end
 end
 
-# stigready-web#76: the site runs no analytics, and its data-practices page says so. A Google Analytics or Tag Manager
+# The site runs no analytics, and its data-practices page says so. A Google Analytics or Tag Manager
 # loader, its dataLayer or gtag() call, or a CSP allowance for either must not come back.
 NO_TRACKING_MARKERS = {
   'googletagmanager' => /googletagmanager/i,
@@ -217,7 +217,7 @@ NO_TRACKING_MARKERS = {
 
 control 'web-no-analytics' do
   impact 1.0
-  title 'No page loads or allows Google Analytics or Tag Manager (stigready-web#76)'
+  title 'No page loads or allows Google Analytics or Tag Manager'
   desc 'The site runs no analytics and says so at /data-practices/. No page may carry a GA or GTM tag, loader, ' \
        'dataLayer, gtag() call or measurement id, nor a Content-Security-Policy allowance for their hosts.'
   WEB_PAGES.each do |rel|
