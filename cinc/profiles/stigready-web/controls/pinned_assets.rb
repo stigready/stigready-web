@@ -9,8 +9,8 @@ require 'digest'
 WEB_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..', '..'))
 # The published pages: every tracked .html file (git ls-files, as validate-site.py walks the tree).
 WEB_PAGES = Dir.chdir(WEB_ROOT) { IO.popen(%w[git ls-files -z -- *.html], &:read).split("\0").sort }
-# The one third-party script the site allows (Google Analytics); anything else is self-hosted.
-ALLOWED_SCRIPT_HOSTS = ['https://www.googletagmanager.com/gtag/js'].freeze
+# No third-party script is allowed: every script is self-hosted (the site runs no analytics).
+ALLOWED_SCRIPT_HOSTS = [].freeze
 # The one third-party stylesheet the site allows (Google Fonts, as the CSP's style-src names it).
 ALLOWED_STYLESHEET_HOSTS = ['https://fonts.googleapis.com/css2'].freeze
 # stigready-web#67: the only sources a page's CSP may give script-src and style-src. Keywords are matched as written
@@ -18,7 +18,7 @@ ALLOWED_STYLESHEET_HOSTS = ['https://fonts.googleapis.com/css2'].freeze
 # (CSP_HASH_SOURCE, checked against the page by web-csp-inline-scripts-hashed). style-src keeps 'unsafe-inline' for
 # now (inline style attributes). The hosts are exactly ALLOWED_SCRIPT_HOSTS and ALLOWED_STYLESHEET_HOSTS. Anything
 # else fails, including *, data:, blob:, a scheme alone (https:) and any other host.
-CSP_SCRIPT_SOURCES = ["'self'", 'https://www.googletagmanager.com'].freeze
+CSP_SCRIPT_SOURCES = ["'self'"].freeze
 CSP_HASH_SOURCE = %r{\A'sha256-[A-Za-z0-9+/]+=*'\z}
 CSP_STYLE_SOURCES = ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'].freeze
 # A <meta> start tag (same quoting rule as WEB_TAG).
@@ -145,7 +145,7 @@ control 'web-csp-on-every-page' do
   impact 1.0
   title 'Every page carries a Content-Security-Policy meta tag whose script-src and style-src admit no third party'
   desc 'stigready-web#67 (review/security on #62): assert what the policy says, not only that the tag is present. ' \
-       'script-src must be stated, with no third-party host but the allowed analytics one, no * and no data:; ' \
+       'script-src must be stated, with no third-party host, no * and no data:; ' \
        'style-src may add only fonts.googleapis.com. This closes the parser evasions the src/href controls miss, ' \
        'because the browser enforces the policy whatever the markup looks like.'
   WEB_PAGES.each do |rel|
@@ -200,5 +200,36 @@ control 'web-csp-inline-scripts-hashed' do
       subject { WebAssets.event_handlers(body) }
       it { should be_empty }
     end
+  end
+end
+
+# stigready-web#76: the site runs no analytics, and its data-practices page says so. A Google Analytics or Tag Manager
+# loader, its dataLayer or gtag() call, or a CSP allowance for either must not come back.
+NO_TRACKING_MARKERS = {
+  'googletagmanager' => /googletagmanager/i,
+  'google-analytics' => /google-analytics/i,
+  'analytics.google' => /analytics\.google/i,
+  'a gtag() call or loader' => /\bgtag\s*\(|gtag\/js/i,
+  'dataLayer' => /\bdataLayer\b/,
+  'a GA4 measurement id' => /['"]G-[A-Z0-9]{8,12}['"]|[?&]id=G-[A-Z0-9]{8,12}/,
+  'a GTM container id' => /\bGTM-[A-Z0-9]{5,8}\b/
+}.freeze
+
+control 'web-no-analytics' do
+  impact 1.0
+  title 'No page loads or allows Google Analytics or Tag Manager (stigready-web#76)'
+  desc 'The site runs no analytics and says so at /data-practices/. No page may carry a GA or GTM tag, loader, ' \
+       'dataLayer, gtag() call or measurement id, nor a Content-Security-Policy allowance for their hosts.'
+  WEB_PAGES.each do |rel|
+    NO_TRACKING_MARKERS.each do |name, pattern|
+      describe "#{rel} (#{name}: the site runs no analytics)" do
+        subject { WEB_BODIES[rel] }
+        it { should_not match pattern }
+      end
+    end
+  end
+  describe 'the data-practices page' do
+    subject { WEB_PAGES }
+    it { should include 'data-practices/index.html' }
   end
 end
