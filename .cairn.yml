@@ -1,6 +1,9 @@
 # Cairn pipeline: validates every commit and same-repo PR to main.
 version: 1
 name: stigready-web
+# This repository is public: no include or review agent here may name another repository (Cairn refuses one; decision
+# 0116 part 2), so the review jobs below name a role.
+public: true
 
 triggers:
   manual: true
@@ -88,3 +91,46 @@ jobs:
             run: cairn-scan yamllint
           - name: verdict
             run: cairn-scan verdict trivy gitleaks semgrep yamllint
+
+  # Decision 0105, as amended by 0116: the three decision-0100 reviews, one Cairn review job each, on every pull request
+  # head. Cairn's code, not a model, decides each status, under Cairn's app, so a head the merge train makes with
+  # update-branch gets its verdicts back without anyone posting them.
+  # The jobs name a role (agent_role), never a repository: this repository is public (public: true above), and Cairn's
+  # server config maps each role to its pinned agent and model (decision 0116 part 2).
+  # CARRY-OVER ONLY (0105 section 2) until the review key is in place: the model is never called. Success only when
+  # git merge-tree --write-tree <reviewed head> <current main> is clean and its tree equals the new head's tree (0116
+  # part 1), the newest review/<role> by a base_identities login on the reviewed head was success, and every require
+  # context was success there in Cairn's own runs. Anything else is pending "full review needed: <reason>", never
+  # success; the reviews are then done in full by hand (0100 interim).
+  # - No review.paths and no skip_branches: a skipped review reports success, and a filter pinned here could lag the
+  #   merge train's public-facing list, so no filter may skip a PR the train treats as public-facing. A PR that
+  #   touches no public-facing path sees these pending; the train does not gate on them.
+  # - advisory: a needs-review job fails, and must not turn the aggregate red. timeout bounds how long it can hold it.
+  # CINC review-jobs-0105-* keeps all of this.
+  - name: review-security
+    stage: review
+    advisory: true
+    status: review/security
+    timeout: 10m
+    review:
+      agent_role: security
+      require: [validate]
+      base_identities: [sclark007]
+  - name: review-marketing
+    stage: review
+    advisory: true
+    status: review/marketing
+    timeout: 10m
+    review:
+      agent_role: marketing
+      require: [validate]
+      base_identities: [sclark007]
+  - name: review-qa
+    stage: review
+    advisory: true
+    status: review/qa
+    timeout: 10m
+    review:
+      agent_role: qa
+      require: [validate]
+      base_identities: [sclark007]
