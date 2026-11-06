@@ -1,0 +1,14 @@
+# Owner approval keys (claude-agents decision 0114 section 2), OpenSSH allowed_signers format:
+#   owner@stigready namespaces="stigready-owner-approval" sk-ssh-ed25519@openssh.com AAAA... <comment>
+# Only FIDO2 key types (sk-ssh-ed25519@openssh.com, sk-ecdsa-sha2-nistp256@openssh.com) are read. The type alone proves
+# nothing: software can make an sk- key and signature. What protects the gate is that the key listed here is the
+# owner's own, held on the owner's security key, and that only the owner merges a change to this file.
+#
+# The copy-removal-gate check reads this file from the BASE branch, by git object, never from the pull request. Any
+# change to it (an edit, emptying it, deleting it, a symlink) is itself removal-class and needs a signature by a key
+# already listed here. While no key is listed, nothing can be approved, and every PR that withdraws a product fails.
+#
+# The first key: the owner creates it (a physical step) and merges the PR that adds it BY HAND (that PR fails
+# copy-removal-gate by design, since main lists no key yet):
+#   ssh-keygen -t ed25519-sk -O resident -O verify-required -C owner-approval
+#   then a PR adding:  owner@stigready namespaces="stigready-owner-approval" <contents of the .pub file>
