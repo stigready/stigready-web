@@ -18,7 +18,7 @@ ALLOWED_STYLESHEET_HOSTS = ['https://fonts.googleapis.com/css2'].freeze
 # (CSP_HASH_SOURCE, checked against the page by web-csp-inline-scripts-hashed). style-src keeps 'unsafe-inline' for
 # now (inline style attributes). The hosts are exactly ALLOWED_SCRIPT_HOSTS and ALLOWED_STYLESHEET_HOSTS. Anything
 # else fails, including *, data:, blob:, a scheme alone (https:) and any other host.
-CSP_SCRIPT_SOURCES = ["'self'", 'https://www.googletagmanager.com'].freeze
+CSP_SCRIPT_SOURCES = ["'self'", 'https://www.googletagmanager.com/gtag/js'].freeze
 CSP_HASH_SOURCE = %r{\A'sha256-[A-Za-z0-9+/]+=*'\z}
 CSP_STYLE_SOURCES = ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'].freeze
 # A <meta> start tag (same quoting rule as WEB_TAG).
