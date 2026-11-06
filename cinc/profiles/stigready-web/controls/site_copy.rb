@@ -133,6 +133,9 @@ APPLIED_NOT_LIVE_PHRASES = [
   /Marketplace\s+listings\s+coming\s+soon/i
 ].freeze
 APPLIED_COUNT_CLAIM = /(?:All\s+(\d+)\s+StigReady\s+Applied\s+images|StigReady\s+Applied\s+\((\d+)\s+images\))/
+# stigready-web#83: the same for Base. "StigReady Base (N images)" must equal the number of available `stigready` rows.
+COPY_BASE_AVAILABLE = COPY_CATALOG.fetch('products', []).count { |p| p['line'] == 'stigready' && p['availability'] == 'available' }
+BASE_COUNT_CLAIM = /StigReady\s+Base\s+\((\d+)\s+images\)/
 
 control 'web-applied-availability-story' do
   impact 1.0
@@ -150,6 +153,16 @@ control 'web-applied-availability-story' do
     end
     describe "#{rel} Applied counts stated in copy" do
       subject { COPY_BODIES[rel].scan(APPLIED_COUNT_CLAIM).flatten.compact.map(&:to_i).uniq - [COPY_APPLIED_AVAILABLE] }
+      it { should be_empty }
+    end
+  end
+  describe "catalog.json available Base rows" do
+    subject { COPY_BASE_AVAILABLE }
+    it { should be_positive }
+  end
+  COPY_PAGES.each do |rel|
+    describe "#{rel} Base counts stated in copy" do
+      subject { COPY_BODIES[rel].scan(BASE_COUNT_CLAIM).flatten.map(&:to_i).uniq - [COPY_BASE_AVAILABLE] }
       it { should be_empty }
     end
   end
