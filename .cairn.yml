@@ -102,9 +102,9 @@ jobs:
   # part 1), the newest review/<role> by a base_identities login on the reviewed head was success, and every require
   # context was success there in Cairn's own runs. Anything else is pending "full review needed: <reason>", never
   # success; the reviews are then done in full by hand (0100 interim).
-  # base_identities is [] (stigready/stigready#5569, after claude-agents decision 0159 took sclark007 off
-  # review_identities): no interim verdict is a base, so Cairn carries nothing over and a head the train updates waits
-  # for fresh reviewer-App verdicts (Apps are never a base: Cairn reads its own verdicts from its runs).
+  # base_identities is [] (decision 0159 took sclark007 off review_identities): no interim verdict is a base, so Cairn
+  # carries nothing over and a head the train updates waits for fresh reviewer-App verdicts (Apps are never a base:
+  # Cairn reads its own verdicts from its runs).
   # - No review.paths and no skip_branches: a skipped review reports success, and a filter pinned here could lag the
   #   merge train's public-facing list, so no filter may skip a PR the train treats as public-facing. A PR that
   #   touches no public-facing path sees these pending; the train does not gate on them.
