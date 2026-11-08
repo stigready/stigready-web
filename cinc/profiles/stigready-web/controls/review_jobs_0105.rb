@@ -15,7 +15,7 @@
 #   - nothing can skip it: no review.paths, no skip_branches, no if/run_on/needs, pull requests only. A skipped review
 #     reports success under the context, and a path filter pinned here could lag the merge train's public-facing list;
 #   - the carry-over rests on the right history: require names exactly the contexts branch protection requires here
-#     (the validate-history rule), and base_identities is only the 0100 interim poster;
+#     (the validate-history rule), and base_identities is empty: no interim verdict is a base (decision 0159);
 #   - advisory, with a timeout: a needs-review job fails, and must neither turn the aggregate red nor hold it.
 require 'yaml'
 
@@ -29,7 +29,8 @@ RJ0105_ROLES = {
   'review/marketing' => 'marketing',
   'review/qa' => 'qa',
 }.freeze
-RJ0105_INTERIM_POSTER = 'sclark007' # the merge rules' review identity for this repo, the 0100 interim poster
+# Decision 0159: no interim poster is a carry-over base. sclark007 is off
+# review_identities, and the reviewer App cannot be a base (Cairn: Apps are never a base), so base_identities is empty.
 
 module ReviewJobs0105
   module_function
@@ -107,9 +108,10 @@ end
 
 control 'review-jobs-0105-03' do
   impact 1.0
-  title 'Carry-over only rests on a green reviewed head and the interim poster, and never holds the aggregate'
+  title 'Carry-over only rests on Cairn\'s own green reviewed head, never an interim poster, and never holds the aggregate'
   desc 'Decision 0105 sections 1.3 and 2: require is every context branch protection requires; base_identities is ' \
-       'only the 0100 interim poster (never an App: Cairn reads its own verdicts from its runs); advisory with a timeout.'
+       'empty (decision 0159: no interim verdict is a carry-over base; never an App: Cairn reads its own ' \
+       'verdicts from its runs); advisory with a timeout.'
   RJ0105_ROLES.each_key do |ctx|
     job = ReviewJobs0105.jobs_for(ctx).first || {}
     review = job['review'] || {}
@@ -119,7 +121,7 @@ control 'review-jobs-0105-03' do
     end
     describe "#{ctx}: review.base_identities" do
       subject { review['base_identities'] }
-      it { should eq [RJ0105_INTERIM_POSTER] }
+      it { should eq [] }
     end
     describe "#{ctx}: advisory" do
       subject { job['advisory'] }
