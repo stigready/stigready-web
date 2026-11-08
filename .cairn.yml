@@ -102,6 +102,9 @@ jobs:
   # part 1), the newest review/<role> by a base_identities login on the reviewed head was success, and every require
   # context was success there in Cairn's own runs. Anything else is pending "full review needed: <reason>", never
   # success; the reviews are then done in full by hand (0100 interim).
+  # base_identities is [] (decision 0159 took sclark007 off review_identities): no interim verdict is a base, so Cairn
+  # carries over only its own full approve from its run store; a head without one waits for a fresh review (Apps are
+  # never a base).
   # - No review.paths and no skip_branches: a skipped review reports success, and a filter pinned here could lag the
   #   merge train's public-facing list, so no filter may skip a PR the train treats as public-facing. A PR that
   #   touches no public-facing path sees these pending; the train does not gate on them.
@@ -115,7 +118,7 @@ jobs:
     review:
       agent_role: security
       require: [validate]
-      base_identities: [sclark007]
+      base_identities: []
   - name: review-marketing
     stage: review
     advisory: true
@@ -124,7 +127,7 @@ jobs:
     review:
       agent_role: marketing
       require: [validate]
-      base_identities: [sclark007]
+      base_identities: []
   - name: review-qa
     stage: review
     advisory: true
@@ -133,4 +136,4 @@ jobs:
     review:
       agent_role: qa
       require: [validate]
-      base_identities: [sclark007]
+      base_identities: []
