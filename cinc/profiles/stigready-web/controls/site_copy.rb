@@ -17,7 +17,7 @@ COPY_AVAILABLE = COPY_CATALOG.fetch('products', []).count { |p| p['availability'
 
 # "CIS hardened AMI", "CIS Hardened Image(s)", any case or spacing (markup entities aside).
 CIS_PRODUCT_LABEL = /\bCIS\s+hardened\s+(?:AMIs?|images?)\b/i
-NON_AFFILIATION = 'Not affiliated with or endorsed by DISA, DoD, NIST, CIS, Red Hat, or Canonical.'
+NON_AFFILIATION = 'Not affiliated with or endorsed by DISA, DoD, NIST, CIS, Red Hat, Canonical, Amazon, the Rocky Enterprise Software Foundation, or the AlmaLinux OS Foundation.'
 CIS_TRADEMARK = 'CIS® and CIS Benchmarks™ are trademarks of the Center for Internet Security, Inc.'
 # stigready-web#72: every OS family catalog.json sells carries its trademark attribution on every page, in the wording
 # of the role-README notice (stigforge#216, generator/generate_role.py _OS_MARKS and _LINUX_MARK). Keyed by the start
