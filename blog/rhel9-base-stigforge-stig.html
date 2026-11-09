@@ -129,7 +129,7 @@ rhel9-base ansible_host=&lt;instance-ip&gt; ansible_user=ec2-user
                 <li>Score this host: <code>oscap xccdf eval --profile xccdf_org.ssgproject.content_profile_stig --results results.xml --report report.html /usr/share/xml/scap/ssg/content/ssg-rhel9-ds.xml</code>, after the reboot.</li>
                 <li>Published scores for the StigReady Applied image built with this role: <a href="/#applied-tier">stigready.com/#applied-tier</a> (the <a href="/#stigforge">StigForge table</a> names the role version each score was measured with)</li>
             </ul>
-            <p>The role repo ships no container score (container verification was retired because a container cannot evaluate most STIG rules). The number that counts is OpenSCAP against the raw SSG <code>stig</code> profile on <em>this</em> instance, after the reboot; that is also what StigReady publishes for the StigApplied image that bakes the same role.</p>
+            <p>The role repo ships no container score (container verification was retired because a container cannot evaluate most STIG rules). The number that counts is OpenSCAP against the raw SSG <code>stig</code> profile on <em>this</em> instance, after the reboot; that is also what StigReady publishes for the StigReady Applied image that bakes the same role.</p>
 
             <h2>Related</h2>
             <ul>
