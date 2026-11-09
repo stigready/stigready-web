@@ -77,12 +77,12 @@
         <article class="max-w-3xl mx-auto">
             <p class="text-xs text-gray-500 mb-3"><a href="/blog/" class="text-yellow-500 hover:underline">Blog</a> · 2026-11-16 · Hands-on</p>
             <h1 class="text-3xl md:text-4xl font-black text-white mb-6 tracking-tight">Check a hardened RHEL 9 STIG AMI <span class="gold">yourself</span></h1>
-            <p class="text-lg text-gray-300 mb-8">Each StigReady Applied listing shows an OpenSCAP score and the date it was measured. You do not have to take that number on trust. This how-to launches a StigReady Applied RHEL 9 DISA STIG image, sets your credentials, and runs the same scan on your own instance.</p>
+            <p class="text-lg text-gray-300 mb-8">The RHEL 9 DISA STIG listings show an OpenSCAP score and the date it was measured. You do not have to take that number on trust. This how-to launches a StigReady Applied RHEL 9 DISA STIG image, sets your credentials, and runs the same scan on your own instance.</p>
 
             <h2>Before you start</h2>
             <ul>
                 <li>A subscription to StigReady Applied RHEL 9 DISA STIG (FIPS mode), x86_64 or arm64. The <a href="/applied/">Applied catalog</a> links to each listing.</li>
-                <li>A Red Hat subscription for the instance. RHEL images are <strong class="text-white">BYOL</strong>. You need it to install the scanner with <code>dnf</code>.</li>
+                <li>A Red Hat subscription. RHEL images are <strong class="text-white">BYOL</strong>: you supply your own subscription to run RHEL on this instance, and to install packages with <code>dnf</code>.</li>
                 <li>An SSH key pair you control.</li>
             </ul>
             <p>Commands marked <em>(our script)</em> come from StigReady. Everything else is a standard RHEL or OpenSCAP command.</p>
@@ -110,7 +110,7 @@
                 <li>It sets a password for the user who ran it (or <code>--user NAME</code>), then removes <code>NOPASSWD</code> from sudoers. It checks sudoers with <code>visudo</code> and puts the old files back if the check fails. From then on, <code>sudo</code> asks for that password.</li>
                 <li>To run only some steps, pass <code>--grub</code>, <code>--root</code> or <code>--sudo</code>. <code>--help</code> prints the usage.</li>
             </ul>
-            <p>The script is plain bash at <code>/usr/sbin/stigready-set-credentials</code>. Read it before you run it: <code>sudo less /usr/sbin/stigready-set-credentials</code>.</p>
+            <p>The script is plain bash at <code>/usr/sbin/stigready-set-credentials</code>. Besides the passwords, it writes <code>/etc/cloud/cloud.cfg.d/99-stigready-sudo-password.cfg</code>, so cloud-init does not add <code>NOPASSWD</code> back for a new default user. Read it before you run it: <code>sudo less /usr/sbin/stigready-set-credentials</code>.</p>
             <p>If you skip this step, the boot loader, root and sudo password rules fail in your scan. The score on the listing counts them as failures too.</p>
 
             <h2>3. Install the scanner</h2>
@@ -136,7 +136,7 @@ unzip -o scap-security-guide-0.1.82.zip scap-security-guide-0.1.82/ssg-rhel9-ds.
   --report report.html \
   scap-security-guide-0.1.82/ssg-rhel9-ds.xml
 </code></pre>
-            <p>This is the command our build runs, with one difference described below. <code>oscap</code> exits 0 when every rule passes and 2 when some fail. Both mean the scan ran.</p>
+            <p>This is the command our build runs, with the differences described below. <code>oscap</code> exits 0 when every rule passes and 2 when some fail. Both mean the scan ran.</p>
             <p><strong class="text-white">Do not add <code>--remediate</code>.</strong> That flag changes the system to make rules pass, and then you are no longer measuring the image you launched. Our build never runs it, and a check on every change to our build fails if it comes back.</p>
             <p>Two things in our build differ from the plain command above:</p>
             <ul>
@@ -151,12 +151,13 @@ f=$(sudo grep -o '&lt;result&gt;fail&lt;/result&gt;' results.xml | wc -l)
 awk -v p="$p" -v f="$f" 'BEGIN { printf "pass=%d fail=%d score=%.1f%%\n", p, f, 100*p/(p+f) }'
 </code></pre>
             <p>Open <code>report.html</code> in a browser for each rule's result. Keep <code>arf.xml</code>: it is the full machine-readable result.</p>
-            <p>Compare your number with the score and date on the listing. That score counts every documented exemption as a failure. Rules that cannot apply to a cloud AMI, such as smartcard/CAC and remote log offload, fail in your scan as they did in ours. The evidence bundle lists each one with a POA&amp;M entry and the action left to you. POA&amp;M and SBOM available on request.</p>
+            <p>Compare your number with the score and date on the listing. That score counts every documented exemption as a failure. Exempted rules, such as smartcard/CAC, remote log offload and a few that would break a cloud instance, fail in your scan as they did in ours. The evidence bundle lists each one with a POA&amp;M entry and the action left to you. POA&amp;M and SBOM available on request.</p>
             <p>Your number can differ from ours. Setting your credentials passes rules that failed in our scan. Updates you install and changes you make after launch can move it either way. If the numbers differ and you cannot see why, <a href="mailto:contact@stigready.com">tell us</a>.</p>
 
             <h2>7. Leave the instance as you found it</h2>
             <p>Our build removes the scanner after it scans, so the image ships without it. To do the same:</p>
-<pre><code>sudo dnf remove -y openscap-scanner
+<pre><code>sudo dnf remove -y openscap-scanner unzip
+rm -rf ~/scap-security-guide-0.1.82*
 </code></pre>
 
             <h2>What this does and does not show</h2>
@@ -192,7 +193,7 @@ awk -v p="$p" -v f="$f" 'BEGIN { printf "pass=%d fail=%d score=%.1f%%\n", p, f, 
             </div>
             <p class="text-center text-xs text-gray-600">&copy; 2026 StigReady. All rights reserved.</p>
             <p class="text-center text-xs text-gray-600 mt-3 max-w-3xl mx-auto">
-                Not affiliated with or endorsed by DISA, DoD, NIST, CIS, Red Hat, or Canonical. All trademarks are the property of their respective owners. Red Hat® and Red Hat Enterprise Linux® are trademarks of Red Hat, Inc. Ubuntu® is a trademark of Canonical Ltd. Amazon Linux is a trademark of Amazon.com, Inc. or its affiliates. Rocky Linux is a trademark of the Rocky Enterprise Software Foundation. AlmaLinux is a trademark of the AlmaLinux OS Foundation. Linux is the registered trademark of Linus Torvalds in the U.S. and other countries. CIS® and CIS Benchmarks™ are trademarks of the Center for Internet Security, Inc. StigReady does not provide commercial licenses for Red Hat products.
+                Not affiliated with or endorsed by DISA, DoD, NIST, CIS, Red Hat, or Canonical. Not affiliated with or endorsed by Amazon Web Services (AWS). All trademarks are the property of their respective owners. Red Hat® and Red Hat Enterprise Linux® are trademarks of Red Hat, Inc. Ubuntu® is a trademark of Canonical Ltd. Amazon Linux is a trademark of Amazon.com, Inc. or its affiliates. AWS and AWS Marketplace are trademarks of Amazon.com, Inc. or its affiliates. Rocky Linux is a trademark of the Rocky Enterprise Software Foundation. AlmaLinux is a trademark of the AlmaLinux OS Foundation. Linux is the registered trademark of Linus Torvalds in the U.S. and other countries. CIS® and CIS Benchmarks™ are trademarks of the Center for Internet Security, Inc. StigReady does not provide commercial licenses for Red Hat products.
             </p>
         </div>
     </footer>
