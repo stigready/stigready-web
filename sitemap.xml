@@ -14,9 +14,15 @@
   </url>
   <url>
     <loc>https://stigready.com/blog/</loc>
-    <lastmod>2026-10-24</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://stigready.com/blog/check-rhel9-stig-ami-openscap.html</loc>
+    <lastmod>2026-11-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://stigready.com/blog/graviton-arm64-hardened-amis.html</loc>
