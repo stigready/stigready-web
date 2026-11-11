@@ -1,0 +1,14 @@
+# Marketplace snapshot keys (claude-agents decision 0114 section 1; security review of stigready-web#74),
+# OpenSSH allowed_signers format:
+#   snapshot@stigready namespaces="stigready-marketplace-snapshot" ssh-ed25519 AAAA... <comment>
+# The live/marketplace branch can be pushed by any repo writer, so copy-truth and copy-drift-watch trust
+# marketplace-live.json only with marketplace-live.json.sig, made by stigready's marketplace-live-snapshot job with
+# `ssh-keygen -Y sign -n stigready-marketplace-snapshot` and a private key only that job can read (Vault). Only
+# ssh-ed25519 lines with exactly that principal and namespace, and no cert-authority, count. verify-required and any
+# option other than valid-after/valid-before refuse the line, and the refusal is named.
+#
+# The checks read this file from their own tree (the base branch in pull request runs). It is a trust-root entry
+# (config/trust-root-paths); once stigready-web#96 lands, a change to it needs the owner's signature. While no key is
+# listed, copy-truth and copy-drift-watch exit 2 (production state unknown): both are advisory or unscheduled until
+# then. The first key is added only after stigready-web#96 has merged, by a PR that cites the fingerprint
+# (ssh-keygen -lf) of the Vault-held key.
