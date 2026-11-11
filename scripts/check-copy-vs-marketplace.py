@@ -10,16 +10,9 @@ Modes:
                   Public, a line is called "coming soon" while it has live-Public listings, a price differs from the
                   live price, a region is claimed that no live listing of that line has, or a row's version or name
                   differs from its live listing. A missing, unparseable or stale snapshot fails (fail closed).
-  --mode removal  (L2) The PR (--head-ref) against its base (--base-ref) in the git repository --repo, both RENDERED.
-                  Fails when a product moves down (purchasable > no claim > coming soon > absent), disappears, or
-                  loses a price or region claim in what the pages render, when a catalog page stops being evaluable,
-                  or when config/owner-signers or config/snapshot-signers changes in any way (edited, emptied, deleted,
-                  symlinked). Which file changed never decides: a stylesheet or script edit that withdraws nothing
-                  passes (decision 0173, amending 0114 L2). It passes only with an owner approval
-                  approvals/owner/<digest>.{txt,sig} whose message names this PR (--pr) and its merge base, signed by
-                  a key listed in config/owner-signers ON THE BASE that is also enrolled as an SSH signing key of the
-                  owner's GitHub account (OWNER_GITHUB_LOGIN). With no such key, nothing can be approved. A change to a
-                  signers file must be the PR's only withdrawal: it is never approved together with anything else.
+  --mode trust-root
+                  config/trust-root-paths (what judges pull requests) against config/trust-root.sha256: names every
+                  entry that differs (--write regenerates the manifest). L2, the removal gate, is a separate PR.
   --mode drift    (L3) Fetches the live site (--site-url, every page of its sitemap, the scripts and stylesheets they
                   load, and /catalog.json), the public role
                   READMEs and the stigvalidated pages (config/copy-truth-sources.yml), checks them against the
@@ -54,7 +47,6 @@ import json
 import os
 import re
 import subprocess
-import sys
 import tempfile
 import urllib.error
 import urllib.parse
@@ -62,25 +54,13 @@ import urllib.request
 from pathlib import Path
 
 SCHEMA = "stigready-marketplace-live/1"
-NAMESPACE = "stigready-owner-approval"
-SIGNER_ID = "owner@stigready"
-# Only FIDO2 key types are accepted. The type alone proves nothing (a software tool can make an sk- key and signature);
-# the protection is that the key listed on the base is the owner's own, held on the owner's security key, and that only
-# the owner merges a change to that list.
-SK_TYPES = ("sk-ssh-ed25519@openssh.com", "sk-ecdsa-sha2-nistp256@openssh.com")
-SIGNERS_PATH = "config/owner-signers"
 SNAPSHOT_SIGNERS_PATH = "config/snapshot-signers"
 SNAPSHOT_NAMESPACE = "stigready-marketplace-snapshot"
 SNAPSHOT_SIGNER_ID = "snapshot@stigready"
 SNAPSHOT_KEY_TYPES = ("ssh-ed25519",)
-# The owner's GitHub account. A key on the base counts only if this account also lists it as an SSH signing key, which
-# only someone signed in as the owner can add: the bootstrap is enforced without anyone merging by hand (decision 0173).
-OWNER_GITHUB_LOGIN = "sclark007"
-OWNER_KEYS_URL = f"https://api.github.com/users/{OWNER_GITHUB_LOGIN}/ssh_signing_keys"
 RENDERER = Path(__file__).resolve().parent / "render" / "render.mjs"
 # The snapshot key list of the tree this checker came from (the base, in the PR jobs).
 DEFAULT_SNAPSHOT_SIGNERS = Path(__file__).resolve().parent.parent / SNAPSHOT_SIGNERS_PATH
-MAX_APPROVAL_DAYS = 14
 REPO = "stigready/stigready-web"
 PP_PREFIX = "https://aws.amazon.com/marketplace/pp/"
 
@@ -95,7 +75,6 @@ PURCHASABLE_RE = re.compile(r"\b(?:is|are)\s+(?:now\s+)?(?:on|live\s+on|availabl
 PRICE_RE = re.compile(r"\$\s?(\d+(?:\.\d+)?)\s*(?:<[^>]*>\s*)*/\s*(hr|hour|yr|year)\b", re.I)
 REGION_RE = re.compile(r"\b(?:us|eu|ap|ca|sa|me|af|il|mx)-(?:gov-)?(?:east|west|north|south|central|northeast|"
                        r"northwest|southeast|southwest)-\d\b")
-STATE_RANK = {"purchasable": 3, "neutral": 2, "withheld": 1, "absent": 0}
 
 
 class CannotCheck(Exception):
@@ -536,81 +515,9 @@ def check_pr(site: dict, snap: dict) -> tuple[list[str], list[str]]:
     return fails, warns
 
 
-# --------------------------------------------------------------------------------------------------------------- L2
-
-def git(repo: Path, *args: str, binary: bool = False):
-    p = subprocess.run(["git", "-C", str(repo), *args], capture_output=True, timeout=120)
-    if p.returncode != 0:
-        raise CannotCheck(f"git {' '.join(args[:3])} failed: {p.stderr.decode(errors='replace').strip()[:200]}")
-    return p.stdout if binary else p.stdout.decode()
-
-
-def git_tree(repo: Path, ref: str, into: Path) -> Path:
-    """The tree of ref, from git objects (never the working directory). Links are left out: a page, stylesheet or
-    catalog that is a symlink is not part of the site (and config/owner-signers is read separately, by git_file)."""
-    import io
-    import tarfile
-
-    def no_links(member, path):
-        if member.issym() or member.islnk():
-            return None
-        return tarfile.data_filter(member, path)
-
-    data = git(repo, "archive", "--format=tar", ref, binary=True)
-    into.mkdir(parents=True, exist_ok=True)
-    # data_filter (inside no_links) refuses absolute and ../ paths; no_links drops every link.
-    with tarfile.open(fileobj=io.BytesIO(data)) as tf:  # nosemgrep
-        tf.extractall(into, filter=no_links)  # nosemgrep
-    return into
-
-
-def git_file(repo: Path, ref: str, path: str) -> tuple[str, str]:
-    """(state, text) of one path at ref, read from git objects: state is "file" for a regular file (mode 100644 or
-    100755), else "missing", "symlink", "submodule" or the mode. Only a regular file has text."""
-    out = git(repo, "ls-tree", "-z", ref, "--", path)
-    if not out:
-        return "missing", ""
-    mode, typ, oid = out.split("\t", 1)[0].split()
-    if mode in ("100644", "100755") and typ == "blob":
-        return "file", git(repo, "cat-file", "blob", oid)
-    return {"120000": "symlink", "160000": "submodule"}.get(mode, f"mode {mode}"), ""
-
+# -------------------------------------------------------------------------------------------------------- signatures
 
 HREF_RE = re.compile(r"""<(?:link|script)\b[^>]*\b(?:href|src)\s*=\s*["']([^"']+)["'][^>]*>""", re.I)
-
-
-def downgrades(base: dict, head: dict, signer_files: dict[str, tuple[tuple[str, str], tuple[str, str]]]) -> list[str]:
-    """What the PR withdraws, judged only by what base and head RENDER (never by which file changed: decision 0173),
-    plus any change to a signers file."""
-    out = []
-    for u in sorted(set(head.get("unevaluable") or []) - set(base.get("unevaluable") or [])):
-        out.append(f"catalog page cannot be evaluated: {u}")
-    for k, b in base["rows"].items():
-        h = head["rows"].get(k)
-        if h is None:
-            out.append(f"removed {ident_str(k)} (was {b['shown']})")
-        elif STATE_RANK[h["shown"]] < STATE_RANK[b["shown"]]:
-            out.append(f"downgraded {ident_str(k)} {b['shown']} -> {h['shown']}")
-    for kind, field in (("price", "unit"), ("region", "region")):
-        had = {(c["line"], c[field]) for c in base["claims"] if c["kind"] == kind and c["line"]}
-        has = {(c["line"], c[field]) for c in head["claims"] if c["kind"] == kind and c["line"]}
-        for ln, what in sorted(had - has):
-            out.append(f"removed {kind} claim {LINES.get(ln, ln)} {what}")
-    for path, (b, h) in sorted(signer_files.items()):
-        if b != h:
-            out.append(f"changed {path} ({h[0] if h[0] != 'file' else 'edited'})")
-    return sorted(out)
-
-
-def approval_digest(items: list[str], pr: str, base_sha: str) -> str:
-    return hashlib.sha256(f"{REPO}\n{pr}\n{base_sha}\n".encode() + "\n".join(items).encode()).hexdigest()
-
-
-def approval_message(items: list[str], pr: str, base_sha: str, expires: str) -> tuple[str, str]:
-    digest = approval_digest(items, pr, base_sha)
-    msg = (f"{NAMESPACE} v2\nrepo: {REPO}\npr: {pr}\nbase: {base_sha}\ndigest: {digest}\nexpires: {expires}\n"
-           + "".join(f"- {i}\n" for i in items))
-    return digest, msg
 
 
 def _split_unquoted(text: str, seps: str) -> list[str]:
@@ -673,57 +580,6 @@ def allowed_signers(text: str, principal: str, namespace: str, key_types: tuple[
     return "\n".join(keep) + ("\n" if keep else ""), refused
 
 
-def sk_signers(text: str) -> tuple[str, list[str]]:
-    """The owner keys in config/owner-signers that count: FIDO2 (sk-) types with verify-required, no cert-authority."""
-    return allowed_signers(text, SIGNER_ID, NAMESPACE, SK_TYPES, require_verify=True)
-
-
-def owner_enrolled(allowed: str) -> str:
-    """The lines of `allowed` whose key the owner's GitHub account lists as an SSH signing key. Only someone signed in
-    as the owner can add one, and agents never use that account: this is what makes the first key the owner's.
-    An unreadable answer is exit 2, never a pass."""
-    try:
-        keys = json.loads(_get(OWNER_KEYS_URL))
-        enrolled = {tuple(str(k.get("key", "")).split()[:2]) for k in keys if isinstance(k, dict)}
-    except (ValueError, AttributeError, TypeError) as exc:
-        raise CannotCheck(f"{OWNER_KEYS_URL}: unreadable ({type(exc).__name__})") from exc
-    keep = [ln for ln in allowed.splitlines() if tuple(ln.split()[-2:]) in enrolled]
-    return "\n".join(keep) + ("\n" if keep else "")
-
-
-UP, UV = 0x01, 0x04
-
-
-def sk_flags(sig: Path) -> int | None:
-    """The authenticator flags of an SSHSIG made by a FIDO2 (sk-) key, or None if it is not one or cannot be read."""
-    import base64
-    import struct
-    try:
-        armored = sig.read_text(encoding="ascii")
-        body = "".join(ln for ln in armored.splitlines() if ln and not ln.startswith("-----"))
-        raw = base64.b64decode(body, validate=True)
-        if raw[:6] != b"SSHSIG":
-            return None
-        pos = 10  # magic and version
-
-        def take():
-            nonlocal pos
-            (n,) = struct.unpack(">I", raw[pos:pos + 4])
-            out = raw[pos + 4:pos + 4 + n]
-            if len(out) != n:
-                raise ValueError("short")
-            pos += 4 + n
-            return out
-        for _ in range(4):  # public key, namespace, reserved, hash algorithm
-            take()
-        blob = take()
-        pos, raw = 0, blob
-        if not take().startswith(b"sk-"):
-            return None
-        take()  # the signature itself
-        return raw[pos] if pos < len(raw) else None
-    except (OSError, ValueError, UnicodeDecodeError, struct.error):
-        return None
 
 
 def ssh_verify(allowed: str, principal: str, namespace: str, sig: Path, data: bytes) -> tuple[bool, str]:
@@ -733,65 +589,6 @@ def ssh_verify(allowed: str, principal: str, namespace: str, sig: Path, data: by
         p = subprocess.run(["ssh-keygen", "-Y", "verify", "-f", str(af), "-I", principal, "-n", namespace,
                             "-s", str(sig)], input=data, capture_output=True, timeout=30)
     return p.returncode == 0, p.stderr.decode(errors="replace").strip()[:200]
-
-
-def verify_approval(head_root: Path, items: list[str], pr: str, base_sha: str, base_signers: str,
-                    today: dt.date) -> tuple[bool, str]:
-    allowed, refused = sk_signers(base_signers)
-    if not allowed:
-        return False, (f"{SIGNERS_PATH} on the base lists no owner key, so nothing can be approved"
-                       + (f" (refused: {'; '.join(refused)})" if refused else "") + ". The first key "
-                       "counts once it is on main and enrolled as a signing key of the owner's GitHub account "
-                       "(approvals/owner/README.md)")
-    digest = approval_digest(items, pr, base_sha)
-    txt = head_root / "approvals" / "owner" / f"{digest}.txt"
-    sig = head_root / "approvals" / "owner" / f"{digest}.sig"
-    if not (txt.is_file() and sig.is_file()) or txt.is_symlink() or sig.is_symlink():
-        return False, (f"no owner approval for PR {pr} on base {base_sha[:12]}: approvals/owner/{digest}.txt and "
-                       ".sig are not in the PR")
-    body = txt.read_text(encoding="utf-8")
-    m = re.search(r"^expires: (\d{4}-\d{2}-\d{2})$", body, re.M)
-    if not m:
-        return False, f"approvals/owner/{digest}.txt has no expires: line"
-    expires = dt.date.fromisoformat(m.group(1))
-    if expires < today or (expires - today).days > MAX_APPROVAL_DAYS:
-        return False, f"approval expires {expires}: must be between today and {MAX_APPROVAL_DAYS} days out"
-    _, want = approval_message(items, pr, base_sha, m.group(1))
-    if body != want:
-        return False, f"approvals/owner/{digest}.txt is not the canonical message for this change"
-    enrolled = owner_enrolled(allowed)
-    if not enrolled:
-        return False, (f"no key in {SIGNERS_PATH} on the base is enrolled as an SSH signing key of the owner's GitHub "
-                       f"account ({OWNER_GITHUB_LOGIN}), so nothing can be approved (approvals/owner/README.md)")
-    ok, err = ssh_verify(enrolled, SIGNER_ID, NAMESPACE, sig, body.encode())
-    if not ok:
-        return False, f"owner signature does not verify: {err}"
-    flags = sk_flags(sig)
-    if flags is None or not (flags & UP and flags & UV):
-        return False, ("owner signature does not verify: the key is listed verify-required, but the signature was made "
-                       "without user verification (a PIN)")
-    return True, f"owner approval {digest[:12]} for PR {pr} on base {base_sha[:12]} verifies, expires {expires}"
-
-
-def removal_items(repo: Path, base_ref: str, head_ref: str, work: Path, node: str, renderer: Path):
-    base_root = git_tree(repo, base_ref, work / "base")
-    head_root = git_tree(repo, head_ref, work / "head")
-    base_site, head_site = load_site(base_root, node, renderer), load_site(head_root, node, renderer)
-    files = {path: (git_file(repo, base_ref, path), git_file(repo, head_ref, path))
-             for path in (SIGNERS_PATH, SNAPSHOT_SIGNERS_PATH)}
-    items = downgrades(base_site, head_site, files)
-    base_sha = git(repo, "merge-base", base_ref, head_ref).strip()
-    return items, base_sha, files[SIGNERS_PATH][0], head_root
-
-
-def signers_not_alone(items: list[str]) -> str | None:
-    """A signers change is never approved together with anything else: the PR that changes who may sign, or which key
-    signs the snapshot, may withdraw nothing, so no key is ever added and relied on in one change."""
-    sig = [i for i in items if i.startswith(("changed " + SIGNERS_PATH, "changed " + SNAPSHOT_SIGNERS_PATH))]
-    if sig and len(sig) < len(items):
-        return (f"this PR changes {', '.join(sorted({i.split()[1] for i in sig}))} and also withdraws something: a "
-                "signers change must be its own PR, so it cannot be approved together with anything else")
-    return None
 
 
 # ------------------------------------------------------------------------------------------------------- trust root
@@ -1046,19 +843,15 @@ def _report(title: str, fails: list[str], warns: list[str], extra: list[str]) ->
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--mode", choices=["pr", "removal", "drift", "approval-message", "trust-root"], required=True)
+    ap.add_argument("--mode", choices=["pr", "drift", "trust-root"], required=True)
     ap.add_argument("--site", type=Path, default=Path("."), help="pr: the site checkout to check (the PR head)")
-    ap.add_argument("--repo", type=Path, default=Path("."), help="removal: the git repository")
-    ap.add_argument("--base-ref", help="removal: the base (origin/main)")
-    ap.add_argument("--head-ref", default="HEAD", help="removal: the PR head")
-    ap.add_argument("--pr", help="removal: the PR number ($CAIRN_PR)")
+    ap.add_argument("--repo", type=Path, default=Path("."), help="trust-root: the tree to check")
     ap.add_argument("--snapshot", type=Path, help="pr/drift: marketplace-live.json")
     ap.add_argument("--snapshot-sig", type=Path, help="pr/drift: its signature (default: <snapshot>.sig)")
     ap.add_argument("--snapshot-signers", type=Path, default=DEFAULT_SNAPSHOT_SIGNERS,
                     help=f"pr/drift: the snapshot keys (default: {SNAPSHOT_SIGNERS_PATH} of this checker's tree)")
     ap.add_argument("--max-age-hours", type=float, default=26.0)
-    ap.add_argument("--now", help="ISO time to judge snapshot age and approval expiry by (fixtures)")
-    ap.add_argument("--expires", help="approval-message: YYYY-MM-DD")
+    ap.add_argument("--now", help="ISO time to judge snapshot age by (fixtures)")
     ap.add_argument("--node", default=os.environ.get("COPY_TRUTH_NODE") or "node", help="the Node binary")
     ap.add_argument("--renderer", type=Path, default=RENDERER)
     ap.add_argument("--site-url", default="https://stigready.com")
@@ -1102,38 +895,6 @@ def main(argv=None) -> int:
             emit(_report("copy-truth (decision 0114 L1)", fails, warns,
                          [f"Snapshot generated {snap['generated']}, {n} live Public listings."]))
             return 1 if fails else 0
-
-        if a.mode in ("removal", "approval-message"):
-            if not a.base_ref or not a.pr or not re.fullmatch(r"\d+", a.pr):
-                raise CannotCheck("--base-ref and a numeric --pr are required")
-            with tempfile.TemporaryDirectory() as d:
-                items, base_sha, (bstate, btext), head_root = removal_items(
-                    a.repo, a.base_ref, a.head_ref, Path(d), a.node, a.renderer)
-                if a.mode == "approval-message":
-                    if not items:
-                        print("nothing to approve: no product, price, region or signer change", file=sys.stderr)
-                        return 1
-                    digest, msg = approval_message(items, a.pr, base_sha,
-                                                   a.expires or (now.date() + dt.timedelta(days=7)).isoformat())
-                    sys.stdout.write(msg)
-                    print(f"\nsave as approvals/owner/{digest}.txt, then: ssh-keygen -Y sign -f <your sk key> "
-                          f"-n {NAMESPACE} approvals/owner/{digest}.txt && mv approvals/owner/{digest}.txt.sig "
-                          f"approvals/owner/{digest}.sig", file=sys.stderr)
-                    return 0
-                title = "copy-removal-gate (decision 0114 L2)"
-                if not items:
-                    emit(_report(title, [], [], ["Nothing is withdrawn from what the site renders, and the signers "
-                                                 "are unchanged."]))
-                    return 0
-                why = signers_not_alone(items)
-                ok = False
-                if why is None:
-                    ok, why = verify_approval(head_root, items, a.pr, base_sha, btext if bstate == "file" else "",
-                                              now.date())
-            emit(_report(title, [] if ok else items, [],
-                         [why, "", "Generate the message to sign with `--mode approval-message` "
-                               "(approvals/owner/README.md)."]))
-            return 0 if ok else 1
 
         # drift
         if not a.snapshot:

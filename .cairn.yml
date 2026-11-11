@@ -75,15 +75,15 @@ jobs:
 
   # Decision 0114 (claude-agents): public copy must match production. stigready-web#70 showed all 56 StigReady Applied
   # products as "Coming soon" while all 56 were Public on AWS Marketplace, and every review passed because each compared
-  # the copy with catalog.json. Both PR checks take the checker, the renderer (scripts/render: Node v24.21.0 and jsdom
-  # 30.1.1, pinned) and the signers from origin/$CAIRN_BASE_REF, never from the PR, so a PR cannot change what judges
+  # the copy with catalog.json. The PR check takes the checker, the renderer (scripts/render: Node v24.21.0 and jsdom
+  # 30.1.1, pinned) and the snapshot keys from origin/$CAIRN_BASE_REF, never from the PR, so a PR cannot change what judges
   # it. Pages are judged by what they RENDER: each page's own scripts and styles run against its catalog.json, and a
-  # product counts as purchasable only if a visible link to its listing is rendered. CINC web-copy-truth-01..04.
+  # product counts as purchasable only if a visible link to its listing is rendered. CINC web-copy-truth-01..08.
   #
   # L1 copy-truth: the PR's site against the live Marketplace snapshot. PR runs get no AWS credentials (Cairn), so the
   # snapshot is the file stigready's marketplace-live-snapshot job (marketplace-ro) writes to this repo's
   # live/marketplace branch. Any repo writer can push that branch, so the snapshot counts only with its signature
-  # (marketplace-live.json.sig) by a key in the base's config/snapshot-signers (decision 0173). A missing, unsigned,
+  # (marketplace-live.json.sig) by a key in the base's config/snapshot-signers (0114 section 1; #74 security review). A missing, unsigned,
   # badly signed, empty or >26 h old snapshot exits 2 (production state unknown).
   # ADVISORY until that job has run under its cairn-server.yml grant and written the branch: then drop `advisory`
   # and add copy-truth to main's required contexts. Prices only warn until cairn-marketplace-ro can read Offers.
@@ -114,38 +114,6 @@ jobs:
                 --renderer "$t/base/scripts/render/render.mjs" \
                 --snapshot "$t/marketplace-live.json" --snapshot-signers "$t/base/config/snapshot-signers" \
                 --out copy-truth/report.md
-
-  # L2 copy-removal-gate: the PR head against the base, both read from git objects and both RENDERED. Fails when a
-  # product moves down (purchasable > no claim > coming soon > not shown), disappears, or loses a price or region claim
-  # in what the pages render; or when config/owner-signers or config/snapshot-signers changes in any way (edited,
-  # emptied, deleted, symlinked). Which file changed never decides: a site.css or script edit that withdraws nothing
-  # passes (decision 0173). It passes only with approvals/owner/<digest>.{txt,sig} over this PR number and its merge
-  # base, signed by a key listed in config/owner-signers ON THE BASE that the owner's GitHub account also lists as an
-  # SSH signing key (approvals/owner/README.md). A signers change must be the PR's only withdrawal.
-  # ADVISORY while config/owner-signers lists no key (nothing could be approved, so a red gate would only block): CINC
-  # web-copy-truth-04 fails once a key is listed and this is still advisory. Then drop `advisory` and add it to main's
-  # branch protection pinned to the Cairn app, as validate is: required_status_checks.checks += {context:
-  # copy-removal-gate, app_id: 5393122}. Unpinned, a repo admin could post the status itself.
-  - name: copy-removal-gate
-    stage: verify
-    when: pull_request
-    advisory: true
-    status: copy-removal-gate
-    timeout: 15m
-    run:
-      exec:
-        steps:
-          - name: gate
-            run: |-
-              set -eu
-              t=$(mktemp -d)
-              mkdir -p "$t/base"
-              git archive "origin/${CAIRN_BASE_REF:?}" | tar -x -C "$t/base"
-              node=$(bash "$t/base/scripts/render/setup.sh" "$t/base/scripts/render" "$t/node")
-              echo "renderer: $("$node" --version) at $node"
-              python3 -I "$t/base/scripts/check-copy-vs-marketplace.py" --mode removal --node "$node" \
-                --renderer "$t/base/scripts/render/render.mjs" \
-                --repo . --base-ref "origin/${CAIRN_BASE_REF:?}" --head-ref HEAD --pr "${CAIRN_PR:?}"
 
   # L3 copy-drift-watch: nightly (schedule copy-drift), read-only. Fetches stigready.com live (sitemap pages, the scripts
   # and stylesheets they load, /catalog.json), renders it, checks it against the live snapshot (at most 2 h old), and
