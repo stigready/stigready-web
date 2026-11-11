@@ -4,7 +4,9 @@ A pull request may withdraw something from the site only with the owner's signed
 check renders the site at the base and at the PR head and compares what a visitor sees. An approval is needed when a
 product is shown as less available (purchasable, then no claim, then coming soon, then not shown), a product, price or
 region claim disappears, a catalog page can no longer be evaluated, or `config/owner-signers` or
-`config/snapshot-signers` changes. Which file changed does not matter on its own: a stylesheet or script edit that
+`config/snapshot-signers` changes, or anything listed in `config/trust-root-paths` changes (the checker, the
+renderer, the copy-* jobs and their controls: what judges the next pull request). Otherwise which file changed does not
+matter on its own: a stylesheet or script edit that
 withdraws nothing passes. The check lists the withdrawals and names the files it wants.
 
 The approval is bound to this pull request's number and its merge base. It cannot be reused on another pull

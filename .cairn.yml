@@ -118,8 +118,9 @@ jobs:
   # L2 copy-removal-gate: the PR head against the base, both read from git objects and both RENDERED. Fails when a
   # product moves down (purchasable > no claim > coming soon > not shown), disappears, or loses a price or region claim
   # in what the pages render; or when config/owner-signers or config/snapshot-signers changes in any way (edited,
-  # emptied, deleted, symlinked). Which file changed never decides: a site.css or script edit that withdraws nothing
-  # passes (decision 0173). It passes only with approvals/owner/<digest>.{txt,sig} over this PR number and its merge
+  # emptied, deleted, symlinked), or when an entry of the base's config/trust-root-paths changes (the checker, the
+  # renderer, the copy-* jobs, the copy-truth controls). Otherwise which file changed never decides: a site.css or
+  # script edit that withdraws nothing passes (decision 0173). It passes only with approvals/owner/<digest>.{txt,sig} over this PR number and its merge
   # base, signed by a key listed in config/owner-signers ON THE BASE that the owner's GitHub account also lists as an
   # SSH signing key (approvals/owner/README.md). A signers change must be the PR's only withdrawal.
   # ADVISORY while config/owner-signers lists no key (nothing could be approved, so a red gate would only block): CINC

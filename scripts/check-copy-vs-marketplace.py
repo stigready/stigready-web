@@ -18,8 +18,10 @@ Modes:
                   passes (decision 0173, amending 0114 L2). It passes only with an owner approval
                   approvals/owner/<digest>.{txt,sig} whose message names this PR (--pr) and its merge base, signed by
                   a key listed in config/owner-signers ON THE BASE that is also enrolled as an SSH signing key of the
-                  owner's GitHub account (OWNER_GITHUB_LOGIN). With no such key, nothing can be approved. A change to a
-                  signers file must be the PR's only withdrawal: it is never approved together with anything else.
+                  owner's GitHub account (OWNER_GITHUB_ID). With no such key, nothing can be approved. A change to a
+                  signers file must be the PR's only withdrawal: it is never approved together with anything else. Any
+                  change to an entry of the base's config/trust-root-paths (the checker, the renderer, the copy-* jobs,
+                  the copy-truth controls) is removal-class too.
   --mode drift    (L3) Fetches the live site (--site-url, every page of its sitemap, the scripts and stylesheets they
                   load, and /catalog.json), the public role
                   READMEs and the stigvalidated pages (config/copy-truth-sources.yml), checks them against the
@@ -73,10 +75,11 @@ SNAPSHOT_SIGNERS_PATH = "config/snapshot-signers"
 SNAPSHOT_NAMESPACE = "stigready-marketplace-snapshot"
 SNAPSHOT_SIGNER_ID = "snapshot@stigready"
 SNAPSHOT_KEY_TYPES = ("ssh-ed25519",)
-# The owner's GitHub account. A key on the base counts only if this account also lists it as an SSH signing key, which
-# only someone signed in as the owner can add: the bootstrap is enforced without anyone merging by hand (decision 0173).
-OWNER_GITHUB_LOGIN = "sclark007"
-OWNER_KEYS_URL = f"https://api.github.com/users/{OWNER_GITHUB_LOGIN}/ssh_signing_keys"
+# The owner's GitHub account, by its immutable numeric id (a login can be renamed, then registered by someone else). A
+# key on the base counts only if this account also lists it as an SSH signing key, which only someone signed in as the
+# owner can add: the bootstrap is enforced without anyone merging by hand (decision 0173).
+OWNER_GITHUB_ID = 3875022
+OWNER_USER_URL = f"https://api.github.com/user/{OWNER_GITHUB_ID}"
 RENDERER = Path(__file__).resolve().parent / "render" / "render.mjs"
 # The snapshot key list of the tree this checker came from (the base, in the PR jobs).
 DEFAULT_SNAPSHOT_SIGNERS = Path(__file__).resolve().parent.parent / SNAPSHOT_SIGNERS_PATH
@@ -683,10 +686,18 @@ def owner_enrolled(allowed: str) -> str:
     as the owner can add one, and agents never use that account: this is what makes the first key the owner's.
     An unreadable answer is exit 2, never a pass."""
     try:
-        keys = json.loads(_get(OWNER_KEYS_URL))
+        user = json.loads(_get(OWNER_USER_URL))
+        uid, login = user.get("id"), user.get("login")
+    except (ValueError, AttributeError, TypeError) as exc:
+        raise CannotCheck(f"{OWNER_USER_URL}: unreadable ({type(exc).__name__})") from exc
+    if uid != OWNER_GITHUB_ID or not isinstance(login, str) or not re.fullmatch(r"[A-Za-z0-9-]{1,39}", login):
+        raise CannotCheck(f"{OWNER_USER_URL} answered id {uid!r}, not {OWNER_GITHUB_ID}: the owner's account is unknown")
+    keys_url = f"https://api.github.com/users/{login}/ssh_signing_keys"
+    try:
+        keys = json.loads(_get(keys_url))
         enrolled = {tuple(str(k.get("key", "")).split()[:2]) for k in keys if isinstance(k, dict)}
     except (ValueError, AttributeError, TypeError) as exc:
-        raise CannotCheck(f"{OWNER_KEYS_URL}: unreadable ({type(exc).__name__})") from exc
+        raise CannotCheck(f"{keys_url}: unreadable ({type(exc).__name__})") from exc
     keep = [ln for ln in allowed.splitlines() if tuple(ln.split()[-2:]) in enrolled]
     return "\n".join(keep) + ("\n" if keep else "")
 
@@ -762,7 +773,7 @@ def verify_approval(head_root: Path, items: list[str], pr: str, base_sha: str, b
     enrolled = owner_enrolled(allowed)
     if not enrolled:
         return False, (f"no key in {SIGNERS_PATH} on the base is enrolled as an SSH signing key of the owner's GitHub "
-                       f"account ({OWNER_GITHUB_LOGIN}), so nothing can be approved (approvals/owner/README.md)")
+                       f"account (id {OWNER_GITHUB_ID}), so nothing can be approved (approvals/owner/README.md)")
     ok, err = ssh_verify(enrolled, SIGNER_ID, NAMESPACE, sig, body.encode())
     if not ok:
         return False, f"owner signature does not verify: {err}"
@@ -779,9 +790,33 @@ def removal_items(repo: Path, base_ref: str, head_ref: str, work: Path, node: st
     base_site, head_site = load_site(base_root, node, renderer), load_site(head_root, node, renderer)
     files = {path: (git_file(repo, base_ref, path), git_file(repo, head_ref, path))
              for path in (SIGNERS_PATH, SNAPSHOT_SIGNERS_PATH)}
-    items = downgrades(base_site, head_site, files)
+    items = downgrades(base_site, head_site, files) + trust_root_changes(base_root, head_root)
     base_sha = git(repo, "merge-base", base_ref, head_ref).strip()
     return items, base_sha, files[SIGNERS_PATH][0], head_root
+
+
+def trust_root_changes(base_root: Path, head_root: Path) -> list[str]:
+    """Every entry of the BASE's config/trust-root-paths whose content differs at the head: a change to what judges
+    pull requests (the checker, the renderer, the copy-* jobs, these controls) is removal-class, so a PR cannot weaken
+    the gate for the next PR without the owner's signature. Both trees come from git objects, links dropped. The signers
+    files are reported by downgrades() already."""
+    lst = base_root / TRUST_ROOT_PATHS
+    if not lst.is_file() or lst.is_symlink():
+        return [f"{TRUST_ROOT_PATHS} is missing on the base: the trust root is unknown"]
+    text = lst.read_text(encoding="utf-8")
+
+    def of(root):
+        def read(rel):
+            f = root / rel
+            return f.read_bytes() if f.is_file() and not f.is_symlink() else None
+
+        def listing(prefix):
+            d = root / prefix
+            return [q.relative_to(root).as_posix() for q in d.rglob("*") if q.is_file()] if d.is_dir() else []
+        return trust_root_entries(read, listing, text)
+    b, h = of(base_root), of(head_root)
+    skip = {SIGNERS_PATH, SNAPSHOT_SIGNERS_PATH}
+    return [f"changed trust root: {k}" for k in sorted(set(b) | set(h)) if k not in skip and b.get(k) != h.get(k)]
 
 
 def signers_not_alone(items: list[str]) -> str | None:

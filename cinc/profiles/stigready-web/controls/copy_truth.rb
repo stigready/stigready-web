@@ -133,11 +133,16 @@ end
 CT_FAKE_GH = File.join(CT_TMP, 'fake-gh')
 FileUtils.mkdir_p(CT_FAKE_GH)
 File.write(File.join(CT_FAKE_GH, 'sitecustomize.py'), <<~PY)
-  import io, os, urllib.error, urllib.request
+  import io, json, os, urllib.error, urllib.request
   _real = urllib.request.urlopen
   def _fake(req, *a, **k):
       url = getattr(req, "full_url", str(req))
-      if url.startswith("https://api.github.com/users/") and url.endswith("/ssh_signing_keys"):
+      if url.startswith("https://api.github.com/user/"):
+          if not os.path.isfile(os.environ.get("CT_GH_KEYS", "")):
+              raise urllib.error.URLError("fixture: GitHub unreachable")
+          uid = int(os.environ.get("CT_GH_USER_ID") or url.rsplit("/", 1)[1])
+          return io.BytesIO(json.dumps({"id": uid, "login": "owner-fixture"}).encode())
+      if url == "https://api.github.com/users/owner-fixture/ssh_signing_keys":
           path = os.environ.get("CT_GH_KEYS", "")
           if not os.path.isfile(path):
               raise urllib.error.URLError("fixture: GitHub unreachable")
@@ -231,6 +236,10 @@ class CtRepo
     when :symlink then File.symlink('/dev/null', sp)
     else File.write(sp, signers)
     end
+    unless keep
+      tr = File.join(@dir, 'config', 'trust-root-paths')
+      FileUtils.cp(File.join(ROOT_CT, 'config', 'trust-root-paths'), tr) unless File.exist?(tr)
+    end
     extra.each do |rel, text|
       FileUtils.mkdir_p(File.dirname(File.join(@dir, rel)))
       File.write(File.join(@dir, rel), text)
@@ -245,9 +254,9 @@ class CtRepo
   end
 end
 
-CT_L2 = lambda do |repo, base, head, pr, gh: nil|
+CT_L2 = lambda do |repo, base, head, pr, gh: nil, env: {}|
   CT_RUN.call('--mode', 'removal', '--repo', repo.dir, '--base-ref', base, '--head-ref', head, '--pr', pr.to_s,
-              '--now', NOW_CT, gh: gh)
+              '--now', NOW_CT, gh: gh, env: env)
 end
 
 # Ask the checker for the canonical message of (base, head, pr), sign it, and commit both files onto head's branch.
@@ -593,6 +602,42 @@ control 'web-copy-truth-03' do
         expect(rc).to eq(1), out
         expect(out).to match(/lists no owner key/)
       end
+    end
+  end
+
+  # 8. The trust root (security review at c773a3a, finding 1): a PR that changes what judges the next PR renders the
+  #    same site, but is removal-class all the same.
+  { 'the checker' => [{ 'scripts/check-copy-vs-marketplace.py' => "# v1\n" }, { 'scripts/check-copy-vs-marketplace.py' => "# v2\n" },
+                      'scripts/check-copy-vs-marketplace.py'],
+    'the renderer' => [{ 'scripts/render/render.mjs' => "// v1\n" }, { 'scripts/render/render.mjs' => "// v2\n" },
+                       'scripts/render/render.mjs'],
+    'the copy-removal-gate job' => [{ '.cairn.yml' => "jobs:\n  - name: copy-removal-gate\n    run: a\n" },
+                                    { '.cairn.yml' => "jobs:\n  - name: copy-removal-gate\n    run: b\n" },
+                                    '.cairn.yml#copy-removal-gate'],
+    'these controls' => [{ 'cinc/profiles/stigready-web/controls/copy_truth.rb' => "# v1\n" },
+                         { 'cinc/profiles/stigready-web/controls/copy_truth.rb' => "# v2\n" },
+                         'cinc/profiles/stigready-web/controls/copy_truth.rb'],
+    'the trust-root list (an entry dropped)' => [{}, { 'config/trust-root-paths' => "scripts/render/**\n" },
+                                                 'config/trust-root-paths'] }
+    .each_with_index do |(what, (b_extra, h_extra, entry)), i|
+    t = CtRepo.new("r-trust-#{i}")
+    tb = t.commit('main-e911b14', signers: OWNER_SIGNERS, extra: b_extra)
+    th = t.commit('main-e911b14', signers: OWNER_SIGNERS, extra: h_extra)
+    CT_L2.call(t, tb, th, 40 + i).then do |out, rc|
+      describe "a PR that changes #{what} and renders the same site" do
+        it('is removal-class: it needs the owner\'s signature') do
+          expect(rc).to eq(1), out
+          expect(out).to include("- changed trust root: #{entry}")
+        end
+      end
+    end
+  end
+  t = CtRepo.new('r-trust-signed')
+  tb = t.commit('main-e911b14', signers: OWNER_SIGNERS, extra: { 'scripts/check-copy-vs-marketplace.py' => "# v1\n" })
+  th = t.commit('main-e911b14', signers: OWNER_SIGNERS, extra: { 'scripts/check-copy-vs-marketplace.py' => "# v2\n" })
+  CT_L2.call(t, tb, CT_APPROVE.call(t, tb, th, 49, OWNER_KEY), 49).then do |out, rc|
+    describe 'a checker change signed by the owner key' do
+      it('passes') { expect(rc).to eq(0), out }
     end
   end
 
@@ -1013,9 +1058,14 @@ control 'web-copy-truth-07' do
       [SoftSK.pub_line(OWNER_KEY), CT_GH_KEYS.call('other-only', [OTHER_KEY]), 5, 1,
        /enrolled as an SSH signing key of the owner's GitHub account/],
     'an owner key, with GitHub unreachable' =>
-      [SoftSK.pub_line(OWNER_KEY), File.join(CT_TMP, 'gh-none.json'), 5, 2, /fetch https:\/\/api\.github\.com\S*ssh_signing_keys: URLError/],
+      [SoftSK.pub_line(OWNER_KEY), File.join(CT_TMP, 'gh-none.json'), 5, 2, /fetch https:\/\/api\.github\.com\/user\/\d+: URLError/],
     'a signature made without user verification (no PIN)' =>
-      [SoftSK.pub_line(OWNER_KEY), nil, 1, 1, /does not verify/]
+      [SoftSK.pub_line(OWNER_KEY), nil, 1, 1, /does not verify/],
+    'an owner key whose valid-before has passed' =>
+      [SoftSK.pub_line(OWNER_KEY, opts: ',verify-required,valid-before="20200101"'), nil, 5, 1, /does not verify/],
+    'an owner key line with an option the checker does not support' =>
+      [SoftSK.pub_line(OWNER_KEY, opts: ',verify-required,no-touch-required'), nil, 5, 1,
+       /refused: line 1: unsupported option\(s\) no-touch-required/]
   }
   owner_cases.each_with_index do |(what, (line, gh, flags, want_rc, pat)), i|
     r = CtRepo.new("r-owner-#{i}")
@@ -1028,6 +1078,18 @@ control 'web-copy-truth-07' do
           expect(rc).to eq(want_rc), o
           expect(o).to match(pat)
         end
+      end
+    end
+  end
+  # The owner's account is pinned by its numeric id: an answer for another id is refused before any key is read.
+  idr = CtRepo.new('r-owner-id')
+  idb = idr.commit('main-e911b14', signers: OWNER_SIGNERS)
+  idh = idr.commit('main-e911b14', signers: OWNER_SIGNERS, &HIDE_JS)
+  CT_L2.call(idr, idb, CT_APPROVE.call(idr, idb, idh, 68, OWNER_KEY), 68, env: { 'CT_GH_USER_ID' => '1' }).then do |o, rc|
+    describe 'removal gate when GitHub answers for another user id (a renamed or re-registered login)' do
+      it('is exit 2: the owner\'s account is unknown') do
+        expect(rc).to eq(2), o
+        expect(o).to match(/answered id 1, not \d+: the owner's account is unknown/)
       end
     end
   end
