@@ -8,8 +8,8 @@ AGENTS.md
 # symlink, so a local .ci-venv link was once committed (stigready-web#84).
 .ci-venv
 
-# The renderer's packages (scripts/render, npm ci from package-lock.json).
-node_modules/
+# The renderer's packages (scripts/render, npm ci from package-lock.json). No trailing slash, as above.
+node_modules
 
-# The renderer's Node and packages in CI (scripts/render/setup.sh).
-.render/
+# The renderer's Node and packages in CI (scripts/render/setup.sh). No trailing slash, as above.
+.render

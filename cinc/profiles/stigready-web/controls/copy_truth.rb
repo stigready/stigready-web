@@ -21,22 +21,30 @@ require 'yaml'
 #   web-copy-truth-01  L1: #70 fails against production; #73 passes; the review's two hiding tricks (availabilityCell
 #                      `if (false && ...)`, a CSS display:none on the links) fail
 #   web-copy-truth-02  L1: prices; a stale, missing, malformed or EMPTY snapshot is exit 2; unidentified listings fail
-#   web-copy-truth-03  L2 on git objects: #70 and both hiding tricks fail without an owner approval; a rendering-code
-#                      change is removal-class; the review's bypasses (self-approval with no key on main, a deleted,
-#                      emptied or symlinked owner-signers, an approval replayed on another PR or another base, a
-#                      software or unlisted key, an edited, expired or too-long approval) all fail; only a signature
-#                      by a FIDO2-type key listed on the base, over this PR and base, passes
-#   web-copy-truth-04  the pipeline runs the checks from the base branch, the renderer pinned, no test hooks
+#   web-copy-truth-03  L2 on git objects: #70 and both hiding tricks fail without an owner approval; a stylesheet or
+#                      script edit that withdraws nothing passes (decision 0173: judged by what renders, not by which
+#                      file changed); the review's bypasses (self-approval with no key on main, a deleted, emptied or
+#                      symlinked owner-signers, an approval replayed on another PR or another base, a software or
+#                      unlisted key, an edited, expired or too-long approval) all fail; only a signature by a FIDO2-type
+#                      verify-required key listed on the base and enrolled on the owner's GitHub account passes
+#   web-copy-truth-04  the pipeline runs the checks from the base branch, the renderer pinned, no test hooks; the gate
+#                      is advisory exactly while config/owner-signers lists no key
 #   web-copy-truth-05  hardened visibility evaluation and checker isolation: markup that hides the listings, a page
 #                      the renderer cannot evaluate, and page scripts acting on the checker all fail; the script
 #                      stage refuses to run unhardened
 #   web-copy-truth-06  claims are read from all text (hiding a sentence never removes it), an unevaluable catalog
 #                      page fails, listings count only from the catalog page, and the script stage's output cannot
 #                      be replayed or forged
+#   web-copy-truth-07  review of a6c10a03 (decision 0173): the renderer gets PATH only (no GH_TOKEN for page scripts);
+#                      an unsigned, wrongly signed or edited snapshot is exit 2; owner keys need verify-required, no
+#                      cert-authority and GitHub enrolment; a signers change never rides with another withdrawal; a
+#                      drift run without its sources file is exit 2; .gitignore entries match symlinks
 #
 # The FIDO2-type key in these tests is made in software (SoftSK below), as the security review showed anyone can:
-# the key TYPE proves no touch. What protects the gate is that only the owner's key is listed on the base, and that
-# only the owner merges a change to that list.
+# the key TYPE proves no touch. What protects the gate is that a key counts only when the owner's GitHub account also
+# lists it as a signing key (decision 0173). The checker reads that list from api.github.com; these tests answer for
+# GitHub with a sitecustomize on PYTHONPATH (CT_FAKE_GH), so the checker carries no test hook. The pipeline runs the
+# checker with python3 -I, which ignores PYTHONPATH.
 
 ROOT_CT  = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..', '..'))
 CHECK_CT = File.join(ROOT_CT, 'scripts', 'check-copy-vs-marketplace.py')
@@ -73,13 +81,19 @@ module SoftSK
     s(KT) + s(key.raw_public_key) + s(APP)
   end
 
-  def self.pub_line(key)
-    %(owner@stigready namespaces="#{NS_CT}" #{KT} #{Base64.strict_encode64(blob(key))} soft)
+  def self.pub_line(key, opts: ',verify-required')
+    %(owner@stigready namespaces="#{NS_CT}"#{opts} #{KT} #{Base64.strict_encode64(blob(key))} soft)
   end
 
-  def self.sign(key, msg)
+  # The key as GitHub's ssh_signing_keys API lists it.
+  def self.gh_key(key)
+    "#{KT} #{Base64.strict_encode64(blob(key))}"
+  end
+
+  # flags 5: user presence and user verification (a PIN); 1: presence only.
+  def self.sign(key, msg, flags: 5)
     signed = 'SSHSIG'.b + s(NS_CT) + s('') + s('sha512') + s(OpenSSL::Digest::SHA512.digest(msg))
-    flags = [5].pack('C')
+    flags = [flags].pack('C')
     counter = [1].pack('N')
     sig = key.sign(nil, OpenSSL::Digest::SHA256.digest(APP) + flags + counter + OpenSSL::Digest::SHA256.digest(signed))
     raw = 'SSHSIG'.b + [1].pack('N') + s(blob(key)) + s(NS_CT) + s('') + s('sha512') + s(s(KT) + s(sig) + flags + counter)
@@ -115,13 +129,62 @@ HIDE_CSS = lambda do |dir|
   end
 end
 
-CT_RUN = lambda do |*args|
-  out, st = Open3.capture2e('python3', CHECK_CT, '--node', NODE_CT, *args)
+# GitHub's answer for the owner's signing keys, given to the checker by a sitecustomize (see the header).
+CT_FAKE_GH = File.join(CT_TMP, 'fake-gh')
+FileUtils.mkdir_p(CT_FAKE_GH)
+File.write(File.join(CT_FAKE_GH, 'sitecustomize.py'), <<~PY)
+  import io, os, urllib.error, urllib.request
+  _real = urllib.request.urlopen
+  def _fake(req, *a, **k):
+      url = getattr(req, "full_url", str(req))
+      if url.startswith("https://api.github.com/users/") and url.endswith("/ssh_signing_keys"):
+          path = os.environ.get("CT_GH_KEYS", "")
+          if not os.path.isfile(path):
+              raise urllib.error.URLError("fixture: GitHub unreachable")
+          with open(path, "rb") as f:
+              return io.BytesIO(f.read())
+      return _real(req, *a, **k)
+  urllib.request.urlopen = _fake
+PY
+CT_GH_KEYS = lambda do |name, keys|
+  path = File.join(CT_TMP, "gh-#{name}.json")
+  File.write(path, JSON.generate(keys.each_with_index.map { |k, i| { 'id' => i + 1, 'key' => SoftSK.gh_key(k), 'title' => 'k' } }))
+  path
+end
+
+CT_EDIT_EARLY = lambda do |rel, from, to|
+  lambda do |dir|
+    f = File.join(dir, rel)
+    s = File.read(f)
+    raise "fixture: #{from} not in #{rel}" unless s.include?(from)
+
+    File.write(f, s.sub(from, to))
+  end
+end
+
+CT_RUN = lambda do |*args, gh: nil, env: {}|
+  e = { 'PYTHONPATH' => CT_FAKE_GH, 'CT_GH_KEYS' => gh || CT_GH_DEFAULT }.merge(env)
+  out, st = Open3.capture2e(e, 'python3', CHECK_CT, '--node', NODE_CT, *args)
   [out, st.exitstatus]
 end
 
-CT_L1 = lambda do |site, snap = SNAP_CT, now = NOW_CT|
-  CT_RUN.call('--mode', 'pr', '--site', site, '--snapshot', snap, '--now', now)
+# The snapshot is trusted only with a signature by a key in config/snapshot-signers (decision 0173). The tests sign
+# with a key of their own and pass its list with --snapshot-signers, as the pipeline passes the base's file.
+CT_SNAP_KEY = File.join(CT_TMP, 'snapkey')
+Open3.capture2e('ssh-keygen', '-q', '-t', 'ed25519', '-N', '', '-C', 'snap', '-f', CT_SNAP_KEY)
+CT_SNAP_SIGNERS = File.join(CT_TMP, 'snapshot-signers')
+File.write(CT_SNAP_SIGNERS, %(snapshot@stigready namespaces="stigready-marketplace-snapshot" #{File.read("#{CT_SNAP_KEY}.pub").strip}\n))
+CT_SIGN_SNAP = lambda do |path, key = CT_SNAP_KEY|
+  FileUtils.rm_f("#{path}.sig")
+  out, st = Open3.capture2e('ssh-keygen', '-Y', 'sign', '-f', key, '-n', 'stigready-marketplace-snapshot', path)
+  raise "snapshot sign: #{out}" unless st.success?
+
+  path
+end
+SNAP_SIGNED = CT_SIGN_SNAP.call(File.join(CT_TMP, 'marketplace-live.json').tap { |f| FileUtils.cp(SNAP_CT, f) })
+
+CT_L1 = lambda do |site, snap = SNAP_SIGNED, now = NOW_CT, signers: CT_SNAP_SIGNERS, env: {}|
+  CT_RUN.call('--mode', 'pr', '--site', site, '--snapshot', snap, '--snapshot-signers', signers, '--now', now, env: env)
 end
 
 CT_SNAP_WITH = lambda do |name, &edit|
@@ -129,7 +192,7 @@ CT_SNAP_WITH = lambda do |name, &edit|
   edit.call(snap)
   path = File.join(CT_TMP, name)
   File.write(path, JSON.generate(snap))
-  path
+  CT_SIGN_SNAP.call(path)
 end
 
 # ------------------------------------------------------------------------------------------------- git fixtures (L2)
@@ -182,20 +245,20 @@ class CtRepo
   end
 end
 
-CT_L2 = lambda do |repo, base, head, pr|
+CT_L2 = lambda do |repo, base, head, pr, gh: nil|
   CT_RUN.call('--mode', 'removal', '--repo', repo.dir, '--base-ref', base, '--head-ref', head, '--pr', pr.to_s,
-              '--now', NOW_CT)
+              '--now', NOW_CT, gh: gh)
 end
 
 # Ask the checker for the canonical message of (base, head, pr), sign it, and commit both files onto head's branch.
-CT_APPROVE = lambda do |repo, base, head, pr, key, expires: '2026-11-02', edit: nil|
+CT_APPROVE = lambda do |repo, base, head, pr, key, expires: '2026-11-02', edit: nil, flags: 5|
   msg, st = Open3.capture2('python3', CHECK_CT, '--node', NODE_CT, '--mode', 'approval-message', '--repo', repo.dir,
                            '--base-ref', base, '--head-ref', head, '--pr', pr.to_s, '--expires', expires,
                            '--now', NOW_CT)
   raise "approval-message failed: #{msg}" unless st.success?
 
   digest = msg[/^digest: (\h{64})$/, 1]
-  sig = SoftSK.sign(key, msg)
+  sig = SoftSK.sign(key, msg, flags: flags)
   msg = edit.call(msg) if edit
   repo.commit(nil, keep: true, signers: File.read(File.join(repo.dir, 'config', 'owner-signers')),
                    extra: { "approvals/owner/#{digest}.txt" => msg, "approvals/owner/#{digest}.sig" => sig })
@@ -204,6 +267,8 @@ end
 OWNER_KEY = OpenSSL::PKey.generate_key('ED25519')
 OTHER_KEY = OpenSSL::PKey.generate_key('ED25519')
 OWNER_SIGNERS = "# fixture\n#{SoftSK.pub_line(OWNER_KEY)}\n".freeze
+# What the owner's GitHub account lists by default in these tests: both keys (OTHER_KEY for the rotation case).
+CT_GH_DEFAULT = CT_GH_KEYS.call('default', [OWNER_KEY, OTHER_KEY])
 
 # ------------------------------------------------------------------------------------------------------------- L1
 
@@ -287,6 +352,7 @@ control 'web-copy-truth-02' do
   end
   bad = File.join(CT_TMP, 'bad.json')
   File.write(bad, '{"schema": "something-else"}')
+  CT_SIGN_SNAP.call(bad)
 
   CT_L1.call(CT_SITES['main'], wrong).then do |out, rc|
     describe 'a site price that differs from the live price' do
@@ -328,7 +394,7 @@ control 'web-copy-truth-02' do
       end
     end
   end
-  [['stale (30 h)', SNAP_CT, '2026-10-27T16:10:00Z'], ['missing', File.join(CT_TMP, 'nope.json'), NOW_CT],
+  [['stale (30 h)', SNAP_SIGNED, '2026-10-27T16:10:00Z'], ['missing', File.join(CT_TMP, 'nope.json'), NOW_CT],
    ['another schema', bad, NOW_CT], ['empty (0 Public listings)', empty, NOW_CT]].each do |what, snap, now|
     CT_L1.call(CT_SITES['after'], snap, now).then do |out, rc|
       describe "a #{what} snapshot" do
@@ -354,10 +420,10 @@ control 'web-copy-truth-03' do
   head = r.commit('after-e3c47e4', signers: OWNER_SIGNERS)
   CT_L2.call(r, base, head, 70).then do |out, rc|
     describe 'removal gate on #70 with no approval' do
-      it('fails, listing 56 Applied products downgraded and the changed rendering code') do
+      it('fails, listing the 56 Applied products downgraded, judged by what renders') do
         expect(rc).to eq(1), out
         expect(out.scan(%r{^- downgraded stigapplied/\S+ neutral -> withheld$}).size).to eq(56)
-        expect(out).to match(/^- changed rendering code: index\.html inline scripts$/)
+        expect(out).not_to match(/changed rendering code/)
         expect(out).to match(/no owner approval for PR 70/)
       end
     end
@@ -393,46 +459,61 @@ control 'web-copy-truth-03' do
   end
 
   # 2. The review's hiding tricks against #73's site.
-  { 'availabilityCell `if (false && ...)`' => [HIDE_JS, /^- downgraded \S+ purchasable -> withheld$/, 80,
-                                               'index.html inline scripts'],
-    'a CSS display:none on the links' => [HIDE_CSS, /^- downgraded \S+ purchasable -> neutral$/, 80,
-                                          'assets/css/site.css'] }.each do |what, (mut, pat, n, surface)|
-    h = CtRepo.new("r-#{surface.tr('/ .', '---')}")
+  { 'availabilityCell `if (false && ...)`' => [HIDE_JS, /^- downgraded \S+ purchasable -> withheld$/, 80, 'js'],
+    'a CSS display:none on the links' => [HIDE_CSS, /^- downgraded \S+ purchasable -> neutral$/, 80, 'css'] }
+    .each do |what, (mut, pat, n, tag)|
+    h = CtRepo.new("r-hide-#{tag}")
     b = h.commit('main-e911b14', signers: OWNER_SIGNERS)
     hd = h.commit('main-e911b14', signers: OWNER_SIGNERS, &mut)
     CT_L2.call(h, b, hd, 74).then do |out, rc|
       describe "removal gate on #73's site with #{what}" do
-        it("fails: #{n} products downgraded and the rendering code changed") do
+        it("fails: #{n} products downgraded in what renders") do
           expect(rc).to eq(1), out
           expect(out.scan(pat).size).to eq(n)
-          expect(out).to include("- changed rendering code: #{surface}")
         end
       end
     end
   end
 
-  # A rendering-code change that hides nothing still needs a signature.
-  c = CtRepo.new('r-css-harmless')
-  cb = c.commit('main-e911b14', signers: OWNER_SIGNERS)
-  ch = c.commit('main-e911b14', signers: OWNER_SIGNERS) do |dir|
-    File.open(File.join(dir, 'assets', 'css', 'site.css'), 'a') { |f| f.write("\n.unused-x{color:red}\n") }
-  end
-  CT_L2.call(c, cb, ch, 80).then do |out, rc|
-    describe 'a stylesheet change that hides nothing' do
-      it('is still removal-class') do
-        expect(rc).to eq(1), out
-        expect(out).to include('- changed rendering code: assets/css/site.css')
+  # Routine site PRs (QA review of a6c10a03, finding 1): a stylesheet or inline-script edit that withdraws nothing
+  # passes with no approval (decision 0173: judged by what renders, not by which file changed).
+  { 'a stylesheet change' => lambda { |dir|
+      File.open(File.join(dir, 'assets', 'css', 'site.css'), 'a') { |f| f.write("\n.unused-x{color:red}\n") }
+    },
+    'an inline-script change on the catalog page' => CT_EDIT_EARLY.call('index.html', "if (p.availability === 'available' && url) {",
+                                                                        "if (p.availability === 'available' && url) { /* routine */") }
+    .each_with_index do |(what, mut), i|
+    c = CtRepo.new("r-routine-#{i}")
+    cb = c.commit('main-e911b14', signers: OWNER_SIGNERS)
+    ch = c.commit('main-e911b14', signers: OWNER_SIGNERS, &mut)
+    CT_L2.call(c, cb, ch, 80 + i).then do |out, rc|
+      describe "#{what} that withdraws nothing" do
+        it('passes with no approval') do
+          expect(rc).to eq(0), out
+          expect(out).to match(/Nothing is withdrawn from what the site renders/)
+        end
       end
     end
   end
 
-  # 3. Self-approval: main lists no key; the PR adds its own key and signs (review finding 1).
+  # 3. Self-approval: main lists no key; the PR adds its own key and signs (review finding 1). With a withdrawal in
+  # the same PR it is refused before any signature is read; on its own it fails because main lists no key.
   s = CtRepo.new('r-bootstrap')
   sb = s.commit('main-e911b14', signers: "# no key yet\n")
   sh = s.commit('main-e911b14', signers: OWNER_SIGNERS, &HIDE_JS)
   sa = CT_APPROVE.call(s, sb, sh, 90, OWNER_KEY)
   CT_L2.call(s, sb, sa, 90).then do |out, rc|
-    describe 'a PR that adds its own key while main lists none, and signs with it' do
+    describe 'a PR that adds its own key while main lists none, withdraws listings, and signs with it' do
+      it('fails: a signers change must be its own PR') do
+        expect(rc).to eq(1), out
+        expect(out).to match(/signers change must be its own PR/)
+      end
+    end
+  end
+  s.branch('alone', sb)
+  so = s.commit('main-e911b14', signers: OWNER_SIGNERS)
+  CT_L2.call(s, sb, CT_APPROVE.call(s, sb, so, 89, OWNER_KEY), 89).then do |out, rc|
+    describe 'a PR that only adds its own key while main lists none, and signs with it' do
       it('fails: with no key on main nothing can be approved') do
         expect(rc).to eq(1), out
         expect(out).to match(/lists no owner key, so nothing can be approved/)
@@ -549,13 +630,25 @@ control 'web-copy-truth-04' do
         expect(s).to include('--renderer "$t/base/scripts/render/render.mjs"')
       end
     end
-    it 'copy-removal-gate is not advisory, judges HEAD against the base by git objects, and binds the PR number' do
-      expect(jobs.dig('copy-removal-gate', 'advisory')).not_to eq(true)
+    it 'copy-removal-gate is advisory exactly while config/owner-signers lists no key (decision 0173)' do
+      keys = File.read(File.join(ROOT_CT, 'config', 'owner-signers')).lines.map(&:strip)
+                 .reject { |l| l.empty? || l.start_with?('#') }
+      expect(jobs.dig('copy-removal-gate', 'advisory') == true).to eq(keys.empty?)
+    end
+    it 'copy-removal-gate judges HEAD against the base by git objects, and binds the PR number' do
       s = steps.call('copy-removal-gate')
       expect(s).to include('--base-ref "origin/${CAIRN_BASE_REF:?}" --head-ref HEAD --pr "${CAIRN_PR:?}"')
     end
-    it 'copy-truth reads the snapshot from the live/marketplace branch' do
-      expect(steps.call('copy-truth')).to include('live/marketplace')
+    it 'copy-truth reads the snapshot and its signature from the live/marketplace branch, keys from the base' do
+      s = steps.call('copy-truth')
+      expect(s).to include('live/marketplace')
+      expect(s).to include('FETCH_HEAD:marketplace-live.json.sig')
+      expect(s).to include('--snapshot-signers "$t/base/config/snapshot-signers"')
+    end
+    it 'copy-drift-watch checks the snapshot signature too' do
+      s = steps.call('copy-drift-watch')
+      expect(s).to include('FETCH_HEAD:marketplace-live.json.sig')
+      expect(s).to include('--snapshot-signers config/snapshot-signers')
     end
     it 'validate installs the renderer before CINC runs (the controls render pages)' do
       expect(steps.call('validate')).to include('scripts/render/setup.sh')
@@ -807,7 +900,7 @@ control 'web-copy-truth-06' do
   end
   l1 = lambda do |node|
     Open3.capture2e('python3', CHECK_CT, '--node', node, '--mode', 'pr', '--site', CT_SITES['main'],
-                    '--snapshot', SNAP_CT, '--now', NOW_CT)
+                    '--snapshot', SNAP_SIGNED, '--snapshot-signers', CT_SNAP_SIGNERS, '--now', NOW_CT)
   end
   cap_out, cap_st = l1.call(fake.call('node-capture', %(#{real.shellescape} "$@" | tee #{cap.shellescape}; exit "${PIPESTATUS[0]}")))
   describe 'L1 through a node that only records the script stage' do
@@ -830,6 +923,153 @@ control 'web-copy-truth-06' do
     it('is refused: cannot check') do
       expect(forge_st.exitstatus).to eq(2), forge_out
       expect(forge_out).to match(/not authentic/)
+    end
+  end
+end
+
+# ------------------------------------------------------------------------------------ review of a6c10a03 (0173)
+
+control 'web-copy-truth-07' do
+  impact 1.0
+  title 'The renderer holds no credentials, the snapshot is signed, and owner keys are enrolled, PIN-bound and plain'
+  desc 'Security and QA reviews of stigready-web#74 at a6c10a03 (decision 0173, amending 0114). Each case must fail ' \
+       '(exit 1) or be refused (exit 2).'
+
+  # 1. GH_TOKEN never reaches the Node processes that run page scripts. A node that records its environment, then
+  #    runs the real one.
+  real = Open3.capture2(NODE_CT, '-p', 'process.execPath').first.strip
+  envlog = File.join(CT_TMP, 'node-env')
+  rec = File.join(CT_TMP, 'node-record-env')
+  File.write(rec, "#!/bin/bash\n/usr/bin/env -0 > #{envlog.shellescape}.$$\nexec #{real.shellescape} \"$@\"\n")
+  File.chmod(0o755, rec)
+  sentinel = 'ct-sentinel-not-a-token'
+  out, st = Open3.capture2e({ 'GH_TOKEN' => sentinel, 'GITHUB_TOKEN' => sentinel, 'AWS_SECRET_ACCESS_KEY' => sentinel,
+                              'VAULT_TOKEN' => sentinel },
+                            'python3', CHECK_CT, '--node', rec, '--mode', 'pr', '--site', CT_SITES['main'],
+                            '--snapshot', SNAP_SIGNED, '--snapshot-signers', CT_SNAP_SIGNERS, '--now', NOW_CT)
+  envs = Dir.glob("#{envlog}.*").map { |f| File.binread(f).split("\0").to_h { |kv| kv.split('=', 2) } }
+  describe 'the renderer, started with GH_TOKEN, AWS and Vault variables in the checker\'s environment' do
+    it('still renders (L1 passes on #73)') { expect(st.exitstatus).to eq(0), out }
+    it('ran both stages') { expect(envs.size).to eq(2) }
+    it('gets PATH only: no token, no AWS or Vault variable') do
+      envs.each do |e|
+        expect(e.keys - %w[PATH PWD SHLVL _ OLDPWD]).to eq([])
+        expect(e.values.join("\n")).not_to include(sentinel)
+      end
+    end
+  end
+
+  # 2. The snapshot: the live/marketplace branch is pushable by any writer, so only its signature counts.
+  unsigned = File.join(CT_TMP, 'snap-unsigned.json')
+  FileUtils.cp(SNAP_CT, unsigned)
+  other_key = File.join(CT_TMP, 'snapkey-other')
+  Open3.capture2e('ssh-keygen', '-q', '-t', 'ed25519', '-N', '', '-C', 'other', '-f', other_key)
+  forged = CT_SIGN_SNAP.call(File.join(CT_TMP, 'snap-forged.json').tap { |f| FileUtils.cp(SNAP_CT, f) }, other_key)
+  edited = CT_SIGN_SNAP.call(File.join(CT_TMP, 'snap-edited.json').tap { |f| FileUtils.cp(SNAP_CT, f) })
+  File.write(edited, File.read(edited).sub('"Public"', '"Restricted"'))
+  no_keys = File.join(CT_TMP, 'snapshot-signers-empty')
+  File.write(no_keys, "# no key yet\n")
+  ca_keys = File.join(CT_TMP, 'snapshot-signers-ca')
+  File.write(ca_keys, File.read(CT_SNAP_SIGNERS).sub('namespaces=', 'cert-authority,namespaces='))
+  { 'an unsigned snapshot' => [unsigned, CT_SNAP_SIGNERS, /no signature/],
+    'a snapshot signed by a key the base does not list' => [forged, CT_SNAP_SIGNERS, /signature does not verify/],
+    'a snapshot edited after it was signed' => [edited, CT_SNAP_SIGNERS, /signature does not verify/],
+    'a base that lists no snapshot key' => [SNAP_SIGNED, no_keys, /lists no snapshot key/],
+    'a snapshot key listed as cert-authority' => [SNAP_SIGNED, ca_keys, /lists no snapshot key/] }
+    .each do |what, (snap, signers, pat)|
+    CT_L1.call(CT_SITES['after'], snap, signers: signers).then do |o, rc|
+      describe "L1 with #{what}" do
+        it('is exit 2, production state unknown') do
+          expect(rc).to eq(2), o
+          expect(o).to match(pat)
+          expect(o).to match(/production state unknown/)
+        end
+      end
+    end
+  end
+
+  # 3. Owner keys: verify-required, no cert-authority, enrolled on the owner's GitHub account, PIN on the signature.
+  owner_cases = {
+    'an owner key without verify-required' =>
+      [SoftSK.pub_line(OWNER_KEY, opts: ''), nil, 5, 1, /lists no owner key/],
+    'an owner key listed as cert-authority' =>
+      [SoftSK.pub_line(OWNER_KEY, opts: ',verify-required,cert-authority'), nil, 5, 1, /lists no owner key/],
+    'an owner key the owner\'s GitHub account does not list' =>
+      [SoftSK.pub_line(OWNER_KEY), CT_GH_KEYS.call('other-only', [OTHER_KEY]), 5, 1,
+       /enrolled as an SSH signing key of the owner's GitHub account/],
+    'an owner key, with GitHub unreachable' =>
+      [SoftSK.pub_line(OWNER_KEY), File.join(CT_TMP, 'gh-none.json'), 5, 2, /fetch https:\/\/api\.github\.com\S*ssh_signing_keys: URLError/],
+    'a signature made without user verification (no PIN)' =>
+      [SoftSK.pub_line(OWNER_KEY), nil, 1, 1, /does not verify/]
+  }
+  owner_cases.each_with_index do |(what, (line, gh, flags, want_rc, pat)), i|
+    r = CtRepo.new("r-owner-#{i}")
+    signers = "#{line}\n"
+    b = r.commit('main-e911b14', signers: signers)
+    h = r.commit('main-e911b14', signers: signers, &HIDE_JS)
+    CT_L2.call(r, b, CT_APPROVE.call(r, b, h, 60 + i, OWNER_KEY, flags: flags), 60 + i, gh: gh).then do |o, rc|
+      describe "removal gate with #{what}" do
+        it("fails (exit #{want_rc})") do
+          expect(rc).to eq(want_rc), o
+          expect(o).to match(pat)
+        end
+      end
+    end
+  end
+  # ... and the same withdrawal, signed with a PIN by the enrolled, verify-required key, passes.
+  ok = CtRepo.new('r-owner-ok')
+  okb = ok.commit('main-e911b14', signers: OWNER_SIGNERS)
+  okh = ok.commit('main-e911b14', signers: OWNER_SIGNERS, &HIDE_JS)
+  CT_L2.call(ok, okb, CT_APPROVE.call(ok, okb, okh, 69, OWNER_KEY), 69).then do |o, rc|
+    describe 'removal gate with a PIN signature by an enrolled verify-required owner key' do
+      it('passes') { expect(rc).to eq(0), o }
+    end
+  end
+
+  # 4. A signers change never rides with another withdrawal, even when the key that counts signs it.
+  { 'config/owner-signers' => { signers: "#{OWNER_SIGNERS}#{SoftSK.pub_line(OTHER_KEY)}\n" },
+    'config/snapshot-signers' => { signers: OWNER_SIGNERS, extra: { 'config/snapshot-signers' => File.read(CT_SNAP_SIGNERS) } } }
+    .each_with_index do |(path, kw), i|
+    r = CtRepo.new("r-alone-#{i}")
+    b = r.commit('main-e911b14', signers: OWNER_SIGNERS)
+    h = r.commit('main-e911b14', **kw, &HIDE_JS)
+    CT_L2.call(r, b, CT_APPROVE.call(r, b, h, 70 + i, OWNER_KEY), 70 + i).then do |o, rc|
+      describe "a PR that changes #{path} and withdraws listings, signed by the owner key" do
+        it('fails: a signers change must be its own PR') do
+          expect(rc).to eq(1), o
+          expect(o).to include("- changed #{path} (")
+          expect(o).to match(/signers change must be its own PR/)
+        end
+      end
+    end
+  end
+
+  # 5. Drift mode without its sources file cannot check the READMEs: exit 2, not a silent skip.
+  CT_RUN.call('--mode', 'drift', '--snapshot', SNAP_SIGNED, '--snapshot-signers', CT_SNAP_SIGNERS, '--now', NOW_CT,
+              '--sources', File.join(CT_TMP, 'no-such-sources.yml'), '--site-url', 'https://invalid.example').then do |o, rc|
+    describe 'drift mode with config/copy-truth-sources.yml missing' do
+      it('is exit 2') do
+        expect(rc).to eq(2), o
+        expect(o).to match(/copy-truth-sources\.yml missing|no-such-sources\.yml missing/)
+      end
+    end
+  end
+
+  # 6. .gitignore matches the renderer's directories as symlinks too (the #84 class).
+  g = File.join(CT_TMP, 'gi')
+  FileUtils.mkdir_p(g)
+  CT_GIT.call(g, 'init', '-q')
+  FileUtils.cp(File.join(ROOT_CT, '.gitignore'), File.join(g, '.gitignore'))
+  %w[node_modules .render scripts/render/node_modules].each do |rel|
+    FileUtils.mkdir_p(File.dirname(File.join(g, rel)))
+    File.symlink('/tmp', File.join(g, rel))
+  end
+  describe 'a node_modules or .render symlink' do
+    %w[node_modules .render scripts/render/node_modules].each do |rel|
+      it("#{rel} is ignored") do
+        _, st2 = Open3.capture2e('git', '-C', g, 'check-ignore', '-q', rel)
+        expect(st2.exitstatus).to eq(0)
+      end
     end
   end
 end

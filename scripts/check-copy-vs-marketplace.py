@@ -10,13 +10,16 @@ Modes:
                   Public, a line is called "coming soon" while it has live-Public listings, a price differs from the
                   live price, a region is claimed that no live listing of that line has, or a row's version or name
                   differs from its live listing. A missing, unparseable or stale snapshot fails (fail closed).
-  --mode removal  (L2) The PR (--head-ref) against its base (--base-ref) in the git repository --repo. Fails when a
-                  product moves down (purchasable > no claim > coming soon > absent), disappears, or loses a price or
-                  region claim; when the code or styles that render the catalog change (any inline script or style of
-                  a catalog page, any stylesheet or script it loads); or when config/owner-signers changes in any way
-                  (edited, emptied, deleted, symlinked). It passes only with an owner approval
+  --mode removal  (L2) The PR (--head-ref) against its base (--base-ref) in the git repository --repo, both RENDERED.
+                  Fails when a product moves down (purchasable > no claim > coming soon > absent), disappears, or
+                  loses a price or region claim in what the pages render, when a catalog page stops being evaluable,
+                  or when config/owner-signers or config/snapshot-signers changes in any way (edited, emptied, deleted,
+                  symlinked). Which file changed never decides: a stylesheet or script edit that withdraws nothing
+                  passes (decision 0173, amending 0114 L2). It passes only with an owner approval
                   approvals/owner/<digest>.{txt,sig} whose message names this PR (--pr) and its merge base, signed by
-                  a key listed in config/owner-signers ON THE BASE. With no key on the base, nothing can be approved.
+                  a key listed in config/owner-signers ON THE BASE that is also enrolled as an SSH signing key of the
+                  owner's GitHub account (OWNER_GITHUB_LOGIN). With no such key, nothing can be approved. A change to a
+                  signers file must be the PR's only withdrawal: it is never approved together with anything else.
   --mode drift    (L3) Fetches the live site (--site-url, every page of its sitemap, the scripts and stylesheets they
                   load, and /catalog.json), the public role
                   READMEs and the stigvalidated pages (config/copy-truth-sources.yml), checks them against the
@@ -35,6 +38,9 @@ a pass.
 The snapshot (schema stigready-marketplace-live/1) is written by stigready's `marketplace-live-snapshot` Cairn job
 (granted marketplace-ro) to this repo's `live/marketplace` branch. Pull request runs get no credentials, so they read
 that file instead of Marketplace; the Cairn job runs this script and the snapshot from the base branch, never the PR's.
+Any repo writer can push a branch, so the branch itself proves nothing: the snapshot is trusted only with an SSH
+signature (marketplace-live.json.sig, namespace stigready-marketplace-snapshot) by a key listed in
+config/snapshot-signers of the checker's own tree (the base). No key, no signature or a bad one: exit 2.
 """
 from __future__ import annotations
 
@@ -63,7 +69,17 @@ SIGNER_ID = "owner@stigready"
 # the owner merges a change to that list.
 SK_TYPES = ("sk-ssh-ed25519@openssh.com", "sk-ecdsa-sha2-nistp256@openssh.com")
 SIGNERS_PATH = "config/owner-signers"
+SNAPSHOT_SIGNERS_PATH = "config/snapshot-signers"
+SNAPSHOT_NAMESPACE = "stigready-marketplace-snapshot"
+SNAPSHOT_SIGNER_ID = "snapshot@stigready"
+SNAPSHOT_KEY_TYPES = ("ssh-ed25519",)
+# The owner's GitHub account. A key on the base counts only if this account also lists it as an SSH signing key, which
+# only someone signed in as the owner can add: the bootstrap is enforced without anyone merging by hand (decision 0173).
+OWNER_GITHUB_LOGIN = "sclark007"
+OWNER_KEYS_URL = f"https://api.github.com/users/{OWNER_GITHUB_LOGIN}/ssh_signing_keys"
 RENDERER = Path(__file__).resolve().parent / "render" / "render.mjs"
+# The snapshot key list of the tree this checker came from (the base, in the PR jobs).
+DEFAULT_SNAPSHOT_SIGNERS = Path(__file__).resolve().parent.parent / SNAPSHOT_SIGNERS_PATH
 MAX_APPROVAL_DAYS = 14
 REPO = "stigready/stigready-web"
 PP_PREFIX = "https://aws.amazon.com/marketplace/pp/"
@@ -256,6 +272,12 @@ def site_pages(root: Path) -> dict[str, str]:
 RUN_FLAGS = ("--disallow-code-generation-from-strings", "--frozen-intrinsics", "--no-warnings", "--permission")
 
 
+def node_env() -> dict[str, str]:
+    """The renderer's whole environment: PATH only. Page scripts run in that process, and Node's permission model does
+    not limit environment variables, so nothing else (GH_TOKEN in the drift job, AWS or Vault variables) may reach it."""
+    return {"PATH": os.environ.get("PATH") or os.defpath}
+
+
 def render(root: Path, pages: list[str], node: str, renderer: Path) -> list[dict]:
     """Run the pages' own scripts, then evaluate what a visitor sees (scripts/render/render.mjs). No renderer: cannot
     check."""
@@ -266,7 +288,7 @@ def render(root: Path, pages: list[str], node: str, renderer: Path) -> list[dict
     key = os.urandom(32)
     try:
         p = subprocess.run([node, *RUN_FLAGS, *reads, str(renderer), "run", str(root), *pages],
-                           input=key.hex().encode(), capture_output=True, timeout=600)
+                           input=key.hex().encode(), capture_output=True, timeout=600, env=node_env())
     except (OSError, subprocess.TimeoutExpired) as exc:
         raise CannotCheck(f"renderer could not run ({node}): {type(exc).__name__}") from exc
     if p.returncode != 0:
@@ -283,7 +305,7 @@ def render(root: Path, pages: list[str], node: str, renderer: Path) -> list[dict
         raise CannotCheck("renderer output is for other pages than were asked for")
     try:
         e = subprocess.run([node, "--permission", *reads, str(renderer), "eval", str(root)],
-                           input=body, capture_output=True, timeout=600)
+                           input=body, capture_output=True, timeout=600, env=node_env())
     except (OSError, subprocess.TimeoutExpired) as exc:
         raise CannotCheck(f"renderer could not evaluate ({node}): {type(exc).__name__}") from exc
     if e.returncode != 0:
@@ -374,10 +396,34 @@ def load_site(root: Path, node: str = "node", renderer: Path = RENDERER) -> dict
 
 # ------------------------------------------------------------------------------------------------------------ snapshot
 
-def load_snapshot(path: Path, now: dt.datetime, max_age_hours: float) -> dict:
+def verify_snapshot(raw: bytes, path: Path, sig: Path, signers: Path) -> None:
+    """The snapshot must carry an SSH signature by a key in config/snapshot-signers (read from the checker's own tree,
+    the base). The live/marketplace branch is pushable by any repo writer, so the branch alone is no proof."""
     try:
-        snap = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, ValueError) as exc:
+        allowed = allowed_signers(signers.read_text(encoding="utf-8") if not signers.is_symlink() else "",
+                                  SNAPSHOT_SIGNER_ID, SNAPSHOT_NAMESPACE, SNAPSHOT_KEY_TYPES)
+    except OSError:
+        allowed = ""
+    if not allowed:
+        raise CannotCheck(f"{signers} lists no snapshot key: the snapshot cannot be authenticated, production state "
+                          "unknown")
+    if sig.is_symlink() or not sig.is_file():
+        raise CannotCheck(f"snapshot {path}: no signature {sig.name}: production state unknown")
+    ok, err = ssh_verify(allowed, SNAPSHOT_SIGNER_ID, SNAPSHOT_NAMESPACE, sig, raw)
+    if not ok:
+        raise CannotCheck(f"snapshot {path}: signature does not verify ({err}): production state unknown")
+
+
+def load_snapshot(path: Path, now: dt.datetime, max_age_hours: float, sig: Path | None = None,
+                  signers: Path | None = None) -> dict:
+    try:
+        raw = path.read_bytes()
+    except OSError as exc:
+        raise CannotCheck(f"snapshot {path}: unreadable ({type(exc).__name__}): production state unknown") from exc
+    verify_snapshot(raw, path, sig or path.with_name(path.name + ".sig"), signers or DEFAULT_SNAPSHOT_SIGNERS)
+    try:
+        snap = json.loads(raw.decode("utf-8"))
+    except ValueError as exc:
         raise CannotCheck(f"snapshot {path}: unreadable ({type(exc).__name__}): production state unknown") from exc
     if not isinstance(snap, dict) or snap.get("schema") != SCHEMA or not isinstance(snap.get("products"), list):
         raise CannotCheck(f"snapshot {path}: not {SCHEMA}: production state unknown")
@@ -528,34 +574,12 @@ def git_file(repo: Path, ref: str, path: str) -> tuple[str, str]:
     return {"120000": "symlink", "160000": "submodule"}.get(mode, f"mode {mode}"), ""
 
 
-SCRIPT_RE = re.compile(r"<script\b([^>]*)>(.*?)</script\s*>", re.I | re.S)
-STYLE_RE = re.compile(r"<style\b[^>]*>(.*?)</style\s*>", re.I | re.S)
 HREF_RE = re.compile(r"""<(?:link|script)\b[^>]*\b(?:href|src)\s*=\s*["']([^"']+)["'][^>]*>""", re.I)
 
 
-def rendering_surface(root: Path, pages: dict[str, str]) -> dict[str, str]:
-    """What renders the catalog: for every page that loads catalog.json, its inline scripts (except JSON-LD) and
-    styles, and every local stylesheet or script it loads. Name -> sha256 of the content (or "missing")."""
-    out: dict[str, str] = {}
-    for rel, raw in pages.items():
-        if "catalog.json" not in raw:
-            continue
-        inline = [body for attrs, body in SCRIPT_RE.findall(raw) if "ld+json" not in attrs.lower()]
-        out[f"{rel} inline scripts"] = hashlib.sha256("\0".join(inline).encode()).hexdigest()
-        out[f"{rel} inline styles"] = hashlib.sha256("\0".join(STYLE_RE.findall(raw)).encode()).hexdigest()
-        for ref in HREF_RE.findall(raw):
-            u = urllib.parse.urlparse(urllib.parse.urljoin(f"https://stigready.com/{rel}", ref))
-            if u.netloc != "stigready.com" or not u.path.endswith((".css", ".js", ".mjs")):
-                continue
-            f = root / u.path.lstrip("/")
-            key = f"{u.path.lstrip('/')}"
-            out[key] = (hashlib.sha256(f.read_bytes()).hexdigest() if f.is_file() and not f.is_symlink()
-                        else "missing")
-    return out
-
-
-def downgrades(base: dict, head: dict, base_surface: dict, head_surface: dict,
-               base_signers: tuple[str, str], head_signers: tuple[str, str]) -> list[str]:
+def downgrades(base: dict, head: dict, signer_files: dict[str, tuple[tuple[str, str], tuple[str, str]]]) -> list[str]:
+    """What the PR withdraws, judged only by what base and head RENDER (never by which file changed: decision 0173),
+    plus any change to a signers file."""
     out = []
     for u in sorted(set(head.get("unevaluable") or []) - set(base.get("unevaluable") or [])):
         out.append(f"catalog page cannot be evaluated: {u}")
@@ -570,12 +594,9 @@ def downgrades(base: dict, head: dict, base_surface: dict, head_surface: dict,
         has = {(c["line"], c[field]) for c in head["claims"] if c["kind"] == kind and c["line"]}
         for ln, what in sorted(had - has):
             out.append(f"removed {kind} claim {LINES.get(ln, ln)} {what}")
-    for name in sorted(set(base_surface) | set(head_surface)):
-        if base_surface.get(name) != head_surface.get(name):
-            out.append(f"changed rendering code: {name}")
-    if base_signers != head_signers:
-        what = head_signers[0] if head_signers[0] != "file" else "edited"
-        out.append(f"changed {SIGNERS_PATH} ({what})")
+    for path, (b, h) in sorted(signer_files.items()):
+        if b != h:
+            out.append(f"changed {path} ({h[0] if h[0] != 'file' else 'edited'})")
     return sorted(out)
 
 
@@ -590,14 +611,103 @@ def approval_message(items: list[str], pr: str, base_sha: str, expires: str) -> 
     return digest, msg
 
 
-def sk_signers(text: str) -> str:
-    """The FIDO2 (sk-) keys in an allowed_signers text. Other key types never count."""
+def _split_unquoted(text: str, seps: str) -> list[str]:
+    """Split on any of seps outside double quotes, dropping empty pieces."""
+    out, cur, q = [], "", False
+    for ch in text:
+        if ch == '"':
+            q = not q
+        if ch in seps and not q:
+            out.append(cur)
+            cur = ""
+        else:
+            cur += ch
+    return [x for x in out + [cur] if x]
+
+
+def allowed_signers(text: str, principal: str, namespace: str, key_types: tuple[str, ...],
+                    require_verify: bool = False) -> str:
+    """The lines of an allowed_signers text that count, rewritten canonically. A line counts only when its principal
+    is exactly `principal`, its options name exactly this namespace, carry no cert-authority (a CA would let any key
+    it certifies sign) and, with require_verify, carry verify-required, and its key type is one of key_types. Everything
+    else never counts. ssh-keygen's allowed_signers has no verify-required option, so the line handed to it leaves the
+    marker out and the checker enforces it itself on the signature (sk_flags: user verification, a PIN)."""
     keep = []
     for line in text.splitlines():
-        s = line.strip()
-        if s and not s.startswith("#") and any(f" {t} " in f" {s} " for t in SK_TYPES):
-            keep.append(s)
+        f = _split_unquoted(line.strip(), " \t")
+        if len(f) < 4 or f[0].startswith("#") or f[0] != principal or f[2] not in key_types:
+            continue
+        opts = [o.strip().lower() for o in _split_unquoted(f[1], ",")]
+        if "cert-authority" in opts or f'namespaces="{namespace}"' not in opts:
+            continue
+        if require_verify and "verify-required" not in opts:
+            continue
+        if not re.fullmatch(r"[A-Za-z0-9+/]+={0,2}", f[3]):
+            continue
+        keep.append(f'{principal} namespaces="{namespace}" {f[2]} {f[3]}')
     return "\n".join(keep) + ("\n" if keep else "")
+
+
+def sk_signers(text: str) -> str:
+    """The owner keys in config/owner-signers that count: FIDO2 (sk-) types with verify-required, no cert-authority."""
+    return allowed_signers(text, SIGNER_ID, NAMESPACE, SK_TYPES, require_verify=True)
+
+
+def owner_enrolled(allowed: str) -> str:
+    """The lines of `allowed` whose key the owner's GitHub account lists as an SSH signing key. Only someone signed in
+    as the owner can add one, and agents never use that account: this is what makes the first key the owner's.
+    An unreadable answer is exit 2, never a pass."""
+    try:
+        keys = json.loads(_get(OWNER_KEYS_URL))
+        enrolled = {tuple(str(k.get("key", "")).split()[:2]) for k in keys if isinstance(k, dict)}
+    except (ValueError, AttributeError, TypeError) as exc:
+        raise CannotCheck(f"{OWNER_KEYS_URL}: unreadable ({type(exc).__name__})") from exc
+    keep = [ln for ln in allowed.splitlines() if tuple(ln.split()[-2:]) in enrolled]
+    return "\n".join(keep) + ("\n" if keep else "")
+
+
+UP, UV = 0x01, 0x04
+
+
+def sk_flags(sig: Path) -> int | None:
+    """The authenticator flags of an SSHSIG made by a FIDO2 (sk-) key, or None if it is not one or cannot be read."""
+    import base64
+    import struct
+    try:
+        armored = sig.read_text(encoding="ascii")
+        body = "".join(ln for ln in armored.splitlines() if ln and not ln.startswith("-----"))
+        raw = base64.b64decode(body, validate=True)
+        if raw[:6] != b"SSHSIG":
+            return None
+        pos = 10  # magic and version
+
+        def take():
+            nonlocal pos
+            (n,) = struct.unpack(">I", raw[pos:pos + 4])
+            out = raw[pos + 4:pos + 4 + n]
+            if len(out) != n:
+                raise ValueError("short")
+            pos += 4 + n
+            return out
+        for _ in range(4):  # public key, namespace, reserved, hash algorithm
+            take()
+        blob = take()
+        pos, raw = 0, blob
+        if not take().startswith(b"sk-"):
+            return None
+        take()  # the signature itself
+        return raw[pos] if pos < len(raw) else None
+    except (OSError, ValueError, UnicodeDecodeError, struct.error):
+        return None
+
+
+def ssh_verify(allowed: str, principal: str, namespace: str, sig: Path, data: bytes) -> tuple[bool, str]:
+    with tempfile.TemporaryDirectory() as d:
+        af = Path(d) / "allowed_signers"
+        af.write_text(allowed)
+        p = subprocess.run(["ssh-keygen", "-Y", "verify", "-f", str(af), "-I", principal, "-n", namespace,
+                            "-s", str(sig)], input=data, capture_output=True, timeout=30)
+    return p.returncode == 0, p.stderr.decode(errors="replace").strip()[:200]
 
 
 def verify_approval(head_root: Path, items: list[str], pr: str, base_sha: str, base_signers: str,
@@ -605,7 +715,8 @@ def verify_approval(head_root: Path, items: list[str], pr: str, base_sha: str, b
     allowed = sk_signers(base_signers)
     if not allowed:
         return False, (f"{SIGNERS_PATH} on the base lists no owner key, so nothing can be approved. The first key "
-                       "lands through a PR the owner merges by hand (approvals/owner/README.md)")
+                       "counts once it is on main and enrolled as a signing key of the owner's GitHub account "
+                       "(approvals/owner/README.md)")
     digest = approval_digest(items, pr, base_sha)
     txt = head_root / "approvals" / "owner" / f"{digest}.txt"
     sig = head_root / "approvals" / "owner" / f"{digest}.sig"
@@ -622,13 +733,17 @@ def verify_approval(head_root: Path, items: list[str], pr: str, base_sha: str, b
     _, want = approval_message(items, pr, base_sha, m.group(1))
     if body != want:
         return False, f"approvals/owner/{digest}.txt is not the canonical message for this change"
-    with tempfile.TemporaryDirectory() as d:
-        af = Path(d) / "allowed_signers"
-        af.write_text(allowed)
-        p = subprocess.run(["ssh-keygen", "-Y", "verify", "-f", str(af), "-I", SIGNER_ID, "-n", NAMESPACE,
-                            "-s", str(sig)], input=body.encode(), capture_output=True, timeout=30)
-    if p.returncode != 0:
-        return False, f"owner signature does not verify: {p.stderr.decode(errors='replace').strip()[:200]}"
+    enrolled = owner_enrolled(allowed)
+    if not enrolled:
+        return False, (f"no key in {SIGNERS_PATH} on the base is enrolled as an SSH signing key of the owner's GitHub "
+                       f"account ({OWNER_GITHUB_LOGIN}), so nothing can be approved (approvals/owner/README.md)")
+    ok, err = ssh_verify(enrolled, SIGNER_ID, NAMESPACE, sig, body.encode())
+    if not ok:
+        return False, f"owner signature does not verify: {err}"
+    flags = sk_flags(sig)
+    if flags is None or not (flags & UP and flags & UV):
+        return False, ("owner signature does not verify: the key is listed verify-required, but the signature was made "
+                       "without user verification (a PIN)")
     return True, f"owner approval {digest[:12]} for PR {pr} on base {base_sha[:12]} verifies, expires {expires}"
 
 
@@ -636,11 +751,21 @@ def removal_items(repo: Path, base_ref: str, head_ref: str, work: Path, node: st
     base_root = git_tree(repo, base_ref, work / "base")
     head_root = git_tree(repo, head_ref, work / "head")
     base_site, head_site = load_site(base_root, node, renderer), load_site(head_root, node, renderer)
-    bs, hs = git_file(repo, base_ref, SIGNERS_PATH), git_file(repo, head_ref, SIGNERS_PATH)
-    items = downgrades(base_site, head_site, rendering_surface(base_root, base_site["pages"]),
-                       rendering_surface(head_root, head_site["pages"]), bs, hs)
+    files = {path: (git_file(repo, base_ref, path), git_file(repo, head_ref, path))
+             for path in (SIGNERS_PATH, SNAPSHOT_SIGNERS_PATH)}
+    items = downgrades(base_site, head_site, files)
     base_sha = git(repo, "merge-base", base_ref, head_ref).strip()
-    return items, base_sha, bs, head_root
+    return items, base_sha, files[SIGNERS_PATH][0], head_root
+
+
+def signers_not_alone(items: list[str]) -> str | None:
+    """A signers change is never approved together with anything else: the PR that changes who may sign, or which key
+    signs the snapshot, may withdraw nothing, so no key is ever added and relied on in one change."""
+    sig = [i for i in items if i.startswith(("changed " + SIGNERS_PATH, "changed " + SNAPSHOT_SIGNERS_PATH))]
+    if sig and len(sig) < len(items):
+        return (f"this PR changes {', '.join(sorted({i.split()[1] for i in sig}))} and also withdraws something: a "
+                "signers change must be its own PR, so it cannot be approved together with anything else")
+    return None
 
 
 # --------------------------------------------------------------------------------------------------------------- L3
@@ -817,6 +942,9 @@ def main(argv=None) -> int:
     ap.add_argument("--head-ref", default="HEAD", help="removal: the PR head")
     ap.add_argument("--pr", help="removal: the PR number ($CAIRN_PR)")
     ap.add_argument("--snapshot", type=Path, help="pr/drift: marketplace-live.json")
+    ap.add_argument("--snapshot-sig", type=Path, help="pr/drift: its signature (default: <snapshot>.sig)")
+    ap.add_argument("--snapshot-signers", type=Path, default=DEFAULT_SNAPSHOT_SIGNERS,
+                    help=f"pr/drift: the snapshot keys (default: {SNAPSHOT_SIGNERS_PATH} of this checker's tree)")
     ap.add_argument("--max-age-hours", type=float, default=26.0)
     ap.add_argument("--now", help="ISO time to judge snapshot age and approval expiry by (fixtures)")
     ap.add_argument("--expires", help="approval-message: YYYY-MM-DD")
@@ -841,7 +969,7 @@ def main(argv=None) -> int:
         if a.mode == "pr":
             if not a.snapshot:
                 raise CannotCheck("--snapshot is required: production state unknown")
-            snap = load_snapshot(a.snapshot, now, a.max_age_hours)
+            snap = load_snapshot(a.snapshot, now, a.max_age_hours, a.snapshot_sig, a.snapshot_signers)
             fails, warns = check_pr(load_site(a.site, a.node, a.renderer), snap)
             n = sum(1 for p in snap["products"] if p.get("visibility") == "Public")
             emit(_report("copy-truth (decision 0114 L1)", fails, warns,
@@ -856,8 +984,7 @@ def main(argv=None) -> int:
                     a.repo, a.base_ref, a.head_ref, Path(d), a.node, a.renderer)
                 if a.mode == "approval-message":
                     if not items:
-                        print("nothing to approve: no product, price, region, rendering code or signer changes",
-                              file=sys.stderr)
+                        print("nothing to approve: no product, price, region or signer change", file=sys.stderr)
                         return 1
                     digest, msg = approval_message(items, a.pr, base_sha,
                                                    a.expires or (now.date() + dt.timedelta(days=7)).isoformat())
@@ -868,10 +995,14 @@ def main(argv=None) -> int:
                     return 0
                 title = "copy-removal-gate (decision 0114 L2)"
                 if not items:
-                    emit(_report(title, [], [], ["Nothing is withdrawn and the rendering code and signers are unchanged."]))
+                    emit(_report(title, [], [], ["Nothing is withdrawn from what the site renders, and the signers "
+                                                 "are unchanged."]))
                     return 0
-                ok, why = verify_approval(head_root, items, a.pr, base_sha, btext if bstate == "file" else "",
-                                          now.date())
+                why = signers_not_alone(items)
+                ok = False
+                if why is None:
+                    ok, why = verify_approval(head_root, items, a.pr, base_sha, btext if bstate == "file" else "",
+                                              now.date())
             emit(_report(title, [] if ok else items, [],
                          [why, "", "Generate the message to sign with `--mode approval-message` "
                                "(approvals/owner/README.md)."]))
@@ -880,12 +1011,14 @@ def main(argv=None) -> int:
         # drift
         if not a.snapshot:
             raise CannotCheck("--snapshot is required: production state unknown")
-        snap = load_snapshot(a.snapshot, now, a.max_age_hours)
+        snap = load_snapshot(a.snapshot, now, a.max_age_hours, a.snapshot_sig, a.snapshot_signers)
+        if not a.sources.is_file() or a.sources.is_symlink():
+            raise CannotCheck(f"{a.sources} missing: the READMEs and pages it lists cannot be checked")
+        sources = load_sources(a.sources)
         token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
         with tempfile.TemporaryDirectory() as d:
             got = fetch_site(a.site_url, Path(d))
             fails, warns = check_pr(load_site(Path(d), a.node, a.renderer), snap)
-        sources = load_sources(a.sources) if a.sources.is_file() else {}
         rf, read = check_readmes(sources, snap, token)
         fails += rf
         lead = ("The site or a public README describes a product differently from its live AWS Marketplace listing. "

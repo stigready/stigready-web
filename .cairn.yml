@@ -82,7 +82,9 @@ jobs:
   #
   # L1 copy-truth: the PR's site against the live Marketplace snapshot. PR runs get no AWS credentials (Cairn), so the
   # snapshot is the file stigready's marketplace-live-snapshot job (marketplace-ro) writes to this repo's
-  # live/marketplace branch. A missing, empty or >26 h old snapshot exits 2 (production state unknown).
+  # live/marketplace branch. Any repo writer can push that branch, so the snapshot counts only with its signature
+  # (marketplace-live.json.sig) by a key in the base's config/snapshot-signers (decision 0173). A missing, unsigned,
+  # badly signed, empty or >26 h old snapshot exits 2 (production state unknown).
   # ADVISORY until that job has run under its cairn-server.yml grant and written the branch: then drop `advisory`
   # and add copy-truth to main's required contexts. Prices only warn until cairn-marketplace-ro can read Offers.
   - name: copy-truth
@@ -104,22 +106,29 @@ jobs:
               git -C "$t/snap" init -q
               git -C "$t/snap" fetch -q --depth 1 https://github.com/stigready/stigready-web.git live/marketplace
               git -C "$t/snap" show FETCH_HEAD:marketplace-live.json > "$t/marketplace-live.json"
+              # No signature on the branch: the checker reports it and exits 2 (never a pass).
+              git -C "$t/snap" show FETCH_HEAD:marketplace-live.json.sig > "$t/marketplace-live.json.sig" \
+                || rm -f "$t/marketplace-live.json.sig"
               python3 -I "$t/base/scripts/check-copy-vs-marketplace.py" --mode pr --site . --node "$node" \
                 --renderer "$t/base/scripts/render/render.mjs" \
-                --snapshot "$t/marketplace-live.json" --out copy-truth/report.md
+                --snapshot "$t/marketplace-live.json" --snapshot-signers "$t/base/config/snapshot-signers" \
+                --out copy-truth/report.md
 
-  # L2 copy-removal-gate: the PR head against the base, both read from git objects. Fails when a product moves down
-  # (purchasable > no claim > coming soon > not shown), disappears, or loses a price or region claim; when the code or
-  # styles that render the catalog change; or when config/owner-signers changes in any way (edited, emptied, deleted,
-  # symlinked). It passes only with approvals/owner/<digest>.{txt,sig} over this PR number and its merge base, signed
-  # by a key listed in config/owner-signers ON THE BASE (approvals/owner/README.md). With no key on main, nothing can
-  # be approved: the first key lands through a PR the owner merges by hand.
-  # REQUIRED once it lands: the program agent adds it to main's branch protection pinned to the Cairn app, as validate
-  # is: required_status_checks.checks += {context: copy-removal-gate, app_id: 5393122}. Unpinned, the login the owner
-  # shares with the program agent (a repo admin) could post the status itself.
+  # L2 copy-removal-gate: the PR head against the base, both read from git objects and both RENDERED. Fails when a
+  # product moves down (purchasable > no claim > coming soon > not shown), disappears, or loses a price or region claim
+  # in what the pages render; or when config/owner-signers or config/snapshot-signers changes in any way (edited,
+  # emptied, deleted, symlinked). Which file changed never decides: a site.css or script edit that withdraws nothing
+  # passes (decision 0173). It passes only with approvals/owner/<digest>.{txt,sig} over this PR number and its merge
+  # base, signed by a key listed in config/owner-signers ON THE BASE that the owner's GitHub account also lists as an
+  # SSH signing key (approvals/owner/README.md). A signers change must be the PR's only withdrawal.
+  # ADVISORY while config/owner-signers lists no key (nothing could be approved, so a red gate would only block): CINC
+  # web-copy-truth-04 fails once a key is listed and this is still advisory. Then drop `advisory` and add it to main's
+  # branch protection pinned to the Cairn app, as validate is: required_status_checks.checks += {context:
+  # copy-removal-gate, app_id: 5393122}. Unpinned, a repo admin could post the status itself.
   - name: copy-removal-gate
     stage: verify
     when: pull_request
+    advisory: true
     status: copy-removal-gate
     timeout: 15m
     run:
@@ -162,8 +171,11 @@ jobs:
               git -C "$t" init -q
               git -C "$t" fetch -q --depth 1 https://github.com/stigready/stigready-web.git live/marketplace
               git -C "$t" show FETCH_HEAD:marketplace-live.json > "$t/marketplace-live.json"
+              git -C "$t" show FETCH_HEAD:marketplace-live.json.sig > "$t/marketplace-live.json.sig" \
+                || rm -f "$t/marketplace-live.json.sig"
               python3 -I scripts/check-copy-vs-marketplace.py --mode drift --node "$node" \
-                --snapshot "$t/marketplace-live.json" --max-age-hours 2 --sources config/copy-truth-sources.yml \
+                --snapshot "$t/marketplace-live.json" --snapshot-signers config/snapshot-signers \
+                --max-age-hours 2 --sources config/copy-truth-sources.yml \
                 --out copy-drift/report.md --issue
 
   # Scanners (decision 0076 part B; owner 2026-10-21: "we should be running trivy and any other tools that make sence").
