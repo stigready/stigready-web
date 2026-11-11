@@ -4,15 +4,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-+IIVvmt4jNSGoL1yl8Su0MIJgOfKjF4KOe9KdU/2x/0=' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R2J9HMP1XX"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-R2J9HMP1XX');
-    </script>
     <title>RHEL 9 Base + rhel9_stig — StigReady how-to</title>
     <meta name="description" content="Apply the public StigForge rhel9_stig Ansible role on StigReady RHEL 9 Base (BYOL) with a pinned release tag.">
     <meta name="robots" content="index,follow">
@@ -136,7 +129,7 @@ rhel9-base ansible_host=&lt;instance-ip&gt; ansible_user=ec2-user
                 <li>Score this host: <code>oscap xccdf eval --profile xccdf_org.ssgproject.content_profile_stig --results results.xml --report report.html /usr/share/xml/scap/ssg/content/ssg-rhel9-ds.xml</code>, after the reboot.</li>
                 <li>Published scores for the StigReady Applied image built with this role: <a href="/#applied-tier">stigready.com/#applied-tier</a> (the <a href="/#stigforge">StigForge table</a> names the role version each score was measured with)</li>
             </ul>
-            <p>The role repo ships no container score (container verification was retired because a container cannot evaluate most STIG rules). The number that counts is OpenSCAP against the raw SSG <code>stig</code> profile on <em>this</em> instance, after the reboot; that is also what StigReady publishes for the StigApplied image that bakes the same role.</p>
+            <p>The role repo ships no container score (container verification was retired because a container cannot evaluate most STIG rules). The number that counts is OpenSCAP against the raw SSG <code>stig</code> profile on <em>this</em> instance, after the reboot; that is also what StigReady publishes for the StigReady Applied image that bakes the same role.</p>
 
             <h2>Related</h2>
             <ul>
@@ -163,12 +156,13 @@ rhel9-base ansible_host=&lt;instance-ip&gt; ansible_user=ec2-user
                     <a href="/#stigforge" class="hover:text-white transition">StigForge</a>
                     <a href="/blog/" class="hover:text-white transition">Blog</a>
                     <a href="/#pricing" class="hover:text-white transition">Pricing</a>
+                    <a href="/data-practices/" class="hover:text-white transition">Data practices</a>
                     <a href="mailto:contact@stigready.com" class="hover:text-white transition">contact@stigready.com</a>
                 </div>
             </div>
             <p class="text-center text-xs text-gray-600">&copy; 2026 StigReady. All rights reserved.</p>
             <p class="text-center text-xs text-gray-600 mt-3 max-w-3xl mx-auto">
-                Not affiliated with or endorsed by DISA, DoD, NIST, CIS, Red Hat, or Canonical. All trademarks are the property of their respective owners. Red Hat® and Red Hat Enterprise Linux® are trademarks of Red Hat, Inc. Ubuntu® is a trademark of Canonical Ltd. Amazon Linux is a trademark of Amazon.com, Inc. or its affiliates. Rocky Linux is a trademark of the Rocky Enterprise Software Foundation. AlmaLinux is a trademark of the AlmaLinux OS Foundation. Linux is the registered trademark of Linus Torvalds in the U.S. and other countries. CIS® and CIS Benchmarks™ are trademarks of the Center for Internet Security, Inc. StigReady does not provide commercial licenses for Red Hat products.
+                Not affiliated with or endorsed by DISA, DoD, NIST, CIS, Red Hat, Canonical, Amazon, the Rocky Enterprise Software Foundation, or the AlmaLinux OS Foundation. All trademarks are the property of their respective owners. Red Hat®, Red Hat Enterprise Linux® and Ansible® are trademarks of Red Hat, Inc. Ubuntu® is a trademark of Canonical Ltd. Amazon Web Services, AWS, AWS Marketplace, Graviton and Amazon Linux are trademarks of Amazon.com, Inc. or its affiliates. Rocky Linux is a trademark of the Rocky Enterprise Software Foundation. AlmaLinux is a trademark of the AlmaLinux OS Foundation. Linux is the registered trademark of Linus Torvalds in the U.S. and other countries. CIS® and CIS Benchmarks™ are trademarks of the Center for Internet Security, Inc. StigReady does not provide commercial licenses for Red Hat products.
             </p>
         </div>
     </footer>

@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2026 StigReady
 # SPDX-License-Identifier: MIT
-# stigready-web#77: GitHub Pages publishes main with Jekyll, and only the site's own files may reach stigready.com.
+# GitHub Pages publishes main with Jekyll, and only the site's own files may reach stigready.com.
 # The pipeline config, the CINC profile, the build scripts and the repository's papers stay in the repo.
 #
 # These controls work out what Jekyll would publish from the checked-out tree, using the rules GitHub Pages applies:
@@ -25,7 +25,7 @@ module PublishedPaths
   SITE_PATHS = %w[
     CNAME robots.txt sitemap.xml index.html stigapplied.html catalog.json stigforge-factory.json
     applied/*.html blog/*.html blog/rss.xml
-    privacy/*.html terms/*.html
+    data-practices/*.html privacy/*.html terms/*.html
     assets/*.png assets/*.svg assets/css/site.css assets/vendor/*
   ].freeze
 
@@ -84,7 +84,7 @@ PUB_CONTENTS = PUB_PATHS.to_h { |p| [p, File.binread(File.join(PUB_ROOT, p)).for
 
 control 'web-published-paths-site-only' do
   impact 1.0
-  title 'stigready.com publishes only the site: no CI, test, script or repository files (stigready-web#77)'
+  title 'stigready.com publishes only the site: no CI, test, script or repository files'
   desc 'GitHub Pages builds main with Jekyll; _config.yml excludes everything that is not a site path.'
   describe 'the files Pages would publish' do
     it('include the home page') { expect(PUB_PATHS).to include('index.html') }
