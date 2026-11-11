@@ -1,4 +1,4 @@
-# Marketplace snapshot keys (claude-agents decision 0114 section 1; security review of stigready-web#74), OpenSSH allowed_signers format:
+# Marketplace snapshot keys (claude-agents decision 0173, amending 0114 section 1), OpenSSH allowed_signers format:
 #   snapshot@stigready namespaces="stigready-marketplace-snapshot" ssh-ed25519 AAAA... <comment>
 # The live/marketplace branch can be pushed by any repo writer, so copy-truth and copy-drift-watch trust
 # marketplace-live.json only with marketplace-live.json.sig, made by stigready's marketplace-live-snapshot job with

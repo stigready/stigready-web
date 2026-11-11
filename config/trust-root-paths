@@ -8,5 +8,7 @@ scripts/render/**
 cinc/profiles/stigready-web/controls/copy_truth.rb
 cinc/profiles/stigready-web/files/copy-truth/**
 config/snapshot-signers
+config/owner-signers
 .cairn.yml#copy-truth
+.cairn.yml#copy-removal-gate
 .cairn.yml#copy-drift-watch
