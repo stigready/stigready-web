@@ -17,15 +17,20 @@ COPY_AVAILABLE = COPY_CATALOG.fetch('products', []).count { |p| p['availability'
 
 # "CIS hardened AMI", "CIS Hardened Image(s)", any case or spacing (markup entities aside).
 CIS_PRODUCT_LABEL = /\bCIS\s+hardened\s+(?:AMIs?|images?)\b/i
-NON_AFFILIATION = 'Not affiliated with or endorsed by DISA, DoD, NIST, CIS, Red Hat, or Canonical.'
+NON_AFFILIATION = 'Not affiliated with or endorsed by DISA, DoD, NIST, CIS, Red Hat, Canonical, Amazon, the Rocky Enterprise Software Foundation, or the AlmaLinux OS Foundation.'
 CIS_TRADEMARK = 'CIS® and CIS Benchmarks™ are trademarks of the Center for Internet Security, Inc.'
 # stigready-web#72: every OS family catalog.json sells carries its trademark attribution on every page, in the wording
 # of the role-README notice (stigforge#216, generator/generate_role.py _OS_MARKS and _LINUX_MARK). Keyed by the start
 # of catalog.json's `os` value; an OS with no entry here fails until its mark is added.
+# stigready-web#89: the Red Hat and Amazon sentences also name the other marks of the same holder that the site uses
+# (Ansible; AWS, AWS Marketplace, Graviton), so those two sentences are the site's wording, not the role README's.
+RED_HAT_TRADEMARK = 'Red Hat®, Red Hat Enterprise Linux® and Ansible® are trademarks of Red Hat, Inc.'
+AMAZON_TRADEMARK = 'Amazon Web Services, AWS, AWS Marketplace, Graviton and Amazon Linux are trademarks of ' \
+                   'Amazon.com, Inc. or its affiliates.'
 OS_TRADEMARKS = {
-  'RHEL' => 'Red Hat® and Red Hat Enterprise Linux® are trademarks of Red Hat, Inc.',
+  'RHEL' => RED_HAT_TRADEMARK,
   'Ubuntu' => 'Ubuntu® is a trademark of Canonical Ltd.',
-  'Amazon Linux' => 'Amazon Linux is a trademark of Amazon.com, Inc. or its affiliates.',
+  'Amazon Linux' => AMAZON_TRADEMARK,
   'Rocky Linux' => 'Rocky Linux is a trademark of the Rocky Enterprise Software Foundation.',
   'AlmaLinux' => 'AlmaLinux is a trademark of the AlmaLinux OS Foundation.'
 }.freeze
@@ -91,6 +96,19 @@ control 'web-os-trademarks-on-every-page' do
   COPY_PAGES.each do |rel|
     describe "#{rel} OS trademark sentences missing" do
       subject { marks.reject { |m| COPY_BODIES[rel].include?(m) } }
+      it { should be_empty }
+    end
+  end
+end
+
+# stigready-web#89: every page names AWS Marketplace or Ansible, or shares the footer with pages that do, so every
+# page carries both holder sentences whatever catalog.json sells.
+control 'web-vendor-trademarks-on-every-page' do
+  impact 1.0
+  title 'Every page attributes the Amazon (AWS, AWS Marketplace, Graviton) and Red Hat (Ansible) marks (stigready-web#89)'
+  COPY_PAGES.each do |rel|
+    describe "#{rel} Amazon and Red Hat trademark sentences missing" do
+      subject { [AMAZON_TRADEMARK, RED_HAT_TRADEMARK].reject { |m| COPY_BODIES[rel].include?(m) } }
       it { should be_empty }
     end
   end

@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R2J9HMP1XX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-R2J9HMP1XX');
+    </script>
+
+    <title>StigReady — STIG AMI &amp; CIS Hardened AMI with OpenSCAP Scores</title>
+    <meta name="description" content="STIG AMI and CIS hardened AMI images for AWS. StigReady Base and Applied with published OpenSCAP scores on x86_64 and arm64. Marketplace listings rolling out.">
+    <meta name="author" content="StigReady">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta name="theme-color" content="#0C2340">
+    <link rel="canonical" href="https://stigready.com/">
+    <link rel="icon" type="image/png" href="https://stigready.com/assets/logo.png">
+    <link rel="apple-touch-icon" href="https://stigready.com/assets/logo.png">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="StigReady">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:url" content="https://stigready.com/">
+    <meta property="og:title" content="StigReady — STIG AMI &amp; CIS Hardened AMI with OpenSCAP Scores">
+    <meta property="og:description" content="STIG AMI and CIS hardened AMI images for AWS. Published OpenSCAP scores on x86_64 and arm64.">
+    <meta property="og:image" content="https://stigready.com/assets/logo.png">
+    <meta property="og:image:alt" content="StigReady logo">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@Stigready">
+    <meta name="twitter:title" content="StigReady — STIG AMI &amp; CIS Hardened AMI with OpenSCAP Scores">
+    <meta name="twitter:description" content="STIG AMI and CIS hardened AMI images for AWS. Published OpenSCAP scores on x86_64 and arm64.">
+    <meta name="twitter:image" content="https://stigready.com/assets/logo.png">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://stigready.com/#organization",
+          "name": "StigReady",
+          "url": "https://stigready.com/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://stigready.com/assets/logo.png"
+          },
+          "email": "contact@stigready.com",
+          "sameAs": ["https://x.com/Stigready"],
+          "description": "STIG AMI and CIS hardened AMI images for AWS — StigReady Base and Applied — with published OpenSCAP scores and evidence on request."
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://stigready.com/#website",
+          "url": "https://stigready.com/",
+          "name": "StigReady",
+          "publisher": { "@id": "https://stigready.com/#organization" },
+          "inLanguage": "en-US"
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://stigready.com/#webpage",
+          "url": "https://stigready.com/",
+          "name": "StigReady — STIG AMI & CIS Hardened AMI with OpenSCAP Scores",
+          "isPartOf": { "@id": "https://stigready.com/#website" },
+          "about": { "@id": "https://stigready.com/#organization" },
+          "description": "STIG AMI and CIS hardened AMI images for AWS. StigReady Base and Applied with published OpenSCAP scores on x86_64 and arm64.",
+          "inLanguage": "en-US"
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://stigready.com/#faq",
+          "isPartOf": { "@id": "https://stigready.com/#webpage" },
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is the difference between StigReady Base and Applied pricing?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "StigReady Base is $0.02/hr or $149/yr per instance — STIG disk layout, SSH hardening, and cloud-ready defaults; you bring your own CIS/STIG profiles. StigReady Applied is $0.08/hr or $649/yr per instance — full CIS Level 1/2 or DISA STIG remediation with published OpenSCAP scores and an evidence bundle. Both fees are Marketplace software fees on top of normal EC2 costs. The same rate applies to every instance type; it does not change with instance size."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What OpenSCAP evidence is available for Applied?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Every Applied image has an OpenSCAP ARF result, HTML report, POA&M and SBOM, and every Applied image except RHEL 10 has a CVE scan, available from support@stigready.com on request. Scores are measured in-build against the raw, unmodified SSG profile. StigReady is not affiliated with or endorsed by DISA, DoD, NIST, or CIS, and does not claim certified, authorized, or accredited status."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do you support arm64 / Graviton?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. StigReady Base and Applied build for both x86_64 and arm64 (Graviton). Use the architecture filters on the Base and Applied catalogs to see cells we actually build."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Are RHEL images BYOL?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Red Hat Enterprise Linux images are BYOL — you supply your own Red Hat subscription. StigReady does not sell or provide Red Hat commercial licenses."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Are StigReady AMIs available on AWS Marketplace?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "AWS Marketplace listings are rolling out. Watch our seller profile or email contact@stigready.com for early access and Private Offers. We do not publish per-SKU Marketplace listing URLs or AMI IDs on this site."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <link rel="stylesheet" href="/assets/css/site.css">
+    <script src="/assets/vendor/lucide-1.54.0.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gold { color: #C9A84C; }
+        .bg-navy { background-color: #0C2340; }
+        .bg-navy-light { background-color: #1B3A6B; }
+        .border-gold { border-color: #C9A84C; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col">
+
+    <!-- Nav -->
+    <nav class="bg-navy border-b border-gray-800 px-6 py-4 sticky top-0 z-20">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <a href="/" class="flex items-center space-x-3" aria-label="StigReady home">
+                <img src="assets/logo.png" alt="StigReady" class="h-10 w-auto" width="40" height="40"/>
+                <span class="text-xl font-black tracking-wide"><span class="text-white">STIG</span><span class="gold">READY</span></span>
+            </a>
+            <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                <a href="#base-tier"    class="text-gray-300 hover:text-white transition">Base</a>
+                <a href="#applied-tier" class="text-gray-300 hover:text-white transition">Applied</a>
+                <a href="#stigforge" class="text-gray-300 hover:text-white transition">StigForge</a>
+                <a href="/blog/" class="text-gray-300 hover:text-white transition">Blog</a>
+                <a href="#pricing"      class="text-gray-300 hover:text-white transition">Pricing</a>
+                <a href="mailto:contact@stigready.com" class="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded-md font-semibold transition">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="bg-navy py-20 px-4 text-center border-b border-gray-800">
+        <div class="max-w-4xl mx-auto">
+            <img src="assets/logo.png" alt="StigReady" class="h-24 w-auto mx-auto mb-8"/>
+            <h1 class="text-4xl md:text-5xl font-black mb-4 tracking-tight">
+                <span class="text-white">STIG AMI &amp; CIS hardened AMI</span><br/>
+                <span class="gold">with published OpenSCAP scores</span>
+            </h1>
+            <p class="text-lg text-gray-300 mb-6 max-w-2xl mx-auto">
+                One hardened foundation — two ways to use it. All built from the official OS ISO (Amazon Linux 2023: from
+                Amazon's prebuilt disk image), patched, and boot-tested on real EC2 Nitro. AWS Marketplace listings are rolling out.
+            </p>
+            <!-- Tier pills -->
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mb-8">
+                <a href="#base-tier" class="bg-gray-800 border border-gray-700 hover:border-yellow-600 text-white px-6 py-3 rounded-lg transition text-left">
+                    <div class="text-xs text-yellow-500 font-semibold uppercase tracking-wider mb-0.5">StigReady Base</div>
+                    <div class="font-bold">The base that won't fight you</div>
+                    <div class="text-xs text-gray-400 mt-0.5">$0.02/hr · Bring your own profiles</div>
+                </a>
+                <a href="#applied-tier" class="bg-gray-800 border border-yellow-700 hover:border-yellow-500 text-white px-6 py-3 rounded-lg transition text-left">
+                    <div class="text-xs text-yellow-500 font-semibold uppercase tracking-wider mb-0.5">StigReady Applied</div>
+                    <div class="font-bold">Remediated, scored, and provable</div>
+                    <div class="text-xs text-gray-400 mt-0.5">$0.08/hr · Evidence bundle on request</div>
+                </a>
+            </div>
+            <a href="#stigforge" class="block max-w-xl mx-auto mb-8 bg-gray-800 border border-gray-700 hover:border-yellow-600 text-white px-6 py-3 rounded-lg transition text-left">
+                <div class="text-xs text-yellow-500 font-semibold uppercase tracking-wider mb-0.5">StigForge</div>
+                <div class="font-bold">Public CIS / STIG Ansible roles</div>
+                <div class="text-xs text-gray-400 mt-0.5">Generated from SSG; scored by OpenSCAP on the images that bake them</div>
+            </a>
+            <div class="flex flex-col sm:flex-row justify-center gap-3 items-center">
+                <a href="mailto:contact@stigready.com"
+                   class="inline-block bg-yellow-600 hover:bg-yellow-500 text-white px-8 py-3 rounded-md font-bold text-lg transition">
+                    Contact for early access
+                </a>
+                <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk"
+                   class="inline-block bg-gray-700 hover:bg-gray-600 text-white px-6 py-3 rounded-md font-semibold transition"
+                   rel="noopener noreferrer">
+                    AWS Marketplace seller profile
+                </a>
+            </div>
+            <p class="text-xs text-gray-500 mt-4">Marketplace listings rolling out · x86_64 and arm64 (Graviton)</p>
+        </div>
+    </section>
+
+    <!-- ── BASE TIER ─────────────────────────────────────────────────── -->
+    <section id="base-tier" class="py-20 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <span class="text-xs text-yellow-500 font-semibold uppercase tracking-widest">StigReady Base</span>
+                <h2 class="text-3xl font-bold mt-2 text-white">The base that won't fight you</h2>
+                <p class="text-gray-400 mt-3 max-w-2xl mx-auto">The structural work that's painful to retrofit — already done. Bring your own profiles, Ansible, and tooling.</p>
+            </div>
+
+            <!-- Feature cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+                <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
+                    <i data-lucide="folder-tree" class="w-10 h-10 mb-4 text-yellow-500"></i>
+                    <h3 class="text-lg font-bold mb-2">STIG Partition Layout</h3>
+                    <p class="text-gray-400 text-sm">Separate hardened mounts for <code class="text-yellow-400">/home</code>, <code class="text-yellow-400">/tmp</code>, <code class="text-yellow-400">/var</code>, <code class="text-yellow-400">/var/log</code>, <code class="text-yellow-400">/var/log/audit</code>, and <code class="text-yellow-400">/var/tmp</code> on the images built from the OS installer. Amazon Linux 2023 is built from Amazon's prebuilt disk image and gets a separate <code class="text-yellow-400">/var/log/audit</code>, the one partition its STIG requires.</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
+                    <i data-lucide="key-round" class="w-10 h-10 mb-4 text-yellow-500"></i>
+                    <h3 class="text-lg font-bold mb-2">SSH Hardened</h3>
+                    <p class="text-gray-400 text-sm">Password auth disabled, root login prohibited, host keys regenerated on first boot, <strong class="text-gray-200">no pre-installed keys</strong> — cloud-init injects your EC2 key pair.</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
+                    <i data-lucide="refresh-cw" class="w-10 h-10 mb-4 text-yellow-500"></i>
+                    <h3 class="text-lg font-bold mb-2">Minimal &amp; Patched</h3>
+                    <p class="text-gray-400 text-sm">Built from the official OS ISO (Amazon Linux 2023: Amazon's prebuilt disk image) with a minimal footprint and fully updated packages on a monthly cadence — smaller attack surface, no surprise packages.</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
+                    <i data-lucide="cloud" class="w-10 h-10 mb-4 text-yellow-500"></i>
+                    <h3 class="text-lg font-bold mb-2">AWS-Native</h3>
+                    <p class="text-gray-400 text-sm">IMDSv2 enforced. SSM Agent pre-installed. cloud-init handles EC2 key-pair injection. Boot-tested on real Nitro EC2 before any image ships. x86_64 and arm64 (Graviton).</p>
+                </div>
+            </div>
+
+            <!-- Base Catalog -->
+            <div id="base-catalog-section" class="bg-gray-800 rounded-xl border border-gray-700 p-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
+                    <div>
+                        <h3 class="text-xl font-bold text-white">Base Catalog</h3>
+                        <p class="text-gray-400 text-sm mt-1">Release 1 · 24 images · Rocky / Alma / RHEL 8–10, Ubuntu 24.04 / 26.04, Amazon Linux 2023 · x86_64 + arm64</p>
+                    </div>
+                    <div class="flex gap-2 flex-wrap" id="base-arch-filters">
+                        <button class="px-3 py-1.5 rounded text-sm font-medium bg-yellow-600 text-white transition"
+                                data-filter-group="base" data-filter-key="arch" data-filter-val="all"
+                                onclick="setFilter('base','arch','all')">All arches</button>
+                        <button class="px-3 py-1.5 rounded text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
+                                data-filter-group="base" data-filter-key="arch" data-filter-val="x86_64"
+                                onclick="setFilter('base','arch','x86_64')">x86_64</button>
+                        <button class="px-3 py-1.5 rounded text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
+                                data-filter-group="base" data-filter-key="arch" data-filter-val="arm64"
+                                onclick="setFilter('base','arch','arm64')">arm64 (Graviton)</button>
+                    </div>
+                </div>
+                <div class="bg-gray-900 rounded-lg overflow-x-auto border border-gray-700">
+                    <table class="w-full text-sm min-w-[480px]">
+                        <thead class="bg-navy text-gray-300 uppercase text-xs tracking-wider">
+                            <tr>
+                                <th class="px-4 py-3 text-left">OS</th>
+                                <th class="px-4 py-3 text-left">Arch</th>
+                            </tr>
+                        </thead>
+                        <tbody id="base-tbody" class="divide-y divide-gray-700 text-gray-300">
+                            <tr><td colspan="2" class="px-4 py-6 text-center text-gray-500">Loading catalog…</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-4 space-y-2 text-xs text-gray-500">
+                    <p><span class="text-sky-400 font-semibold">BYOL</span> — Red Hat Enterprise Linux images are Bring Your Own License. You supply the Red Hat subscription; StigReady does not provide commercial Red Hat licenses. Red Hat, Inc. holds the trademarks for Red Hat® and Red Hat Enterprise Linux®.</p>
+                </div>
+            </div>
+
+            <!-- Partition Layout -->
+            <div id="partitions" class="mt-16">
+                <h3 class="text-2xl font-bold text-center mb-3 text-white">Partition Layout</h3>
+                <p class="text-center text-gray-400 mb-8">GPT disk · LVM volume group <code class="text-yellow-400">vg_root</code> · separate STIG filesystems on every image built from the OS installer. Amazon Linux 2023 is built from Amazon's prebuilt disk image and gets only a separate <code class="text-yellow-400">/var/log/audit</code> (volume group <code class="text-yellow-400">vg_stig</code>), the one partition its STIG requires.</p>
+                <div class="bg-gray-800 rounded-lg overflow-hidden border border-gray-700 overflow-x-auto max-w-2xl mx-auto">
+                    <table class="w-full text-sm min-w-[480px]">
+                        <thead class="bg-navy text-gray-300 uppercase text-xs tracking-wider">
+                            <tr>
+                                <th class="px-4 py-3 text-left">Mount</th>
+                                <th class="px-4 py-3 text-left">Filesystem</th>
+                                <th class="px-4 py-3 text-left">Options</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-700">
+                            <tr><td class="px-4 py-3 font-mono text-yellow-400">/boot/efi</td><td class="px-4 py-3 text-gray-400">vfat</td><td class="px-4 py-3 text-gray-500">—</td></tr>
+                            <tr><td class="px-4 py-3 font-mono text-yellow-400">/boot</td><td class="px-4 py-3 text-gray-400">ext4 / xfs</td><td class="px-4 py-3 text-gray-500">—</td></tr>
+                            <tr><td class="px-4 py-3 font-mono text-yellow-400">/</td><td class="px-4 py-3 text-gray-400">xfs</td><td class="px-4 py-3 text-gray-500">—</td></tr>
+                            <tr><td class="px-4 py-3 font-mono text-yellow-400">/home</td><td class="px-4 py-3 text-gray-400">xfs</td><td class="px-4 py-3 font-mono text-green-400 text-xs">nodev,nosuid</td></tr>
+                            <tr><td class="px-4 py-3 font-mono text-yellow-400">/tmp</td><td class="px-4 py-3 text-gray-400">xfs</td><td class="px-4 py-3 font-mono text-green-400 text-xs">nodev,nosuid,noexec</td></tr>
+                            <tr><td class="px-4 py-3 font-mono text-yellow-400">/var</td><td class="px-4 py-3 text-gray-400">xfs</td><td class="px-4 py-3 font-mono text-green-400 text-xs">nodev,nosuid</td></tr>
+                            <tr><td class="px-4 py-3 font-mono text-yellow-400">/var/tmp</td><td class="px-4 py-3 text-gray-400">xfs</td><td class="px-4 py-3 font-mono text-green-400 text-xs">nodev,nosuid,noexec</td></tr>
+                            <tr><td class="px-4 py-3 font-mono text-yellow-400">/var/log</td><td class="px-4 py-3 text-gray-400">xfs</td><td class="px-4 py-3 font-mono text-green-400 text-xs">nodev,nosuid,noexec</td></tr>
+                            <tr><td class="px-4 py-3 font-mono text-yellow-400">/var/log/audit</td><td class="px-4 py-3 text-gray-400">xfs</td><td class="px-4 py-3 font-mono text-green-400 text-xs">nodev,nosuid,noexec</td></tr>
+                            <tr><td class="px-4 py-3 font-mono text-yellow-400">swap</td><td class="px-4 py-3 text-gray-400">swap</td><td class="px-4 py-3 text-gray-500">—</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-center text-xs text-gray-500 mt-4 max-w-xl mx-auto">The separate-filesystem layout that DISA STIG and CIS benchmarks require — already in place, so the profile you apply has less to remediate.</p>
+            </div>
+
+            <!-- How It Works -->
+            <div class="mt-16">
+                <h3 class="text-2xl font-bold text-center mb-10 text-white">How It Works</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                    <div class="text-center">
+                        <div class="bg-yellow-600 text-white w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center font-bold text-xl">1</div>
+                        <h4 class="text-lg font-bold mb-2">Pick your OS</h4>
+                        <p class="text-gray-400 text-sm">Choose from the RHEL family (Rocky / Alma / BYOL RHEL 8–10), Ubuntu 24.04 or 26.04, or Amazon Linux 2023. x86_64 and arm64 available. <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">Contact us</a> for early access while Marketplace listings roll out, or watch our <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk" class="text-yellow-500 hover:underline" rel="noopener noreferrer">seller profile</a>.</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-yellow-600 text-white w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center font-bold text-xl">2</div>
+                        <h4 class="text-lg font-bold mb-2">Launch</h4>
+                        <p class="text-gray-400 text-sm">EC2 injects your key pair on first boot via cloud-init. Connect as <code class="text-yellow-400">ubuntu</code> or <code class="text-yellow-400">ec2-user</code> over SSH with key-based auth. No password logins, no pre-installed keys.</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-yellow-600 text-white w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center font-bold text-xl">3</div>
+                        <h4 class="text-lg font-bold mb-2">Apply your profiles</h4>
+                        <p class="text-gray-400 text-sm">Run your own Ansible, OpenSCAP remediation, or auditd rules on a base that already carries the STIG layout — nothing to undo first.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── APPLIED TIER ───────────────────────────────────────────────── -->
+    <section id="applied-tier" class="py-20 px-4 bg-gray-800 border-t border-gray-700">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <span class="text-xs text-yellow-500 font-semibold uppercase tracking-widest">StigReady Applied</span>
+                <h2 class="text-3xl font-bold mt-2 text-white">Remediated, scored, and provable</h2>
+                <p class="text-gray-400 mt-3 max-w-2xl mx-auto">The number your auditor asks for — published with every image. We score against the raw, unmodified SSG profile in-build.</p>
+                <p class="text-sm text-gray-500 mt-2"><a href="/applied/" class="text-yellow-500 hover:underline">Applied overview</a> · scores and filters below</p>
+            </div>
+
+            <!-- Proof points -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
+                    <i data-lucide="shield-check" class="w-9 h-9 mb-3 text-yellow-500"></i>
+                    <h3 class="font-bold mb-2">StigForge roles</h3>
+                    <p class="text-gray-400 text-sm">Remediation is driven by <strong class="text-gray-200">StigForge</strong> — public CIS / STIG Ansible roles generated from the SSG datastream. Each release pins its factory commit and SSG version; the OpenSCAP score comes from the StigReady Applied image build that bakes it, never from a container; evidence is available on request.</p>
+                </div>
+                <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
+                    <i data-lucide="chart-bar" class="w-9 h-9 mb-3 text-yellow-500"></i>
+                    <h3 class="font-bold mb-2">Scored in-build</h3>
+                    <p class="text-gray-400 text-sm">Every image is scored against the <strong class="text-gray-200">raw, unmodified SSG profile</strong> during the build — not after, not on a different host. A 90% floor and a no-regression ratchet gate every release.</p>
+                </div>
+                <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
+                    <i data-lucide="file-text" class="w-9 h-9 mb-3 text-yellow-500"></i>
+                    <h3 class="font-bold mb-2">Evidence bundle</h3>
+                    <p class="text-gray-400 text-sm">Every image has an OpenSCAP ARF result, an HTML report, a POA&amp;M and an SBOM, and every image except RHEL 10 has a CVE scan. They are available from support@stigready.com on request.</p>
+                </div>
+                <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
+                    <i data-lucide="lock" class="w-9 h-9 mb-3 text-yellow-500"></i>
+                    <h3 class="font-bold mb-2">FIPS mode on STIG images</h3>
+                    <p class="text-gray-400 text-sm">DISA STIG images run with FIPS mode enabled, using the OS vendor's FIPS cryptographic modules.</p>
+                </div>
+                <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
+                    <i data-lucide="cpu" class="w-9 h-9 mb-3 text-yellow-500"></i>
+                    <h3 class="font-bold mb-2">Boot-verified on Nitro EC2</h3>
+                    <p class="text-gray-400 text-sm">Every image boots on a real EC2 Nitro instance as a build gate. If it doesn't boot clean and pass the scan, it doesn't ship.</p>
+                </div>
+            </div>
+
+            <!-- Applied Score Table -->
+            <div class="bg-gray-900 rounded-xl border border-gray-700 p-6">
+                <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-5">
+                    <div>
+                        <h3 class="text-xl font-bold text-white">Applied Scores</h3>
+                        <p class="text-gray-400 text-sm mt-1">All scores as of <span id="catalog-generated">the latest published catalog</span> · scored against the raw, unmodified SSG profile</p>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <div class="flex gap-2 flex-wrap" id="applied-arch-filters">
+                            <button class="px-3 py-1.5 rounded text-sm font-medium bg-yellow-600 text-white transition"
+                                    data-filter-group="applied" data-filter-key="arch" data-filter-val="all"
+                                    onclick="setFilter('applied','arch','all')">All arches</button>
+                            <button class="px-3 py-1.5 rounded text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
+                                    data-filter-group="applied" data-filter-key="arch" data-filter-val="x86_64"
+                                    onclick="setFilter('applied','arch','x86_64')">x86_64</button>
+                            <button class="px-3 py-1.5 rounded text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
+                                    data-filter-group="applied" data-filter-key="arch" data-filter-val="arm64"
+                                    onclick="setFilter('applied','arch','arm64')">arm64</button>
+                        </div>
+                        <div class="flex gap-2 flex-wrap" id="applied-profile-filters">
+                            <button class="px-3 py-1.5 rounded text-sm font-medium bg-yellow-600 text-white transition"
+                                    data-filter-group="applied" data-filter-key="profile" data-filter-val="all"
+                                    onclick="setFilter('applied','profile','all')">All baselines</button>
+                            <button class="px-3 py-1.5 rounded text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
+                                    data-filter-group="applied" data-filter-key="profile" data-filter-val="stig"
+                                    onclick="setFilter('applied','profile','stig')">DISA STIG</button>
+                            <button class="px-3 py-1.5 rounded text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
+                                    data-filter-group="applied" data-filter-key="profile" data-filter-val="cis-l1"
+                                    onclick="setFilter('applied','profile','cis-l1')">CIS Level 1</button>
+                            <button class="px-3 py-1.5 rounded text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
+                                    data-filter-group="applied" data-filter-key="profile" data-filter-val="cis-l2"
+                                    onclick="setFilter('applied','profile','cis-l2')">CIS Level 2</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="overflow-x-auto border border-gray-700 rounded-lg">
+                    <table class="w-full text-sm min-w-[640px]">
+                        <thead class="bg-navy text-gray-300 uppercase text-xs tracking-wider">
+                            <tr>
+                                <th class="px-4 py-3 text-left">OS</th>
+                                <th class="px-4 py-3 text-left">Arch</th>
+                                <th class="px-4 py-3 text-left">Baseline</th>
+                                <th class="px-4 py-3 text-left">Score</th>
+                                <th class="px-4 py-3 text-left">FIPS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="applied-tbody" class="divide-y divide-gray-700 text-gray-300">
+                            <tr><td colspan="5" class="px-4 py-6 text-center text-gray-500">Loading catalog…</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-4 space-y-2 text-xs text-gray-500">
+                    <p><span class="text-sky-400 font-semibold">BYOL</span> — Red Hat Enterprise Linux images require you to supply your own Red Hat subscription. StigReady does not provide Red Hat commercial licenses.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── STIGFORGE (factory + Ansible roles) ───────────────────────── -->
+    <section id="stigforge" class="py-20 px-4 bg-gray-900 border-t border-gray-800 scroll-mt-24">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-10">
+                <span class="text-xs text-yellow-500 font-semibold uppercase tracking-widest">StigForge</span>
+                <h2 class="text-3xl font-bold mt-2 text-white">Public Ansible roles</h2>
+                <p class="text-gray-400 mt-3 max-w-3xl mx-auto">
+                    Public CIS and STIG role exports, generated from the raw SSG profile and pinned by immutable tag. Scores are measured by OpenSCAP on the StigReady Applied image built with the role version shown next to each score, and published on this page; evidence is available from support@stigready.com on request.
+                    <a href="/blog/" class="text-yellow-500 hover:underline">How-tos: Base + roles →</a>
+                </p>
+            </div>
+
+            <div id="ansible-roles" class="bg-gray-800 rounded-xl border border-gray-700 p-6 mb-10">
+                <h3 class="text-xl font-bold text-white mb-2">Roles</h3>
+                <p class="text-gray-400 text-sm mb-4">Public under <a href="https://github.com/orgs/stigready/repositories?q=cis+OR+stig" class="text-yellow-500 hover:underline">github.com/stigready</a>.</p>
+                <ul id="stigforge-role-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-sm mb-2">
+                    <li class="text-gray-500">Loading…</li>
+                </ul>
+            </div>
+
+            <div class="bg-gray-800 rounded-xl border border-gray-700 p-6">
+                <h3 class="text-xl font-bold text-white mb-2">Scores</h3>
+                <p class="text-gray-400 text-sm mb-4">Measured by OpenSCAP against the raw SSG profile on the StigReady Applied image build, for the role version shown; not in the role repo.</p>
+                <div class="overflow-x-auto border border-gray-700 rounded-lg">
+                    <table class="w-full text-sm min-w-[560px]">
+                        <thead class="bg-navy text-gray-300 uppercase text-xs tracking-wider">
+                            <tr>
+                                <th class="px-4 py-3 text-left">Role</th>
+                                <th class="px-4 py-3 text-left">Profiles</th>
+                                <th class="px-4 py-3 text-left">Repo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stigforge-tbody" class="divide-y divide-gray-700 text-gray-300">
+                            <tr><td colspan="3" class="px-4 py-6 text-center text-gray-500">Loading…</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-xs text-gray-500 mt-4">
+                    Role repos are public. The factory monorepo that builds them stays private.
+                </p>
+            </div>
+
+            <!-- stigvalidated: decision 0062 point 4. Coming soon until its criteria hold: no figures,
+                 no "verified" or "independently checked", no private repo links, kept out of the meta description. -->
+            <div id="stigvalidated" class="bg-gray-800 rounded-xl border border-gray-700 p-6 mt-4 scroll-mt-24">
+                <h3 class="text-xl font-bold text-white mb-2">stigvalidated <span class="text-xs text-yellow-500 font-semibold uppercase tracking-widest ml-1">Coming soon</span></h3>
+                <p class="text-gray-400 text-sm mb-3">A second set of tests for each StigForge role: a CINC Auditor test for each SSG rule the role applies that has an OVAL check, written from that check.</p>
+                <p class="text-gray-400 text-sm">When it ships, each hardened image will have its rule-by-rule comparison of these tests with the OpenSCAP scan published, and the test profiles for each role will be public. Nothing is published yet.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── PRICING ────────────────────────────────────────────────────── -->
+    <section id="pricing" class="py-20 px-4 bg-gray-800 border-t border-gray-700">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl font-bold mb-3 text-white">Pricing</h2>
+            <p class="text-gray-400 mb-10">Software fee on top of your normal EC2 costs. Listings are rolling out on <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk" class="text-yellow-500 hover:underline" rel="noopener noreferrer">AWS Marketplace</a>.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <!-- Base -->
+                <div class="bg-gray-900 rounded-xl border border-gray-700 p-8 text-left">
+                    <div class="text-xs text-yellow-500 font-semibold uppercase tracking-widest mb-3">StigReady Base</div>
+                    <p class="text-4xl font-black text-white mb-1">$0.02<span class="text-lg font-normal text-gray-400">/hr</span></p>
+                    <p class="text-gray-300 mb-1">or <span class="font-bold text-white">$149/yr</span> per instance</p>
+                    <p class="text-gray-500 text-sm mb-5">Same rate on every instance type; EC2 instance costs billed separately by AWS</p>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>STIG partition layout &amp; SSH hardening</li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Built from official ISO (Amazon Linux 2023: Amazon's prebuilt image), patched at build time</li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Boot-verified on real Nitro EC2</li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>x86_64 and arm64 (Graviton)</li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Bring your own profiles and tooling</li>
+                    </ul>
+                </div>
+                <!-- Applied -->
+                <div class="bg-gray-900 rounded-xl border border-yellow-700 p-8 text-left">
+                    <div class="text-xs text-yellow-500 font-semibold uppercase tracking-widest mb-3">StigReady Applied</div>
+                    <p class="text-4xl font-black text-white mb-1">$0.08<span class="text-lg font-normal text-gray-400">/hr</span></p>
+                    <p class="text-gray-300 mb-1">or <span class="font-bold text-white">$649/yr</span> per instance</p>
+                    <p class="text-gray-500 text-sm mb-5">Same rate on every instance type; EC2 instance costs billed separately by AWS</p>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Everything in Base</li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Full DISA STIG or CIS Level 1/2 remediation</li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Scored in-build against the raw SSG profile</li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>90% floor · no-regression ratchet</li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Evidence bundle on request: ARF, HTML report, POA&amp;M, SBOM, CVE scan (not RHEL 10)</li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>FIPS mode enabled on STIG images</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="text-sm text-gray-500">Annual contracts and Private Offers available. <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">Contact us</a> for early access, BYOL RHEL, volume pricing, or questions — or browse the <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk" class="text-yellow-500 hover:underline" rel="noopener noreferrer">seller profile</a>.</p>
+        </div>
+    </section>
+
+    <!-- ── FAQ ────────────────────────────────────────────────────────── -->
+    <section id="faq" class="py-20 px-4 border-t border-gray-700">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-3 text-white text-center">FAQ</h2>
+            <p class="text-gray-400 mb-10 text-center text-sm">Pricing, OpenSCAP evidence, Graviton, RHEL BYOL, and Marketplace status.</p>
+            <dl class="space-y-6 text-left">
+                <div>
+                    <dt class="font-semibold text-white mb-2">Base vs Applied — what do I pay?</dt>
+                    <dd class="text-gray-400 text-sm">Base is <strong class="text-white">$0.02/hr</strong> or <strong class="text-white">$149/yr</strong> per instance (STIG layout + SSH hardening; bring your own profiles). Applied is <strong class="text-white">$0.08/hr</strong> or <strong class="text-white">$649/yr</strong> (CIS L1/L2 or DISA STIG remediation + OpenSCAP evidence). Both are software fees on top of normal EC2 costs. The same rate applies to every instance type; it does not change with instance size.</dd>
+                </div>
+                <div>
+                    <dt class="font-semibold text-white mb-2">What OpenSCAP evidence is available for Applied?</dt>
+                    <dd class="text-gray-400 text-sm">Every Applied image has an OpenSCAP ARF result, HTML report, POA&amp;M and SBOM, and every Applied image except RHEL 10 has a CVE scan, available from support@stigready.com on request. Scores are measured in-build against the raw, unmodified SSG profile. We do not claim DISA/DoD endorsement, or certified / authorized / accredited status.</dd>
+                </div>
+                <div>
+                    <dt class="font-semibold text-white mb-2">Do you support arm64 / Graviton?</dt>
+                    <dd class="text-gray-400 text-sm">Yes. Base and Applied build for x86_64 and arm64 (Graviton). Use the architecture filters in the catalogs above.</dd>
+                </div>
+                <div>
+                    <dt class="font-semibold text-white mb-2">Are RHEL images BYOL?</dt>
+                    <dd class="text-gray-400 text-sm">Yes. RHEL is bring-your-own-license — you supply a Red Hat subscription. StigReady does not sell Red Hat licenses.</dd>
+                </div>
+                <div>
+                    <dt class="font-semibold text-white mb-2">Are listings live on AWS Marketplace?</dt>
+                    <dd class="text-gray-400 text-sm">Listings are rolling out. Watch our <a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-h3qxnolnrqakk" class="text-yellow-500 hover:underline" rel="noopener noreferrer">seller profile</a> or email <a href="mailto:contact@stigready.com" class="text-yellow-500 hover:underline">contact@stigready.com</a> for early access and Private Offers. We do not publish per-SKU Marketplace URLs or AMI IDs here.</dd>
+                </div>
+            </dl>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-navy py-10 px-4 mt-auto border-t border-gray-800">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+                <div class="flex items-center space-x-3">
+                    <img src="assets/logo.png" alt="StigReady" class="h-8 w-auto"/>
+                    <span class="font-black tracking-wide"><span class="text-white">STIG</span><span class="gold">READY</span></span>
+                </div>
+                <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
+                    <a href="/#base-tier" class="hover:text-white transition">Base</a>
+                    <a href="/applied/" class="hover:text-white transition">Applied</a>
+                    <a href="/#stigforge" class="hover:text-white transition">StigForge</a>
+                    <a href="/blog/" class="hover:text-white transition">Blog</a>
+                    <a href="/#pricing" class="hover:text-white transition">Pricing</a>
+                    <a href="mailto:contact@stigready.com" class="hover:text-white transition">contact@stigready.com</a>
+                </div>
+            </div>
+            <p class="text-center text-xs text-gray-600">&copy; 2026 StigReady. All rights reserved.</p>
+            <p class="text-center text-xs text-gray-600 mt-3 max-w-3xl mx-auto">
+                Not affiliated with or endorsed by DISA, DoD, NIST, CIS, Red Hat, or Canonical. All trademarks are the property of their respective owners. Red Hat® and Red Hat Enterprise Linux® are trademarks of Red Hat, Inc. Ubuntu® is a trademark of Canonical Ltd. CIS® and CIS Benchmarks™ are trademarks of the Center for Internet Security, Inc. StigReady does not provide commercial licenses for Red Hat products.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+    'use strict';
+
+    // catalog.json is generated. Do not hand-edit product rows — arch lists and scores
+    // come from that file.
+    // Marketplace listing state is not tracked on this site.
+    let catalog = null;
+    let factory = null;
+    const filters = {
+        base:    { arch: 'all' },
+        applied: { arch: 'all', profile: 'all' }
+    };
+
+    async function loadFactory() {
+        try {
+            const res = await fetch('stigforge-factory.json');
+            factory = await res.json();
+            renderRoleList();
+            renderFactoryMatrix();
+        } catch (e) {
+            const roleList = document.getElementById('stigforge-role-list');
+            if (roleList) {
+                roleList.innerHTML = '<li class="text-red-400">Failed to load role list.</li>';
+            }
+            const tbody = document.getElementById('stigforge-tbody');
+            if (tbody) {
+                tbody.innerHTML = '<tr><td colspan="3" class="px-4 py-6 text-center text-red-400">Failed to load StigForge factory data.</td></tr>';
+            }
+        }
+    }
+
+    // Catalog and factory JSON are data from PRs: escape every field before it goes into innerHTML (claude-agents#155).
+    function esc(v) {
+        return String(v == null ? '' : v).replace(/[&<>"']/g, ch => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[ch]));
+    }
+
+    function renderRoleList() {
+        const list = document.getElementById('stigforge-role-list');
+        if (!list || !factory || !factory.cells) return;
+        list.innerHTML = factory.cells.map(c => {
+            const repo = `https://github.com/${esc(c.github_repo)}`;
+            const vis = c.role_repo_visibility === 'private' ? 'private' : 'public';
+            const visClass = vis === 'public' ? 'text-green-400' : 'text-gray-500';
+            return `<li class="bg-gray-900/60 border border-gray-700 rounded-lg px-3 py-3">
+                <a href="${repo}" class="font-mono text-yellow-500 hover:underline text-sm">${esc(c.github_repo)}</a>
+                <div class="text-xs text-gray-500 mt-1">${esc(c.matrix_role)} · <span class="${visClass}">${vis}</span></div>
+            </li>`;
+        }).join('');
+    }
+
+    function profileSummary(profiles) {
+        // One entry per profile and arch; a role not built into a StigReady image has none.
+        if (!profiles || profiles.length === 0) return '<span class="text-gray-600">—</span>';
+        return profiles.map(p => {
+            // A score is shown only with the role version it was measured with (and the image version): the public role
+            // repos move ahead of the role built into the image, so an unlabelled score would read as the newest release's.
+            const labelled = p.score_pct != null && p.role_version;
+            const score = labelled ? `${esc(p.score_pct)}%` : (p.verify_note ? 'CI ✓' : '—');
+            const arch = p.arch ? ` <span class="text-gray-500">${esc(p.arch)}</span>` : '';
+            const built = labelled
+                ? ` <span class="text-gray-500">(role ${esc(p.role_version)}${p.image_version ? `, image v${esc(p.image_version)}` : ''})</span>`
+                : '';
+            return `<span class="inline-block mr-2 mb-1"><code class="text-yellow-400/90">${esc(p.profile)}</code>${arch} <span class="text-green-400">${score}</span>${built}</span>`;
+        }).join('');
+    }
+
+    function renderFactoryMatrix() {
+        const tbody = document.getElementById('stigforge-tbody');
+        if (!tbody || !factory || !factory.cells) return;
+        tbody.innerHTML = factory.cells.map(c => {
+            const repo = `https://github.com/${esc(c.github_repo)}`;
+            return `<tr class="hover:bg-gray-900/50 transition">
+                <td class="px-4 py-3 font-mono text-sm text-white">${esc(c.matrix_role)}</td>
+                <td class="px-4 py-3 text-xs">${profileSummary(c.profiles)}</td>
+                <td class="px-4 py-3"><a href="${repo}" class="text-yellow-500 hover:underline">${esc(c.github_repo)}</a></td>
+            </tr>`;
+        }).join('');
+    }
+
+    async function loadCatalog() {
+        try {
+            const res = await fetch('catalog.json');
+            if (!res.ok) throw new Error(`catalog.json HTTP ${res.status}`);
+            // The "as of" date is the catalog's own `generated` stamp, never typed by hand.
+            try {
+                const stamp = (await res.clone().json()).generated;
+                const el = document.getElementById('catalog-generated');
+                if (el && stamp) el.textContent = `catalog ${stamp}`;
+            } catch (_) { /* leave the fallback text */ }
+            const data = await res.json();
+            if (!data || !Array.isArray(data.products)) {
+                throw new Error('catalog.json missing products[]');
+            }
+            catalog = data;
+            renderBase();
+            renderApplied();
+        } catch (e) {
+            console.error('loadCatalog failed', e);
+            const baseBody = document.getElementById('base-tbody');
+            const appliedBody = document.getElementById('applied-tbody');
+            if (baseBody) {
+                baseBody.innerHTML =
+                    '<tr><td colspan="2" class="px-4 py-6 text-center text-red-400">Failed to load catalog. Please refresh.</td></tr>';
+            }
+            if (appliedBody) {
+                appliedBody.innerHTML =
+                    '<tr><td colspan="5" class="px-4 py-6 text-center text-red-400">Failed to load catalog. Please refresh.</td></tr>';
+            }
+        }
+    }
+
+    function buildLabel() {
+        // Factory stamp is `generated: YYYY-MM-DD`; show YYYY-MM for score dating.
+        const g = catalog && catalog.generated;
+        return g && g.length >= 7 ? g.slice(0, 7) : 'unknown';
+    }
+
+    function isByol(p) {
+        // Factory schema has no `byol` field — genuine RHEL is BYOL by policy.
+        return typeof p.os_key === 'string' && p.os_key.startsWith('rhel');
+    }
+
+    function archBadge(arch) {
+        const cls = arch === 'arm64'
+            ? 'bg-indigo-900 text-indigo-300'
+            : 'bg-gray-700 text-gray-300';
+        return `<span class="${cls} px-2 py-0.5 rounded font-mono text-xs">${esc(arch)}</span>`;
+    }
+
+    function byolTag() {
+        return '<span class="bg-sky-900 text-sky-300 px-1.5 py-0.5 rounded text-xs ml-1 font-semibold">BYOL</span>';
+    }
+
+    function renderBase() {
+        const tbody = document.getElementById('base-tbody');
+        if (!tbody) return;
+        if (!catalog || !Array.isArray(catalog.products)) {
+            tbody.innerHTML = '<tr><td colspan="2" class="px-4 py-6 text-center text-red-400">Catalog not loaded.</td></tr>';
+            return;
+        }
+        let products = catalog.products.filter(p =>
+            p.line === 'stigready' && p.profile === 'base' && p.os_key !== 'windows-2022'
+        );
+        if (filters.base.arch !== 'all') {
+            products = products.filter(p => p.arch === filters.base.arch);
+        }
+        if (products.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="2" class="px-4 py-6 text-center text-gray-500">No entries match the current filter.</td></tr>';
+            return;
+        }
+        tbody.innerHTML = products.map(p => `
+            <tr class="hover:bg-gray-800 transition">
+                <td class="px-4 py-3 font-semibold text-white">${esc(p.os)}${isByol(p) ? byolTag() : ''}</td>
+                <td class="px-4 py-3">${archBadge(p.arch)}</td>
+            </tr>
+        `).join('');
+    }
+
+    function renderApplied() {
+        const tbody = document.getElementById('applied-tbody');
+        if (!tbody) return;
+        if (!catalog || !Array.isArray(catalog.products)) {
+            tbody.innerHTML = '<tr><td colspan="5" class="px-4 py-6 text-center text-red-400">Catalog not loaded.</td></tr>';
+            return;
+        }
+        let products = catalog.products.filter(p =>
+            p.line === 'stigapplied' && p.os_key !== 'windows-2022'
+        );
+        if (filters.applied.arch !== 'all') {
+            products = products.filter(p => p.arch === filters.applied.arch);
+        }
+        if (filters.applied.profile !== 'all') {
+            products = products.filter(p => p.profile === filters.applied.profile);
+        }
+        if (products.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" class="px-4 py-6 text-center text-gray-500">No entries match the current filters.</td></tr>';
+            return;
+        }
+        const label = buildLabel();
+        tbody.innerHTML = products.map(p => `
+            <tr class="hover:bg-gray-800 transition">
+                <td class="px-4 py-3 font-semibold text-white">${esc(p.os)}${isByol(p) ? byolTag() : ''}</td>
+                <td class="px-4 py-3">${archBadge(p.arch)}</td>
+                <td class="px-4 py-3 text-gray-300 text-sm">${esc(p.benchmark)}</td>
+                <td class="px-4 py-3 font-mono text-green-400">${p.score != null ? `${esc(p.score)}%` : '—'}<span class="text-gray-500 text-xs ml-1">build ${esc(label)}</span></td>
+                <td class="px-4 py-3 text-sm">${p.fips ? '<span class="text-green-400 font-medium">✓</span>' : '<span class="text-gray-600">—</span>'}</td>
+            </tr>
+        `).join('');
+    }
+
+    function setFilter(group, key, val) {
+        filters[group][key] = val;
+        document.querySelectorAll(`[data-filter-group="${group}"][data-filter-key="${key}"]`).forEach(btn => {
+            const active = btn.dataset.filterVal === val;
+            btn.classList.toggle('bg-yellow-600', active);
+            btn.classList.toggle('text-white', active);
+            btn.classList.toggle('bg-gray-700', !active);
+            btn.classList.toggle('text-gray-300', !active);
+        });
+        if (group === 'base') renderBase();
+        else renderApplied();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadCatalog();
+        loadFactory();
+        try { lucide.createIcons(); } catch (e) { console.error('lucide', e); }
+    });
+    </script>
+</body>
+</html>
