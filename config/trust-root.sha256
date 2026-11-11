@@ -4,7 +4,7 @@
 # review/security reviews each changed line (CINC web-copy-truth-08 names them).
 04d266fccecfaf433f86214d1f94be238609632a16cf5120b02e9f4f1ef33aef  .cairn.yml#copy-drift-watch
 1f377be984e73fe7518845e6cf4f6321e4c6b7843fdfd3efce67f5afe11d4a7c  .cairn.yml#copy-truth
-45deba2520ea0fbfe9ec69ed0c26b3152942822f7d698fd55d6fba7f71d8f854  cinc/profiles/stigready-web/controls/copy_truth.rb
+26e631bb73e1950d78e8a185ed17b7e4bb5fdbe490dad488e6179f633c5d271f  cinc/profiles/stigready-web/controls/copy_truth.rb
 a3a849f883db91505f1f7dce35111b4f48f0b90ef3c1a74ed49853fd85b71340  cinc/profiles/stigready-web/files/copy-truth/marketplace-live-2026-10-26.json
 98f1ff49ff03330f1dc06c26409df91730b4edb9da5cce828b08df733fbc5c3f  cinc/profiles/stigready-web/files/copy-truth/sites/after-e3c47e4/applied/index.html.fixture
 21112e33dbbed70eba16472fe4db8a87c35527b258672b78217ea6646ff0c496  cinc/profiles/stigready-web/files/copy-truth/sites/after-e3c47e4/assets/css/site.css.fixture

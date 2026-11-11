@@ -727,19 +727,21 @@ control 'web-copy-truth-08' do
       end
     end
   end
-  d = copy.call('rewritten')
-  edit.call(d, 'scripts/check-copy-vs-marketplace.py', 'SCHEMA = "stigready-marketplace-live/1"', 'SCHEMA = "x"')
-  Open3.capture2e('python3', CHECK_CT, '--mode', 'trust-root', '--repo', d, '--write')
+  # Distinct names: `it` blocks run after the whole control is loaded, so a reused variable would be read too late.
+  rewritten = copy.call('rewritten')
+  edit.call(rewritten, 'scripts/check-copy-vs-marketplace.py', 'SCHEMA = "stigready-marketplace-live/1"', 'SCHEMA = "x"')
+  Open3.capture2e('python3', CHECK_CT, '--mode', 'trust-root', '--repo', rewritten, '--write')
+  rw_out, rw_rc = tr.call(rewritten)
+  rw_manifest = File.read(File.join(rewritten, 'config', 'trust-root.sha256'))
   describe 'the same checker change with the manifest rewritten' do
     it('passes, and the manifest line for the checker changed (the diff review/security reads)') do
-      o, rc = tr.call(d)
-      expect(rc).to eq(0), o
-      expect(File.read(File.join(d, 'config', 'trust-root.sha256'))).not_to eq(File.read(File.join(ROOT_CT, 'config', 'trust-root.sha256')))
+      expect(rw_rc).to eq(0), rw_out
+      expect(rw_manifest).not_to eq(File.read(File.join(ROOT_CT, 'config', 'trust-root.sha256')))
     end
   end
-  d = copy.call('no-manifest')
-  FileUtils.rm_f(File.join(d, 'config', 'trust-root.sha256'))
-  tr.call(d).then do |o, rc|
+  bare = copy.call('no-manifest')
+  FileUtils.rm_f(File.join(bare, 'config', 'trust-root.sha256'))
+  tr.call(bare).then do |o, rc|
     describe 'a tree without config/trust-root.sha256' do
       it('is exit 2') { expect(rc).to eq(2), o }
     end
