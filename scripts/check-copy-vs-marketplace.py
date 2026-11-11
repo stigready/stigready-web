@@ -410,8 +410,12 @@ def verify_snapshot(raw: bytes, path: Path, sig: Path, signers: Path) -> None:
     if not allowed:
         raise CannotCheck(f"{signers} lists no snapshot key" + (f" (refused: {'; '.join(refused)})" if refused else "")
                           + ": the snapshot cannot be authenticated, production state unknown")
-    if sig.is_symlink() or not sig.is_file():
-        raise CannotCheck(f"snapshot {path}: no signature {sig.name}: production state unknown")
+    try:
+        if sig.is_symlink() or not sig.is_file():
+            raise CannotCheck(f"snapshot {path}: no signature {sig.name}: production state unknown")
+    except OSError as exc:
+        raise CannotCheck(f"snapshot {path}: signature unreadable ({type(exc).__name__}): production state unknown") \
+            from exc
     ok, err = ssh_verify(allowed, SNAPSHOT_SIGNER_ID, SNAPSHOT_NAMESPACE, sig, raw)
     if not ok:
         raise CannotCheck(f"snapshot {path}: signature does not verify ({err})"
@@ -637,7 +641,8 @@ def allowed_signers(text: str, principal: str, namespace: str, key_types: tuple[
                     require_verify: bool = False) -> tuple[str, list[str]]:
     """(lines that count, rewritten canonically; why each other key line does not count). A line counts only when its
     principal is exactly `principal`, its options name exactly this namespace, carry no cert-authority (a CA would let
-    any key it certifies sign) and, with require_verify, carry verify-required, and its key type is one of key_types.
+    any key it certifies sign), and its key type is one of key_types. With require_verify (owner keys) the options
+    must carry verify-required; without it (snapshot keys) verify-required is refused like any other option.
     valid-after and valid-before are kept, so ssh-keygen enforces them; any other option refuses the line. Nothing is
     dropped silently: every refused line is named. ssh-keygen's allowed_signers has no verify-required option, so the
     line handed to it leaves that marker out and the checker enforces it on the signature (sk_flags: user
@@ -663,8 +668,8 @@ def allowed_signers(text: str, principal: str, namespace: str, key_types: tuple[
         elif not re.fullmatch(r"[A-Za-z0-9+/]+={0,2}", f[3]):
             why = "the key is not base64"
         else:
-            other = [o for o, lo in zip(opts, low) if lo not in (f'namespaces="{namespace}"', "verify-required")
-                     and not VALIDITY_RE.fullmatch(lo)]
+            known = {f'namespaces="{namespace}"'} | ({"verify-required"} if require_verify else set())
+            other = [o for o, lo in zip(opts, low) if lo not in known and not VALIDITY_RE.fullmatch(lo)]
             if other:
                 why = f"unsupported option(s) {', '.join(other)}"
         if why:
@@ -738,11 +743,16 @@ def sk_flags(sig: Path) -> int | None:
 
 
 def ssh_verify(allowed: str, principal: str, namespace: str, sig: Path, data: bytes) -> tuple[bool, str]:
-    with tempfile.TemporaryDirectory() as d:
-        af = Path(d) / "allowed_signers"
-        af.write_text(allowed)
-        p = subprocess.run(["ssh-keygen", "-Y", "verify", "-f", str(af), "-I", principal, "-n", namespace,
-                            "-s", str(sig)], input=data, capture_output=True, timeout=30)
+    """(verified, ssh-keygen's message). ssh-keygen missing or hung: cannot check (exit 2), never a pass or a finding."""
+    try:
+        with tempfile.TemporaryDirectory() as d:
+            af = Path(d) / "allowed_signers"
+            af.write_text(allowed)
+            p = subprocess.run(["ssh-keygen", "-Y", "verify", "-f", str(af), "-I", principal, "-n", namespace,
+                                "-s", str(sig)], input=data, capture_output=True, timeout=30)
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        raise CannotCheck(f"ssh-keygen could not verify a signature ({type(exc).__name__}): the signature is "
+                          "unchecked") from exc
     return p.returncode == 0, p.stderr.decode(errors="replace").strip()[:200]
 
 
@@ -836,10 +846,39 @@ TRUST_ROOT_MANIFEST = "config/trust-root.sha256"
 _SKIP_PARTS = {"node_modules", "__pycache__", ".render", ".ci-venv", ".git"}
 
 
-def job_block(cairn_yml: str, job: str) -> str | None:
-    """The text of one job in .cairn.yml: from its `  - name: <job>` line to the next job or top-level key, without the
-    comments and blank lines that lead into the next one."""
+SYMLINK = "symlink"
+
+
+def _block(lines: list[str], i: int) -> list[str]:
+    """Line i and every following line indented deeper than it (blank lines included), without the trailing comments
+    and blank lines that lead into the next sibling."""
+    ind = len(lines[i]) - len(lines[i].lstrip())
+    j = i + 1
+    while j < len(lines) and (not lines[j].strip() or len(lines[j]) - len(lines[j].lstrip()) > ind
+                              or (lines[j].lstrip().startswith("#") and len(lines[j]) - len(lines[j].lstrip()) > ind)):
+        j += 1
+    block = lines[i:j]
+    while block and (not block[-1].strip() or block[-1].lstrip().startswith("#")):
+        block.pop()
+    return block
+
+
+def yml_block(cairn_yml: str, frag: str) -> str | None:
+    """A part of .cairn.yml named by an entry fragment: `<job>` (the job), `<job>/<step>` (one step of that job), or
+    `triggers/<key>` (one trigger, such as the schedule). Text, so the checker needs no YAML library."""
     lines = cairn_yml.splitlines()
+    if frag.startswith("triggers/"):
+        key = frag.split("/", 1)[1]
+        top = next((i for i, ln in enumerate(lines) if ln == "triggers:"), None)
+        if top is None:
+            return None
+        for i in range(top + 1, len(lines)):
+            if lines[i].strip() and not lines[i].startswith((" ", "#")):
+                break
+            if re.fullmatch(rf"  {re.escape(key)}:.*", lines[i]):
+                return "\n".join(_block(lines, i)) + "\n"
+        return None
+    job, _, step = frag.partition("/")
     for i, ln in enumerate(lines):
         if re.fullmatch(rf"  - name: {re.escape(job)}\s*", ln):
             j = i + 1
@@ -848,50 +887,72 @@ def job_block(cairn_yml: str, job: str) -> str | None:
             block = lines[i:j]
             while block and (not block[-1].strip() or block[-1].lstrip().startswith("#")):
                 block.pop()
-            return "\n".join(block) + "\n"
+            if not step:
+                return "\n".join(block) + "\n"
+            for k, sl in enumerate(block):
+                if re.fullmatch(rf"\s+- name: {re.escape(step)}\s*", sl) and k > 0:
+                    return "\n".join(_block(block, k)) + "\n"
+            return None
     return None
+
+
+def _digest(raw) -> str:
+    if raw is None:
+        return "missing"
+    if raw == SYMLINK:
+        return SYMLINK
+    return hashlib.sha256(raw).hexdigest()
 
 
 def trust_root_entries(read, listing, list_text: str) -> dict[str, str]:
     """Entry -> sha256 for every entry of config/trust-root-paths: a file, a directory glob ending in /** (every file
-    under it, each its own entry), or .cairn.yml#<job> (that job's block). `read(path)` returns bytes or None;
-    `listing(prefix)` returns the files under prefix. The list itself is always an entry. A missing entry is "missing"."""
+    under it, each its own entry), or .cairn.yml#<fragment> (see yml_block). `read(path)` returns bytes, None (missing)
+    or SYMLINK; `listing(prefix)` returns the files and links under prefix. The list itself is always an entry. A
+    missing entry is "missing"; a link is "symlink", which is never accepted (it would hash nothing of its target)."""
     out: dict[str, str] = {}
-    entries = [TRUST_ROOT_PATHS] + [ln.split("#", 1)[0].strip() if not re.match(r"^\S+#[A-Za-z0-9_-]+\s*$", ln)
-                                    else ln.strip() for ln in list_text.splitlines()]
-    for e in entries:
-        if not e or e.startswith("#"):
+    entries = [TRUST_ROOT_PATHS]
+    for ln in list_text.splitlines():
+        ln = ln.strip()
+        if not ln or ln.startswith("#"):
             continue
+        entries.append(ln.split(" #", 1)[0].strip())
+    for e in entries:
         if "#" in e:
-            path, job = e.split("#", 1)
+            path, frag = e.split("#", 1)
             raw = read(path)
-            block = job_block(raw.decode("utf-8", "replace"), job) if raw is not None else None
+            if raw is None or raw == SYMLINK:
+                out[e] = _digest(raw)
+                continue
+            block = yml_block(raw.decode("utf-8", "replace"), frag)
             out[e] = hashlib.sha256(block.encode()).hexdigest() if block is not None else "missing"
         elif e.endswith("/**"):
             files = [f for f in listing(e[:-3]) if not _SKIP_PARTS & set(f.split("/"))]
             for f in sorted(files):
-                raw = read(f)
-                out[f] = hashlib.sha256(raw).hexdigest() if raw is not None else "missing"
+                out[f] = _digest(read(f))
             if not files:
                 out[e] = "missing"
         else:
-            raw = read(e)
-            out[e] = hashlib.sha256(raw).hexdigest() if raw is not None else "missing"
+            out[e] = _digest(read(e))
     return out
 
 
-def trust_root_of_dir(root: Path) -> dict[str, str]:
+def trust_root_of_dir(root: Path, list_root: Path | None = None) -> dict[str, str]:
+    """The trust root of the tree at root, by the entry list of list_root (default: root itself)."""
     def read(rel):
         f = root / rel
-        return f.read_bytes() if f.is_file() and not f.is_symlink() else None
+        if f.is_symlink():
+            return SYMLINK
+        return f.read_bytes() if f.is_file() else None
 
     def listing(prefix):
         d = root / prefix
-        return [p.relative_to(root).as_posix() for p in d.rglob("*") if p.is_file()] if d.is_dir() else []
-    lst = read(TRUST_ROOT_PATHS)
-    if lst is None:
+        if not d.is_dir() or d.is_symlink():
+            return []
+        return [q.relative_to(root).as_posix() for q in d.rglob("*") if q.is_symlink() or q.is_file()]
+    lst_file = (list_root or root) / TRUST_ROOT_PATHS
+    if lst_file.is_symlink() or not lst_file.is_file():
         raise CannotCheck(f"{TRUST_ROOT_PATHS} missing: the trust root is unknown")
-    return trust_root_entries(read, listing, lst.decode("utf-8"))
+    return trust_root_entries(read, listing, lst_file.read_text(encoding="utf-8"))
 
 
 def trust_root_manifest(root: Path) -> dict[str, str]:
@@ -900,7 +961,7 @@ def trust_root_manifest(root: Path) -> dict[str, str]:
         raise CannotCheck(f"{TRUST_ROOT_MANIFEST} missing: the trust root cannot be compared")
     out = {}
     for ln in f.read_text(encoding="utf-8").splitlines():
-        m = re.fullmatch(r"([0-9a-f]{64}|missing)  (\S+)", ln)
+        m = re.fullmatch(r"([0-9a-f]{64}|missing)  (\S+)", ln)  # a symlink is never written, so never matches
         if m:
             out[m.group(2)] = m.group(1)
     return out
@@ -910,7 +971,8 @@ def trust_root_render(entries: dict[str, str]) -> str:
     return ("# The trust root of the copy-truth checks (decision 0114): what judges a PR. Generated by\n"
             "#   python3 scripts/check-copy-vs-marketplace.py --mode trust-root --write\n"
             "# from config/trust-root-paths. A PR that changes this file changes what judges every later PR:\n"
-            "# review/security reviews each changed line (CINC web-copy-truth-08 names them).\n"
+            "# review/security reviews each changed line. CINC web-copy-truth-08 (validate, this PR's own code) names\n"
+            "# them; copy-truth runs the same comparison with the BASE's checker, list and manifest.\n"
             + "".join(f"{v}  {k}\n" for k, v in sorted(entries.items())))
 
 
@@ -1101,6 +1163,8 @@ def main(argv=None) -> int:
     ap.add_argument("--out", type=Path, help="write the Markdown report here")
     ap.add_argument("--issue", action="store_true", help="drift: open/update/close the copy-drift issue (GH_TOKEN)")
     ap.add_argument("--write", action="store_true", help=f"trust-root: rewrite {TRUST_ROOT_MANIFEST}")
+    ap.add_argument("--base", type=Path, help="trust-root: take the entry list and the manifest from this tree (the "
+                                              "base), and only the contents from --repo")
     a = ap.parse_args(argv)
     now = dt.datetime.fromisoformat(a.now.replace("Z", "+00:00")) if a.now else dt.datetime.now(dt.timezone.utc)
     if now.tzinfo is None:
@@ -1114,18 +1178,22 @@ def main(argv=None) -> int:
 
     try:
         if a.mode == "trust-root":
-            have = trust_root_of_dir(a.repo)
+            ref = a.base or a.repo
+            have = trust_root_of_dir(a.repo, ref)
+            links = [f"refused trust root: {k} is a symlink" for k, v in sorted(have.items()) if v == SYMLINK]
             if a.write:
+                if links:
+                    raise CannotCheck("; ".join(links))
                 (a.repo / TRUST_ROOT_MANIFEST).write_text(trust_root_render(have))
                 print(f"wrote {TRUST_ROOT_MANIFEST}: {len(have)} entries")
                 return 0
-            want = trust_root_manifest(a.repo)
-            diff = [f"changed trust root: {k} ({want.get(k, 'not in the manifest')} -> {have.get(k, 'gone')})"
-                    for k in sorted(set(have) | set(want)) if have.get(k) != want.get(k)]
+            want = trust_root_manifest(ref)
+            diff = links + [f"changed trust root: {k} ({want.get(k, 'not in the manifest')} -> {have.get(k, 'gone')})"
+                            for k in sorted(set(have) | set(want)) if have.get(k) != want.get(k) and have.get(k) != SYMLINK]
+            where = (f"the list and manifest of {a.base} (the base)" if a.base else f"{TRUST_ROOT_MANIFEST} in this tree")
             emit(_report("copy-truth trust root (decision 0114)", diff, [],
-                         ["Each line is a change to what judges pull requests. Update "
-                          f"{TRUST_ROOT_MANIFEST} in the same PR (--mode trust-root --write); review/security reviews it."
-                          if diff else f"The trust root matches {TRUST_ROOT_MANIFEST}."]))
+                         [f"Compared against {where}. Each line is a change to what judges pull requests; "
+                          "review/security reviews it." if diff else f"The trust root matches {where}."]))
             return 1 if diff else 0
 
         if a.mode == "pr":

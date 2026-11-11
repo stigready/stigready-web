@@ -738,7 +738,7 @@ end
 
 # Security re-review of stigready-web#74: hardened visibility evaluation and checker isolation. Each case hides the
 # 56 Applied listings from a visitor, or makes a page the renderer cannot evaluate, or is a page script acting on the
-# checker; each must fail L1 (and the removal gate, where noted).
+# checker; each must fail L1.
 CT_EDIT = lambda do |rel, from, to|
   lambda do |dir|
     f = File.join(dir, rel)
@@ -793,43 +793,49 @@ CT_HIDE_DISPLAY = CT_TB_ATTR.call('style="display:none"')
 
 CT_HARDEN = {
   # markup: style attributes, classes, structure
-  'a zero-height, overflow-hidden tbody' => [CT_TB_ATTR.call('style="display:block;height:0;overflow:hidden"'), true],
-  'a tbody moved off the page' => [CT_TB_ATTR.call('style="position:absolute;left:-99999px"'), true],
-  'a tbody scaled to 0' => [CT_TB_ATTR.call('style="transform:scale(0)"'), false],
-  "the site's own .hidden class on the tbody" => [CT_EDIT.call('index.html', CT_TBODY, "#{CT_TBODY}hidden "), true],
-  'text filled transparent' => [CT_TB_ATTR.call('style="-webkit-text-fill-color:transparent"'), true],
-  'a tbody clipped away' => [CT_TB_ATTR.call('style="clip-path:inset(50%)"'), false],
-  'a filter to opacity 0' => [CT_TB_ATTR.call('style="filter:opacity(0)"'), false],
-  'content-visibility:hidden' => [CT_TB_ATTR.call('style="content-visibility:hidden"'), false],
-  'two opacities that multiply below 0.1' => [CT_BOTH.call(CT_TB_ATTR.call('style="opacity:0.3"'),
+  'a zero-height, overflow-hidden tbody' => CT_TB_ATTR.call('style="display:block;height:0;overflow:hidden"'),
+  'a tbody moved off the page' => CT_TB_ATTR.call('style="position:absolute;left:-99999px"'),
+  'a tbody scaled to 0' => CT_TB_ATTR.call('style="transform:scale(0)"'),
+  "the site's own .hidden class on the tbody" => CT_EDIT.call('index.html', CT_TBODY, "#{CT_TBODY}hidden "),
+  'text filled transparent' => CT_TB_ATTR.call('style="-webkit-text-fill-color:transparent"'),
+  'a tbody clipped away' => CT_TB_ATTR.call('style="clip-path:inset(50%)"'),
+  'a filter to opacity 0' => CT_TB_ATTR.call('style="filter:opacity(0)"'),
+  'content-visibility:hidden' => CT_TB_ATTR.call('style="content-visibility:hidden"'),
+  'two opacities that multiply below 0.1' => CT_BOTH.call(CT_TB_ATTR.call('style="opacity:0.3"'),
                                                            CT_EDIT.call('index.html', '<table class="w-full text-sm min-w-[640px]">',
-                                                                        '<table style="opacity:0.3" class="w-full text-sm min-w-[640px]">')), false],
-  'the table inside a closed <details>' => [CT_EDIT.call('index.html', '<table class="w-full text-sm min-w-[640px]">',
-                                                         '<details><summary>Products</summary><table class="w-full text-sm min-w-[640px]">'), true],
-  'an opaque element positioned over the page' => [CT_EDIT.call('index.html', '</body>',
-                                                                '<div style="position:fixed;inset:0;background:#111827"></div></body>'), true],
-  'an off-site stylesheet the renderer cannot evaluate' => [CT_EDIT.call('index.html', '</head>',
-                                                                         '<link rel="stylesheet" href="https://cdn.example.net/x.css"></head>'), false],
-  # rebuilt Tailwind utilities (site.css changes too, so the removal gate already asks for approval; L1 must see them)
-  'Tailwind .sr-only' => [CT_TW.call('.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;' \
-                                     'clip:rect(0,0,0,0);white-space:nowrap;border-width:0}', 'sr-only'), false],
-  'Tailwind .invisible' => [CT_TW.call('.invisible{visibility:hidden}', 'invisible'), false],
-  'Tailwind .opacity-0' => [CT_TW.call('.opacity-0{opacity:0}', 'opacity-0'), false],
+                                                                        '<table style="opacity:0.3" class="w-full text-sm min-w-[640px]">')),
+  'the table inside a closed <details>' => CT_EDIT.call('index.html', '<table class="w-full text-sm min-w-[640px]">',
+                                                         '<details><summary>Products</summary><table class="w-full text-sm min-w-[640px]">'),
+  'an opaque element positioned over the page' => CT_EDIT.call('index.html', '</body>',
+                                                                '<div style="position:fixed;inset:0;background:#111827"></div></body>'),
+  'an off-site stylesheet the renderer cannot evaluate' => CT_EDIT.call('index.html', '</head>',
+                                                                         '<link rel="stylesheet" href="https://cdn.example.net/x.css"></head>'),
+  # rebuilt Tailwind utilities: L1 must see them
+  'Tailwind .sr-only' => CT_TW.call('.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;' \
+                                     'clip:rect(0,0,0,0);white-space:nowrap;border-width:0}', 'sr-only'),
+  'Tailwind .invisible' => CT_TW.call('.invisible{visibility:hidden}', 'invisible'),
+  'Tailwind .opacity-0' => CT_TW.call('.opacity-0{opacity:0}', 'opacity-0'),
   # page scripts against the checker
-  'a page script that escapes to Node and rewrites the output' => [CT_BOTH.call(CT_HIDE_DISPLAY,
-                                                                                CT_PAGE.call('zz.html', CT_ESCAPE_PAGE)), true],
-  "a page script that pollutes the renderer's Object.prototype" => [CT_BOTH.call(CT_HIDE_DISPLAY,
-                                                                                 CT_PAGE.call('zz.html', CT_POLLUTE_PAGE)), true],
-  "a page script that replaces the window's getComputedStyle" => [CT_EDIT.call('index.html', '</body>', CT_LIE_SCRIPT), false],
+  'a page script that escapes to Node and rewrites the output' => CT_BOTH.call(CT_HIDE_DISPLAY,
+                                                                                CT_PAGE.call('zz.html', CT_ESCAPE_PAGE)),
+  "a page script that pollutes the renderer's Object.prototype" => CT_BOTH.call(CT_HIDE_DISPLAY,
+                                                                                 CT_PAGE.call('zz.html', CT_POLLUTE_PAGE)),
+  "a page script that replaces the window's getComputedStyle" => CT_EDIT.call('index.html', '</body>', CT_LIE_SCRIPT),
 }.freeze
+# The cases the removal gate (L2) also sees as 56 Applied downgrades. The others hide the listings in ways only L1's
+# visible-link rule names (an unevaluable page, for one), so they are L1 cases only.
+CT_HARDEN_L2 = ['a zero-height, overflow-hidden tbody', 'a tbody moved off the page', "the site's own .hidden class on the tbody",
+                'text filled transparent', 'the table inside a closed <details>', 'an opaque element positioned over the page',
+                'a page script that escapes to Node and rewrites the output',
+                "a page script that pollutes the renderer's Object.prototype"].freeze
 
 control 'web-copy-truth-05' do
   impact 1.0
   title 'Markup cannot hide listings from the renderer, and page scripts cannot change its result'
-  desc 'Security re-review of stigready-web#74 (decision 0114 L1, L2): hardened visibility evaluation and checker ' \
-       'isolation. Every case hides the Applied listings from a visitor, or tries to; every case must fail.'
+  desc 'Security re-review of stigready-web#74 (0114 L1; L2 for CT_HARDEN_L2): hardened visibility evaluation and ' \
+       'checker isolation. Every case hides the Applied listings from a visitor, or tries to; every case must fail.'
 
-  CT_HARDEN.each_with_index do |(what, (mut, l2)), i|
+  CT_HARDEN.each_with_index do |(what, mut), i|
     site = CT_SITE.call('main-e911b14', File.join(CT_TMP, "s-harden-#{i}"), &mut)
     CT_L1.call(site).then do |out, rc|
       describe "L1 on #73 with #{what}" do
@@ -839,7 +845,7 @@ control 'web-copy-truth-05' do
         end
       end
     end
-    next unless l2
+    next unless CT_HARDEN_L2.include?(what)
 
     h = CtRepo.new("r-harden-#{i}")
     b = h.commit('main-e911b14', signers: OWNER_SIGNERS)
@@ -1023,6 +1029,7 @@ control 'web-copy-truth-07' do
   expired = validity.call('expired', 'valid-before="20200101"')
   future = validity.call('future', 'valid-after="20990101"')
   unknown = validity.call('unknown', 'no-touch-required')
+  verify_req = validity.call('verify-required', 'verify-required')
   no_keys = File.join(CT_TMP, 'snapshot-signers-empty')
   File.write(no_keys, "# no key yet\n")
   ca_keys = File.join(CT_TMP, 'snapshot-signers-ca')
@@ -1035,7 +1042,9 @@ control 'web-copy-truth-07' do
     'a snapshot key whose valid-before has passed' => [SNAP_SIGNED, expired, /signature does not verify/],
     'a snapshot key whose valid-after is in the future' => [SNAP_SIGNED, future, /signature does not verify/],
     'a snapshot key line with an option the checker does not support' =>
-      [SNAP_SIGNED, unknown, /refused: line 1: unsupported option\(s\) no-touch-required/] }
+      [SNAP_SIGNED, unknown, /refused: line 1: unsupported option\(s\) no-touch-required/],
+    'a snapshot key line carrying verify-required (an owner-key option)' =>
+      [SNAP_SIGNED, verify_req, /refused: line 1: unsupported option\(s\) verify-required/] }
     .each do |what, (snap, signers, pat)|
     CT_L1.call(CT_SITES['after'], snap, signers: signers).then do |o, rc|
       describe "L1 with #{what}" do
@@ -1121,6 +1130,21 @@ control 'web-copy-truth-07' do
     end
   end
 
+  # ssh-keygen missing: exit 2, never a pass or a finding.
+  nossh = File.join(CT_TMP, 'path-no-ssh')
+  FileUtils.mkdir_p(nossh)
+  py = Open3.capture2('python3', '-c', 'import sys; print(sys.executable)').first.strip
+  File.symlink(py, File.join(nossh, 'python3')) unless File.exist?(File.join(nossh, 'python3'))
+  ns_out, ns_st = Open3.capture2e({ 'PATH' => nossh }, File.join(nossh, 'python3'), CHECK_CT, '--node', NODE_CT, '--mode', 'pr',
+                                  '--site', CT_SITES['main'], '--snapshot', SNAP_SIGNED, '--snapshot-signers', CT_SNAP_SIGNERS,
+                                  '--now', NOW_CT)
+  describe 'L1 when ssh-keygen cannot be run' do
+    it('is exit 2: the signature is unchecked') do
+      expect(ns_st.exitstatus).to eq(2), ns_out
+      expect(ns_out).to match(/ssh-keygen could not verify a signature \(FileNotFoundError\)/)
+    end
+  end
+
   # 5. Drift mode without its sources file cannot check the READMEs: exit 2, not a silent skip.
   CT_RUN.call('--mode', 'drift', '--snapshot', SNAP_SIGNED, '--snapshot-signers', CT_SNAP_SIGNERS, '--now', NOW_CT,
               '--sources', File.join(CT_TMP, 'no-such-sources.yml'), '--site-url', 'https://invalid.example').then do |o, rc|
@@ -1155,10 +1179,14 @@ end
 
 control 'web-copy-truth-08' do
   impact 1.0
-  title 'A change to what judges pull requests is never silent: config/trust-root.sha256 names it'
-  desc 'Security review of stigready-web#74 at c773a3a (finding 1): a PR could weaken the checker, the renderer, ' \
-       'the copy-* jobs or these controls, and the next PR would be judged by the weaker code. Every such change ' \
-       'must appear in config/trust-root.sha256, so review/security sees it.'
+  title 'A change to what judges pull requests is named, by the base\'s checker in copy-truth and as a tripwire here'
+  desc 'Security review of stigready-web#74 at c773a3a (finding 1) and a4d77aa: a PR could weaken the checker, the ' \
+       'renderer, the copy-* jobs, the validate steps that run these controls, the schedule, or these controls. ' \
+       'What it ENFORCES: copy-truth runs --mode trust-root with the BASE\'s checker, list and manifest, so its ' \
+       'status names every such change and a PR cannot alter that comparison; copy-truth is advisory, so this ' \
+       'detects and does not block (stigready-web#96 makes such a change need the owner\'s signature). What it ' \
+       'only DETECTS: this control runs the PR\'s own checker and manifest in validate, so a PR can rewrite both; ' \
+       'it is a tripwire that makes the manifest diff visible to review/security, not a control a PR cannot pass.'
 
   tr = lambda do |dir|
     o, st = Open3.capture2e('python3', CHECK_CT, '--mode', 'trust-root', '--repo', dir)
@@ -1239,7 +1267,74 @@ control 'web-copy-truth-08' do
       it('is exit 2') { expect(rc).to eq(2), o }
     end
   end
+  # The base's checker, list and manifest (copy-truth): rewriting the PR's manifest does not hide the change.
+  base_cmp = lambda do |dir|
+    o, st = Open3.capture2e('python3', CHECK_CT, '--mode', 'trust-root', '--repo', dir, '--base', ROOT_CT)
+    [o, st.exitstatus]
+  end
+  bc_out, bc_rc = base_cmp.call(rewritten)
+  describe 'the checker change with the PR\'s manifest rewritten, judged against the base (copy-truth)' do
+    it('fails, naming the checker') do
+      expect(bc_rc).to eq(1), bc_out
+      expect(bc_out).to include('- changed trust root: scripts/check-copy-vs-marketplace.py ')
+    end
+  end
+  dropped = copy.call('dropped-entry')
+  edit.call(dropped, 'config/trust-root-paths', "scripts/render/**\n", '')
+  Open3.capture2e('python3', CHECK_CT, '--mode', 'trust-root', '--repo', dropped, '--write')
+  edit.call(dropped, 'scripts/render/render.mjs', "// SPDX-FileCopyrightText: 2026 StigReady\n",
+            "// SPDX-FileCopyrightText: 2026 StigReady\n// x\n")
+  dr_out, dr_rc = base_cmp.call(dropped)
+  describe 'a PR that drops scripts/render/** from its list, rewrites its manifest, then edits the renderer' do
+    it('fails against the base: the base\'s list still names the renderer') do
+      expect(dr_rc).to eq(1), dr_out
+      expect(dr_out).to include('- changed trust root: scripts/render/render.mjs ')
+      expect(dr_out).to include('- changed trust root: config/trust-root-paths ')
+    end
+  end
+  # Steps of validate and the schedule are entries too.
+  { 'the validate step that installs the renderer' => ['.cairn.yml', 'mkdir -p .render', 'mkdir -p .render2',
+                                                       '.cairn.yml#validate/render-setup'],
+    'the validate step that runs these controls' => ['.cairn.yml', 'cinc-auditor exec cinc/profiles/stigready-web',
+                                                     'true || cinc-auditor exec cinc/profiles/stigready-web',
+                                                     '.cairn.yml#validate/cinc-stigready-web'],
+    'the copy-drift schedule' => ['.cairn.yml', 'cron: "30 6 * * *"', 'cron: "30 6 1 1 *"', '.cairn.yml#triggers/schedule'] }
+    .each_with_index do |(what, (rel, from, to, entry)), i|
+    sd = copy.call("step-#{i}")
+    edit.call(sd, rel, from, to)
+    tr.call(sd).then do |o, rc|
+      describe "a change to #{what}" do
+        it('fails, naming the entry') do
+          expect(rc).to eq(1), o
+          expect(o).to include("- changed trust root: #{entry} ")
+        end
+      end
+    end
+  end
+  # A symlink under scripts/render is refused, never hashed as "missing".
+  linked = copy.call('symlink')
+  File.symlink('/etc/hosts', File.join(linked, 'scripts', 'render', 'extra.mjs'))
+  ln_out, ln_rc = tr.call(linked)
+  lw_out, lw_rc = Open3.capture2e('python3', CHECK_CT, '--mode', 'trust-root', '--repo', linked, '--write')
+  describe 'a symlink under scripts/render' do
+    it('fails, refused by name') do
+      expect(ln_rc).to eq(1), ln_out
+      expect(ln_out).to include('- refused trust root: scripts/render/extra.mjs is a symlink')
+    end
+    it('cannot be written into the manifest (exit 2)') do
+      expect(lw_rc.exitstatus).to eq(2), lw_out
+    end
+  end
+
   describe 'the pipeline' do
+    it('runs the trust-root comparison in copy-truth with the base\'s checker, list and manifest') do
+      pipe = YAML.safe_load(File.read(File.join(ROOT_CT, '.cairn.yml')))
+      job = (pipe['jobs'] || []).find { |j| j['name'] == 'copy-truth' }
+      s = (job.dig('run', 'exec', 'steps') || []).map { |x| x['run'].to_s }.join("\n")
+      expect(s).to include('python3 -I "$t/base/scripts/check-copy-vs-marketplace.py" --mode trust-root --repo . --base "$t/base"')
+      expect(s).to include('|| rc=$?')
+      expect(s).to include('exit "$rc"')
+    end
     it('prints the Node version in every copy-* job') do
       pipe = YAML.safe_load(File.read(File.join(ROOT_CT, '.cairn.yml')))
       jobs = (pipe['jobs'] || []).select { |j| j['name'].to_s.start_with?('copy-') }
