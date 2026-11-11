@@ -86,7 +86,7 @@
               "name": "What OpenSCAP evidence is available for Applied?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Every Applied image has an OpenSCAP ARF result, HTML report, POA&M and SBOM, and every Applied image except RHEL 10 has a CVE scan, available from support@stigready.com on request. Scores are measured in-build against the raw, unmodified SSG profile. StigReady is not affiliated with or endorsed by DISA, DoD, NIST, or CIS, and does not claim certified, authorized, or accredited status."
+                "text": "Every Applied image has an OpenSCAP ARF result, HTML report, POA&M and SBOM, and every Applied image except RHEL 10 has a CVE scan, available from support@stigready.com on request. Scores are measured in-build against the SSG profile. Where the STIG lets a site set a value (on the RHEL-family STIG images, the authorized local users), the value is listed in the evidence. StigReady is not affiliated with or endorsed by DISA, DoD, NIST, or CIS, and does not claim certified, authorized, or accredited status."
               }
             },
             {
@@ -323,7 +323,7 @@
             <div class="text-center mb-12">
                 <span class="text-xs text-yellow-500 font-semibold uppercase tracking-widest">StigReady Applied</span>
                 <h2 class="text-3xl font-bold mt-2 text-white">Remediated, scored, and provable</h2>
-                <p class="text-gray-400 mt-3 max-w-2xl mx-auto">The number your auditor asks for — published with every image. We score against the raw, unmodified SSG profile in-build.</p>
+                <p class="text-gray-400 mt-3 max-w-2xl mx-auto">The number your auditor asks for — published with every image. We score against the SSG profile in-build, and list any organization-defined value we set.</p>
                 <p class="text-sm text-gray-500 mt-2"><a href="/applied/" class="text-yellow-500 hover:underline">Applied overview</a> · scores and filters below</p>
             </div>
 
@@ -337,7 +337,7 @@
                 <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
                     <i data-lucide="chart-bar" class="w-9 h-9 mb-3 text-yellow-500"></i>
                     <h3 class="font-bold mb-2">Scored in-build</h3>
-                    <p class="text-gray-400 text-sm">Every image is scored against the <strong class="text-gray-200">raw, unmodified SSG profile</strong> during the build — not after, not on a different host. A 90% floor and a no-regression ratchet gate every release.</p>
+                    <p class="text-gray-400 text-sm">Every image is scored against the <strong class="text-gray-200">SSG profile</strong> during the build — not after, not on a different host. A 90% floor and a no-regression ratchet gate every release.</p>
                 </div>
                 <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
                     <i data-lucide="file-text" class="w-9 h-9 mb-3 text-yellow-500"></i>
@@ -361,7 +361,7 @@
                 <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-5">
                     <div>
                         <h3 class="text-xl font-bold text-white">Applied Scores</h3>
-                        <p class="text-gray-400 text-sm mt-1">All scores as of <span id="catalog-generated">the latest published catalog</span> · scored against the raw, unmodified SSG profile</p>
+                        <p class="text-gray-400 text-sm mt-1">All scores as of <span id="catalog-generated">the latest published catalog</span> · scored against the SSG profile; organization-defined values are listed in the evidence</p>
                     </div>
                     <div class="flex flex-col gap-2">
                         <div class="flex gap-2 flex-wrap" id="applied-arch-filters">
@@ -415,7 +415,7 @@
                 <span class="text-xs text-yellow-500 font-semibold uppercase tracking-widest">StigForge</span>
                 <h2 class="text-3xl font-bold mt-2 text-white">Public Ansible roles</h2>
                 <p class="text-gray-400 mt-3 max-w-3xl mx-auto">
-                    Public CIS and STIG role exports, generated from the raw SSG profile and pinned by immutable tag. Scores are measured by OpenSCAP on the StigReady Applied image built with the role version shown next to each score, and published on this page; evidence is available from support@stigready.com on request.
+                    Public CIS and STIG role exports, generated from the SSG profile and pinned by immutable tag. Scores are measured by OpenSCAP on the StigReady Applied image built with the role version shown next to each score, and published on this page; evidence is available from support@stigready.com on request.
                     <a href="/blog/" class="text-yellow-500 hover:underline">How-tos: Base + roles →</a>
                 </p>
             </div>
@@ -430,7 +430,7 @@
 
             <div class="bg-gray-800 rounded-xl border border-gray-700 p-6">
                 <h3 class="text-xl font-bold text-white mb-2">Scores</h3>
-                <p class="text-gray-400 text-sm mb-4">Measured by OpenSCAP against the raw SSG profile on the StigReady Applied image build, for the role version shown; not in the role repo.</p>
+                <p class="text-gray-400 text-sm mb-4">Measured by OpenSCAP against the SSG profile on the StigReady Applied image build, for the role version shown; not in the role repo.</p>
                 <div class="overflow-x-auto border border-gray-700 rounded-lg">
                     <table class="w-full text-sm min-w-[560px]">
                         <thead class="bg-navy text-gray-300 uppercase text-xs tracking-wider">
@@ -489,7 +489,7 @@
                     <ul class="space-y-2 text-sm text-gray-300">
                         <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Everything in Base</li>
                         <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Full DISA STIG or CIS Level 1/2 remediation</li>
-                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Scored in-build against the raw SSG profile</li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Scored in-build against the SSG profile</li>
                         <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>90% floor · no-regression ratchet</li>
                         <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Evidence bundle on request: ARF, HTML report, POA&amp;M, SBOM, CVE scan (not RHEL 10)</li>
                         <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>FIPS mode enabled on STIG images</li>
@@ -512,7 +512,7 @@
                 </div>
                 <div>
                     <dt class="font-semibold text-white mb-2">What OpenSCAP evidence is available for Applied?</dt>
-                    <dd class="text-gray-400 text-sm">Every Applied image has an OpenSCAP ARF result, HTML report, POA&amp;M and SBOM, and every Applied image except RHEL 10 has a CVE scan, available from support@stigready.com on request. Scores are measured in-build against the raw, unmodified SSG profile. We do not claim DISA/DoD endorsement, or certified / authorized / accredited status.</dd>
+                    <dd class="text-gray-400 text-sm">Every Applied image has an OpenSCAP ARF result, HTML report, POA&amp;M and SBOM, and every Applied image except RHEL 10 has a CVE scan, available from support@stigready.com on request. Scores are measured in-build against the SSG profile. Where the STIG lets a site set a value (on the RHEL-family STIG images, the authorized local users), the value is listed in the evidence. We do not claim DISA/DoD endorsement, or certified / authorized / accredited status.</dd>
                 </div>
                 <div>
                     <dt class="font-semibold text-white mb-2">Do you support arm64 / Graviton?</dt>
