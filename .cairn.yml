@@ -103,6 +103,7 @@ jobs:
               mkdir -p "$t/base" "$t/snap"
               git archive "origin/${CAIRN_BASE_REF:?}" | tar -x -C "$t/base"
               node=$(bash "$t/base/scripts/render/setup.sh" "$t/base/scripts/render" "$t/node")
+              echo "renderer: $("$node" --version) at $node"
               git -C "$t/snap" init -q
               git -C "$t/snap" fetch -q --depth 1 https://github.com/stigready/stigready-web.git live/marketplace
               git -C "$t/snap" show FETCH_HEAD:marketplace-live.json > "$t/marketplace-live.json"
@@ -141,6 +142,7 @@ jobs:
               mkdir -p "$t/base"
               git archive "origin/${CAIRN_BASE_REF:?}" | tar -x -C "$t/base"
               node=$(bash "$t/base/scripts/render/setup.sh" "$t/base/scripts/render" "$t/node")
+              echo "renderer: $("$node" --version) at $node"
               python3 -I "$t/base/scripts/check-copy-vs-marketplace.py" --mode removal --node "$node" \
                 --renderer "$t/base/scripts/render/render.mjs" \
                 --repo . --base-ref "origin/${CAIRN_BASE_REF:?}" --head-ref HEAD --pr "${CAIRN_PR:?}"
@@ -168,6 +170,7 @@ jobs:
               set -eu
               t=$(mktemp -d)
               node=$(bash scripts/render/setup.sh scripts/render "$t/node")
+              echo "renderer: $("$node" --version) at $node"
               git -C "$t" init -q
               git -C "$t" fetch -q --depth 1 https://github.com/stigready/stigready-web.git live/marketplace
               git -C "$t" show FETCH_HEAD:marketplace-live.json > "$t/marketplace-live.json"

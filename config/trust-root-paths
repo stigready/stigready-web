@@ -1,0 +1,14 @@
+# The trust root of the copy-truth checks (decision 0114): every file, and every .cairn.yml job, that decides how a pull
+# request is judged. scripts/check-copy-vs-marketplace.py --mode trust-root hashes each entry into
+# config/trust-root.sha256, and CINC web-copy-truth-08 fails, naming the entry, when the two differ. A PR that changes
+# an entry therefore also changes config/trust-root.sha256, in plain sight, for review/security.
+# Entries: a file, a directory/** (every file under it), or .cairn.yml#<job>. This file is always an entry itself.
+scripts/check-copy-vs-marketplace.py
+scripts/render/**
+cinc/profiles/stigready-web/controls/copy_truth.rb
+cinc/profiles/stigready-web/files/copy-truth/**
+config/snapshot-signers
+config/owner-signers
+.cairn.yml#copy-truth
+.cairn.yml#copy-removal-gate
+.cairn.yml#copy-drift-watch

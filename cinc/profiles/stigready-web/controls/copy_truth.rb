@@ -291,8 +291,10 @@ control 'web-copy-truth-01' do
       it('finds all 56 live-Public Applied products rendered as coming soon') do
         expect(out.scan(%r{^- WITHHELD stigapplied/}).size).to eq(56)
       end
-      it('finds the "Applied ... coming soon" sentences') do
+      it('finds the "Applied ... coming soon" sentences: exactly 10, 66 findings in all') do
         expect(out).to match(/WITHHELD-TEXT index\.html: StigReady Applied has 56 live Public listings/)
+        expect(out.scan(/^- WITHHELD-TEXT /).size).to eq(10)
+        expect(out).to include('**66 finding(s)**')
       end
       it('never calls Base withheld') { expect(out).not_to match(%r{^- (WITHHELD|NOT-LINKED) stigready/}) }
     end
@@ -967,6 +969,15 @@ control 'web-copy-truth-07' do
   forged = CT_SIGN_SNAP.call(File.join(CT_TMP, 'snap-forged.json').tap { |f| FileUtils.cp(SNAP_CT, f) }, other_key)
   edited = CT_SIGN_SNAP.call(File.join(CT_TMP, 'snap-edited.json').tap { |f| FileUtils.cp(SNAP_CT, f) })
   File.write(edited, File.read(edited).sub('"Public"', '"Restricted"'))
+  key_line = File.read(CT_SNAP_SIGNERS)
+  validity = lambda do |name, opt|
+    f = File.join(CT_TMP, "snapshot-signers-#{name}")
+    File.write(f, key_line.sub('namespaces="stigready-marketplace-snapshot"', %(namespaces="stigready-marketplace-snapshot",#{opt})))
+    f
+  end
+  expired = validity.call('expired', 'valid-before="20200101"')
+  future = validity.call('future', 'valid-after="20990101"')
+  unknown = validity.call('unknown', 'no-touch-required')
   no_keys = File.join(CT_TMP, 'snapshot-signers-empty')
   File.write(no_keys, "# no key yet\n")
   ca_keys = File.join(CT_TMP, 'snapshot-signers-ca')
@@ -975,7 +986,11 @@ control 'web-copy-truth-07' do
     'a snapshot signed by a key the base does not list' => [forged, CT_SNAP_SIGNERS, /signature does not verify/],
     'a snapshot edited after it was signed' => [edited, CT_SNAP_SIGNERS, /signature does not verify/],
     'a base that lists no snapshot key' => [SNAP_SIGNED, no_keys, /lists no snapshot key/],
-    'a snapshot key listed as cert-authority' => [SNAP_SIGNED, ca_keys, /lists no snapshot key/] }
+    'a snapshot key listed as cert-authority' => [SNAP_SIGNED, ca_keys, /lists no snapshot key \(refused: line 1: cert-authority is refused\)/],
+    'a snapshot key whose valid-before has passed' => [SNAP_SIGNED, expired, /signature does not verify/],
+    'a snapshot key whose valid-after is in the future' => [SNAP_SIGNED, future, /signature does not verify/],
+    'a snapshot key line with an option the checker does not support' =>
+      [SNAP_SIGNED, unknown, /refused: line 1: unsupported option\(s\) no-touch-required/] }
     .each do |what, (snap, signers, pat)|
     CT_L1.call(CT_SITES['after'], snap, signers: signers).then do |o, rc|
       describe "L1 with #{what}" do
@@ -1069,6 +1084,105 @@ control 'web-copy-truth-07' do
       it("#{rel} is ignored") do
         _, st2 = Open3.capture2e('git', '-C', g, 'check-ignore', '-q', rel)
         expect(st2.exitstatus).to eq(0)
+      end
+    end
+  end
+end
+
+# ------------------------------------------------------------------------------------------------- trust root (0114)
+
+control 'web-copy-truth-08' do
+  impact 1.0
+  title 'A change to what judges pull requests is never silent: config/trust-root.sha256 names it'
+  desc 'Security review of stigready-web#74 at c773a3a (finding 1): a PR could weaken the checker, the renderer, ' \
+       'the copy-* jobs or these controls, and the next PR would be judged by the weaker code. Every such change ' \
+       'must appear in config/trust-root.sha256, so review/security sees it.'
+
+  tr = lambda do |dir|
+    o, st = Open3.capture2e('python3', CHECK_CT, '--mode', 'trust-root', '--repo', dir)
+    [o, st.exitstatus]
+  end
+  tr.call(ROOT_CT).then do |o, rc|
+    describe 'this tree against config/trust-root.sha256' do
+      it('matches: every trust-root change in this PR is in the manifest') { expect(rc).to eq(0), o }
+    end
+  end
+
+  # A copy of the trust root, then one change at a time.
+  copy = lambda do |name|
+    d = File.join(CT_TMP, "tr-#{name}")
+    %w[config scripts cinc .cairn.yml].each do |rel|
+      src = File.join(ROOT_CT, rel)
+      next unless File.exist?(src)
+
+      if File.directory?(src)
+        FileUtils.mkdir_p(d)
+        FileUtils.cp_r(src, d)
+      else
+        FileUtils.mkdir_p(d)
+        FileUtils.cp(src, File.join(d, rel))
+      end
+    end
+    FileUtils.rm_rf(Dir.glob(File.join(d, '**', 'node_modules')))
+    d
+  end
+  edit = lambda do |dir, rel, from, to|
+    f = File.join(dir, rel)
+    t = File.read(f)
+    raise "fixture: #{from} not in #{rel}" unless t.include?(from)
+
+    File.write(f, t.sub(from, to))
+  end
+  {
+    'the checker' => ['scripts/check-copy-vs-marketplace.py', 'SCHEMA = "stigready-marketplace-live/1"', 'SCHEMA = "x"',
+                      'scripts/check-copy-vs-marketplace.py'],
+    'the renderer' => ['scripts/render/render.mjs', "// SPDX-FileCopyrightText: 2026 StigReady\n", "// SPDX-FileCopyrightText: 2026 StigReady\n// x\n",
+                       'scripts/render/render.mjs'],
+    'the copy-truth job' => ['.cairn.yml', '--snapshot-signers "$t/base/config/snapshot-signers"', '--snapshot-signers x',
+                             '.cairn.yml#copy-truth'],
+    'these controls' => ['cinc/profiles/stigready-web/controls/copy_truth.rb', "impact 1.0\n", "impact 0.0\n",
+                         'cinc/profiles/stigready-web/controls/copy_truth.rb'],
+    'the snapshot keys' => ['config/snapshot-signers', '# Marketplace snapshot keys', '# keys',
+                            'config/snapshot-signers'],
+    'the list of trust-root paths' => ['config/trust-root-paths', "scripts/render/**\n", '',
+                                       'config/trust-root-paths']
+  }.each_with_index do |(what, (rel, from, to, entry)), i|
+    d = copy.call("edit-#{i}")
+    edit.call(d, rel, from, to)
+    tr.call(d).then do |o, rc|
+      describe "a change to #{what} with the manifest left alone" do
+        it('fails, naming the entry') do
+          expect(rc).to eq(1), o
+          expect(o).to include("- changed trust root: #{entry} ")
+        end
+      end
+    end
+  end
+  d = copy.call('rewritten')
+  edit.call(d, 'scripts/check-copy-vs-marketplace.py', 'SCHEMA = "stigready-marketplace-live/1"', 'SCHEMA = "x"')
+  Open3.capture2e('python3', CHECK_CT, '--mode', 'trust-root', '--repo', d, '--write')
+  describe 'the same checker change with the manifest rewritten' do
+    it('passes, and the manifest line for the checker changed (the diff review/security reads)') do
+      o, rc = tr.call(d)
+      expect(rc).to eq(0), o
+      expect(File.read(File.join(d, 'config', 'trust-root.sha256'))).not_to eq(File.read(File.join(ROOT_CT, 'config', 'trust-root.sha256')))
+    end
+  end
+  d = copy.call('no-manifest')
+  FileUtils.rm_f(File.join(d, 'config', 'trust-root.sha256'))
+  tr.call(d).then do |o, rc|
+    describe 'a tree without config/trust-root.sha256' do
+      it('is exit 2') { expect(rc).to eq(2), o }
+    end
+  end
+  describe 'the pipeline' do
+    it('prints the Node version in every copy-* job') do
+      pipe = YAML.safe_load(File.read(File.join(ROOT_CT, '.cairn.yml')))
+      jobs = (pipe['jobs'] || []).select { |j| j['name'].to_s.start_with?('copy-') }
+      expect(jobs).not_to be_empty
+      jobs.each do |j|
+        s = (j.dig('run', 'exec', 'steps') || []).map { |x| x['run'].to_s }.join("\n")
+        expect(s).to include('echo "renderer: $("$node" --version) at $node"'), j['name']
       end
     end
   end
