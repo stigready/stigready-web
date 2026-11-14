@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<!-- SPDX-FileCopyrightText: 2026 StigReady -->
+<!-- SPDX-License-Identifier: LicenseRef-StigReady-Proprietary -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check a hardened RHEL 9 STIG AMI yourself: launch, set credentials, scan with OpenSCAP — StigReady how-to</title>
+    <meta name="description" content="Run the same OpenSCAP scan we run on a StigReady Applied RHEL 9 DISA STIG image, on your own instance, and compare it with the score on the listing.">
+    <meta name="robots" content="index,follow">
+    <meta name="theme-color" content="#0C2340">
+    <link rel="canonical" href="https://stigready.com/blog/check-rhel9-stig-ami-openscap.html">
+    <link rel="icon" type="image/png" href="https://stigready.com/assets/logo.png">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="StigReady">
+    <meta property="og:url" content="https://stigready.com/blog/check-rhel9-stig-ami-openscap.html">
+    <meta property="og:title" content="Check a hardened RHEL 9 STIG AMI yourself: launch, set credentials, scan with OpenSCAP — StigReady how-to">
+    <meta property="og:description" content="Launch a StigReady Applied RHEL 9 DISA STIG image, set your credentials, and score it with OpenSCAP yourself.">
+    <meta property="og:image" content="https://stigready.com/assets/logo.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@Stigready">
+    <meta name="twitter:title" content="Check a hardened RHEL 9 STIG AMI yourself: launch, set credentials, scan with OpenSCAP — StigReady how-to">
+    <meta name="twitter:description" content="Launch a StigReady Applied RHEL 9 DISA STIG image, set your credentials, and score it with OpenSCAP yourself.">
+    <meta name="twitter:image" content="https://stigready.com/assets/logo.png">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Check a hardened RHEL 9 STIG AMI yourself: launch, set credentials, scan with OpenSCAP",
+      "datePublished": "2026-11-16",
+      "dateModified": "2026-11-16",
+      "author": { "@type": "Organization", "name": "StigReady" },
+      "publisher": { "@type": "Organization", "name": "StigReady", "url": "https://stigready.com/" },
+      "mainEntityOfPage": "https://stigready.com/blog/check-rhel9-stig-ami-openscap.html",
+      "description": "Launch a StigReady Applied RHEL 9 DISA STIG image, set your credentials, and score it with OpenSCAP yourself."
+    }
+    </script>
+    <link rel="stylesheet" href="/assets/css/site.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gold { color: #C9A84C; }
+        .bg-navy { background-color: #0C2340; }
+        article h2 { font-size: 1.25rem; font-weight: 700; color: #fff; margin: 2rem 0 0.75rem; }
+        article p, article li { color: #d1d5db; line-height: 1.7; }
+        article p { margin-bottom: 1rem; }
+        article ol, article ul { padding-left: 1.25rem; margin-bottom: 1rem; }
+        article ol { list-style: decimal; }
+        article ul { list-style: disc; }
+        article a { color: #EAB308; }
+        article a:hover { text-decoration: underline; }
+        article code { color: #facc15; font-size: 0.9em; }
+        article pre { background: #111827; border: 1px solid #374151; border-radius: 0.5rem; padding: 1rem; overflow-x: auto; margin-bottom: 1rem; font-size: 0.875rem; color: #e5e7eb; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col">
+        <nav class="bg-navy border-b border-gray-800 px-6 py-4 sticky top-0 z-20">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <a href="/" class="flex items-center space-x-3" aria-label="StigReady home">
+                <img src="/assets/logo.png" alt="StigReady" class="h-10 w-auto" width="40" height="40"/>
+                <span class="text-xl font-black tracking-wide"><span class="text-white">STIG</span><span class="gold">READY</span></span>
+            </a>
+            <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                <a href="/#base-tier" class="text-gray-300 hover:text-white transition">Base</a>
+                <a href="/#applied-tier" class="text-gray-300 hover:text-white transition">Applied</a>
+                <a href="/#stigforge" class="text-gray-300 hover:text-white transition">StigForge</a>
+                <a href="/blog/" class="text-gray-300 hover:text-white transition">Blog</a>
+                <a href="/#pricing" class="text-gray-300 hover:text-white transition">Pricing</a>
+                <a href="mailto:contact@stigready.com" class="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded-md font-semibold transition">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+
+    <main class="flex-1 py-16 px-4">
+        <article class="max-w-3xl mx-auto">
+            <p class="text-xs text-gray-500 mb-3"><a href="/blog/" class="text-yellow-500 hover:underline">Blog</a> · 2026-11-16 · Hands-on</p>
+            <h1 class="text-3xl md:text-4xl font-black text-white mb-6 tracking-tight">Check a hardened RHEL 9 STIG AMI <span class="gold">yourself</span></h1>
+            <p class="text-lg text-gray-300 mb-8">The RHEL 9 DISA STIG listings show an OpenSCAP score and the date it was measured. You do not have to take that number on trust. This how-to launches a StigReady Applied RHEL 9 DISA STIG image, sets your credentials, and runs the same scan on your own instance.</p>
+
+            <h2>Before you start</h2>
+            <ul>
+                <li>A subscription to StigReady Applied RHEL 9 DISA STIG (FIPS mode), x86_64 or arm64. The <a href="/applied/">Applied catalog</a> links to each listing.</li>
+                <li>A Red Hat subscription. RHEL images are <strong class="text-white">BYOL</strong>: you supply your own subscription to run RHEL on this instance, and to install packages with <code>dnf</code>.</li>
+                <li>An SSH key pair you control.</li>
+            </ul>
+            <p>Commands marked <em>(our script)</em> come from StigReady. Everything else is a standard RHEL or OpenSCAP command.</p>
+
+            <h2>1. Launch and connect</h2>
+            <ol>
+                <li>Subscribe from the listing, then launch the image in EC2 with your key pair.</li>
+                <li>The recommended security group allows SSH only from private address ranges. Set it to your admin network's range at launch.</li>
+                <li>Connect as <code>ec2-user</code>.</li>
+            </ol>
+<pre><code>ssh -i your-key.pem ec2-user@&lt;instance-ip&gt;
+</code></pre>
+            <p>STIG images are built with FIPS mode enabled. The build stops if FIPS mode is not on. To see it on your instance:</p>
+<pre><code>cat /proc/sys/crypto/fips_enabled    # 1 means FIPS mode is on
+</code></pre>
+
+            <h2>2. Set your credentials first</h2>
+            <p>The STIG asks for a boot loader password, a root password and a password for <code>sudo</code>. AWS Marketplace does not allow an AMI to ship passwords, hashed ones included. So the image ships none, and a script on the image sets yours.</p>
+<pre><code>sudo stigready-set-credentials    # (our script)
+</code></pre>
+            <ul>
+                <li>It asks for each password twice. Each must be at least 15 characters.</li>
+                <li>It sets a boot loader superuser (named <code>bootadmin</code> unless you pass <code>--grub-superuser NAME</code>) and its password. Normal boots do not ask for it.</li>
+                <li>It sets the root password. Root SSH login stays disabled.</li>
+                <li>It sets a password for the user who ran it (or <code>--user NAME</code>), then removes <code>NOPASSWD</code> from sudoers. It checks sudoers with <code>visudo</code> and puts the old files back if the check fails. From then on, <code>sudo</code> asks for that password.</li>
+                <li>To run only some steps, pass <code>--grub</code>, <code>--root</code> or <code>--sudo</code>. <code>--help</code> prints the usage.</li>
+            </ul>
+            <p>The script is plain bash at <code>/usr/sbin/stigready-set-credentials</code>. Besides the passwords, it writes <code>/etc/cloud/cloud.cfg.d/99-stigready-sudo-password.cfg</code>, so cloud-init does not add <code>NOPASSWD</code> back for a new default user. Read it before you run it: <code>sudo less /usr/sbin/stigready-set-credentials</code>.</p>
+            <p>If you skip this step, the boot loader, root and sudo password rules fail in your scan. The score on the listing counts them as failures too.</p>
+
+            <h2>3. Install the scanner</h2>
+<pre><code>sudo subscription-manager register     # your Red Hat account
+sudo dnf install -y openscap-scanner unzip
+</code></pre>
+            <p>Installing packages writes new <code>dnf</code> log files under <code>/var/log</code>. If the rule on <code>/var/log</code> file permissions fails, check whether the file is one this install just wrote. Our build resets the mode of only the log files its own scanner install wrote, then scans.</p>
+
+            <h2>4. Get the same benchmark content</h2>
+            <p>We score with one pinned release of the SCAP Security Guide (SSG) from the ComplianceAsCode project. At the time of writing it is 0.1.82. To compare with our number, use the same release. Ask support which release a given image version was scored with.</p>
+<pre><code>cd ~
+curl -fsSLO https://github.com/ComplianceAsCode/content/releases/download/v0.1.82/scap-security-guide-0.1.82.zip
+echo "765e84bdce7f9055f9b9c2dd0ee2b713d4255f8eec94eac6d35ea4973c28919c  scap-security-guide-0.1.82.zip" | sha256sum -c -
+unzip -o scap-security-guide-0.1.82.zip scap-security-guide-0.1.82/ssg-rhel9-ds.xml
+</code></pre>
+            <p>The SHA-256 is the one our build checks before it uses the file. If the instance cannot reach GitHub, download the file elsewhere, check the hash there, and copy it over with <code>scp</code>.</p>
+
+            <h2>5. Scan: read only</h2>
+<pre><code>sudo oscap xccdf eval \
+  --profile xccdf_org.ssgproject.content_profile_stig \
+  --results results.xml \
+  --results-arf arf.xml \
+  --report report.html \
+  scap-security-guide-0.1.82/ssg-rhel9-ds.xml
+</code></pre>
+            <p>This is the command our build runs, with the differences described below. <code>oscap</code> exits 0 when every rule passes and 2 when some fail. Both mean the scan ran.</p>
+            <p><strong class="text-white">Do not add <code>--remediate</code>.</strong> That flag changes the system to make rules pass, and then you are no longer measuring the image you launched. Our build never runs it, and a check on every change to our build fails if it comes back.</p>
+            <p>Two things in our build differ from the plain command above:</p>
+            <ul>
+                <li><strong class="text-white">One refined value.</strong> The STIG rule on authorized local accounts (RHEL-09-411095) checks a list of allowed accounts, and the STIG says that list can be customized. We add the image's own accounts to SSG's default list: <code>ec2-user</code>, <code>unbound</code>, <code>fapolicyd</code> and <code>postfix</code>. In the plain scan this one rule fails. Whether those accounts belong on your system is your call.</li>
+                <li><strong class="text-white">Applicability.</strong> We widen one applicability check in <code>ssg-rhel9-ds.xml</code> so the same file also runs on RHEL rebuilds. On RHEL 9 the file from the release already applies as is.</li>
+            </ul>
+
+            <h2>6. Count the score our way</h2>
+            <p>Our published score is pass &divide; (pass + fail) &times; 100. Rules that are not applicable or not selected are left out.</p>
+<pre><code>p=$(sudo grep -o '&lt;result&gt;pass&lt;/result&gt;' results.xml | wc -l)
+f=$(sudo grep -o '&lt;result&gt;fail&lt;/result&gt;' results.xml | wc -l)
+awk -v p="$p" -v f="$f" 'BEGIN { printf "pass=%d fail=%d score=%.1f%%\n", p, f, 100*p/(p+f) }'
+</code></pre>
+            <p>Open <code>report.html</code> in a browser for each rule's result. Keep <code>arf.xml</code>: it is the full machine-readable result.</p>
+            <p>Compare your number with the score and date on the listing. That score counts every documented exemption as a failure. Exempted rules, such as smartcard/CAC, remote log offload and a few that would break a cloud instance, fail in your scan as they did in ours. The evidence bundle lists each one with a POA&amp;M entry and the action left to you. POA&amp;M and SBOM available on request.</p>
+            <p>Your number can differ from ours. Setting your credentials passes rules that failed in our scan. Updates you install and changes you make after launch can move it either way. If the numbers differ and you cannot see why, <a href="mailto:contact@stigready.com">tell us</a>.</p>
+
+            <h2>7. Leave the instance as you found it</h2>
+            <p>Our build removes the scanner after it scans, so the image ships without it. To do the same:</p>
+<pre><code>sudo dnf remove -y openscap-scanner unzip
+rm -rf ~/scap-security-guide-0.1.82*
+</code></pre>
+
+            <h2>What this does and does not show</h2>
+            <p>The scan measures this instance against the SSG STIG profile on the day you run it. The image supports your configuration-management work. It does not by itself make a system compliant, authorized or assessed.</p>
+
+            <h2>Related</h2>
+            <ul>
+                <li><a href="/blog/openscap-evidence-bundles.html">OpenSCAP evidence bundles auditors actually open</a></li>
+                <li><a href="/blog/base-vs-applied.html">Base vs Applied</a></li>
+                <li><a href="/blog/rhel9-base-stigforge-stig.html">RHEL 9 Base + rhel9_stig</a></li>
+                <li><a href="/applied/">StigReady Applied catalog</a></li>
+            </ul>
+            <p class="text-sm text-gray-500 mt-10 pt-6 border-t border-gray-800">Questions? <a href="mailto:contact@stigready.com">contact@stigready.com</a></p>
+        </article>
+    </main>
+
+        <footer class="bg-navy py-10 px-4 mt-auto border-t border-gray-800">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+                <div class="flex items-center space-x-3">
+                    <img src="/assets/logo.png" alt="StigReady" class="h-8 w-auto"/>
+                    <span class="font-black tracking-wide"><span class="text-white">STIG</span><span class="gold">READY</span></span>
+                </div>
+                <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
+                    <a href="/#base-tier" class="hover:text-white transition">Base</a>
+                    <a href="/applied/" class="hover:text-white transition">Applied</a>
+                    <a href="/#stigforge" class="hover:text-white transition">StigForge</a>
+                    <a href="/blog/" class="hover:text-white transition">Blog</a>
+                    <a href="/#pricing" class="hover:text-white transition">Pricing</a>
+                    <a href="/data-practices/" class="hover:text-white transition">Data practices</a>
+                    <a href="mailto:contact@stigready.com" class="hover:text-white transition">contact@stigready.com</a>
+                </div>
+            </div>
+            <p class="text-center text-xs text-gray-600">&copy; 2026 StigReady. All rights reserved.</p>
+            <p class="text-center text-xs text-gray-600 mt-3 max-w-3xl mx-auto">
+                Not affiliated with or endorsed by DISA, DoD, NIST, CIS, Red Hat, Canonical, Amazon, the Rocky Enterprise Software Foundation, or the AlmaLinux OS Foundation. All trademarks are the property of their respective owners. Red Hat®, Red Hat Enterprise Linux® and Ansible® are trademarks of Red Hat, Inc. Ubuntu® is a trademark of Canonical Ltd. Amazon Web Services, AWS, AWS Marketplace, Graviton and Amazon Linux are trademarks of Amazon.com, Inc. or its affiliates. Rocky Linux is a trademark of the Rocky Enterprise Software Foundation. AlmaLinux is a trademark of the AlmaLinux OS Foundation. Linux is the registered trademark of Linus Torvalds in the U.S. and other countries. CIS® and CIS Benchmarks™ are trademarks of the Center for Internet Security, Inc. StigReady does not provide commercial licenses for Red Hat products.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
