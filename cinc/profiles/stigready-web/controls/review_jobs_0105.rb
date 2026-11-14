@@ -15,7 +15,8 @@
 #   - nothing can skip it: no review.paths, no skip_branches, no if/run_on/needs, pull requests only. A skipped review
 #     reports success under the context, and a path filter pinned here could lag the merge train's public-facing list;
 #   - the carry-over rests on the right history: require names exactly the contexts branch protection requires here
-#     (the validate-history rule), and base_identities is empty: no interim verdict is a base (decision 0159);
+#     (the validate-history rule), and base_identities is only the 0159 reviewer App, with base_marker the agents' App,
+#     so a base needs its 0159 marker comment (decisions 0172, 0184);
 #   - advisory, with a timeout: a needs-review job fails, and must neither turn the aggregate red nor hold it.
 require 'yaml'
 
@@ -29,8 +30,17 @@ RJ0105_ROLES = {
   'review/marketing' => 'marketing',
   'review/qa' => 'qa',
 }.freeze
-# Decision 0159: no interim poster is a carry-over base. sclark007 is off
-# review_identities, and the reviewer App cannot be a base (Cairn: Apps are never a base), so base_identities is empty.
+# Decision 0172 (claude-agents, owner 2026-11-10; rollout step 4, after stigready#5569 had emptied it): the reviewer App
+# of decision 0159 is the one interim poster whose approve is a carry-over base, and only with the agents' App's marker
+# comment for that head, context and verdict (Cairn review.base_marker), the same check the merge train makes. Never a
+# user, never Cairn's own App, never the agents' App itself (the author).
+# Decision 0184 rests on the same two keys: Cairn (internal/runs/samehead.go, guardFor and sameHeadApprove) withholds a
+# non-verdict over a marked approve on the same head only for a job with base_marker and a non-empty base_identities.
+# With base_identities [] it was off on stigforge: stigforge#318, head 782c7066, run 20261114T062117Z-525e0e posted
+# "full review needed: the review API was unavailable (HTTP 400)" at 06:32:08Z over the reviewer App's marked approves
+# of 06:22:49Z (review/marketing) and 06:24:20Z (review/security). This repository had the same gap (stigforge#319).
+RJ0105_BASE_IDENTITIES = ['stigready-reviewers[bot]'].freeze
+RJ0105_BASE_MARKER = 'stigready-agents[bot]'
 
 module ReviewJobs0105
   module_function
@@ -108,10 +118,11 @@ end
 
 control 'review-jobs-0105-03' do
   impact 1.0
-  title 'Carry-over only rests on Cairn\'s own green reviewed head, never an interim poster, and never holds the aggregate'
+  title 'Carry-over rests on a green reviewed head and only on the reviewer App\'s marked verdicts, and never holds the aggregate'
   desc 'Decision 0105 sections 1.3 and 2: require is every context branch protection requires; base_identities is ' \
-       'empty (decision 0159: no interim verdict is a carry-over base; never an App: Cairn reads its own ' \
-       'verdicts from its runs); advisory with a timeout.'
+       'exactly the 0159 reviewer App and base_marker the agents\' App (decision 0172: a base needs its marker comment; ' \
+       'decision 0184: without both, a review job posts over a marked approve on the same head, stigforge#318); ' \
+       'advisory with a timeout.'
   RJ0105_ROLES.each_key do |ctx|
     job = ReviewJobs0105.jobs_for(ctx).first || {}
     review = job['review'] || {}
@@ -121,7 +132,11 @@ control 'review-jobs-0105-03' do
     end
     describe "#{ctx}: review.base_identities" do
       subject { review['base_identities'] }
-      it { should eq [] }
+      it { should eq RJ0105_BASE_IDENTITIES }
+    end
+    describe "#{ctx}: review.base_marker" do
+      subject { review['base_marker'] }
+      it { should eq RJ0105_BASE_MARKER }
     end
     describe "#{ctx}: advisory" do
       subject { job['advisory'] }

@@ -208,9 +208,15 @@ jobs:
   # part 1), the newest review/<role> by a base_identities login on the reviewed head was success, and every require
   # context was success there in Cairn's own runs. Anything else is pending "full review needed: <reason>", never
   # success; the reviews are then done in full by hand (0100 interim).
-  # base_identities is [] (decision 0159 took sclark007 off review_identities): no interim verdict is a base, so Cairn
-  # carries over only its own full approve from its run store; a head without one waits for a fresh review (Apps are
-  # never a base).
+  # Decision 0172 (claude-agents, owner 2026-11-10; rollout step 4, after stigready carried a real update, stigready#5711):
+  # base_identities is the 0159 reviewer App, stigready-reviewers[bot], and base_marker is stigready-agents[bot]: an
+  # approve the reviewer App posted on an earlier head is a base only with the agents' App's 0159 marker comment for that
+  # head, context and verdict (the train's own check), and it carries over to a head the train updated only when every
+  # commit after it is a clean merge of main and git patch-id --stable of the change is unchanged, on top of the tree
+  # test. A hold is never carried. When the repo goes on full_review_repos, base_identities goes back to [] (0116).
+  # Decision 0184 needs the same two keys: with them, a review job never posts a non-verdict (running, full review
+  # needed, an error) over a marked approve on the same head. Without them it did (stigforge#318, run
+  # 20261114T062117Z-525e0e, 06:32:08Z; fixed there by stigforge#319).
   # - No review.paths and no skip_branches: a skipped review reports success, and a filter pinned here could lag the
   #   merge train's public-facing list, so no filter may skip a PR the train treats as public-facing. A PR that
   #   touches no public-facing path sees these pending; the train does not gate on them.
@@ -224,7 +230,8 @@ jobs:
     review:
       agent_role: security
       require: [validate]
-      base_identities: []
+      base_identities: ["stigready-reviewers[bot]"]   # decision 0172: the 0159 reviewer App, marked verdicts only
+      base_marker: "stigready-agents[bot]"
   - name: review-marketing
     stage: review
     advisory: true
@@ -233,7 +240,8 @@ jobs:
     review:
       agent_role: marketing
       require: [validate]
-      base_identities: []
+      base_identities: ["stigready-reviewers[bot]"]   # decision 0172: the 0159 reviewer App, marked verdicts only
+      base_marker: "stigready-agents[bot]"
   - name: review-qa
     stage: review
     advisory: true
@@ -242,4 +250,5 @@ jobs:
     review:
       agent_role: qa
       require: [validate]
-      base_identities: []
+      base_identities: ["stigready-reviewers[bot]"]   # decision 0172: the 0159 reviewer App, marked verdicts only
+      base_marker: "stigready-agents[bot]"
