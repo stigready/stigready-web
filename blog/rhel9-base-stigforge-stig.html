@@ -126,10 +126,10 @@ rhel9-base ansible_host=&lt;instance-ip&gt; ansible_user=ec2-user
             <h2>4. Score the instance</h2>
             <p>What the role repo ships for each tag is a manifest (<code>compliance/releases/&lt;version&gt;/manifest.json</code>) pinning the factory commit, the SSG version and a content digest. It does not ship a score.</p>
             <ul>
-                <li>Score this host: <code>oscap xccdf eval --profile xccdf_org.ssgproject.content_profile_stig --results results.xml --report report.html /usr/share/xml/scap/ssg/content/ssg-rhel9-ds.xml</code>, after the reboot.</li>
+                <li>Score this host after the reboot with the same pinned SSG content and read-only <code>oscap xccdf eval</code> command we use: see <a href="/blog/check-rhel9-stig-ami-openscap.html">Check a hardened RHEL 9 STIG AMI yourself</a>.</li>
                 <li>Published scores for the StigReady Applied image built with this role: <a href="/#applied-tier">stigready.com/#applied-tier</a> (the <a href="/#stigforge">StigForge table</a> names the role version each score was measured with)</li>
             </ul>
-            <p>The role repo ships no container score (container verification was retired because a container cannot evaluate most STIG rules). The number that counts is OpenSCAP against the raw SSG <code>stig</code> profile on <em>this</em> instance, after the reboot; that is also what StigReady publishes for the StigReady Applied image that bakes the same role.</p>
+            <p>The role repo ships no container score (container verification was retired because a container cannot evaluate most STIG rules). The number that counts is OpenSCAP on <em>this</em> instance, after the reboot. StigReady scores the StigReady Applied image that bakes the same role against the SSG <code>stig</code> profile, with one documented refined value; Rocky Linux and AlmaLinux images are scored with the SSG RHEL datastream (see <a href="/blog/check-rhel9-stig-ami-openscap.html">Check a hardened RHEL 9 STIG AMI yourself</a>).</p>
 
             <h2>Related</h2>
             <ul>

@@ -8,6 +8,13 @@
     <copyright>Copyright (c) 2026 StigReady. All rights reserved.</copyright>
     <atom:link href="https://stigready.com/blog/rss.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title>Check a hardened RHEL 9 STIG AMI yourself: launch, set credentials, scan with OpenSCAP</title>
+      <link>https://stigready.com/blog/check-rhel9-stig-ami-openscap.html</link>
+      <guid isPermaLink="true">https://stigready.com/blog/check-rhel9-stig-ami-openscap.html</guid>
+      <pubDate>Mon, 16 Nov 2026 12:00:00 GMT</pubDate>
+      <description>Launch a StigReady Applied RHEL 9 DISA STIG image, set your credentials, and score it with OpenSCAP yourself.</description>
+    </item>
+    <item>
       <title>Graviton and arm64 hardened AMIs for STIG and CIS workloads</title>
       <link>https://stigready.com/blog/graviton-arm64-hardened-amis.html</link>
       <guid isPermaLink="true">https://stigready.com/blog/graviton-arm64-hardened-amis.html</guid>
