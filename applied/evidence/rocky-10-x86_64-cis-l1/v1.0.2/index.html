@@ -99,14 +99,14 @@
 </tbody></table></div>
 
         <h2>CVE scan</h2>
-        <p>Scanned with Trivy 0.72.0 in the image build on 2026-10-19 22:04 UTC. Counts are distinct CVE identifiers at that date; CVEs published later are not counted. OS packages and language packages are counted separately.</p>
+        <p>Scanned with Trivy 0.72.0 in the image build on 2026-10-19 22:04 UTC, for Critical, High, Medium severity only (Low and Unrated severity CVEs were not scanned for and are not counted). Counts are distinct CVE identifiers at that date; CVEs published later are not counted. OS packages and language packages are counted separately.</p>
 <h3>OS packages</h3>
 <p>Not assessed. Trivy detected the Rocky Linux 10 packages but its vulnerability data does not cover Rocky Linux 10, so it matched none, and that zero would not mean the image has no known CVEs.</p>
 <h3>Language packages (Go binaries)</h3>
 <p>Go modules and the Go standard library compiled into binaries in the image, such as the AWS Systems Manager agent: 168 detected.</p>
-<div class="tbl"><table><thead><tr><th></th><th>Critical</th><th>High</th><th>Medium</th><th>Low</th></tr></thead><tbody>
-<tr><td>CVEs found</td><td>0</td><td>4</td><td>12</td><td>0</td></tr>
-<tr><td>Of those, Trivy reported a fixed package version at scan time</td><td>0</td><td>4</td><td>12</td><td>0</td></tr>
+<div class="tbl"><table><thead><tr><th></th><th>Critical</th><th>High</th><th>Medium</th></tr></thead><tbody>
+<tr><td>CVEs found</td><td>0</td><td>4</td><td>12</td></tr>
+<tr><td>Of those, Trivy reported a fixed package version at scan time</td><td>0</td><td>4</td><td>12</td></tr>
 </tbody></table></div>
 <p class="muted">The per-CVE list is in the full evidence bundle, on request.</p>
 
@@ -122,6 +122,7 @@
         <div class="tbl"><table><thead><tr><th>File in the bundle</th><th>SHA-256</th></tr></thead><tbody>
         <tr><td><code>openscap/openscap-score.txt</code></td><td><code>e150099d4498a31f2a54c5d7d5ae9d654c1e268412567adb4b5b012c8e161223</code></td></tr>
         <tr><td><code>openscap/results.xml</code></td><td><code>20e9336a19bf76fa68f9728d0a206c6f6bd95387791a980e9ada33b24f87d972</code></td></tr>
+        <tr><td><code>rocky-10-cis-l1-v1.0.2.log</code></td><td><code>d29d0ae46e9aed2b47cfd91ac70d7129ada3b5b33418c8bb215cb6696b0251ec</code></td></tr>
         <tr><td><code>sbom.cdx.json</code></td><td><code>4b34a25e973fced535dfc7d2a7fdcd2f4ee9c391aa96a622e68a6cbf99ae60eb</code></td></tr>
         <tr><td><code>trivy-cve.json</code></td><td><code>81c327e6af2e06e811d1101a0dde2e51bdeea97151587f153e9128ec1d330539</code></td></tr>
         </tbody></table></div>

@@ -271,6 +271,23 @@ def one(row: dict, store: Path, live_ami: str | None, out: Path, cosign_pub: Pat
         rec["cve"]["gate"] = {k: tg.get(k) for k in ("status", "critical", "high", "medium", "fixable_critical",
                                                      "fixable_high", "unfixed_critical", "unfixed_high")}
         rec["signed_digests"]["trivy-cve.json"] = digests.get("trivy-cve.json")
+        # The severity filter the scan ran with is not in trivy-cve.json; the signed build log records it, e.g.
+        # "Scanning with Trivy 0.72.0 (scanners=vuln,secret, severity=CRITICAL,HIGH,MEDIUM)". A severity outside it
+        # was never scanned for, so the page must not show a count for it.
+        log_rel = f"{row['os_key']}{'-arm64' if row['arch'] == 'arm64' else ''}-{row['profile']}-v{ver}.log"
+        lg = signed(log_rel)
+        runs = set()
+        if lg is not None:
+            text = lg.read_text(encoding="utf-8", errors="replace")
+            runs = set(re.findall(r"Scanning with Trivy ([\d.]+) \(scanners=([\w,]+), severity=([A-Z,]+)\)", text))
+        if len(runs) != 1:
+            P.append(f"the build log ({log_rel}) records {len(runs)} Trivy runs with a severity filter, not 1")
+        else:
+            tver, scanners, sev = runs.pop()
+            if tver != rec["cve"]["scanner_version"]:
+                P.append(f"the build log's Trivy {tver} is not the report's {rec['cve']['scanner_version']}")
+            rec["cve"]["severity_filter"] = sev.split(",")
+            rec["signed_digests"][log_rel] = digests.get(log_rel)
 
     sb = signed("sbom.cdx.json")
     if sb is None:

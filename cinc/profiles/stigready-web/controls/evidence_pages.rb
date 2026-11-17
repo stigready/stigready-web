@@ -30,7 +30,7 @@ EV_MUTATED = lambda do |name, mutate, mutate_catalog = nil|
   mutate&.call(doc)
   path = File.join(EV_TMP, "#{name}.json")
   File.write(path, JSON.generate(doc))
-  args = ['--check', '--input', path]
+  args = ['--check', '--input', path, '--out', File.join(EV_TMP, "#{name}-out", 'applied', 'evidence')]
   if mutate_catalog
     cat = JSON.parse(JSON.generate(EV_CATALOG))
     mutate_catalog.call(cat)
@@ -68,50 +68,117 @@ end
 
 control 'web-evidence-pages-guard-fails' do
   impact 1.0
-  title 'The evidence page generator refuses an input that would publish an untrue or internal page'
+  title 'The evidence page generator refuses an input that would publish an untrue or internal page, for the right reason'
+  desc 'Each case runs --check against an empty output directory and asserts the problem the guard must name, so a ' \
+       'case cannot pass on "pages differ" when its guard is gone (build-qa review of stigready-web#99, Q2).'
   first_cis = ->(d) { d['cells'].find { |c| c['profile'] != 'stig' } }
   first = ->(d) { d['cells'].first }
-  cases = {
-    'a score that differs from catalog.json' => ->(d) { first.call(d)['scorecard']['score'] += 0.1 },
-    'an extract problem' => ->(d) { first.call(d)['problems'] = ['bundle version 1.0.0 is not 1.0.2'] },
-    'an unverified signature' => ->(d) { first.call(d)['signature']['cosign_verified'] = nil },
-    'a bundle not matched to the live listing' => ->(d) { first.call(d)['ami_matches_live_listing'] = false },
-    'FIPS on a CIS image' => ->(d) { first_cis.call(d)['fips'] = true },
-    'an exemption class with no public label' => ->(d) { first.call(d)['exemptions'].first['class'] = 'new-class' },
-    'a failing rule with no exemption' => ->(d) { first.call(d)['exemptions'].pop },
-    'an AMI id in published text' => ->(d) { first.call(d)['exemptions'].first['why'] += ' See ami-0123456789abcdef0.' },
-    'an internal record in published text' => ->(d) { first.call(d)['exemptions'].first['why'] += ' Decision 0070.' },
-    'a GovCloud claim in published text' => ->(d) { first.call(d)['exemptions'].first['customer_action'] += ' GovCloud too.' },
-    'a version that catalog.json does not sell' => ->(d) { first.call(d)['version'] = '9.9.9' },
-    'an extract made without the live-listing check' => ->(d) { d['live_listings_checked'] = false },
-    'a missing version' => ->(d) { d['cells'].shift },
-  }
   rhel9 = ->(d) { d['cells'].find { |c| c['os_key'] == 'rhel-9' } }
-  cases.merge!(
-    # security review S1-S5 of stigready-web#99
+  # name => [mutation of config/applied-evidence.json, mutation of catalog.json or nil, the problem it must report]
+  cases = {
+    'a score that differs from catalog.json' =>
+      [->(d) { first.call(d)['scorecard']['score'] += 0.1 }, nil, /catalog\.json score \S+ is not the signed score/],
+    'an extract problem' =>
+      [->(d) { first.call(d)['problems'] = ['bundle version 1.0.0 is not 1.0.2'] }, nil, /extract problem: bundle version/],
+    'an unverified signature' =>
+      [->(d) { first.call(d)['signature']['cosign_verified'] = nil }, nil, /signature not verified at extraction/],
+    'a bundle not matched to the live listing' =>
+      [->(d) { first.call(d)['ami_matches_live_listing'] = false }, nil, /not matched to the live listing's AMI/],
+    'FIPS on a CIS image' => [->(d) { first_cis.call(d)['fips'] = true }, nil, /FIPS True on profile cis-l\d/],
+    'an exemption class with no public label' =>
+      [->(d) { first.call(d)['exemptions'].first['class'] = 'new-class' }, nil, /exemption class 'new-class' has no public label/],
+    'a failing rule with no exemption' =>
+      [->(d) { first.call(d)['exemptions'].pop }, nil, /\d+ failing rules but \d+ exemptions/],
+    'an AMI id in published text' =>
+      [->(d) { first.call(d)['exemptions'].first['why'] += ' See ami-0123456789abcdef0.' }, nil,
+       /published text names 'ami-0123456789abcdef0'/],
+    'an internal record in published text' =>
+      [->(d) { first.call(d)['exemptions'].first['why'] += ' Decision 0070.' }, nil, /published text names 'Decision 0070'/],
+    'a GovCloud claim in published text' =>
+      [->(d) { first.call(d)['exemptions'].first['customer_action'] += ' GovCloud too.' }, nil, /published text names 'GovCloud'/],
+    'a version that catalog.json does not sell' =>
+      [->(d) { first.call(d)['version'] = '9.9.9' }, nil, /catalog\.json sells v1\./],
+    'an extract made without the live-listing check' =>
+      [->(d) { d['live_listings_checked'] = false }, nil, /without the live-listing or signature check/],
+    'a missing version' => [->(d) { d['cells'].shift }, nil, /available in catalog\.json but has no evidence record/],
+    # security review S1-S5
     'zero OS-package findings on a release where zero was never reviewed' =>
-      ->(d) { rhel9.call(d)['cve']['classes']['os-pkgs']['findings'] = 0 },
-    'a CVE scan with no OS-package result' => ->(d) { first.call(d)['cve']['classes'].delete('os-pkgs') },
+      [->(d) { rhel9.call(d)['cve']['classes']['os-pkgs']['findings'] = 0 }, nil, /zero OS-package findings on rhel-9/],
+    'a CVE scan with no OS-package result' =>
+      [->(d) { first.call(d)['cve']['classes'].delete('os-pkgs') }, nil, /has no OS-package result/],
     'a Trivy result class with no public wording' =>
-      ->(d) { first.call(d)['cve']['classes']['secret'] = first.call(d)['cve']['classes']['os-pkgs'] },
-    'markup in a rule count' => ->(d) { first.call(d)['scorecard']['pass'] = '<b>1</b>' },
-    'a string in a CVE count' => ->(d) { first.call(d)['cve']['classes']['os-pkgs']['distinct']['high'] = '1' },
-    'a fraction for the SBOM component count' => ->(d) { first.call(d)['sbom']['components'] = 3.5 },
-    'a string for the manifest file count' => ->(d) { first.call(d)['signature']['manifest_files'] = '22' },
-    'a cell that is not os_key-arch-profile' => ->(d) { first.call(d)['cell'] = '../../index' },
-    'a version that is not N.N.N' => ->(d) { first.call(d)['version'] = '1.0.2"><script>' },
-  )
-  cases.each do |name, mutate|
-    out, status = EV_MUTATED.call(name.gsub(/\W+/, '-'), mutate)
+      [->(d) { first.call(d)['cve']['classes']['secret'] = first.call(d)['cve']['classes']['os-pkgs'] }, nil,
+       /result class with no public wording/],
+    'markup in a rule count' => [->(d) { first.call(d)['scorecard']['pass'] = '<b>1</b>' }, nil, /scorecard\.pass is not a number/],
+    'a string in a CVE count' =>
+      [->(d) { first.call(d)['cve']['classes']['os-pkgs']['distinct']['high'] = '1' }, nil,
+       /cve\.os-pkgs\.distinct\.high is not a number/],
+    'a fraction for the SBOM component count' =>
+      [->(d) { first.call(d)['sbom']['components'] = 3.5 }, nil, /sbom\.components is not a number/],
+    'a string for the manifest file count' =>
+      [->(d) { first.call(d)['signature']['manifest_files'] = '22' }, nil, /signature\.manifest_files is not a number/],
+    'a cell that is not os_key-arch-profile' =>
+      [->(d) { first.call(d)['cell'] = '../../index' }, nil, /cell is not <os_key>-<arch>-<profile>/],
+    'a version that is not N.N.N' => [->(d) { first.call(d)['version'] = '1.0.2"><script>' }, nil, /version is not N\.N\.N/],
+    'a catalog.json listing URL outside AWS Marketplace' =>
+      [nil, ->(cat) { cat['products'].find { |p| p['line'] == 'stigapplied' }['marketplace_url'] = 'https://example.com/pp/x' },
+       %r{marketplace_url is not under https://aws\.amazon\.com/marketplace/}],
+    # build-qa review Q1
+    'a CVE scan with no recorded severity filter' =>
+      [->(d) { first.call(d)['cve'].delete('severity_filter') }, nil, /severity filter is not recorded/],
+    'a count for a severity the scan did not cover' =>
+      [->(d) { rhel9.call(d)['cve']['classes']['os-pkgs']['distinct']['low'] = 2 }, nil,
+       /os-pkgs has low findings outside the scan's severity filter/],
+  }
+  cases.each do |name, (mutate, mutate_catalog, want)|
+    out, status = EV_MUTATED.call(name.gsub(/\W+/, '-'), mutate, mutate_catalog)
     describe "build-evidence-pages.py --check on #{name}" do
-      it("exits 1 (output: #{out.strip[0, 300]})") { expect(status).to eq(1) }
+      it('exits 1') { expect(status).to eq(1) }
+      it("reports #{want.inspect} and writes nothing (output: #{out.strip[0, 300]})") do
+        expect(out).to match(want)
+        expect(out).to include('nothing written')
+      end
     end
   end
-  out, status = EV_MUTATED.call('listing-url', nil, lambda do |cat|
-    cat['products'].find { |p| p['line'] == 'stigapplied' }['marketplace_url'] = 'https://example.com/pp/x'
-  end)
-  describe 'build-evidence-pages.py --check on a catalog.json listing URL outside AWS Marketplace' do
-    it("exits 1 (output: #{out.strip[0, 300]})") { expect(status).to eq(1) }
+
+  # Q3: a stray or stale SBOM in the output is reported by --check and removed by write mode. Each step gets a fresh
+  # copy of the site, because a control file can be evaluated more than once.
+  fresh = lambda do |name|
+    root = File.join(EV_TMP, name)
+    FileUtils.rm_rf(root)
+    FileUtils.mkdir_p(File.join(root, 'applied'))
+    FileUtils.cp_r(File.join(EV_ROOT, 'applied', 'evidence'), File.join(root, 'applied'))
+    FileUtils.cp(File.join(EV_ROOT, 'sitemap.xml'), File.join(root, 'sitemap.xml'))
+    [File.join(root, 'applied', 'evidence'), File.join(root, 'sitemap.xml')]
+  end
+  stray_in = lambda do |site|
+    f = File.join(site, 'rhel-9-x86_64-stig', 'v0.0.1', 'sbom.cdx.json.gz')
+    FileUtils.mkdir_p(File.dirname(f))
+    File.binwrite(f, 'stale')
+    f
+  end
+  # `it` blocks run after the control body, so each step keeps its own result variables.
+  site, sitemap = fresh.call('stray-check')
+  stray_in.call(site)
+  out1, status1 = EV_RUN.call('--check', '--out', site, '--sitemap', sitemap)
+  describe 'build-evidence-pages.py --check with a stale SBOM in the output' do
+    it('exits 1') { expect(status1).to eq(1) }
+    it("names it as stale (output: #{out1.strip[0, 300]})") { expect(out1).to match(%r{v0\.0\.1/sbom\.cdx\.json\.gz \(stale: no record\)}) }
+  end
+  site, sitemap = fresh.call('stray-write')
+  stray = stray_in.call(site)
+  out2, status2 = EV_RUN.call('--out', site, '--sitemap', sitemap)
+  gone2 = !File.exist?(stray)
+  describe 'build-evidence-pages.py (write) with a stale SBOM in the output' do
+    it("exits 0 (output: #{out2.strip[0, 300]})") { expect(status2).to eq(0) }
+    it('removes it') { expect(gone2).to eq(true) }
+  end
+  site, sitemap = fresh.call('sitemap-check')
+  File.write(sitemap, File.read(sitemap).sub(%r{\n  <url>\n    <loc>https://stigready\.com/applied/evidence/rhel-9-x86_64-stig/</loc>.*?</url>}m, ''))
+  out3, status3 = EV_RUN.call('--check', '--out', site, '--sitemap', sitemap)
+  describe 'build-evidence-pages.py --check with a page missing from sitemap.xml' do
+    it('exits 1') { expect(status3).to eq(1) }
+    it("names it (output: #{out3.strip[0, 300]})") { expect(out3).to include('sitemap.xml: missing https://stigready.com/applied/evidence/rhel-9-x86_64-stig/') }
   end
 end
 
@@ -139,6 +206,11 @@ control 'web-evidence-pages-say-what-was-assessed' do
       it('counts OS and language packages separately') { expect(body).to include('counted separately') }
       it('never says the counts are OS packages only') { expect(body).not_to include('in the installed OS packages') }
       it('shows commands as code, not literal backticks') { expect(body).not_to include('`') }
+      # build-qa Q1: the shipped scans ran with severity CRITICAL,HIGH,MEDIUM; no column for a severity never scanned.
+      it('shows no Low column') { expect(body).not_to include('<th>Low</th>') }
+      it('says Low was not scanned for') { expect(body).to match(/Low( and Unrated)? severity CVEs were not scanned for and are not counted/) }
+      # build-qa Q4: an exemption with no STIG ID says so instead of a dash.
+      it('never shows a bare dash for a STIG ID') { expect(body).not_to include('<td>—</td>') }
     end
   end
   {

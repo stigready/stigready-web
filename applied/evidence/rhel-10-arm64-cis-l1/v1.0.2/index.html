@@ -96,14 +96,14 @@
 </tbody></table></div>
 
         <h2>CVE scan</h2>
-        <p>Scanned with Trivy 0.72.0 in the image build on 2026-10-19 22:18 UTC. Counts are distinct CVE identifiers at that date; CVEs published later are not counted. OS packages and language packages are counted separately.</p>
+        <p>Scanned with Trivy 0.72.0 in the image build on 2026-10-19 22:18 UTC, for Critical, High, Medium severity only (Low and Unrated severity CVEs were not scanned for and are not counted). Counts are distinct CVE identifiers at that date; CVEs published later are not counted. OS packages and language packages are counted separately.</p>
 <h3>OS packages</h3>
 <p>Not assessed. Trivy detected the Red Hat Enterprise Linux 10 packages but its vulnerability data does not cover Red Hat Enterprise Linux 10, so it matched none, and that zero would not mean the image has no known CVEs.</p>
 <h3>Language packages (Go binaries)</h3>
 <p>Go modules and the Go standard library compiled into binaries in the image, such as the AWS Systems Manager agent: 168 detected.</p>
-<div class="tbl"><table><thead><tr><th></th><th>Critical</th><th>High</th><th>Medium</th><th>Low</th></tr></thead><tbody>
-<tr><td>CVEs found</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-<tr><td>Of those, Trivy reported a fixed package version at scan time</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<div class="tbl"><table><thead><tr><th></th><th>Critical</th><th>High</th><th>Medium</th></tr></thead><tbody>
+<tr><td>CVEs found</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>Of those, Trivy reported a fixed package version at scan time</td><td>0</td><td>0</td><td>0</td></tr>
 </tbody></table></div>
 <p class="muted">The per-CVE list is in the full evidence bundle, on request.</p>
 
@@ -119,6 +119,7 @@
         <div class="tbl"><table><thead><tr><th>File in the bundle</th><th>SHA-256</th></tr></thead><tbody>
         <tr><td><code>openscap/openscap-score.txt</code></td><td><code>33fb39a3b5affb307b7f555b1e76df5aaa3bc27234851fd4e64a9683333f5de8</code></td></tr>
         <tr><td><code>openscap/results.xml</code></td><td><code>f33da9399190abee05ea3c3aaa4ac66b35fb97ff7a518bb8c5918e17c6ef3c80</code></td></tr>
+        <tr><td><code>rhel-10-arm64-cis-l1-v1.0.2.log</code></td><td><code>5326fa23fd9c05553f34b9e5925ec26b38b7389ccdabe8117d37eaf9b840004e</code></td></tr>
         <tr><td><code>sbom.cdx.json</code></td><td><code>85bb09ef0f4f2a5a07e6f7376795ad9ffe95b4cda72f6ab9c0eab6c3a68239d9</code></td></tr>
         <tr><td><code>trivy-cve.json</code></td><td><code>ad5180284d0fef941e1782cbb8f5a8dd53d3881a64e9ade1dd9aac222cbd6363</code></td></tr>
         </tbody></table></div>

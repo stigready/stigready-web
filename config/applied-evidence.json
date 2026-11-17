@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "extracted_at": "2026-11-17T13:15:44Z",
+ "extracted_at": "2026-11-17T13:21:53Z",
  "catalog_generated": "2026-10-26",
  "live_listings_checked": true,
  "signatures_checked": true,
@@ -27,6 +27,7 @@
     "openscap/openscap-score.txt": "sha256:e150099d4498a31f2a54c5d7d5ae9d654c1e268412567adb4b5b012c8e161223",
     "openscap/results.xml": "sha256:e66676e60c46ee91259da17fd4412b956281678ed423687a65a7e34f58e1f9d4",
     "trivy-cve.json": "sha256:973c4a1d13ec4d590cdd63e33c591cd96de118aab15a0967267113b9f300d183",
+    "alma-10-arm64-cis-l1-v1.0.2.log": "sha256:e02c8173fd7e2a295ac050285602beb1b17f3439a61e4b7151f7c51e35683910",
     "sbom.cdx.json": "sha256:7d6ca5390b70b87080d192e4e8b8cc21e30a6b8c54e5c8dfbd802582ae1a9b95"
    },
    "scorecard": {
@@ -156,7 +157,12 @@
      "fixable_high": 25,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -187,6 +193,7 @@
     "openscap/openscap-score.txt": "sha256:e150099d4498a31f2a54c5d7d5ae9d654c1e268412567adb4b5b012c8e161223",
     "openscap/results.xml": "sha256:d138cda689bfa3b6edeb84e875e6daf8fd30e17fc6cec2bb1e272cdfa2278f88",
     "trivy-cve.json": "sha256:a5bddd33540992d0fc395d11d92a28e37a35acd71acafdd54863b5449f006388",
+    "alma-10-cis-l1-v1.0.2.log": "sha256:e8b6efae053723bb0bad19fde863aeb7895a755781d30177de8c8e3c29bc9ddd",
     "sbom.cdx.json": "sha256:838fa9a041e612e05f0f908ed59bd8486653f0488d029e864f8f7659b43d04ac"
    },
    "scorecard": {
@@ -316,7 +323,12 @@
      "fixable_high": 25,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -347,6 +359,7 @@
     "openscap/openscap-score.txt": "sha256:3a9936023ad4e116158ed8ff7fb38fc9eece61e63bc472a15af3ac7fc7bde0a9",
     "openscap/results.xml": "sha256:f64b36ecc3fd02deeb7229964a053e949ab8062e287247cb3ff88ae880d539df",
     "trivy-cve.json": "sha256:2006d488bccf359cf1587dd7d84f97f7b2a3215c9039f7d23cb3a51c6d880258",
+    "alma-8-arm64-cis-l1-v1.0.2.log": "sha256:394252914955179fc94d8a9ed21763d35c3d90e1d7c3a261072a8ba20d1a8335",
     "sbom.cdx.json": "sha256:a7a62e91a7254881dda6ec35f994b1878aac5612311092692b87dbb983ce56fa"
    },
    "scorecard": {
@@ -459,7 +472,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -490,6 +508,7 @@
     "openscap/openscap-score.txt": "sha256:72555a467537d2da4d6aefb80cf021a05d4f42585fe0b2fdb739f9bcaedef9e6",
     "openscap/results.xml": "sha256:32747541340fb980a1677d3f5e62dd15085731b342b4e932a202e4408443616e",
     "trivy-cve.json": "sha256:9fb2eda2867fd0b682285b3030939c5d5a2a7348fe503d00395a826f1cc964a8",
+    "alma-8-arm64-cis-l2-v1.0.2.log": "sha256:9935d48fe694255a59b327505636fcf62cc171934ea45de09811574ea4d967c0",
     "sbom.cdx.json": "sha256:fe79540962becf065dd1a7a09aec5fa734cb764750a1286bccebc854f5cc2716"
    },
    "scorecard": {
@@ -620,7 +639,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -653,6 +677,7 @@
     "poam.md": "sha256:c814fbc0aa55e6efcfbc6bf4546b718160444e5f36b577f9245eb3c5209030fa",
     "openscap/tailoring.xml": "sha256:6013598f2009f64b6afe17c5d94d0e3125a4adf7e26ed07f5c19fc334e963acd",
     "trivy-cve.json": "sha256:f96d2d8eff51b2363adf13a787bc9dc3c4cd43084e356ca95f0ab1c2b8cedff8",
+    "alma-8-arm64-stig-v1.0.2.log": "sha256:193af3285dde0414ca3a78571f60da31559cbd56c8f3c7ec224b6493179a5e44",
     "sbom.cdx.json": "sha256:f5949da8a3fada0a0d13d1fc0d4447f002b11b4a9ce88ebd41d088d0d9e9c3e4"
    },
    "scorecard": {
@@ -884,7 +909,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -915,6 +945,7 @@
     "openscap/openscap-score.txt": "sha256:3a9936023ad4e116158ed8ff7fb38fc9eece61e63bc472a15af3ac7fc7bde0a9",
     "openscap/results.xml": "sha256:9a369b93e749da6da578ce51379f47efac7e10407b4766b22f2a384a413e5334",
     "trivy-cve.json": "sha256:c359dc845eb62f2dfe1496555ff312d05b385af9a91c82e887ff86dda50c606e",
+    "alma-8-cis-l1-v1.0.2.log": "sha256:da5ca29b0e39b18422320cbe9974c409cf1dbf90fb0010fcca382f160d394550",
     "sbom.cdx.json": "sha256:68b9c6c19b38686505dc7b6ccde069e3f1cd4f4b0e950355c40ef2c086c655f0"
    },
    "scorecard": {
@@ -1027,7 +1058,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -1058,6 +1094,7 @@
     "openscap/openscap-score.txt": "sha256:11e20ebcdabf4c71f53fd5f54b3e9efda465f8123f4fe2a0a1ba3a76903cef2d",
     "openscap/results.xml": "sha256:6bf4cdb009cd445415c024c3f00e37ca783b1c2be1f9e8c068670cb88fd95364",
     "trivy-cve.json": "sha256:ef03b4a508ee9a77735b67535c574149319cb329a389abcc9c22e3ef2a4f6e0d",
+    "alma-8-cis-l2-v1.0.2.log": "sha256:a6a1a252574b76ce155bc994ba1b4c22d9f0113b846cb805368b4ef0375bdae6",
     "sbom.cdx.json": "sha256:1fa0176b7ca4785b188b087a7d10fcbdd2252569ce316e32f02fe92d086e8320"
    },
    "scorecard": {
@@ -1188,7 +1225,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -1221,6 +1263,7 @@
     "poam.md": "sha256:984ab83c0d8b83abee4ab0a7f2928658f2e387cccb890dc49ae03436d4694a28",
     "openscap/tailoring.xml": "sha256:ac00dfed536c13817fa3a785375483c7d1a4e01ca45516ff7700d1ec53e62fb0",
     "trivy-cve.json": "sha256:6d706ebaa8c71416f420ef48a701585172b9c80da13c7e59a62b9915b9cedf2b",
+    "alma-8-stig-v1.0.2.log": "sha256:9c205ad42560c1fc1268b3a4c6301b8bcbff5c0334fb65d6ce835673fe82a6a7",
     "sbom.cdx.json": "sha256:0f244f5d803c49ce74503bc1c98ed8daff74bad4cbd43fad4182472051494d13"
    },
    "scorecard": {
@@ -1452,7 +1495,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -1483,6 +1531,7 @@
     "openscap/openscap-score.txt": "sha256:dac0a61920113c9cf6a96bf3ef4fec4d6975d458cdd41943ccf24eed037c6871",
     "openscap/results.xml": "sha256:d88e55788860b30832d461bbec721a893bada8366e2b7a1ad9c21587ada0336c",
     "trivy-cve.json": "sha256:c3ed01d7799b56e61414b37a5edd338e45c56f374ace34e5d704696604537534",
+    "alma-9-arm64-cis-l1-v1.0.2.log": "sha256:b9efff10656645021fab423c4d4e54a353d8e61956e1ad55c7f7a00879884b2a",
     "sbom.cdx.json": "sha256:132a37b87296857742841c3204d9a1f43a4b986d0296efd802febb4304805f76"
    },
    "scorecard": {
@@ -1585,7 +1634,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -1616,6 +1670,7 @@
     "openscap/openscap-score.txt": "sha256:2a2e9a85d60dcfe96302f04ddf2924a0e295bb65b25e978d85db74987925205b",
     "openscap/results.xml": "sha256:f40d7df857b27da8a8e7e55e5e60e41360fa83f21b6d1305017216962b1bf7a8",
     "trivy-cve.json": "sha256:2b22d3dcfee5ab049002e19c55a666581999ba87cc94e8bfddb66a3108370a87",
+    "alma-9-arm64-cis-l2-v1.0.1.log": "sha256:4f612fea5d0f67dc735d864fd088cbfd0d03d46514c831d7ea06f4fae0457639",
     "sbom.cdx.json": "sha256:df895ea169aed52a87d23c12aed9e62a93d8a9975970cc180794ad01850cc6e7"
    },
    "scorecard": {
@@ -1726,7 +1781,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -1759,6 +1819,7 @@
     "poam.md": "sha256:f08183aec7030e913c3492329145548352ce872b7bd057ed738ca4af4a17178b",
     "openscap/tailoring.xml": "sha256:5207141ae506a547d5eec741c5c0fa83c8f8b07a488ece0ee3d8fecf13ba5a7c",
     "trivy-cve.json": "sha256:32a3c689da140c4e8162248b9ee5ce4cde0d3a905132900cd2ac7691763a136f",
+    "alma-9-arm64-stig-v1.0.2.log": "sha256:b40e13bd4587dce303f3ca1c55a8f9de4a8159e86f84a01bfc9a0451b3ff7611",
     "sbom.cdx.json": "sha256:8e1f21559766f05ffbbf2aae970ccb6730bb868e645c51df201235eedd182f81"
    },
    "scorecard": {
@@ -1988,7 +2049,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -2019,6 +2085,7 @@
     "openscap/openscap-score.txt": "sha256:dac0a61920113c9cf6a96bf3ef4fec4d6975d458cdd41943ccf24eed037c6871",
     "openscap/results.xml": "sha256:d21b2637b1efb569613a7689b733d287e07a44f21375855b8a42fdca84401b20",
     "trivy-cve.json": "sha256:d3abbb652731fd5e8f3fddd965f14072ed36e71d85a53c1ae01e95c453396f2b",
+    "alma-9-cis-l1-v1.0.2.log": "sha256:b70841be134fd4090a6f529be618d84ec93b34205515440a542874f61c9f5dd9",
     "sbom.cdx.json": "sha256:3cd9d294c1f9b4eef626ef713f615c60c2c2b174ccf00ac5350715695de314c8"
    },
    "scorecard": {
@@ -2121,7 +2188,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -2152,6 +2224,7 @@
     "openscap/openscap-score.txt": "sha256:1a5709d3879f1cb23f7f1091783e46428c79fbb6ca2bd4b3462ec6aad1bebad5",
     "openscap/results.xml": "sha256:cfa36b58d1bd0ca0c2565000b2dd63d909223a5b484391ffbb13106049d03cc6",
     "trivy-cve.json": "sha256:340c5dcb8d82ac2c215f842d618a6508891735b36ec39f1c6e7394c1728ac08c",
+    "alma-9-cis-l2-v1.0.2.log": "sha256:bad9ea0d49a31a011a426180790a4d568e5c8a5ace6c95d9e2f363563c0a7efe",
     "sbom.cdx.json": "sha256:88b644c92a4cd8d01cdac791ea870af788f535d48e79402819d5dc005d762fa0"
    },
    "scorecard": {
@@ -2262,7 +2335,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -2295,6 +2373,7 @@
     "poam.md": "sha256:f8415c0c5ff11e0053b8499d4f0da46e9778099d23bc0ff50d899efce36b7566",
     "openscap/tailoring.xml": "sha256:86412c0f6092baf692d302b63b1a5f396c897a6380be802e912b19eb334542a2",
     "trivy-cve.json": "sha256:67668cbdb304e127b453a6d14db49cf58570e2886e9d8668e65a055ad37827ad",
+    "alma-9-stig-v1.0.2.log": "sha256:f5ae45a34618059e22d1a4ef9077d2d0b460a4752e85bc6ecf4bb80b6cbe174d",
     "sbom.cdx.json": "sha256:a0f1908243ff2acb73fd0d1a8231d5562d9ff48d0afbf51d8e7953be0e77ec65"
    },
    "scorecard": {
@@ -2524,7 +2603,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -2555,6 +2639,7 @@
     "openscap/openscap-score.txt": "sha256:33fb39a3b5affb307b7f555b1e76df5aaa3bc27234851fd4e64a9683333f5de8",
     "openscap/results.xml": "sha256:f33da9399190abee05ea3c3aaa4ac66b35fb97ff7a518bb8c5918e17c6ef3c80",
     "trivy-cve.json": "sha256:ad5180284d0fef941e1782cbb8f5a8dd53d3881a64e9ade1dd9aac222cbd6363",
+    "rhel-10-arm64-cis-l1-v1.0.2.log": "sha256:5326fa23fd9c05553f34b9e5925ec26b38b7389ccdabe8117d37eaf9b840004e",
     "sbom.cdx.json": "sha256:85bb09ef0f4f2a5a07e6f7376795ad9ffe95b4cda72f6ab9c0eab6c3a68239d9"
    },
    "scorecard": {
@@ -2676,7 +2761,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -2707,6 +2797,7 @@
     "openscap/openscap-score.txt": "sha256:a0ce48fe81087754c758704c5152d238aafbd2fba90cb333da337e9dfba98551",
     "openscap/results.xml": "sha256:87806be31ba0a793651b13d3309493b9faf0a12d0c4be96e5849fcad7c111b23",
     "trivy-cve.json": "sha256:b26f16a1ff057433377267c3a1140aa3d18e91d7b3cf19786dd12be3c60bf8bf",
+    "rhel-10-arm64-cis-l2-v1.0.2.log": "sha256:187673d51045233b2ba4f8189e07c6dbeec8f86fd443b2a9adea51d839d14a14",
     "sbom.cdx.json": "sha256:c6aa626434e5be5d6fa1ea1f57323769193683c4c06aabd07a9636d7d8fef0e6"
    },
    "scorecard": {
@@ -2844,7 +2935,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -2877,6 +2973,7 @@
     "poam.md": "sha256:8bf7e292e3d716c3e17d2ac9d9bdc013a918bc499ef0c66357881418d4acb961",
     "openscap/tailoring.xml": "sha256:86962137c3ff0410097b206c09e09b01935f3c4e2afe989581864acb9c6a548c",
     "trivy-cve.json": "sha256:6393af7a7122149d21bd098fe4ab68a36a353152e89e9203f57a46e710f6df11",
+    "rhel-10-arm64-stig-v1.0.1.log": "sha256:6cf14b3cadb3bcb14060b756bca3005ac44e947eb1bfe5b52d4c96270c029da7",
     "sbom.cdx.json": "sha256:dc3d0b93bb35aa139e49ada4ceb6f19413fdebc0955588ac6e329b657f1886e3"
    },
    "scorecard": {
@@ -3058,7 +3155,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -3089,6 +3191,7 @@
     "openscap/openscap-score.txt": "sha256:33fb39a3b5affb307b7f555b1e76df5aaa3bc27234851fd4e64a9683333f5de8",
     "openscap/results.xml": "sha256:78a35f3e1eff13ea044914196f50780ce90694fc8e93dc83dbb9e945d357e803",
     "trivy-cve.json": "sha256:d249d73d10a99cfd25e8719c44e2e8ce1475856ae770e21560765a12b0c843ac",
+    "rhel-10-cis-l1-v1.0.3.log": "sha256:8fa479e32c4e20deb3dcb171a62e994bd7211d5e20ee5bdc8919079a8370428e",
     "sbom.cdx.json": "sha256:6467560c23cba50314ed1bc3f4a471064028e0f26de489b3c90f6dadbcffc7a3"
    },
    "scorecard": {
@@ -3210,7 +3313,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -3241,6 +3349,7 @@
     "openscap/openscap-score.txt": "sha256:37a1be4d3b6af3a01b6410fad7635ad9f5a706e109bf6bec8a2a52fd98f826af",
     "openscap/results.xml": "sha256:00355c7943a7c4d33e10926d446a899a95942578762d22d79fbb9920f3502f3c",
     "trivy-cve.json": "sha256:e8206f3e136ca79f6cf3bef381503627429d0b94da144bba3885b01b8818b5b5",
+    "rhel-10-cis-l2-v1.0.2.log": "sha256:c24b7cf92c400864c3dbb5dade3e93c10ea81425a0aa5c49b109f496b0836a42",
     "sbom.cdx.json": "sha256:f39ec39e270fadda8b79c50020a39a0610040992ae407b4a061d5086b6266d97"
    },
    "scorecard": {
@@ -3378,7 +3487,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -3411,6 +3525,7 @@
     "poam.md": "sha256:c13d3329d9a742ca1cdb2f456709a085d2531815ad3670c8809e30dad8bb0ace",
     "openscap/tailoring.xml": "sha256:5f7c7ed283d165cb58d0c178bf1314d6258d4bfed5081f7ceaaefcee3661adb0",
     "trivy-cve.json": "sha256:033cef009064037cd5a4b4eb18c769966e84b4b369b370e62a3266f579e8dce3",
+    "rhel-10-stig-v1.0.1.log": "sha256:dd0d9cf9cfbb6e5b4d6c10e2780330b2c1ab116dead97ef6012ab40b4715263e",
     "sbom.cdx.json": "sha256:ccf6a5e4c3cd62e018a72bc0d5b939b94ff82da0672a08d6adfd194838cdee97"
    },
    "scorecard": {
@@ -3592,7 +3707,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -3623,6 +3743,7 @@
     "openscap/openscap-score.txt": "sha256:6cec9211fac733e74b0aa430e0e2de7b4f210c2e80b6c374b7bc08f36287e0e6",
     "openscap/results.xml": "sha256:9634f1877c6a3c995895f83203db41a5bc9b5de919aaf65657c2583e9ccbcb3c",
     "trivy-cve.json": "sha256:9db66d1eecf2d92eeab82e41de030a87cc4df35bcaaf0f6d94554e49017ae5e4",
+    "rhel-8-arm64-cis-l1-v1.0.2.log": "sha256:cc6ada6a03ccd4fdf9af5ca0b2604c01fbe7fb97fd7d679f345111e5cf42585a",
     "sbom.cdx.json": "sha256:08ccdb7e2c2e544bd1914469332982da7efe50654e43ac44eb2e29239b76e27b"
    },
    "scorecard": {
@@ -3727,7 +3848,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 131
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -3758,6 +3884,7 @@
     "openscap/openscap-score.txt": "sha256:e95434a8f1b5ffda6c17e8c0ef5d463e36409518cfdf22017ae65b86db0d4d5e",
     "openscap/results.xml": "sha256:42355081c4dcd0350648b44f4e2c8fa9a42307a1aa04cede5ce5676fa8e43463",
     "trivy-cve.json": "sha256:e063bbce1e90a151c3d0a42e02742ae1936e74157a23f2378701079cc7c0a455",
+    "rhel-8-arm64-cis-l2-v1.0.2.log": "sha256:6dcd5fca661569fd16c1d02862a70124d983b747e09421821b7f1cec9c5cb8f5",
     "sbom.cdx.json": "sha256:aa331dc03b58c6b92df24f849e6fa5fad6a4906162195b31bf086210dbe404ca"
    },
    "scorecard": {
@@ -3880,7 +4007,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 126
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -3913,6 +4045,7 @@
     "poam.md": "sha256:5e72929f2cdb032d9c2d321f805704f9e33066e2b6350f3a8ee9d02f055a3f2f",
     "openscap/tailoring.xml": "sha256:6154b2f682e93e2df54b80c8ad0a49eaf82b6b0f62c225657f0067f323cf41b6",
     "trivy-cve.json": "sha256:08bb52761ec4079fd00cdd6b2bf1123b31242cac075b2d3468ea36af1323fc08",
+    "rhel-8-arm64-stig-v1.0.2.log": "sha256:0e269120930afbda852f72cf621f0a6e671fc3dcccb371eb3bffb7241a718a46",
     "sbom.cdx.json": "sha256:451538c452a75c1a2b6fe7d0af0b035ffaf5a2a9d0b6a0b5b03e0c9956f02746"
    },
    "scorecard": {
@@ -4138,7 +4271,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 127
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -4169,6 +4307,7 @@
     "openscap/openscap-score.txt": "sha256:6cec9211fac733e74b0aa430e0e2de7b4f210c2e80b6c374b7bc08f36287e0e6",
     "openscap/results.xml": "sha256:a1e502cdea025ee19fc9771598693478f4b0712be2561ca6b27f78927664de68",
     "trivy-cve.json": "sha256:8586a28f655e358ecb856a788bfed77e06dea8a670073f238260515fd495d198",
+    "rhel-8-cis-l1-v1.0.2.log": "sha256:4723af1ec8a62379fee9b1c5aa6c23ee45726641be192b8a7f2887f37f7aed03",
     "sbom.cdx.json": "sha256:1734741990f4520d23de442cd8daec7740a225a267a2196bc52047f086656f06"
    },
    "scorecard": {
@@ -4273,7 +4412,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 136
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -4304,6 +4448,7 @@
     "openscap/openscap-score.txt": "sha256:303057d943c5493a6c1e4778a4e6d35a2d4a759aec1c8256532f25559ca7b0d9",
     "openscap/results.xml": "sha256:adf943fa707af51e4e1bb391f3795d7d1e7ea4ab2b5ad5994f72a6d832fb832b",
     "trivy-cve.json": "sha256:37a42c5f3cd118132fe4e1027c1b42512329b34444cc756f019d524bf5fb6a84",
+    "rhel-8-cis-l2-v1.0.2.log": "sha256:da8e5fcefd29576704b399e4c04623f1772f05c967efd772fafc90f9511e8455",
     "sbom.cdx.json": "sha256:dd3b9296dd0e91ef020bd3d63b262ae0fa2673b4124948597c349eed5e65c909"
    },
    "scorecard": {
@@ -4426,7 +4571,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 136
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -4459,6 +4609,7 @@
     "poam.md": "sha256:55e3dd9683901b9d97d4beca6025bb57947660f89c27b507cd15d8077cad9338",
     "openscap/tailoring.xml": "sha256:feeb97a88ed476ab1c5341357238ba2daeb2029323a2eea700b2340958787e2e",
     "trivy-cve.json": "sha256:b9f52f1a141b1183f3ef5e9990988d68b7186673a85ee3de7279e889c9954875",
+    "rhel-8-stig-v1.0.2.log": "sha256:2326e4fe4ba97b4683b06aea8d9015ab3779e3e567a1b3accacc40c194640084",
     "sbom.cdx.json": "sha256:4774ca8b0f2e6c19f84b13d39f30932744e334ef7a05139b21eaf5a72cf118d8"
    },
    "scorecard": {
@@ -4684,7 +4835,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 137
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -4715,6 +4871,7 @@
     "openscap/openscap-score.txt": "sha256:272fd6743b5f7c2248ffeec7c4d01137274e7f27bdb0534ccec138f1ddcfd46f",
     "openscap/results.xml": "sha256:76291fa74ce11005cd90ed906407bc2b4264225222df214390fad1d55c930472",
     "trivy-cve.json": "sha256:3eb3e6ccbbf9973b7634a596a3c05127403066d0bbb947954b9159c4c54a20ac",
+    "rhel-9-arm64-cis-l1-v1.0.4.log": "sha256:8a4e6f612a33308374a375eebffec9001edbe00b903c153a7a7a36021554c72a",
     "sbom.cdx.json": "sha256:ba8a66cebb074e28f43abe5afaa9b04a656f99cdd0e1b4fab014edc7a047d43e"
    },
    "scorecard": {
@@ -4811,7 +4968,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 143
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -4842,6 +5004,7 @@
     "openscap/openscap-score.txt": "sha256:dbe6ebd03272f497e55b02c8bbcd1258742bb24631a0feac996c632dd673cfdb",
     "openscap/results.xml": "sha256:575e41742884c0a9e8c868fcc731f9e34fc66e4a22d143f9779631c488a1809f",
     "trivy-cve.json": "sha256:726c6c5d0fbe9941212f934dbd781304e4070d90e12a09645a1fffeacb5ea1e2",
+    "rhel-9-arm64-cis-l2-v1.0.3.log": "sha256:3d9dd2bf3e43c5ea934d7ae1c59f54edb545c0c0ecde37c433f6bbe1b6ea441c",
     "sbom.cdx.json": "sha256:3f05cf54cbedbc3c549f33c595daf2bdf4427ced8d2f59fc1c63268b483d98c1"
    },
    "scorecard": {
@@ -4948,7 +5111,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 146
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -4981,6 +5149,7 @@
     "poam.md": "sha256:8986cb9304c0a0b3e4937f1a4d86c4fe972733863ab63c57d085c432bbbebe8e",
     "openscap/tailoring.xml": "sha256:d3a831e4b2458e766815c8338b1a6201d05186924fe3f7d60bce127ee72ed916",
     "trivy-cve.json": "sha256:ca30d8e46cbdaeca88dbfc3a9336e215602719d7a139fb701fc3c3fc85e27605",
+    "rhel-9-arm64-stig-v1.0.2.log": "sha256:ed7f6c73c059a68b03d2c9222ad8b4612e278848e918ae3878d7a0db9617cea9",
     "sbom.cdx.json": "sha256:fe21d45101b442957649e77235ceb390c1e817dd3a4dc94315150ba50fdc9b27"
    },
    "scorecard": {
@@ -5226,7 +5395,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 148
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -5257,6 +5431,7 @@
     "openscap/openscap-score.txt": "sha256:272fd6743b5f7c2248ffeec7c4d01137274e7f27bdb0534ccec138f1ddcfd46f",
     "openscap/results.xml": "sha256:250f66178e3ce6e113afc70273f37777f03af9767f66b00302ab1e11ae8afd31",
     "trivy-cve.json": "sha256:5bc13b80e2ac901ffa516c515493782a5596207796db7a9a772bf3cb76f715fa",
+    "rhel-9-cis-l1-v1.0.4.log": "sha256:f9e0f06fb88e77d9b2a266f8325ee38b54e6588f9f9f50824c4747051a526bde",
     "sbom.cdx.json": "sha256:af5f89983296883d2d8d06aecfb9c58f207104d4948c26ee122062517348015f"
    },
    "scorecard": {
@@ -5353,7 +5528,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 146
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -5384,6 +5564,7 @@
     "openscap/openscap-score.txt": "sha256:598f457a24768f48abac41536d14b9d79adb9d75b6a6cb22143a9c6db2d309f4",
     "openscap/results.xml": "sha256:940e249a5f647f4af514a6b886b8ce2415790aa69d0f584df4ec478a72edc86f",
     "trivy-cve.json": "sha256:2a558f10b6c93ce2a3a17acea2af5b7ed2e22afd2755264497f76d5888593d49",
+    "rhel-9-cis-l2-v1.0.4.log": "sha256:fbf76964b6039ebf1af52179b873f0b4eac68564dc41f73cc9f93532dd6709d7",
     "sbom.cdx.json": "sha256:1be32ae3b5ed234c2667141e7b273cd42ec8cabc6809d1be4d7e67135fa8b764"
    },
    "scorecard": {
@@ -5490,7 +5671,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 146
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -5523,6 +5709,7 @@
     "poam.md": "sha256:e5219d93c98af4982dff3a103d73861ee70e1ccfc73f6080f974543d602aa9e1",
     "openscap/tailoring.xml": "sha256:ba7c335f71dbaa43092970bd3bfe285870c38b0a40b3386f088d8bc341e174d7",
     "trivy-cve.json": "sha256:7982cd00df10ce60c490d3b0209a22e7cc2a9aa096e043c529008d7f4226e33a",
+    "rhel-9-stig-v1.0.3.log": "sha256:f7781851c2d873a3d2741a2b0f10321814b1c8123fd0de737c6e6c706f88a361",
     "sbom.cdx.json": "sha256:ec09a2d61b39c20b83054ed4bedf546f523f1425c67f929c83519b27ed64f3ac"
    },
    "scorecard": {
@@ -5768,7 +5955,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 148
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -5799,6 +5991,7 @@
     "openscap/openscap-score.txt": "sha256:e150099d4498a31f2a54c5d7d5ae9d654c1e268412567adb4b5b012c8e161223",
     "openscap/results.xml": "sha256:75c5003bb46d06282efae6dbac9badea97fb48474ddae3c564df6d7832651f1b",
     "trivy-cve.json": "sha256:55bda26700b6d37157b5af300831a378b097de37f47a8106bb349b6810a82efa",
+    "rocky-10-arm64-cis-l1-v1.0.2.log": "sha256:97544b70e8b69dd57c9e0bde1f73a5129d464317ecf9f8df5858766bc82b6c96",
     "sbom.cdx.json": "sha256:22fd1c74d9d4e3a852f6d49584d492c0aed480cfafc806e0e9923c6195e76c73"
    },
    "scorecard": {
@@ -5928,7 +6121,12 @@
      "fixable_high": 25,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -5959,6 +6157,7 @@
     "openscap/openscap-score.txt": "sha256:6e8017c8cc1fa8a17bd51d20ba4272496e67e1700cdd630d2ddbf82b28f2389e",
     "openscap/results.xml": "sha256:ea1e41a34ef3b41478581f14ef5c53d5dd05c6f5cdde83736927dc1b75de3c3b",
     "trivy-cve.json": "sha256:4c0cc38d6230b5b4c31712ed8f6aa16408ba3b51ae95ea2c48f5ae4bc75ddd00",
+    "rocky-10-arm64-cis-l2-v1.0.2.log": "sha256:06c85ff5ddc420314ae371f0fd3fabfcc995f85adc144fd9da74f9772e0e376e",
     "sbom.cdx.json": "sha256:6adc23e94a2ccb4240841e5f5c0a27b8b604f5472b88387048ed37d0132588de"
    },
    "scorecard": {
@@ -6104,7 +6303,12 @@
      "fixable_high": 25,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -6137,6 +6341,7 @@
     "poam.md": "sha256:b24bb9189f023b90725939ca70af3bc38a63f20625e598c725e633ed6591cee8",
     "openscap/tailoring.xml": "sha256:f2ff967649590a946a3277378facca7c61ca703b729c4c54f7cad1e0ae330ee6",
     "trivy-cve.json": "sha256:432f79547618c8ac19ef96a6af4398625c2e04676230f1aeabe60a80c18460a0",
+    "rocky-10-arm64-stig-v1.0.1.log": "sha256:9fa589ca456d0081e1789c51ce206a6418183f81a24deb1f551228ab56904a55",
     "sbom.cdx.json": "sha256:a8ed2a13d44e42d9dccabb7387fa5825b167301da61d202fc040064436c733cf"
    },
    "scorecard": {
@@ -6342,7 +6547,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -6373,6 +6583,7 @@
     "openscap/openscap-score.txt": "sha256:e150099d4498a31f2a54c5d7d5ae9d654c1e268412567adb4b5b012c8e161223",
     "openscap/results.xml": "sha256:20e9336a19bf76fa68f9728d0a206c6f6bd95387791a980e9ada33b24f87d972",
     "trivy-cve.json": "sha256:81c327e6af2e06e811d1101a0dde2e51bdeea97151587f153e9128ec1d330539",
+    "rocky-10-cis-l1-v1.0.2.log": "sha256:d29d0ae46e9aed2b47cfd91ac70d7129ada3b5b33418c8bb215cb6696b0251ec",
     "sbom.cdx.json": "sha256:4b34a25e973fced535dfc7d2a7fdcd2f4ee9c391aa96a622e68a6cbf99ae60eb"
    },
    "scorecard": {
@@ -6502,7 +6713,12 @@
      "fixable_high": 25,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -6533,6 +6749,7 @@
     "openscap/openscap-score.txt": "sha256:26303d11139f5316c04b1eb74126c4fe78d2de604ef05e5395e33fae31f2a6ed",
     "openscap/results.xml": "sha256:1a5a3ad8719b99b1575ce2a6d0a9542e29821af7905970a6f630d7c1e5374d30",
     "trivy-cve.json": "sha256:1349c235b3687bac230cfed70fc1cae871f224781bed8b825aa6dd0d7d368778",
+    "rocky-10-cis-l2-v1.0.2.log": "sha256:f6a7ba822e31369c22fc8707edf1174054e11fbca1b33da0bfb21b7bcd7d4451",
     "sbom.cdx.json": "sha256:8439a268031a04cfa7e5d6b4cc5bdc6438d289b5589bbd5337d9e512170b46cd"
    },
    "scorecard": {
@@ -6678,7 +6895,12 @@
      "fixable_high": 25,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -6711,6 +6933,7 @@
     "poam.md": "sha256:350d9da87e1fd2ec42ffb2f63e03d8848656ce85ab46062f09a5e22c7935823e",
     "openscap/tailoring.xml": "sha256:304487f43fb8545b2dc0be2b5a9cf4162ff24e08002ecdd3b6fd576525a8a43f",
     "trivy-cve.json": "sha256:6d904ef976eb4185d8cb9e38deda6ac6dd69ea020734ff9ef2fa711c023e3dda",
+    "rocky-10-stig-v1.0.1.log": "sha256:1b80e3dc36ed7a498bf59386c47e4ad0729ff98639bd121d2c2a8dc57ccf502e",
     "sbom.cdx.json": "sha256:991c3496fd9b1b9c4fdeae9f0051a76e62144097a01b487e303a1846bfee430d"
    },
    "scorecard": {
@@ -6916,7 +7139,12 @@
      "fixable_high": 80,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -6947,6 +7175,7 @@
     "openscap/openscap-score.txt": "sha256:3a9936023ad4e116158ed8ff7fb38fc9eece61e63bc472a15af3ac7fc7bde0a9",
     "openscap/results.xml": "sha256:4b61f9aa0817ae3c68e2e63296b91eb5e614e8735dfb2d3153f980e826c9c780",
     "trivy-cve.json": "sha256:a8c58ef354aaa20f031b7c3cf3fd46589f85a14156339eba03fea009f6bbaf5e",
+    "rocky-8-arm64-cis-l1-v1.0.2.log": "sha256:a46845e48a693ade4c8dac0a877dcdd1e4e0c263b7f00fea63f36e875093420e",
     "sbom.cdx.json": "sha256:6629865262892481cf253ad85cd6ed8c68ae9d2a374aed879e98dbd63fa75941"
    },
    "scorecard": {
@@ -7061,7 +7290,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -7092,6 +7326,7 @@
     "openscap/openscap-score.txt": "sha256:72555a467537d2da4d6aefb80cf021a05d4f42585fe0b2fdb739f9bcaedef9e6",
     "openscap/results.xml": "sha256:b96c1019521a730b51147fe09f02e1350d27e408c4d600eed4b568d5481f79df",
     "trivy-cve.json": "sha256:097971dddbc73204ab9cbca804ba81a5e53ba21200ac77d8ecea2407ac5d68f8",
+    "rocky-8-arm64-cis-l2-v1.0.1.log": "sha256:c24e7b6366934784c8cef3028859d2e717cdb2be3928a481d1a462bbdfdf10ee",
     "sbom.cdx.json": "sha256:c08ad1fec7cdda8b56593ac791ad8f9087aaf7619a660a2a4187f4c2342c31f9"
    },
    "scorecard": {
@@ -7224,7 +7459,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -7257,6 +7497,7 @@
     "poam.md": "sha256:c814fbc0aa55e6efcfbc6bf4546b718160444e5f36b577f9245eb3c5209030fa",
     "openscap/tailoring.xml": "sha256:33fbc1c37914ff8b5e3eab76a9cc541f5c83984d5dac1492545294a703cda931",
     "trivy-cve.json": "sha256:6d5afd767154bf49cb87670f24743c052b25d22f0f9d8bb08cfb78922d7bca37",
+    "rocky-8-arm64-stig-v1.0.1.log": "sha256:9ffec8adb307112a81fa31ba8423e53e769e2c332ccab62b861c0c29690b24c1",
     "sbom.cdx.json": "sha256:f8407a26da0e7a2f2faf39966182c9320fe99548ed431d31476198cd2b47b5ac"
    },
    "scorecard": {
@@ -7490,7 +7731,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -7521,6 +7767,7 @@
     "openscap/openscap-score.txt": "sha256:3a9936023ad4e116158ed8ff7fb38fc9eece61e63bc472a15af3ac7fc7bde0a9",
     "openscap/results.xml": "sha256:b7d1afd06123bc0dba055f6b4eda9ee21386accb8086033f4868659bfd160a2c",
     "trivy-cve.json": "sha256:585324ba77b79602d13bb1bdc6ad05679a2bbe495d3220fc169f288d0ce2989c",
+    "rocky-8-cis-l1-v1.0.2.log": "sha256:6c8a1b5b6c084591bcc87a8d5311206a41b717dd0b2a08565a34b520952ef741",
     "sbom.cdx.json": "sha256:6c409fe7de8ebdc41e1ec9c2aad09706b0a97fa1b9a1b4e5535b36dd201821cb"
    },
    "scorecard": {
@@ -7635,7 +7882,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -7666,6 +7918,7 @@
     "openscap/openscap-score.txt": "sha256:11e20ebcdabf4c71f53fd5f54b3e9efda465f8123f4fe2a0a1ba3a76903cef2d",
     "openscap/results.xml": "sha256:ed4cad5c8dec057430fa8a0ca5f84418fb4bf247976842359f55f40634949b42",
     "trivy-cve.json": "sha256:d86b8399e6d16e56b9313ab5e2a11dc1467cb91d864b8c05d6a54c3d10320635",
+    "rocky-8-cis-l2-v1.0.2.log": "sha256:d1e4b47a9e6d731a4160b6344b6e9c1731d3a70a55b41d10895a770b8ffc3b61",
     "sbom.cdx.json": "sha256:6929ed763b94687c7917c7e39150ce8219eb24c7d1039e6f80d310fadab74521"
    },
    "scorecard": {
@@ -7798,7 +8051,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -7831,6 +8089,7 @@
     "poam.md": "sha256:984ab83c0d8b83abee4ab0a7f2928658f2e387cccb890dc49ae03436d4694a28",
     "openscap/tailoring.xml": "sha256:33f4ef3dbc222d0224034521ca3bfe29a8597efb5a10dd12a0f0b806bd6822c5",
     "trivy-cve.json": "sha256:4713207b4166513768842b557e724ea81b0b1b9bc227b3852adaee21ef1b5796",
+    "rocky-8-stig-v1.0.2.log": "sha256:48dfca9f5aea66bb046cbe2f170ec395f0fe23f9db372a167b07e2bcdf0c9466",
     "sbom.cdx.json": "sha256:6e07d1850b2c80eb5c76e8014077b2f5a2ac6707dbf1554dbc8ebe59ec417c3c"
    },
    "scorecard": {
@@ -8064,7 +8323,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -8095,6 +8359,7 @@
     "openscap/openscap-score.txt": "sha256:dac0a61920113c9cf6a96bf3ef4fec4d6975d458cdd41943ccf24eed037c6871",
     "openscap/results.xml": "sha256:a2c28f00152de3e8f7a72ad7f010bec582a120a3949c96aac745e9db3f860d82",
     "trivy-cve.json": "sha256:700440e5caeabb04dc8a5c40c146b69687282e685fee2cc483f3b0187d2e7087",
+    "rocky-9-arm64-cis-l1-v1.0.1.log": "sha256:da54e5da664b4d8f8e5e32855de45de9689a94f3555558f4590eb34601dc0361",
     "sbom.cdx.json": "sha256:f0c78b9e07180263efd29a11dd0d3cada791a88cd25f11fa5733289dc595702c"
    },
    "scorecard": {
@@ -8201,7 +8466,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -8232,6 +8502,7 @@
     "openscap/openscap-score.txt": "sha256:2a2e9a85d60dcfe96302f04ddf2924a0e295bb65b25e978d85db74987925205b",
     "openscap/results.xml": "sha256:431f3dd731fe5096651d05c95ba749ac1707b0947937abc22a96e7a37fe9a24f",
     "trivy-cve.json": "sha256:f8f13c264b69955efc677a01ed590d9780c411f9358a28f3dd839acc41931f89",
+    "rocky-9-arm64-cis-l2-v1.0.1.log": "sha256:13493e8384fcab2baf1a7c7c9b28510dc2fff13d223b3ac4ddbd08f2e9b84d1d",
     "sbom.cdx.json": "sha256:2c46c8a9f8814b52636a3d9ffd528b73fcd4923018a0218e5f2c74c08d856c42"
    },
    "scorecard": {
@@ -8348,7 +8619,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -8381,6 +8657,7 @@
     "poam.md": "sha256:5ddad8c7ed84d92f71bcf4990824de1cf443119d091f984192fbfa2d8b01df89",
     "openscap/tailoring.xml": "sha256:eab9ad9ee84ad694f72797e4475b82aa0eb7c97c47edd973a8967b75c83bb78f",
     "trivy-cve.json": "sha256:42f861cfd0c8c5725ea30c11ee75efd6eb7200071deae97b592234737137e6c8",
+    "rocky-9-arm64-stig-v1.0.2.log": "sha256:173a28902ab8305019fd26858e4e3de9b8c4d7dc878a464d3cdd856261ad9009",
     "sbom.cdx.json": "sha256:38c02883bb65f28c6acddd6e72a2b8e6479904059452390b26e9cd6012324898"
    },
    "scorecard": {
@@ -8656,7 +8933,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -8687,6 +8969,7 @@
     "openscap/openscap-score.txt": "sha256:dac0a61920113c9cf6a96bf3ef4fec4d6975d458cdd41943ccf24eed037c6871",
     "openscap/results.xml": "sha256:b44c29d1f15fde5ebc2677708f2db7e79f176068a0176d73b3c5390704225c00",
     "trivy-cve.json": "sha256:485e17244899342b7864c5a23acc51f61a7d92ac51735f91c5ac46682f4cceac",
+    "rocky-9-cis-l1-v1.0.2.log": "sha256:1a65dce859b41d505cc8e8b6bff56db5a02235cfe70b03530c10f484deec4bc8",
     "sbom.cdx.json": "sha256:0a8e9e83bb2fa7f3ef06b2b4f632cde841667037b53429952aceaa01be30bec3"
    },
    "scorecard": {
@@ -8793,7 +9076,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -8824,6 +9112,7 @@
     "openscap/openscap-score.txt": "sha256:1a5709d3879f1cb23f7f1091783e46428c79fbb6ca2bd4b3462ec6aad1bebad5",
     "openscap/results.xml": "sha256:7d3310287b4f55a2339bb15f45cb7405b82fd1424791b0f308ce30cd3f323d7a",
     "trivy-cve.json": "sha256:39716de526435e861377e9889769630b5e548f0fe6ab003b7519831b95262d5d",
+    "rocky-9-cis-l2-v1.0.2.log": "sha256:805567b28bb4b722ed99eb5ee5ced0aedcf6a4c6aa4cf5aab6ed83b02f71d8e4",
     "sbom.cdx.json": "sha256:9e23946eb3be4960032f5a3513129e0231ec9fcfa232ebcc8c55559bfca09c7c"
    },
    "scorecard": {
@@ -8940,7 +9229,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -8973,6 +9267,7 @@
     "poam.md": "sha256:ab819d051814f2fa02b6b9021e6628617ce92fa8f7ca584058eeed04674c4572",
     "openscap/tailoring.xml": "sha256:f0bd1a89eb194c1bce0f19584b6c255d18c7764836682a1522e58bbaf26de059",
     "trivy-cve.json": "sha256:35cc374058dd62a31418d689dec3589ba3df60db6bc6e8fd3ba526a9b656895c",
+    "rocky-9-stig-v1.0.2.log": "sha256:b84888fa4b08f74bff12bae8daec313397371b92d201d4a0f2a76932c11a04ec",
     "sbom.cdx.json": "sha256:d36fc3b2a73d18240b756c6314ebf7b7b2536c81feccfa63e65564e4d7315dbc"
    },
    "scorecard": {
@@ -9248,7 +9543,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -9279,6 +9579,7 @@
     "openscap/openscap-score.txt": "sha256:d75bebc48aebfe15c5fc61087db06f88f719be579aed26417a28ec41a3620fab",
     "openscap/results.xml": "sha256:020c95f7e87a761e56370b85723ae5ea395c95ffd14cfb00ad518603d231e827",
     "trivy-cve.json": "sha256:f2fa80883e871973dd8a8cb563b7886ae436eaa1bb1393c1944aa4babfcc65e9",
+    "ubuntu-24.04-arm64-cis-l1-v1.0.2.log": "sha256:4c677a7b8f5a28f9e486dda189c1c0bc75c32d45464a58792184f91e5b44d8ec",
     "sbom.cdx.json": "sha256:676e1faaf4755fa1d77b98ab8076cd5fa7a86629c5c74ca08a842c94e9f25952"
    },
    "scorecard": {
@@ -9385,7 +9686,12 @@
      "fixable_high": 0,
      "unfixed_critical": 11,
      "unfixed_high": 298
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -9416,6 +9722,7 @@
     "openscap/openscap-score.txt": "sha256:b5e14494bf58a36dcee5eaf093f0936a8d43900ea7744b2b1141e51c9db03f3e",
     "openscap/results.xml": "sha256:273d9f4b1a0820a318a69b2678b61e1f7a73f9a3812965bf5438fadb9b5ea6cc",
     "trivy-cve.json": "sha256:fcb92f1deebede792bcb6003b783e1b6efc6755b5d146a2a1e5b66e647f6b226",
+    "ubuntu-24.04-arm64-cis-l2-v1.0.2.log": "sha256:bdf5b93bf01e7403c6713881e2dd810e31bca3484280b805778a6dc873dbb003",
     "sbom.cdx.json": "sha256:5f976ebfc6e802e27376ffc311038fca400adbe5377f2a0c7af5f6e0ef0c1e9a"
    },
    "scorecard": {
@@ -9540,7 +9847,12 @@
      "fixable_high": 0,
      "unfixed_critical": 14,
      "unfixed_high": 372
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -9572,6 +9884,7 @@
     "openscap/results.xml": "sha256:8dc0597d4facc68aff9a43dee205eb2d0c4e691004a7ab735fed011245c39f74",
     "poam.md": "sha256:8858ffa567fbcc58ad1f0950ffd57b574c9005fff192fd7ce88f452b190abad6",
     "trivy-cve.json": "sha256:a177dcfff4876baa896b59e67fa2d5de8437dd22991319f6f4a9233a9a699652",
+    "ubuntu-24.04-arm64-stig-v1.0.2.log": "sha256:5143f074b0350f57944b53a0b96595a254dd618d859b78b254e031d375e50d11",
     "sbom.cdx.json": "sha256:96454cf9cd750cfe5c8582778c1b70815fb107fe9376a389d8288ef419ad9b76"
    },
    "scorecard": {
@@ -9789,7 +10102,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -9820,6 +10138,7 @@
     "openscap/openscap-score.txt": "sha256:d75bebc48aebfe15c5fc61087db06f88f719be579aed26417a28ec41a3620fab",
     "openscap/results.xml": "sha256:196c8b3b1530e7ffcd568094d19e7f27139da853d0a50304d3a7c57cda496e3e",
     "trivy-cve.json": "sha256:115e3b66f21ddd1085166571417dc7b97ba77a04f0ef0e3631471e1ff0ab6bd7",
+    "ubuntu-24.04-cis-l1-v1.0.1.log": "sha256:4981cf9ee1af392c0a7e3256e6111e0be8393995fd7e935d6fde16ebf18ac74e",
     "sbom.cdx.json": "sha256:7e7e4ab46e1b977302f57777a0f2d154dd008d36f09067fc0eec9e73a37af472"
    },
    "scorecard": {
@@ -9926,7 +10245,12 @@
      "fixable_high": 0,
      "unfixed_critical": 3,
      "unfixed_high": 128
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -9957,6 +10281,7 @@
     "openscap/openscap-score.txt": "sha256:b0defdd04354d478f536e925af3b30522f865ffde079b3f2ae9962efb8d2fd6f",
     "openscap/results.xml": "sha256:20e1608bf1c02f3d8f0dbe372fdea26587ea2da48548b580a88f883d6dc18a19",
     "trivy-cve.json": "sha256:7f3800266d343e82ffd935c67bc8a0a530b9787c83a9eb40c8849ad37cb67e8d",
+    "ubuntu-24.04-cis-l2-v1.0.2.log": "sha256:ec4c864e76a96d1fbeb4f914b12fa523b78a0789a9a0d15118d6adac91e50550",
     "sbom.cdx.json": "sha256:1bdd08e8b6cba6f0cc785d6244f825ca742b466ca6329332cc6c179b8ebcef9c"
    },
    "scorecard": {
@@ -10081,7 +10406,12 @@
      "fixable_high": 0,
      "unfixed_critical": 3,
      "unfixed_high": 128
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",
@@ -10113,6 +10443,7 @@
     "openscap/results.xml": "sha256:1457428987a0d02871af98a1188bb1aead5fa3acf355d1cc215b893421bf407e",
     "poam.md": "sha256:84e5f7f5aaa43cdc17a9e268516d9e50eda127a79e1c7c43c6df34ed0e86311b",
     "trivy-cve.json": "sha256:c1dd11d2d5b4ecfef09800cf55a6dab1678400c579dda2e7835135b38571559e",
+    "ubuntu-24.04-stig-v1.0.2.log": "sha256:174864eac5f9163409ce70a48917ae1a974acafb34f17db2a05bd88fc94d4bfb",
     "sbom.cdx.json": "sha256:54ea4b3b106665537e00e18274fdf597d946ec1b5da66133d56543e1a98fbbd5"
    },
    "scorecard": {
@@ -10330,7 +10661,12 @@
      "fixable_high": 0,
      "unfixed_critical": 0,
      "unfixed_high": 0
-    }
+    },
+    "severity_filter": [
+     "CRITICAL",
+     "HIGH",
+     "MEDIUM"
+    ]
    },
    "sbom": {
     "format": "CycloneDX 1.6 JSON",

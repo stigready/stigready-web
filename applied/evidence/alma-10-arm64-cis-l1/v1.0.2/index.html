@@ -97,14 +97,14 @@
 </tbody></table></div>
 
         <h2>CVE scan</h2>
-        <p>Scanned with Trivy 0.72.0 in the image build on 2026-10-21 16:12 UTC. Counts are distinct CVE identifiers at that date; CVEs published later are not counted. OS packages and language packages are counted separately.</p>
+        <p>Scanned with Trivy 0.72.0 in the image build on 2026-10-21 16:12 UTC, for Critical, High, Medium severity only (Low and Unrated severity CVEs were not scanned for and are not counted). Counts are distinct CVE identifiers at that date; CVEs published later are not counted. OS packages and language packages are counted separately.</p>
 <h3>OS packages</h3>
 <p>Not assessed. Trivy detected the AlmaLinux 10 packages but its vulnerability data does not cover AlmaLinux 10, so it matched none, and that zero would not mean the image has no known CVEs.</p>
 <h3>Language packages (Go binaries)</h3>
 <p>Go modules and the Go standard library compiled into binaries in the image, such as the AWS Systems Manager agent: 168 detected.</p>
-<div class="tbl"><table><thead><tr><th></th><th>Critical</th><th>High</th><th>Medium</th><th>Low</th></tr></thead><tbody>
-<tr><td>CVEs found</td><td>0</td><td>4</td><td>12</td><td>0</td></tr>
-<tr><td>Of those, Trivy reported a fixed package version at scan time</td><td>0</td><td>4</td><td>12</td><td>0</td></tr>
+<div class="tbl"><table><thead><tr><th></th><th>Critical</th><th>High</th><th>Medium</th></tr></thead><tbody>
+<tr><td>CVEs found</td><td>0</td><td>4</td><td>12</td></tr>
+<tr><td>Of those, Trivy reported a fixed package version at scan time</td><td>0</td><td>4</td><td>12</td></tr>
 </tbody></table></div>
 <p class="muted">The per-CVE list is in the full evidence bundle, on request.</p>
 
@@ -118,6 +118,7 @@
         signed with cosign on 2026-10-21 16:24 UTC. When this summary was extracted on
         2026-11-17, the signature verified and each file this page summarises matched its digest:</p>
         <div class="tbl"><table><thead><tr><th>File in the bundle</th><th>SHA-256</th></tr></thead><tbody>
+        <tr><td><code>alma-10-arm64-cis-l1-v1.0.2.log</code></td><td><code>e02c8173fd7e2a295ac050285602beb1b17f3439a61e4b7151f7c51e35683910</code></td></tr>
         <tr><td><code>openscap/openscap-score.txt</code></td><td><code>e150099d4498a31f2a54c5d7d5ae9d654c1e268412567adb4b5b012c8e161223</code></td></tr>
         <tr><td><code>openscap/results.xml</code></td><td><code>e66676e60c46ee91259da17fd4412b956281678ed423687a65a7e34f58e1f9d4</code></td></tr>
         <tr><td><code>sbom.cdx.json</code></td><td><code>7d6ca5390b70b87080d192e4e8b8cc21e30a6b8c54e5c8dfbd802582ae1a9b95</code></td></tr>

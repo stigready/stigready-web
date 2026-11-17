@@ -312,6 +312,14 @@ def check_record(c: dict, cat: dict) -> None:
         problems.append(f"{where}: {c['os_key']} is an EL 10 release missing from OS_NOT_ASSESSED")
     if set((c["cve"]["classes"] or {})) - {"os-pkgs", "lang-pkgs"}:
         problems.append(f"{where}: a Trivy result class with no public wording: {sorted(c['cve']['classes'])}")
+    filt = (c.get("cve") or {}).get("severity_filter")
+    if not filt or not {x.lower() for x in filt} <= set(SEVERITIES):
+        problems.append(f"{where}: the CVE scan's severity filter is not recorded")
+    else:
+        for cls, acc in c["cve"]["classes"].items():
+            for sv in SEVERITIES:
+                if sv not in {x.lower() for x in filt} and acc["distinct"][sv]:
+                    problems.append(f"{where}: {cls} has {sv} findings outside the scan's severity filter {filt}")
     if not c.get("sbom"):
         problems.append(f"{where}: no SBOM")
 
@@ -319,7 +327,7 @@ def check_record(c: dict, cat: dict) -> None:
 def exemption_rows(c: dict) -> str:
     rows = []
     for x in c["exemptions"]:
-        disa = ", ".join(x.get("disa") or []) or "—"
+        disa = ", ".join(x.get("disa") or []) or "no STIG ID in the build record"
         rows.append(
             f"<tr><td><code>{e(x['rule'])}</code><br><span class=\"muted\">{e(x['title'])}</span></td>"
             + (f"<td>{e(disa)}</td>" if c["profile"] == "stig" else "")
@@ -329,15 +337,21 @@ def exemption_rows(c: dict) -> str:
             f"</th><th>What you do</th></tr></thead><tbody>\n" + "\n".join(rows) + "\n</tbody></table></div>")
 
 
-def count_table(acc: dict, found: str, fixed: str) -> str:
-    sev = ("critical", "high", "medium", "low")
-    cells = "".join(f"<td>{e(acc['distinct'][s])}</td>" for s in sev)
-    fix = "".join(f"<td>{e(acc['distinct_fixable'][s])}</td>" for s in sev)
-    unknown = acc["distinct"]["unknown"]
-    return ("<div class=\"tbl\"><table><thead><tr><th></th><th>Critical</th><th>High</th><th>Medium</th><th>Low</th>"
-            f"</tr></thead><tbody>\n<tr><td>{found}</td>{cells}</tr>\n<tr><td>{fixed}</td>{fix}</tr>\n"
-            "</tbody></table></div>\n"
-            + (f"<p class=\"muted\">{e(unknown)} more had no severity rating.</p>\n" if unknown else ""))
+SEV_TITLE = {"critical": "Critical", "high": "High", "medium": "Medium", "low": "Low", "unknown": "Unrated"}
+
+
+def scanned(c: dict) -> list[str]:
+    """The severities the scan ran with, in table order (Trivy --severity, from the signed build log)."""
+    f = {x.lower() for x in c["cve"]["severity_filter"]}
+    return [s for s in SEVERITIES if s in f]
+
+
+def count_table(acc: dict, sevs: list[str], found: str, fixed: str) -> str:
+    head_ = "".join(f"<th>{SEV_TITLE[s]}</th>" for s in sevs)
+    cells = "".join(f"<td>{e(acc['distinct'][s])}</td>" for s in sevs)
+    fix = "".join(f"<td>{e(acc['distinct_fixable'][s])}</td>" for s in sevs)
+    return (f"<div class=\"tbl\"><table><thead><tr><th></th>{head_}</tr></thead><tbody>\n<tr><td>{found}</td>{cells}"
+            f"</tr>\n<tr><td>{fixed}</td>{fix}</tr>\n</tbody></table></div>\n")
 
 
 def cve_section(c: dict) -> str:
@@ -345,9 +359,13 @@ def cve_section(c: dict) -> str:
     fam = c["os_key"].split("-")[0]
     osn = e(os_long(c["os_key"]))
     fixed_label = "Of those, Trivy reported a fixed package version at scan time"
-    out = [f"<p>Scanned with Trivy {e(v['scanner_version'])} in the image build on {utc(v['created_at'])}. Counts are "
-           "distinct CVE identifiers at that date; CVEs published later are not counted. OS packages and language "
-           "packages are counted separately.</p>\n<h3>OS packages</h3>\n"]
+    sevs = scanned(c)
+    skipped = [SEV_TITLE[s] for s in SEVERITIES if s not in sevs]
+    out = [f"<p>Scanned with Trivy {e(v['scanner_version'])} in the image build on {utc(v['created_at'])}, for "
+           f"{e(', '.join(SEV_TITLE[s] for s in sevs))} severity only"
+           + (f" ({e(' and '.join(skipped))} severity CVEs were not scanned for and are not counted)" if skipped else "")
+           + ". Counts are distinct CVE identifiers at that date; CVEs published later are not counted. OS packages "
+           "and language packages are counted separately.</p>\n<h3>OS packages</h3>\n"]
     osc = v["classes"]["os-pkgs"]
     if c["os_key"] in OS_NOT_ASSESSED:
         if osc["findings"] == 0:
@@ -356,9 +374,9 @@ def cve_section(c: dict) -> str:
         else:
             out.append(f"<p>Not fully assessed. Trivy's vulnerability data for {osn} is incomplete. It matched the CVEs "
                        "below, so they are present, but the image may have others it could not see. Read these as a "
-                       "lower bound.</p>\n" + count_table(osc, "CVEs found (at least)", fixed_label))
+                       "lower bound.</p>\n" + count_table(osc, sevs, "CVEs found (at least)", fixed_label))
     else:
-        out.append(count_table(osc, "CVEs found", fixed_label))
+        out.append(count_table(osc, sevs, "CVEs found", fixed_label))
         if fam in FIXED_ONLY_FAMILIES:
             out.append(f"<p class=\"muted\">Trivy's data for Rocky Linux and AlmaLinux lists only CVEs that have a "
                        "published fix, so these counts do not include unfixed CVEs and are not comparable with the Red "
@@ -368,7 +386,7 @@ def cve_section(c: dict) -> str:
         out.append("<h3>Language packages (Go binaries)</h3>\n"
                    f"<p>Go modules and the Go standard library compiled into binaries in the image, such as the AWS "
                    f"Systems Manager agent: {e(lang['packages'])} detected.</p>\n"
-                   + count_table(lang, "CVEs found", fixed_label))
+                   + count_table(lang, sevs, "CVEs found", fixed_label))
     out.append("<p class=\"muted\">The per-CVE list is in the full evidence bundle, on request.</p>")
     return "".join(out)
 
@@ -561,6 +579,7 @@ def main(argv=None) -> int:
     ap.add_argument("--input", type=Path, default=INPUT)
     ap.add_argument("--catalog", type=Path, default=ROOT / "catalog.json")
     ap.add_argument("--out", type=Path, default=OUT)
+    ap.add_argument("--sitemap", type=Path, default=ROOT / "sitemap.xml")
     ap.add_argument("--sbom-dir", type=Path, help="the extract's sbom/ directory: write each SBOM download from it")
     a = ap.parse_args(argv)
 
@@ -620,19 +639,33 @@ def main(argv=None) -> int:
         return 1
 
     expected = {p for p in pages if p.name == "index.html"}
-    existing = {p for p in a.out.rglob("index.html")} if a.out.is_dir() else set()
+    expected |= {a.out / c["cell"] / f"v{c['version']}" / "sbom.cdx.json.gz" for c in cells}
+    existing = ({p for p in a.out.rglob("index.html")} | {p for p in a.out.rglob("*.gz")}) if a.out.is_dir() else set()
+    # Every page is in sitemap.xml with the extraction date, and the sitemap names no evidence page that is gone.
+    sitemap = a.sitemap.read_text(encoding="utf-8") if a.sitemap.is_file() else ""
+    want = {f"{SITE}/{p.parent.relative_to(a.out.parent.parent).as_posix()}/" for p in expected if p.name == "index.html"}
+    listed = set(re.findall(r"<loc>(https://stigready\.com/applied/evidence/[^<]*)</loc>", sitemap))
     if a.check:
-        bad = [rel(p) for p in sorted(expected) if not p.is_file() or p.read_bytes() != pages[p]]
+        bad = [rel(p) for p in sorted(expected) if p in pages and (not p.is_file() or p.read_bytes() != pages[p])]
         bad += [f"{rel(p)} (stale: no record)" for p in sorted(existing - expected)]
+        bad += [f"sitemap.xml: missing {u}" for u in sorted(want - listed)]
+        bad += [f"sitemap.xml: lists {u}, which has no page" for u in sorted(listed - want)]
         if bad:
             print("build-evidence-pages --check: pages differ from config/applied-evidence.json:", file=sys.stderr)
             for b in bad:
                 print(f"  - {b}", file=sys.stderr)
             return 1
-        print(f"build-evidence-pages --check: OK, {len(expected)} pages match their input")
+        print(f"build-evidence-pages --check: OK, {len(expected)} files match their input")
         return 0
     for p in sorted(existing - expected):
         p.unlink()
+    # sitemap.xml: drop every evidence <url>, then list the current pages, dated by the extraction.
+    blocks = re.sub(r"\n  <url>\n    <loc>https://stigready\.com/applied/evidence/[^<]*</loc>.*?</url>", "", sitemap, flags=re.S)
+    day = doc["extracted_at"][:10]
+    add = "".join(f"\n  <url>\n    <loc>{u}</loc>\n    <lastmod>{day}</lastmod>\n    <changefreq>monthly</changefreq>\n"
+                  f"    <priority>{'0.8' if u.endswith('/applied/evidence/') else '0.6'}</priority>\n  </url>"
+                  for u in sorted(want))
+    a.sitemap.write_text(blocks.replace("\n</urlset>", add + "\n</urlset>", 1), encoding="utf-8")
     for p, body in pages.items():
         p.parent.mkdir(parents=True, exist_ok=True)
         p.write_bytes(body)
