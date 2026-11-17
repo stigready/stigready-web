@@ -76,7 +76,7 @@
         <article class="max-w-3xl mx-auto">
             <p class="text-xs text-gray-500 mb-3"><a href="/blog/" class="text-yellow-500 hover:underline">Blog</a> · 2026-08-12 · Evergreen</p>
             <h1 class="text-3xl md:text-4xl font-black text-white mb-6 tracking-tight">Base vs Applied: which do you actually need?</h1>
-            <p class="text-lg text-gray-300 mb-8">One hardened foundation, two ways to buy it. <strong class="text-white">Base</strong> at <strong class="text-white">$0.02/hr</strong> (or <strong class="text-white">$149/yr</strong>) is the STIG disk layout and cloud hardening — bring your own profiles. <strong class="text-white">Applied</strong> at <strong class="text-white">$0.08/hr</strong> (or <strong class="text-white">$649/yr</strong>) is that same foundation plus scored CIS or DISA STIG remediation and an evidence bundle.</p>
+            <p class="text-lg text-gray-300 mb-8">One hardened foundation, two ways to buy it. <strong class="text-white">Base</strong> at <strong class="text-white">$0.02/hr</strong> (or <strong class="text-white">$149/yr</strong>) is the STIG disk layout and cloud hardening — bring your own profiles. <strong class="text-white">Applied</strong> at <strong class="text-white">$0.08/hr</strong> (or <strong class="text-white">$649/yr</strong>) is that same foundation plus scored CIS or STIG remediation and an evidence bundle.</p>
 
             <h2>Side by side</h2>
             <div class="bg-gray-800 rounded-lg overflow-hidden border border-gray-700 mb-4">
@@ -97,17 +97,17 @@
                         <tr>
                             <td class="text-white font-semibold">What you get</td>
                             <td>STIG partition layout, SSH key-only, IMDSv2, SSM Agent, minimal patched OS</td>
-                            <td>Everything in Base + full CIS L1/L2 or DISA STIG remediation</td>
+                            <td>Everything in Base + full CIS L1/L2 or STIG remediation</td>
                         </tr>
                         <tr>
                             <td class="text-white font-semibold">Scoring</td>
                             <td>None published for Base — you remediate and score yourself</td>
-                            <td>Scored in-build against the raw SSG profile (90% floor, no-regression ratchet)</td>
+                            <td>Scored in-build against the SSG profile (90% floor, no-regression ratchet). Unmodified for CIS on RHEL and Ubuntu, and for Ubuntu STIG. Rocky Linux and AlmaLinux scans use the SSG RHEL datastream with an applicability-only change. RHEL, Rocky Linux and AlmaLinux STIG scans set one refined value (the image's own local accounts), shown on each evidence page.</td>
                         </tr>
                         <tr>
                             <td class="text-white font-semibold">Evidence</td>
                             <td>Bring your own OpenSCAP / POA&amp;M pipeline</td>
-                            <td>Bundle on request: ARF, HTML report, POA&amp;M, SBOM, CVE scan (not RHEL 10)</td>
+                            <td>Bundle on request: ARF, HTML report, POA&amp;M, SBOM, CVE scan (except RHEL 10; on Rocky Linux 10 and AlmaLinux 10, OS packages not assessed)</td>
                         </tr>
                         <tr>
                             <td class="text-white font-semibold">Best when</td>
