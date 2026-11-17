@@ -25,6 +25,7 @@ module PublishedPaths
   SITE_PATHS = %w[
     CNAME robots.txt sitemap.xml index.html stigapplied.html catalog.json stigforge-factory.json
     applied/*.html blog/*.html blog/rss.xml
+    applied/evidence/index.html applied/evidence/*/index.html applied/evidence/*/*/index.html applied/evidence/*/*/sbom.cdx.json.gz
     data-practices/*.html privacy/*.html terms/*.html
     assets/*.png assets/*.svg assets/css/site.css assets/vendor/*
   ].freeze
