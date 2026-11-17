@@ -12,8 +12,13 @@ PAGES_SW = (%w[index.html applied/index.html] + Dir.glob(File.join(ROOT_SW, 'blo
 SCOPE_SW = 'Unmodified for CIS on RHEL and Ubuntu, and for Ubuntu STIG. Rocky Linux and AlmaLinux scans use the SSG RHEL ' \
            'datastream with an applicability-only change. RHEL, Rocky Linux and AlmaLinux STIG scans set one refined value ' \
            "(the image's own local accounts), shown on each"
-OLD_SW = [/raw,? (unmodified )?SSG profile/, /raw SSG profile/, 'unmodified for CIS and Ubuntu STIG', 'except RHEL 10 has a CVE scan',
-          'DISA STIG (FIPS mode) for RHEL 8, 9 and 10']
+OLD_SW = [/raw,? (unmodified )?SSG profile/, /raw SSG profile/, 'unmodified for CIS and Ubuntu STIG',
+          'DISA STIG (FIPS mode) for RHEL 8, 9 and 10',
+          # #5909 legal W1: the listings' CVE words (0092: no RHEL 10 scan; 0176: Rocky/Alma 10 OS packages not assessed)
+          'OS packages are not fully assessed on RHEL 10', 'CVE scan (not RHEL 10)', 'except RHEL 10 has a CVE scan',
+          # #5909 legal W2: the product class is "STIG", not "DISA STIG" (Rocky, Alma and RHEL 10 STIGs are not DISA's)
+          /\bor DISA STIG remediat/, 'Full DISA STIG or CIS']
+CVE_SW = 'CVE scan (except RHEL 10; on Rocky Linux 10 and AlmaLinux 10, OS packages not assessed)'
 
 control 'web-scoring-wording-01' do
   impact 1.0
@@ -26,7 +31,7 @@ control 'web-scoring-wording-01' do
   OLD_SW.each do |pat|
     describe "superseded wording #{pat.inspect}" do
       it('is caught by its own fixture') do
-        fixture = pat.is_a?(Regexp) ? 'scored against the raw, unmodified SSG profile in-build; raw SSG profile' : "x #{pat} y"
+        fixture = pat.is_a?(Regexp) ? 'scored against the raw, unmodified SSG profile in-build; raw SSG profile; CIS or DISA STIG remediation' : "x #{pat} y"
         expect(fixture.match?(pat.is_a?(Regexp) ? pat : Regexp.new(Regexp.escape(pat)))).to eq(true)
       end
       re = pat.is_a?(Regexp) ? pat : Regexp.new(Regexp.escape(pat))
@@ -46,6 +51,10 @@ control 'web-scoring-wording-01' do
     it('the home page states it 4 times') do
       expect(PAGES_SW['index.html'].gsub(%r{<a [^>]*>(evidence page)</a>}, '\1').scan(SCOPE_SW).size).to eq(4)
     end
+  end
+  describe 'CVE scan scope in the listings\' words (#5909 W1)' do
+    it('/applied/ states it 3 times') { expect(PAGES_SW['applied/index.html'].scan(CVE_SW).size).to eq(3) }
+    it('the home page states it 4 times (JSON-LD, Evidence card, pricing bullet, FAQ)') { expect(PAGES_SW['index.html'].scan(CVE_SW).size).to eq(4) }
   end
   describe 'catalog.json STIG names' do
     rows = JSON.parse(File.read(File.join(ROOT_SW, 'catalog.json')))['products'].select { |p| p['profile'] == 'stig' }

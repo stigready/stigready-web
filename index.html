@@ -78,7 +78,7 @@
               "name": "What is the difference between StigReady Base and Applied pricing?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "StigReady Base is $0.02/hr or $149/yr per instance — STIG disk layout, SSH hardening, and cloud-ready defaults; you bring your own CIS/STIG profiles. StigReady Applied is $0.08/hr or $649/yr per instance — full CIS Level 1/2 or DISA STIG remediation with published OpenSCAP scores and an evidence bundle. Both fees are Marketplace software fees on top of normal EC2 costs. The same rate applies to every instance type; it does not change with instance size."
+                "text": "StigReady Base is $0.02/hr or $149/yr per instance — STIG disk layout, SSH hardening, and cloud-ready defaults; you bring your own CIS/STIG profiles. StigReady Applied is $0.08/hr or $649/yr per instance — full CIS Level 1/2 or STIG remediation with published OpenSCAP scores and an evidence bundle. Both fees are Marketplace software fees on top of normal EC2 costs. The same rate applies to every instance type; it does not change with instance size."
               }
             },
             {
@@ -86,7 +86,7 @@
               "name": "What OpenSCAP evidence is available for Applied?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Every Applied image has an OpenSCAP ARF result, HTML report, POA&M, SBOM and a CVE scan (OS packages are not fully assessed on RHEL 10, Rocky Linux 10 and AlmaLinux 10), available from support@stigready.com on request. Each image has a public evidence page with its score, exemptions and SBOM. Scores are measured in-build against the SSG profile. Unmodified for CIS on RHEL and Ubuntu, and for Ubuntu STIG. Rocky Linux and AlmaLinux scans use the SSG RHEL datastream with an applicability-only change. RHEL, Rocky Linux and AlmaLinux STIG scans set one refined value (the image's own local accounts), shown on each evidence page. StigReady is not affiliated with or endorsed by DISA, DoD, NIST, or CIS, and does not claim certified, authorized, or accredited status."
+                "text": "Every Applied image has an OpenSCAP ARF result, HTML report, POA&M, SBOM and a CVE scan (except RHEL 10; on Rocky Linux 10 and AlmaLinux 10, OS packages not assessed), available from support@stigready.com on request. Each image has a public evidence page with its score, exemptions and SBOM. Scores are measured in-build against the SSG profile. Unmodified for CIS on RHEL and Ubuntu, and for Ubuntu STIG. Rocky Linux and AlmaLinux scans use the SSG RHEL datastream with an applicability-only change. RHEL, Rocky Linux and AlmaLinux STIG scans set one refined value (the image's own local accounts), shown on each evidence page. StigReady is not affiliated with or endorsed by DISA, DoD, NIST, or CIS, and does not claim certified, authorized, or accredited status."
               }
             },
             {
@@ -342,7 +342,7 @@
                 <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
                     <i data-lucide="file-text" class="w-9 h-9 mb-3 text-yellow-500"></i>
                     <h3 class="font-bold mb-2">Evidence bundle</h3>
-                    <p class="text-gray-400 text-sm">Every image has an OpenSCAP ARF result, an HTML report, a POA&amp;M, an SBOM and a CVE scan (OS packages are not fully assessed on RHEL 10, Rocky Linux 10 and AlmaLinux 10). They are available from support@stigready.com on request; each image's <a href="/applied/evidence/" class="text-yellow-500 hover:underline">evidence page</a> shows its score, exemptions and SBOM.</p>
+                    <p class="text-gray-400 text-sm">Every image has an OpenSCAP ARF result, an HTML report, a POA&amp;M, an SBOM and a CVE scan (except RHEL 10; on Rocky Linux 10 and AlmaLinux 10, OS packages not assessed). They are available from support@stigready.com on request; each image's <a href="/applied/evidence/" class="text-yellow-500 hover:underline">evidence page</a> shows its score, exemptions and SBOM.</p>
                 </div>
                 <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 hover:border-yellow-600 transition">
                     <i data-lucide="lock" class="w-9 h-9 mb-3 text-yellow-500"></i>
@@ -488,10 +488,10 @@
                     <p class="text-gray-500 text-sm mb-5">Same rate on every instance type; EC2 instance costs billed separately by AWS</p>
                     <ul class="space-y-2 text-sm text-gray-300">
                         <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Everything in Base</li>
-                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Full DISA STIG or CIS Level 1/2 remediation</li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Full STIG or CIS Level 1/2 remediation</li>
                         <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Scored in-build against the SSG profile, refined values shown on each evidence page</li>
                         <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>90% floor · no-regression ratchet</li>
-                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Evidence bundle on request: ARF, HTML report, POA&amp;M, SBOM, CVE scan (not RHEL 10)</li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Evidence bundle on request: ARF, HTML report, POA&amp;M, SBOM, CVE scan (except RHEL 10; on Rocky Linux 10 and AlmaLinux 10, OS packages not assessed)</li>
                         <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>FIPS mode enabled on STIG images</li>
                     </ul>
                 </div>
@@ -508,11 +508,11 @@
             <dl class="space-y-6 text-left">
                 <div>
                     <dt class="font-semibold text-white mb-2">Base vs Applied — what do I pay?</dt>
-                    <dd class="text-gray-400 text-sm">Base is <strong class="text-white">$0.02/hr</strong> or <strong class="text-white">$149/yr</strong> per instance (STIG layout + SSH hardening; bring your own profiles). Applied is <strong class="text-white">$0.08/hr</strong> or <strong class="text-white">$649/yr</strong> (CIS L1/L2 or DISA STIG remediation + OpenSCAP evidence). Both are software fees on top of normal EC2 costs. The same rate applies to every instance type; it does not change with instance size.</dd>
+                    <dd class="text-gray-400 text-sm">Base is <strong class="text-white">$0.02/hr</strong> or <strong class="text-white">$149/yr</strong> per instance (STIG layout + SSH hardening; bring your own profiles). Applied is <strong class="text-white">$0.08/hr</strong> or <strong class="text-white">$649/yr</strong> (CIS L1/L2 or STIG remediation + OpenSCAP evidence). Both are software fees on top of normal EC2 costs. The same rate applies to every instance type; it does not change with instance size.</dd>
                 </div>
                 <div>
                     <dt class="font-semibold text-white mb-2">What OpenSCAP evidence is available for Applied?</dt>
-                    <dd class="text-gray-400 text-sm">Every Applied image has an OpenSCAP ARF result, HTML report, POA&amp;M, SBOM and a CVE scan (OS packages are not fully assessed on RHEL 10, Rocky Linux 10 and AlmaLinux 10), available from support@stigready.com on request. Each image has a public <a href="/applied/evidence/" class="text-yellow-500 hover:underline">evidence page</a> with its score, exemptions and SBOM. Scores are measured in-build against the SSG profile. Unmodified for CIS on RHEL and Ubuntu, and for Ubuntu STIG. Rocky Linux and AlmaLinux scans use the SSG RHEL datastream with an applicability-only change. RHEL, Rocky Linux and AlmaLinux STIG scans set one refined value (the image's own local accounts), shown on each evidence page. We do not claim DISA/DoD endorsement, or certified / authorized / accredited status.</dd>
+                    <dd class="text-gray-400 text-sm">Every Applied image has an OpenSCAP ARF result, HTML report, POA&amp;M, SBOM and a CVE scan (except RHEL 10; on Rocky Linux 10 and AlmaLinux 10, OS packages not assessed), available from support@stigready.com on request. Each image has a public <a href="/applied/evidence/" class="text-yellow-500 hover:underline">evidence page</a> with its score, exemptions and SBOM. Scores are measured in-build against the SSG profile. Unmodified for CIS on RHEL and Ubuntu, and for Ubuntu STIG. Rocky Linux and AlmaLinux scans use the SSG RHEL datastream with an applicability-only change. RHEL, Rocky Linux and AlmaLinux STIG scans set one refined value (the image's own local accounts), shown on each evidence page. We do not claim DISA/DoD endorsement, or certified / authorized / accredited status.</dd>
                 </div>
                 <div>
                     <dt class="font-semibold text-white mb-2">Do you support arm64 / Graviton?</dt>

@@ -272,7 +272,10 @@ control 'web-evidence-pages-say-what-was-assessed' do
     it('does not call the STIG profile raw or unmodified') { expect(EV_APPLIED_INDEX).not_to match(/raw,? (unmodified )?SSG profile/) }
     it('says which STIGs carry a refined value') { expect(EV_APPLIED_INDEX.scan('one refined value').size).to eq(3) }
     it('does not limit the unassessed OS packages to RHEL 10') { expect(EV_APPLIED_INDEX).not_to include('except on RHEL 10)') }
-    it('names Rocky Linux 10 and AlmaLinux 10 with RHEL 10') { expect(EV_APPLIED_INDEX.scan('RHEL 10, Rocky Linux 10 and AlmaLinux 10').size).to eq(4) }
-    it('says EL 10 OS packages are not fully assessed') { expect(EV_APPLIED_INDEX.scan('OS packages are not fully assessed on RHEL 10').size).to eq(3) }
+    # stigready/stigready#5909 legal W1: the listings' words. RHEL 10 has no CVE scan (0092); Rocky and AlmaLinux 10 OS packages
+    # are not assessed (0176). Line "CVE counts (OS packages except on RHEL 10, Rocky Linux 10 and AlmaLinux 10)" describes the pages.
+    it('names Rocky Linux 10 and AlmaLinux 10 with RHEL 10 where it lists page contents') { expect(EV_APPLIED_INDEX.scan('RHEL 10, Rocky Linux 10 and AlmaLinux 10').size).to eq(1) }
+    it('states the CVE scan scope in the listings\' words, 3 times') { expect(EV_APPLIED_INDEX.scan('a CVE scan (except RHEL 10; on Rocky Linux 10 and AlmaLinux 10, OS packages not assessed)').size).to eq(3) }
+    it('no longer says "not fully assessed"') { expect(EV_APPLIED_INDEX).not_to include('not fully assessed') }
   end
 end
