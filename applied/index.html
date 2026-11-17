@@ -69,7 +69,7 @@
               "name": "What OpenSCAP evidence is included?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "OpenSCAP ARF, HTML report, POA&M, SBOM, and a CVE scan (except on RHEL 10) for every Applied image, available from support@stigready.com on request. Scores are measured in-build against the raw SSG profile. Not affiliated with or endorsed by DISA or DoD; not certified, authorized, or accredited."
+                "text": "OpenSCAP ARF, HTML report, POA&M, SBOM, and a CVE scan (OS packages are not fully assessed on RHEL 10, Rocky Linux 10 and AlmaLinux 10) for every Applied image, available from support@stigready.com on request. Scores are measured in-build against the SSG profile: unmodified for CIS and Ubuntu STIG; on RHEL, Rocky and AlmaLinux STIG, one refined value (the image's own local accounts), shown on each evidence page. Not affiliated with or endorsed by DISA or DoD; not certified, authorized, or accredited."
               }
             },
             {
@@ -121,11 +121,12 @@
             </h1>
             <p class="text-lg text-gray-300 mb-6 max-w-2xl mx-auto">
                 Full CIS Benchmark Level&nbsp;1/2 or DISA STIG remediation on the StigReady base —
-                scored in-build against the raw, unmodified SSG profile. The number your auditor
+                scored in-build against the SSG profile: unmodified for CIS and Ubuntu STIG; on RHEL, Rocky and AlmaLinux STIG, one refined value (the image's own local accounts), shown on each evidence page. The number your auditor
                 asks for, published with every image.
             </p>
             <p class="text-gray-400 mb-10 max-w-2xl mx-auto text-sm">
-                Evidence for every image (OpenSCAP ARF, HTML report, POA&amp;M, SBOM, and a CVE scan except on RHEL 10) is available from support@stigready.com on request.
+                Evidence for every image (OpenSCAP ARF, HTML report, POA&amp;M, SBOM, and a CVE scan (OS packages are not fully assessed on RHEL 10, Rocky Linux 10 and AlmaLinux 10)) is available from support@stigready.com on request.
+                Each version also has a public <a href="/applied/evidence/" class="text-yellow-500 hover:underline">evidence summary</a>: score and rule counts, exemptions with reasons, CVE counts (OS packages except on RHEL 10, Rocky Linux 10 and AlmaLinux 10), SBOM and signed digests.
                 FIPS mode enabled on STIG images using the OS vendor's FIPS cryptographic modules.
                 Software fee: <strong class="text-white">$0.08/hr</strong> or <strong class="text-white">$649/yr</strong> per instance.
             </p>
@@ -170,7 +171,7 @@
                 </div>
                 <div>
                     <dt class="font-semibold text-white mb-2">What OpenSCAP evidence is included?</dt>
-                    <dd class="text-gray-400 text-sm">ARF, HTML report, POA&amp;M, SBOM, and a CVE scan (except on RHEL 10), available from support@stigready.com on request — scored in-build against the raw SSG profile. Not affiliated with or endorsed by DISA or DoD; we do not claim certified, authorized, or accredited status.</dd>
+                    <dd class="text-gray-400 text-sm">ARF, HTML report, POA&amp;M, SBOM, and a CVE scan (OS packages are not fully assessed on RHEL 10, Rocky Linux 10 and AlmaLinux 10), available from support@stigready.com on request — scored in-build against the SSG profile: unmodified for CIS and Ubuntu STIG; on RHEL, Rocky and AlmaLinux STIG, one refined value (the image's own local accounts), shown on each evidence page. Not affiliated with or endorsed by DISA or DoD; we do not claim certified, authorized, or accredited status.</dd>
                 </div>
                 <div>
                     <dt class="font-semibold text-white mb-2">Is Applied on AWS Marketplace?</dt>
