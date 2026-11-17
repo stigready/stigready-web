@@ -108,35 +108,39 @@ def results_xml(path: Path) -> dict:
 
 
 def trivy(path: Path) -> dict:
+    """Trivy's report, counted per result class: OS packages (os-pkgs) and language packages (lang-pkgs, e.g. the Go
+    binaries of amazon-ssm-agent) are different populations and are never summed. Per class: packages Trivy detected,
+    package findings, and distinct CVE ids by severity, with how many of those had a fixed version listed."""
     doc = json.loads(path.read_text(encoding="utf-8"))
     sev_rank = {s: i for i, s in enumerate(SEVERITIES)}
-    seen: dict[str, dict] = {}
-    pkg_findings = 0
-    classes = set()
+    classes: dict[str, dict] = {}
     for res in doc.get("Results") or []:
-        classes.add(res.get("Class"))
+        cls = res.get("Class") or "unknown"
+        acc = classes.setdefault(cls, {"targets": 0, "packages": 0, "findings": 0, "_seen": {}})
+        acc["targets"] += 1
+        acc["packages"] += len(res.get("Packages") or [])
         for v in res.get("Vulnerabilities") or []:
-            pkg_findings += 1
-            vid = v.get("VulnerabilityID")
+            acc["findings"] += 1
             sev = (v.get("Severity") or "UNKNOWN").upper()
             sev = sev if sev in sev_rank else "UNKNOWN"
-            cur = seen.setdefault(vid, {"severity": sev, "fixable": False})
+            cur = acc["_seen"].setdefault(v.get("VulnerabilityID"), {"severity": sev, "fixable": False})
             if sev_rank[sev] < sev_rank[cur["severity"]]:
                 cur["severity"] = sev
             if v.get("FixedVersion"):
                 cur["fixable"] = True
-    by_sev = {s.lower(): 0 for s in SEVERITIES}
-    fix_sev = {s.lower(): 0 for s in SEVERITIES}
-    for rec in seen.values():
-        by_sev[rec["severity"].lower()] += 1
-        if rec["fixable"]:
-            fix_sev[rec["severity"].lower()] += 1
+    for acc in classes.values():
+        seen = acc.pop("_seen")
+        acc["distinct"] = {s.lower(): 0 for s in SEVERITIES}
+        acc["distinct_fixable"] = {s.lower(): 0 for s in SEVERITIES}
+        for rec in seen.values():
+            acc["distinct"][rec["severity"].lower()] += 1
+            if rec["fixable"]:
+                acc["distinct_fixable"][rec["severity"].lower()] += 1
     os_meta = ((doc.get("Metadata") or {}).get("OS") or {})
     return {
         "scanner": "Trivy", "scanner_version": ((doc.get("Trivy") or {}).get("Version")),
         "created_at": doc.get("CreatedAt"), "os_detected": f"{os_meta.get('Family', '')} {os_meta.get('Name', '')}".strip(),
-        "result_classes": sorted(c for c in classes if c), "distinct": by_sev, "distinct_fixable": fix_sev,
-        "package_findings": pkg_findings, "db": doc.get("StigReadyTrivyDB"),
+        "classes": classes, "db": doc.get("StigReadyTrivyDB"),
     }
 
 

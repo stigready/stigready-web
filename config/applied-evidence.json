@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "extracted_at": "2026-11-17T12:57:47Z",
+ "extracted_at": "2026-11-17T13:15:44Z",
  "catalog_generated": "2026-10-26",
  "live_listings_checked": true,
  "signatures_checked": true,
@@ -106,25 +106,46 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-21T12:12:24.451679293-04:00",
     "os_detected": "alma 10.2",
-    "result_classes": [
-     "lang-pkgs",
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 4,
-     "medium": 12,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 340,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     },
+     "lang-pkgs": {
+      "targets": 6,
+      "packages": 168,
+      "findings": 104,
+      "distinct": {
+       "critical": 0,
+       "high": 4,
+       "medium": 12,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 4,
+       "medium": 12,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 4,
-     "medium": 12,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 104,
     "db": null,
     "gate": {
      "status": "pass",
@@ -245,25 +266,46 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-19T18:12:20.327883085-04:00",
     "os_detected": "alma 10.2",
-    "result_classes": [
-     "lang-pkgs",
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 4,
-     "medium": 12,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 340,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     },
+     "lang-pkgs": {
+      "targets": 6,
+      "packages": 168,
+      "findings": 104,
+      "distinct": {
+       "critical": 0,
+       "high": 4,
+       "medium": 12,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 4,
+       "medium": 12,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 4,
-     "medium": 12,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 104,
     "db": null,
     "gate": {
      "status": "pass",
@@ -386,24 +428,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-21T04:55:59.336483011-04:00",
     "os_detected": "alma 8.10",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 428,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -544,24 +589,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-20T12:49:33.8741313-04:00",
     "os_detected": "alma 8.10",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 428,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -805,24 +853,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-20T20:14:40.628160641-04:00",
     "os_detected": "alma 8.10",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 436,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -945,24 +996,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-19T16:39:57.227755444-04:00",
     "os_detected": "alma 8.10",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 435,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -1103,24 +1157,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-19T17:35:34.361770168-04:00",
     "os_detected": "alma 8.10",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 435,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -1364,24 +1421,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-19T19:59:04.565388438-04:00",
     "os_detected": "alma 8.10",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 443,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -1494,24 +1554,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-20T02:22:33.68281593-04:00",
     "os_detected": "alma 9.8",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 358,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -1632,24 +1695,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-20T06:20:48.03995372-04:00",
     "os_detected": "alma 9.8",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 360,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -1891,24 +1957,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-21T11:11:57.845102371-04:00",
     "os_detected": "alma 9.8",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 384,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -2021,24 +2090,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-19T05:08:58.828937408-04:00",
     "os_detected": "alma 9.8",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 361,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -2159,24 +2231,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-19T05:55:30.498141871-04:00",
     "os_detected": "alma 9.8",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 363,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -2418,24 +2493,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-19T15:23:37.965257502-04:00",
     "os_detected": "alma 9.8",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 387,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -2548,25 +2626,46 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-19T18:18:20.558060591-04:00",
     "os_detected": "redhat 10.2",
-    "result_classes": [
-     "lang-pkgs",
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 354,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     },
+     "lang-pkgs": {
+      "targets": 6,
+      "packages": 168,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -2695,25 +2794,46 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-21T00:12:40.594019861-04:00",
     "os_detected": "redhat 10.2",
-    "result_classes": [
-     "lang-pkgs",
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 354,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     },
+     "lang-pkgs": {
+      "targets": 6,
+      "packages": 168,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -2907,24 +3027,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-21T06:01:59.498952036-04:00",
     "os_detected": "redhat 10.2",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 397,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -3037,25 +3160,46 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-19T16:02:15.527417119-04:00",
     "os_detected": "redhat 10.2",
-    "result_classes": [
-     "lang-pkgs",
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 354,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     },
+     "lang-pkgs": {
+      "targets": 6,
+      "packages": 168,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -3184,25 +3328,46 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-18T00:07:48.223127573-04:00",
     "os_detected": "redhat 10.2",
-    "result_classes": [
-     "lang-pkgs",
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 354,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     },
+     "lang-pkgs": {
+      "targets": 6,
+      "packages": 168,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -3396,24 +3561,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-19T14:38:03.918946993-04:00",
     "os_detected": "redhat 10.2",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 397,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -3528,24 +3696,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-19T20:14:13.254868499-04:00",
     "os_detected": "redhat 8.10",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 131,
-     "medium": 3327,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 442,
+      "findings": 19325,
+      "distinct": {
+       "critical": 0,
+       "high": 131,
+       "medium": 3327,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 19325,
     "db": null,
     "gate": {
      "status": "pass",
@@ -3678,24 +3849,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-21T02:34:38.918741064-04:00",
     "os_detected": "redhat 8.10",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 126,
-     "medium": 3355,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 442,
+      "findings": 19468,
+      "distinct": {
+       "critical": 0,
+       "high": 126,
+       "medium": 3355,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 19468,
     "db": null,
     "gate": {
      "status": "pass",
@@ -3933,24 +4107,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-21T09:45:50.421064938-04:00",
     "os_detected": "redhat 8.10",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 127,
-     "medium": 3360,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 451,
+      "findings": 19481,
+      "distinct": {
+       "critical": 0,
+       "high": 127,
+       "medium": 3360,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 19481,
     "db": null,
     "gate": {
      "status": "pass",
@@ -4065,24 +4242,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-19T15:06:33.481678487-04:00",
     "os_detected": "redhat 8.10",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 136,
-     "medium": 3331,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 447,
+      "findings": 19334,
+      "distinct": {
+       "critical": 0,
+       "high": 136,
+       "medium": 3331,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 19334,
     "db": null,
     "gate": {
      "status": "pass",
@@ -4215,24 +4395,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-19T16:06:23.715596564-04:00",
     "os_detected": "redhat 8.10",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 136,
-     "medium": 3331,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 447,
+      "findings": 19334,
+      "distinct": {
+       "critical": 0,
+       "high": 136,
+       "medium": 3331,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 19334,
     "db": null,
     "gate": {
      "status": "pass",
@@ -4470,24 +4653,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-19T17:19:15.452051198-04:00",
     "os_detected": "redhat 8.10",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 137,
-     "medium": 3336,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 456,
+      "findings": 19347,
+      "distinct": {
+       "critical": 0,
+       "high": 137,
+       "medium": 3336,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 19347,
     "db": null,
     "gate": {
      "status": "pass",
@@ -4594,24 +4780,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-17T14:37:42.644731629-04:00",
     "os_detected": "redhat 9.8",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 143,
-     "medium": 3825,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 372,
+      "findings": 15454,
+      "distinct": {
+       "critical": 0,
+       "high": 143,
+       "medium": 3825,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 15454,
     "db": null,
     "gate": {
      "status": "pass",
@@ -4728,24 +4917,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-17T19:04:18.899080286-04:00",
     "os_detected": "redhat 9.8",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 146,
-     "medium": 3846,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 374,
+      "findings": 15538,
+      "distinct": {
+       "critical": 0,
+       "high": 146,
+       "medium": 3846,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 15538,
     "db": null,
     "gate": {
      "status": "pass",
@@ -5003,24 +5195,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-18T00:40:36.490532843-04:00",
     "os_detected": "redhat 9.8",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 148,
-     "medium": 3866,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 397,
+      "findings": 15573,
+      "distinct": {
+       "critical": 0,
+       "high": 148,
+       "medium": 3866,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 15573,
     "db": null,
     "gate": {
      "status": "pass",
@@ -5127,24 +5322,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-17T13:00:12.225229608-04:00",
     "os_detected": "redhat 9.8",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 146,
-     "medium": 3829,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 376,
+      "findings": 15459,
+      "distinct": {
+       "critical": 0,
+       "high": 146,
+       "medium": 3829,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 15459,
     "db": null,
     "gate": {
      "status": "pass",
@@ -5261,24 +5459,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-17T13:48:32.516367864-04:00",
     "os_detected": "redhat 9.8",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 146,
-     "medium": 3829,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 378,
+      "findings": 15459,
+      "distinct": {
+       "critical": 0,
+       "high": 146,
+       "medium": 3829,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 15459,
     "db": null,
     "gate": {
      "status": "pass",
@@ -5536,24 +5737,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-17T12:21:37.309316768-04:00",
     "os_detected": "redhat 9.8",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 148,
-     "medium": 3849,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 401,
+      "findings": 15494,
+      "distinct": {
+       "critical": 0,
+       "high": 148,
+       "medium": 3849,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 15494,
     "db": null,
     "gate": {
      "status": "pass",
@@ -5674,25 +5878,46 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-20T13:36:51.924605869-04:00",
     "os_detected": "rocky 10.2",
-    "result_classes": [
-     "lang-pkgs",
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 4,
-     "medium": 12,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 340,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     },
+     "lang-pkgs": {
+      "targets": 6,
+      "packages": 168,
+      "findings": 104,
+      "distinct": {
+       "critical": 0,
+       "high": 4,
+       "medium": 12,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 4,
+       "medium": 12,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 4,
-     "medium": 12,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 104,
     "db": null,
     "gate": {
      "status": "pass",
@@ -5829,25 +6054,46 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-20T17:33:54.854429823-04:00",
     "os_detected": "rocky 10.2",
-    "result_classes": [
-     "lang-pkgs",
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 4,
-     "medium": 12,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 340,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     },
+     "lang-pkgs": {
+      "targets": 6,
+      "packages": 168,
+      "findings": 104,
+      "distinct": {
+       "critical": 0,
+       "high": 4,
+       "medium": 12,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 4,
+       "medium": 12,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 4,
-     "medium": 12,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 104,
     "db": null,
     "gate": {
      "status": "pass",
@@ -6065,24 +6311,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-21T16:59:20.627936849-04:00",
     "os_detected": "rocky 10.2",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 383,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -6203,25 +6452,46 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-19T18:04:19.927182703-04:00",
     "os_detected": "rocky 10.2",
-    "result_classes": [
-     "lang-pkgs",
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 4,
-     "medium": 12,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 340,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     },
+     "lang-pkgs": {
+      "targets": 6,
+      "packages": 168,
+      "findings": 104,
+      "distinct": {
+       "critical": 0,
+       "high": 4,
+       "medium": 12,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 4,
+       "medium": 12,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 4,
-     "medium": 12,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 104,
     "db": null,
     "gate": {
      "status": "pass",
@@ -6358,25 +6628,46 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-19T05:17:33.694529267-04:00",
     "os_detected": "rocky 10.2",
-    "result_classes": [
-     "lang-pkgs",
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 4,
-     "medium": 12,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 340,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     },
+     "lang-pkgs": {
+      "targets": 6,
+      "packages": 168,
+      "findings": 104,
+      "distinct": {
+       "critical": 0,
+       "high": 4,
+       "medium": 12,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 4,
+       "medium": 12,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 4,
-     "medium": 12,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 104,
     "db": null,
     "gate": {
      "status": "pass",
@@ -6594,24 +6885,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-19T19:00:10.696376789-04:00",
     "os_detected": "rocky 10.2",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 20,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 383,
+      "findings": 80,
+      "distinct": {
+       "critical": 0,
+       "high": 20,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 20,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 20,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 80,
     "db": null,
     "gate": {
      "status": "pass",
@@ -6736,24 +7030,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-20T10:47:19.370357602-04:00",
     "os_detected": "rocky 8.10",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 431,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -6896,24 +7193,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-21T13:47:41.097028788-04:00",
     "os_detected": "rocky 8.10",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 431,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -7159,24 +7459,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-21T21:38:12.678696361-04:00",
     "os_detected": "rocky 8.10",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 439,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -7301,24 +7604,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-19T16:39:46.781615824-04:00",
     "os_detected": "rocky 8.10",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 436,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -7461,24 +7767,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-19T17:38:19.067539071-04:00",
     "os_detected": "rocky 8.10",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 436,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -7724,24 +8033,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-19T19:14:01.192533134-04:00",
     "os_detected": "rocky 8.10",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 444,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -7858,24 +8170,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-19T06:41:23.962314583-04:00",
     "os_detected": "rocky 9.8",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 359,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -8002,24 +8317,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-20T03:23:13.962884157-04:00",
     "os_detected": "rocky 9.8",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 361,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -8307,24 +8625,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-20T08:46:54.813909635-04:00",
     "os_detected": "rocky 9.8",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 384,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -8441,24 +8762,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-18T04:56:43.054119386-04:00",
     "os_detected": "rocky 9.8",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 362,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -8585,24 +8909,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-19T05:17:16.934898668-04:00",
     "os_detected": "rocky 9.8",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 364,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -8890,24 +9217,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-19T15:24:36.620352918-04:00",
     "os_detected": "rocky 9.8",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 387,
+      "findings": 0,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 0,
     "db": null,
     "gate": {
      "status": "pass",
@@ -9024,24 +9354,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-20T05:10:08.18039521-04:00",
     "os_detected": "ubuntu 24.04",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 11,
-     "high": 298,
-     "medium": 1818,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 430,
+      "findings": 8368,
+      "distinct": {
+       "critical": 11,
+       "high": 298,
+       "medium": 1818,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 8368,
     "db": null,
     "gate": {
      "status": "pass",
@@ -9176,24 +9509,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-21T10:04:56.791190593-04:00",
     "os_detected": "ubuntu 24.04",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 14,
-     "high": 372,
-     "medium": 1927,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 431,
+      "findings": 9106,
+      "distinct": {
+       "critical": 14,
+       "high": 372,
+       "medium": 1927,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 9106,
     "db": null,
     "gate": {
      "status": "pass",
@@ -9422,24 +9758,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-21T02:35:43.290779222-04:00",
     "os_detected": "ubuntu 24.04",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 65,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 441,
+      "findings": 105,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 65,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 9,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 9,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 105,
     "db": null,
     "gate": {
      "status": "pass",
@@ -9556,24 +9895,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-19T16:39:31.418932587-04:00",
     "os_detected": "ubuntu 24.04",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 3,
-     "high": 128,
-     "medium": 2353,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 444,
+      "findings": 9766,
+      "distinct": {
+       "critical": 3,
+       "high": 128,
+       "medium": 2353,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 9766,
     "db": null,
     "gate": {
      "status": "pass",
@@ -9708,24 +10050,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-19T17:31:53.763545892-04:00",
     "os_detected": "ubuntu 24.04",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 3,
-     "high": 128,
-     "medium": 2353,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 445,
+      "findings": 9766,
+      "distinct": {
+       "critical": 3,
+       "high": 128,
+       "medium": 2353,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 0,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 0,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 9766,
     "db": null,
     "gate": {
      "status": "pass",
@@ -9954,24 +10299,27 @@
     "scanner_version": "0.72.0",
     "created_at": "2026-10-19T15:52:41.040115963-04:00",
     "os_detected": "ubuntu 24.04",
-    "result_classes": [
-     "os-pkgs"
-    ],
-    "distinct": {
-     "critical": 0,
-     "high": 0,
-     "medium": 73,
-     "low": 0,
-     "unknown": 0
+    "classes": {
+     "os-pkgs": {
+      "targets": 1,
+      "packages": 455,
+      "findings": 113,
+      "distinct": {
+       "critical": 0,
+       "high": 0,
+       "medium": 73,
+       "low": 0,
+       "unknown": 0
+      },
+      "distinct_fixable": {
+       "critical": 0,
+       "high": 0,
+       "medium": 9,
+       "low": 0,
+       "unknown": 0
+      }
+     }
     },
-    "distinct_fixable": {
-     "critical": 0,
-     "high": 0,
-     "medium": 9,
-     "low": 0,
-     "unknown": 0
-    },
-    "package_findings": 113,
     "db": null,
     "gate": {
      "status": "pass",

@@ -47,12 +47,30 @@ CLASS_LABEL = {
     "smartcard-cac": "Smart card / CAC: needs your PKI",
     "remote-log-offload": "Remote log offload: needs your log server",
     "derivative-os": "Check names Red Hat: cannot apply to this distribution",
-    "owner-cloud-usability": "Cloud usability: risk accepted",
+    "owner-cloud-usability": "Cloud usability: you configure it after launch",
 }
-PROFILE_NAME = {"cis-l1": "CIS Benchmark Level 1", "cis-l2": "CIS Benchmark Level 2", "stig": "DISA STIG"}
+PROFILE_NAME = {"cis-l1": "CIS Benchmark Level 1", "cis-l2": "CIS Benchmark Level 2"}
+# The STIG name depends on the OS (marketing review of stigready-web#99, C1): DISA publishes STIGs for RHEL 8/9 and
+# Ubuntu 24.04; Rocky and AlmaLinux are scored with the RHEL STIG content; the RHEL 10 content is SSG's RHEL 10 STIG
+# profile. An os_key with no entry stops the build.
+STIG_NAME = {
+    "rhel-8": "DISA STIG", "rhel-9": "DISA STIG", "ubuntu-24.04": "DISA STIG",
+    "rocky-8": "with DISA RHEL 8 STIG", "alma-8": "with DISA RHEL 8 STIG",
+    "rocky-9": "with DISA RHEL 9 STIG", "alma-9": "with DISA RHEL 9 STIG",
+    "rhel-10": "STIG", "rocky-10": "with RHEL 10 STIG",
+}
 OS_LONG = {"rhel": "Red Hat Enterprise Linux", "rocky": "Rocky Linux", "alma": "AlmaLinux", "ubuntu": "Ubuntu"}
-# The scanner the build uses reports nothing for these OS releases: a zero there would read as "no CVEs".
-NO_CVE_SCAN = ("rhel-10",)
+# Trivy does not assess the OS packages of these releases (stigready security policy, decision 0176): it detects the
+# packages and matches no advisory, so its OS count is withheld. Language packages (Go binaries) are still counted.
+OS_NOT_ASSESSED = ("rhel-10", "rocky-10", "alma-10")
+# Releases where an OS-package count of zero has been reviewed and is published. Rocky Linux and AlmaLinux advisories
+# list only fixed CVEs, so a patched image reads zero. Anywhere else a zero stops the build (fail closed): it is more
+# likely a scanner that cannot see the OS than an image with no known CVEs.
+OS_ZERO_REVIEWED = ("rocky-8", "rocky-9", "alma-8", "alma-9")
+FIXED_ONLY_FAMILIES = ("rocky", "alma")
+VERSION_RE = re.compile(r"^\d+\.\d+\.\d+$")
+LISTING_PREFIX = "https://aws.amazon.com/marketplace/"
+SEVERITIES = ("critical", "high", "medium", "low", "unknown")
 # Published text must not carry these (internal records, hosts, paths). Mirrors the published-paths control.
 INTERNAL = re.compile(
     r"stigready/(?:stigforge|claude-agents|stigready|stigvalidated|cairn|build-reports)(?![\w-])"
@@ -93,6 +111,7 @@ STYLE = """
         .ev table { width: 100%; border-collapse: collapse; font-size: .85rem; }
         .ev th { text-align: left; color: #9ca3af; font-weight: 600; background: #111827; padding: .55rem .7rem; border-bottom: 1px solid #374151; }
         .ev td { color: #d1d5db; padding: .55rem .7rem; border-bottom: 1px solid #1f2937; vertical-align: top; }
+        .ev h3 { font-size: 1rem; font-weight: 600; color: #fff; margin: 1.25rem 0 .5rem; }
         .ev ul { list-style: disc; padding-left: 1.25rem; margin: 0 0 .75rem; }
     """
 
@@ -101,6 +120,11 @@ problems: list[str] = []
 
 def e(s) -> str:
     return html.escape("" if s is None else str(s), quote=True)
+
+
+def prose(s) -> str:
+    """Escape record text, then show its `code` spans as code (the build record writes commands in backticks)."""
+    return re.sub(r"`([^`<>]+)`", r"<code>\1</code>", e(s))
 
 
 def utc(ts: str | None) -> str:
@@ -120,8 +144,19 @@ def os_long(os_key: str) -> str:
     return f"{OS_LONG.get(fam, fam)} {ver}"
 
 
+def profile_label(c: dict) -> str:
+    if c["profile"] == "stig":
+        return STIG_NAME[c["os_key"]]
+    return PROFILE_NAME[c["profile"]]
+
+
+def image_label(c: dict) -> str:
+    """'RHEL 9 DISA STIG', 'Rocky Linux 9 with DISA RHEL 9 STIG', 'RHEL 10 STIG', 'Ubuntu 24.04 CIS Benchmark Level 1'."""
+    return f"{c['os']} {profile_label(c)}"
+
+
 def product_name(c: dict) -> str:
-    return f"StigReady Applied {c['os']} {PROFILE_NAME[c['profile']]} ({c['arch']})"
+    return f"StigReady Applied {image_label(c)} ({c['arch']})"
 
 
 def page_rel(c: dict) -> str:
@@ -196,16 +231,55 @@ def foot() -> str:
 """
 
 
+def is_int(v) -> bool:
+    return isinstance(v, int) and not isinstance(v, bool) and v >= 0
+
+
+def os_counts(c: dict) -> dict | None:
+    return ((c.get("cve") or {}).get("classes") or {}).get("os-pkgs")
+
+
+def check_types(c: dict, where: str) -> bool:
+    """Every number a page prints must be a number of the right kind (security review S3)."""
+    bad = []
+    sc = c.get("scorecard") or {}
+    if not (isinstance(sc.get("score"), (int, float)) and not isinstance(sc.get("score"), bool) and 0 <= sc["score"] <= 100):
+        bad.append("scorecard.score")
+    bad += [f"scorecard.{k}" for k in ("pass", "fail", "notapplicable", "notchecked") if not is_int(sc.get(k))]
+    for cls, acc in (((c.get("cve") or {}).get("classes")) or {}).items():
+        bad += [f"cve.{cls}.{k}" for k in ("packages", "findings") if not is_int(acc.get(k))]
+        for field in ("distinct", "distinct_fixable"):
+            d = acc.get(field) or {}
+            bad += [f"cve.{cls}.{field}.{s}" for s in SEVERITIES if not is_int(d.get(s))]
+    if not is_int((c.get("sbom") or {}).get("components")):
+        bad.append("sbom.components")
+    if not is_int((c.get("signature") or {}).get("manifest_files")):
+        bad.append("signature.manifest_files")
+    for b in bad:
+        problems.append(f"{where}: {b} is not a number of the expected type")
+    return not bad
+
+
 def check_record(c: dict, cat: dict) -> None:
     where = f"{c.get('cell')} v{c.get('version')}"
     for p in c.get("problems") or []:
         problems.append(f"{where}: extract problem: {p}")
     if c.get("problems"):
         return
+    if not VERSION_RE.match(str(c.get("version"))):
+        problems.append(f"{where}: version is not N.N.N")
+        return
+    if c.get("cell") != f"{c.get('os_key')}-{c.get('arch')}-{c.get('profile')}":
+        problems.append(f"{where}: cell is not <os_key>-<arch>-<profile>")
+        return
+    if not check_types(c, where):
+        return
     row = cat.get((c["os_key"], c["arch"], c["profile"]))
     if row is None or row.get("line") != "stigapplied" or row.get("availability") != "available":
         problems.append(f"{where}: not an available Applied row in catalog.json")
         return
+    if not str(row.get("marketplace_url") or "").startswith(LISTING_PREFIX):
+        problems.append(f"{where}: catalog.json marketplace_url is not under {LISTING_PREFIX}")
     if row.get("version") != c["version"]:
         problems.append(f"{where}: catalog.json sells v{row.get('version')}")
     if row.get("score") != c["scorecard"]["score"]:
@@ -215,6 +289,8 @@ def check_record(c: dict, cat: dict) -> None:
         problems.append(f"{where}: score {sc['score']} is not pass/(pass+fail)")
     if c["fips"] != (c["profile"] == "stig"):
         problems.append(f"{where}: FIPS {c['fips']} on profile {c['profile']}")
+    if c["profile"] == "stig" and c["os_key"] not in STIG_NAME:
+        problems.append(f"{where}: no STIG name for {c['os_key']}")
     if not c.get("ami_matches_live_listing"):
         problems.append(f"{where}: the bundle was not matched to the live listing's AMI")
     if (c.get("signature") or {}).get("cosign_verified") is not True:
@@ -224,11 +300,18 @@ def check_record(c: dict, cat: dict) -> None:
     for x in c["exemptions"]:
         if x["class"] not in CLASS_LABEL:
             problems.append(f"{where}: exemption class {x['class']!r} has no public label")
-    if c["os_key"].startswith(NO_CVE_SCAN):
-        if c.get("cve") and c["cve"].get("package_findings"):
-            problems.append(f"{where}: the scanner reported findings on an OS listed as unscannable; review NO_CVE_SCAN")
-    elif not c.get("cve"):
-        problems.append(f"{where}: no CVE scan in the bundle")
+    osc = os_counts(c)
+    if osc is None:
+        problems.append(f"{where}: the CVE scan has no OS-package result")
+    elif c["os_key"] not in OS_NOT_ASSESSED and osc["findings"] == 0 and c["os_key"] not in OS_ZERO_REVIEWED:
+        # Fail closed: a zero here is more likely a scanner that cannot see the OS (as on EL 10) than a clean image.
+        problems.append(f"{where}: zero OS-package findings on {c['os_key']}, which is neither OS_NOT_ASSESSED nor "
+                        "OS_ZERO_REVIEWED; review whether Trivy can assess it")
+    if (c["os_key"].split("-")[0] in ("rhel", "rocky", "alma") and int(c["os_key"].split("-")[1].split(".")[0]) >= 10
+            and c["os_key"] not in OS_NOT_ASSESSED):
+        problems.append(f"{where}: {c['os_key']} is an EL 10 release missing from OS_NOT_ASSESSED")
+    if set((c["cve"]["classes"] or {})) - {"os-pkgs", "lang-pkgs"}:
+        problems.append(f"{where}: a Trivy result class with no public wording: {sorted(c['cve']['classes'])}")
     if not c.get("sbom"):
         problems.append(f"{where}: no SBOM")
 
@@ -240,32 +323,57 @@ def exemption_rows(c: dict) -> str:
         rows.append(
             f"<tr><td><code>{e(x['rule'])}</code><br><span class=\"muted\">{e(x['title'])}</span></td>"
             + (f"<td>{e(disa)}</td>" if c["profile"] == "stig" else "")
-            + f"<td>{e(CLASS_LABEL[x['class']])}</td><td>{e(x['why'])}</td><td>{e(x['customer_action'])}</td></tr>")
+            + f"<td>{e(CLASS_LABEL[x['class']])}</td><td>{prose(x['why'])}</td><td>{prose(x['customer_action'])}</td></tr>")
     disa_h = "<th>STIG ID</th>" if c["profile"] == "stig" else ""
     return (f"<div class=\"tbl\"><table><thead><tr><th>Rule</th>{disa_h}<th>Category</th><th>Why it fails in the image"
             f"</th><th>What you do</th></tr></thead><tbody>\n" + "\n".join(rows) + "\n</tbody></table></div>")
 
 
-def cve_section(c: dict) -> str:
-    if c["os_key"].startswith(NO_CVE_SCAN):
-        return ("<p>This version's evidence has no CVE scan. The build's scanner (Trivy) does not cover "
-                f"{e(os_long(c['os_key']))} packages, so its empty result for this image is not shown as a count: "
-                "zero findings from it would not mean the image has no known CVEs.</p>")
-    v = c["cve"]
+def count_table(acc: dict, found: str, fixed: str) -> str:
     sev = ("critical", "high", "medium", "low")
-    cells = "".join(f"<td>{v['distinct'][s]}</td>" for s in sev)
-    fix = "".join(f"<td>{v['distinct_fixable'][s]}</td>" for s in sev)
-    unknown = v["distinct"].get("unknown", 0)
-    return (f"<p>Scanned with Trivy {e(v['scanner_version'])} in the image build on {utc(v['created_at'])}. Counts are "
-            "distinct CVE identifiers in the installed OS packages at that date; CVEs published later are not "
-            "counted.</p>\n<div class=\"tbl\"><table><thead><tr><th></th><th>Critical</th><th>High</th><th>Medium</th>"
-            f"<th>Low</th></tr></thead><tbody>\n<tr><td>CVEs found</td>{cells}</tr>\n<tr><td>Of those, with a fixed "
-            f"package published at scan time</td>{fix}</tr>\n</tbody></table></div>\n"
-            + (f"<p class=\"muted\">{unknown} more had no severity rating.</p>\n" if unknown else "")
-            + "<p class=\"muted\">The per-CVE list is in the full evidence bundle, on request.</p>")
+    cells = "".join(f"<td>{e(acc['distinct'][s])}</td>" for s in sev)
+    fix = "".join(f"<td>{e(acc['distinct_fixable'][s])}</td>" for s in sev)
+    unknown = acc["distinct"]["unknown"]
+    return ("<div class=\"tbl\"><table><thead><tr><th></th><th>Critical</th><th>High</th><th>Medium</th><th>Low</th>"
+            f"</tr></thead><tbody>\n<tr><td>{found}</td>{cells}</tr>\n<tr><td>{fixed}</td>{fix}</tr>\n"
+            "</tbody></table></div>\n"
+            + (f"<p class=\"muted\">{e(unknown)} more had no severity rating.</p>\n" if unknown else ""))
 
 
-def version_page(c: dict, row: dict) -> str:
+def cve_section(c: dict) -> str:
+    v = c["cve"]
+    fam = c["os_key"].split("-")[0]
+    osn = e(os_long(c["os_key"]))
+    fixed_label = "Of those, Trivy reported a fixed package version at scan time"
+    out = [f"<p>Scanned with Trivy {e(v['scanner_version'])} in the image build on {utc(v['created_at'])}. Counts are "
+           "distinct CVE identifiers at that date; CVEs published later are not counted. OS packages and language "
+           "packages are counted separately.</p>\n<h3>OS packages</h3>\n"]
+    osc = v["classes"]["os-pkgs"]
+    if c["os_key"] in OS_NOT_ASSESSED:
+        if osc["findings"] == 0:
+            out.append(f"<p>Not assessed. Trivy detected the {osn} packages but its vulnerability data does not cover "
+                       f"{osn}, so it matched none, and that zero would not mean the image has no known CVEs.</p>\n")
+        else:
+            out.append(f"<p>Not fully assessed. Trivy's vulnerability data for {osn} is incomplete. It matched the CVEs "
+                       "below, so they are present, but the image may have others it could not see. Read these as a "
+                       "lower bound.</p>\n" + count_table(osc, "CVEs found (at least)", fixed_label))
+    else:
+        out.append(count_table(osc, "CVEs found", fixed_label))
+        if fam in FIXED_ONLY_FAMILIES:
+            out.append(f"<p class=\"muted\">Trivy's data for Rocky Linux and AlmaLinux lists only CVEs that have a "
+                       "published fix, so these counts do not include unfixed CVEs and are not comparable with the Red "
+                       "Hat Enterprise Linux pages.</p>\n")
+    lang = v["classes"].get("lang-pkgs")
+    if lang:
+        out.append("<h3>Language packages (Go binaries)</h3>\n"
+                   f"<p>Go modules and the Go standard library compiled into binaries in the image, such as the AWS "
+                   f"Systems Manager agent: {e(lang['packages'])} detected.</p>\n"
+                   + count_table(lang, "CVEs found", fixed_label))
+    out.append("<p class=\"muted\">The per-CVE list is in the full evidence bundle, on request.</p>")
+    return "".join(out)
+
+
+def version_page(c: dict, row: dict, extracted: str) -> str:
     sc, x, name = c["scorecard"], c["xccdf"], product_name(c)
     prof = c["ssg_profile"]
     fam = c["os_key"].split("-")[0]
@@ -282,10 +390,10 @@ def version_page(c: dict, row: dict) -> str:
         <a href="/{product_rel(c)}">All versions of this image</a> · <a href="/applied/evidence/">All Applied images</a></p>
         <div class="tiles">
             <div class="tile"><div class="k">OpenSCAP score</div><div class="v">{sc['score']:.1f}%</div></div>
-            <div class="tile"><div class="k">Rules passed</div><div class="v">{sc['pass']}</div></div>
-            <div class="tile"><div class="k">Rules failed</div><div class="v">{sc['fail']}</div></div>
-            <div class="tile"><div class="k">Not applicable</div><div class="v">{sc['notapplicable']}</div></div>
-            <div class="tile"><div class="k">Not checked</div><div class="v">{sc['notchecked']}</div></div>
+            <div class="tile"><div class="k">Rules passed</div><div class="v">{e(sc['pass'])}</div></div>
+            <div class="tile"><div class="k">Rules failed</div><div class="v">{e(sc['fail'])}</div></div>
+            <div class="tile"><div class="k">Not applicable</div><div class="v">{e(sc['notapplicable'])}</div></div>
+            <div class="tile"><div class="k">Not checked</div><div class="v">{e(sc['notchecked'])}</div></div>
         </div>
 
         <h2>How it was scored</h2>
@@ -295,6 +403,14 @@ def version_page(c: dict, row: dict) -> str:
                 (<code>{e(prof['id'])}</code>){f", with the refined value{'s' if len(c['tailoring']) != 1 else ''} listed below" if prof['tailored'] else ", as published"}.</li>
             <li>Score = rules passed ÷ (rules passed + rules failed). Every rule listed under Exemptions failed in the
                 scan and counts as a failure in the score. Not-applicable and not-checked rules are not scored.</li>
+""")
+    major = c["os_key"].split("-")[1]
+    if c["profile"] == "stig" and fam in ("rocky", "alma"):
+        body.append(f"""            <li>This image runs {e(OS_LONG[fam])} {e(major)}, not Red Hat Enterprise Linux. Red Hat does not
+                provide, support or endorse it.</li>
+""")
+    if c["profile"] == "stig" and major == "10":
+        body.append("""            <li>Scored with the SCAP Security Guide's RHEL 10 STIG profile.</li>
 """)
     if fam in ("rocky", "alma"):
         body.append(f"""            <li>{e(OS_LONG[fam])} is scored with the SCAP Security Guide content for Red Hat Enterprise Linux, so
@@ -310,6 +426,10 @@ def version_page(c: dict, row: dict) -> str:
         if fam == "ubuntu":
             body.append("""            <li>No Ubuntu Pro subscription is included. Ongoing ESM and FIPS updates require your own Ubuntu Pro
                 subscription.</li>
+""")
+    if fam == "ubuntu" and c["profile"] != "stig":
+        body.append("""            <li>No Ubuntu Pro subscription is included. Security fixes published only through Ubuntu Pro (ESM)
+                require your own Ubuntu Pro subscription.</li>
 """)
     if fam == "rhel":
         body.append("""            <li>Red Hat Enterprise Linux images are BYOL: you supply your own Red Hat subscription. StigReady does
@@ -351,14 +471,14 @@ def version_page(c: dict, row: dict) -> str:
         {cve_section(c)}
 
         <h2>SBOM</h2>
-        <p>{e(c['sbom']['format'])}, {c['sbom']['components']} components:
+        <p>{e(c['sbom']['format'])}, {e(c['sbom']['components'])} components:
         <a href="sbom.cdx.json.gz">sbom.cdx.json.gz</a> (gzip). Uncompressed, its SHA-256 is the one in the signed
         manifest: <code>{e(c['sbom']['sha256'].removeprefix('sha256:'))}</code>.</p>
 
         <h2>Signature</h2>
-        <p>The bundle's manifest lists a SHA-256 digest for each of its {c['signature']['manifest_files']} files and was
-        signed with cosign on {utc(c['signature']['signed_at'])}. When this page was generated the signature verified
-        and each file this page summarises matched its digest:</p>
+        <p>The bundle's manifest lists a SHA-256 digest for each of its {e(c['signature']['manifest_files'])} files and was
+        signed with cosign on {utc(c['signature']['signed_at'])}. When this summary was extracted on
+        {e(extracted[:10])}, the signature verified and each file this page summarises matched its digest:</p>
         <div class="tbl"><table><thead><tr><th>File in the bundle</th><th>SHA-256</th></tr></thead><tbody>
 """)
     for rel, dg in sorted(c["signed_digests"].items()):
@@ -408,10 +528,10 @@ def index_page(cells: list[dict], cat: dict, meta: dict) -> str:
         <p class="muted">The versions below are the ones the AWS Marketplace listings offered on
         {e(meta['extracted_at'][:10])}. Each page describes one version only.</p>
         <div class="tbl"><table><thead><tr><th>Image</th><th>Architecture</th><th>Profile</th><th>Version</th>
-        <th>OpenSCAP score</th><th>Evidence</th></tr></thead><tbody>
+        <th>OpenSCAP score</th><th>Scanned</th><th>Evidence</th></tr></thead><tbody>
 """)
     for c in sorted(cells, key=lambda c: (c["os_key"], c["profile"], c["arch"])):
-        out.append(f"""        <tr><td>{e(c['os'])}</td><td>{e(c['arch'])}</td><td>{e(PROFILE_NAME[c['profile']])}</td><td>v{e(c['version'])}</td><td>{c['scorecard']['score']:.1f}%</td><td><a href="/{page_rel(c)}">Summary</a> · <a href="/{product_rel(c)}">All versions</a></td></tr>
+        out.append(f"""        <tr><td>{e(c['os'])}</td><td>{e(c['arch'])}</td><td>{e(profile_label(c))}</td><td>v{e(c['version'])}</td><td>{c['scorecard']['score']:.1f}%</td><td>{utc(c['xccdf']['start_time'])[:10]}</td><td><a href="/{page_rel(c)}">Summary</a> · <a href="/{product_rel(c)}">All versions</a></td></tr>
 """)
     out.append("""        </tbody></table></div>
         <p class="muted mt-4">Scores measure each image against SCAP Security Guide content with OpenSCAP. They are not a
@@ -468,7 +588,7 @@ def main(argv=None) -> int:
             pages[a.out / cell / "index.html"] = product_page(versions, cat[k], doc).encode()
         for c in cells:
             d = a.out / c["cell"] / f"v{c['version']}"
-            pages[d / "index.html"] = version_page(c, cat[(c["os_key"], c["arch"], c["profile"])]).encode()
+            pages[d / "index.html"] = version_page(c, cat[(c["os_key"], c["arch"], c["profile"])], doc["extracted_at"]).encode()
             if c["profile"] != "stig" and b"FIPS" in pages[d / "index.html"]:
                 problems.append(f"{c['cell']} v{c['version']}: a non-STIG page mentions FIPS")
         for p, body in pages.items():
