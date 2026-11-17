@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2026 StigReady
 # SPDX-License-Identifier: MIT
-# The public evidence summary pages under applied/evidence/ (decision 0003: CINC asserts).
+# The public evidence summary pages under applied/evidence/.
 # - web-evidence-pages-match-input: every page is exactly what scripts/build-evidence-pages.py writes from
 #   config/applied-evidence.json and catalog.json (no hand edit, no stale page), each SBOM download is the signed SBOM,
 #   and every available Applied row of catalog.json has a page for the version it sells.
@@ -30,7 +30,15 @@ EV_MUTATED = lambda do |name, mutate, mutate_catalog = nil|
   mutate&.call(doc)
   path = File.join(EV_TMP, "#{name}.json")
   File.write(path, JSON.generate(doc))
-  args = ['--check', '--input', path, '--out', File.join(EV_TMP, "#{name}-out", 'applied', 'evidence')]
+  # An output directory holding only the SBOM downloads (the generator reads them for Go-binary packages), no pages, so
+  # a case can only pass on the problem it names.
+  out_dir = File.join(EV_TMP, "#{name}-out", 'applied', 'evidence')
+  Dir.glob(File.join(EV_ROOT, 'applied', 'evidence', '*', 'v*', 'sbom.cdx.json.gz')).each do |f|
+    to = File.join(out_dir, f.delete_prefix(File.join(EV_ROOT, 'applied', 'evidence', '')))
+    FileUtils.mkdir_p(File.dirname(to))
+    FileUtils.cp(f, to)
+  end
+  args = ['--check', '--input', path, '--out', out_dir]
   if mutate_catalog
     cat = JSON.parse(JSON.generate(EV_CATALOG))
     mutate_catalog.call(cat)
@@ -70,7 +78,7 @@ control 'web-evidence-pages-guard-fails' do
   impact 1.0
   title 'The evidence page generator refuses an input that would publish an untrue or internal page, for the right reason'
   desc 'Each case runs --check against an empty output directory and asserts the problem the guard must name, so a ' \
-       'case cannot pass on "pages differ" when its guard is gone (build-qa review of stigready-web#99, Q2).'
+       'case cannot pass on "pages differ" when its guard is gone.'
   first_cis = ->(d) { d['cells'].find { |c| c['profile'] != 'stig' } }
   first = ->(d) { d['cells'].first }
   rhel9 = ->(d) { d['cells'].find { |c| c['os_key'] == 'rhel-9' } }
@@ -101,7 +109,7 @@ control 'web-evidence-pages-guard-fails' do
     'an extract made without the live-listing check' =>
       [->(d) { d['live_listings_checked'] = false }, nil, /without the live-listing or signature check/],
     'a missing version' => [->(d) { d['cells'].shift }, nil, /available in catalog\.json but has no evidence record/],
-    # security review S1-S5
+    # numbers, cells, versions, listing URLs and Trivy results
     'zero OS-package findings on a release where zero was never reviewed' =>
       [->(d) { rhel9.call(d)['cve']['classes']['os-pkgs']['findings'] = 0 }, nil, /zero OS-package findings on rhel-9/],
     'a CVE scan with no OS-package result' =>
@@ -123,7 +131,12 @@ control 'web-evidence-pages-guard-fails' do
     'a catalog.json listing URL outside AWS Marketplace' =>
       [nil, ->(cat) { cat['products'].find { |p| p['line'] == 'stigapplied' }['marketplace_url'] = 'https://example.com/pp/x' },
        %r{marketplace_url is not under https://aws\.amazon\.com/marketplace/}],
-    # build-qa review Q1
+    'a Go-binary package in the SBOM but a lang-pkgs result that detected nothing' =>
+      [->(d) {
+        c = d['cells'].find { |x| x['cell'] == 'rhel-9-x86_64-stig' }
+        c['cve']['classes']['lang-pkgs'] = JSON.parse(JSON.generate(c['cve']['classes']['os-pkgs'])).merge('packages' => 0)
+      }, nil, /the SBOM lists amazon-ssm-agent but the lang-pkgs result detected no packages/],
+    # severity filter
     'a CVE scan with no recorded severity filter' =>
       [->(d) { first.call(d)['cve'].delete('severity_filter') }, nil, /severity filter is not recorded/],
     'a count for a severity the scan did not cover' =>
@@ -141,7 +154,7 @@ control 'web-evidence-pages-guard-fails' do
     end
   end
 
-  # Q3: a stray or stale SBOM in the output is reported by --check and removed by write mode. Each step gets a fresh
+  # A stray or stale SBOM in the output is reported by --check and removed by write mode. Each step gets a fresh
   # copy of the site, because a control file can be evaluated more than once.
   fresh = lambda do |name|
     root = File.join(EV_TMP, name)
@@ -184,7 +197,7 @@ end
 
 control 'web-evidence-pages-say-what-was-assessed' do
   impact 1.0
-  title 'Evidence pages name each STIG honestly and never print an OS CVE count Trivy could not assess (stigready-web#99)'
+  title 'Evidence pages name each STIG honestly and never print a CVE count Trivy could not assess'
   describe 'version pages found' do
     it { expect(EV_PAGES.size).to be >= 56 }
   end
@@ -206,11 +219,17 @@ control 'web-evidence-pages-say-what-was-assessed' do
       it('counts OS and language packages separately') { expect(body).to include('counted separately') }
       it('never says the counts are OS packages only') { expect(body).not_to include('in the installed OS packages') }
       it('shows commands as code, not literal backticks') { expect(body).not_to include('`') }
-      # build-qa Q1: the shipped scans ran with severity CRITICAL,HIGH,MEDIUM; no column for a severity never scanned.
+      # the shipped scans ran with severity CRITICAL,HIGH,MEDIUM; no column for a severity never scanned.
       it('shows no Low column') { expect(body).not_to include('<th>Low</th>') }
       it('says Low was not scanned for') { expect(body).to match(/Low( and Unrated)? severity CVEs were not scanned for and are not counted/) }
-      # build-qa Q4: an exemption with no STIG ID says so instead of a dash.
+      # an exemption with no STIG ID says so instead of a dash.
       it('never shows a bare dash for a STIG ID') { expect(body).not_to include('<td>—</td>') }
+      # A scan with no lang-pkgs result did not assess the Go binaries (amazon-ssm-agent is in every SBOM).
+      it('says language packages were not assessed when it shows no language counts') do
+        expect(body.include?('<h3>Language packages (Go binaries)</h3>') ||
+               body.include?('Go binaries): not assessed by this scan.')).to eq(true)
+      end
+      it('states no cause for an unassessed OS') { expect(body).not_to include('vulnerability data does not cover') }
     end
   end
   {
@@ -244,12 +263,16 @@ control 'web-evidence-pages-say-what-was-assessed' do
   end
   describe 'applied/evidence/index.html' do
     it('has a Scanned column') { expect(EV_INDEX).to include('<th>Scanned</th>') }
-    it('names Rocky and Alma STIGs as the RHEL STIG') { expect(EV_INDEX).to include('with DISA RHEL 9 STIG') }
+    it('names Rocky and Alma STIGs as the RHEL STIG, without a leading "with"') do
+      expect(EV_INDEX).to include('<td>DISA RHEL 9 STIG</td>')
+      expect(EV_INDEX).not_to include('<td>with ')
+    end
   end
   describe 'applied/index.html scoring and CVE wording' do
     it('does not call the STIG profile raw or unmodified') { expect(EV_APPLIED_INDEX).not_to match(/raw,? (unmodified )?SSG profile/) }
     it('says which STIGs carry a refined value') { expect(EV_APPLIED_INDEX.scan('one refined value').size).to eq(3) }
     it('does not limit the unassessed OS packages to RHEL 10') { expect(EV_APPLIED_INDEX).not_to include('except on RHEL 10)') }
     it('names Rocky Linux 10 and AlmaLinux 10 with RHEL 10') { expect(EV_APPLIED_INDEX.scan('RHEL 10, Rocky Linux 10 and AlmaLinux 10').size).to eq(4) }
+    it('says EL 10 OS packages are not fully assessed') { expect(EV_APPLIED_INDEX.scan('OS packages are not fully assessed on RHEL 10').size).to eq(3) }
   end
 end

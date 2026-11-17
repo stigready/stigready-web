@@ -50,7 +50,7 @@ CLASS_LABEL = {
     "owner-cloud-usability": "Cloud usability: you configure it after launch",
 }
 PROFILE_NAME = {"cis-l1": "CIS Benchmark Level 1", "cis-l2": "CIS Benchmark Level 2"}
-# The STIG name depends on the OS (marketing review of stigready-web#99, C1): DISA publishes STIGs for RHEL 8/9 and
+# The STIG name depends on the OS: DISA publishes STIGs for RHEL 8/9 and
 # Ubuntu 24.04; Rocky and AlmaLinux are scored with the RHEL STIG content; the RHEL 10 content is SSG's RHEL 10 STIG
 # profile. An os_key with no entry stops the build.
 STIG_NAME = {
@@ -60,14 +60,21 @@ STIG_NAME = {
     "rhel-10": "STIG", "rocky-10": "with RHEL 10 STIG",
 }
 OS_LONG = {"rhel": "Red Hat Enterprise Linux", "rocky": "Rocky Linux", "alma": "AlmaLinux", "ubuntu": "Ubuntu"}
-# Trivy does not assess the OS packages of these releases (stigready security policy, decision 0176): it detects the
-# packages and matches no advisory, so its OS count is withheld. Language packages (Go binaries) are still counted.
+# In the build's scan mode Trivy detects these releases' OS packages but matches no (or not all) advisories, and
+# whether it can assess them is not established, so the OS count is withheld or shown as a lower bound. Language
+# packages (Go binaries) are still counted.
 OS_NOT_ASSESSED = ("rhel-10", "rocky-10", "alma-10")
 # Releases where an OS-package count of zero has been reviewed and is published. Rocky Linux and AlmaLinux advisories
 # list only fixed CVEs, so a patched image reads zero. Anywhere else a zero stops the build (fail closed): it is more
 # likely a scanner that cannot see the OS than an image with no known CVEs.
 OS_ZERO_REVIEWED = ("rocky-8", "rocky-9", "alma-8", "alma-9")
 FIXED_ONLY_FAMILIES = ("rocky", "alma")
+# Packages that install Go binaries. Trivy reports their CVEs only in a lang-pkgs result; with no such result the page
+# says language packages were not assessed. A cell may leave that sentence out only once it is reviewed and listed here.
+GO_BINARY_PACKAGES = ("amazon-ssm-agent",)
+LANG_ABSENT_REVIEWED: tuple[str, ...] = ()
+LANG_NOT_ASSESSED = ("Language packages (such as the AWS Systems Manager agent's Go binaries): not assessed by this "
+                     "scan.")
 VERSION_RE = re.compile(r"^\d+\.\d+\.\d+$")
 LISTING_PREFIX = "https://aws.amazon.com/marketplace/"
 SEVERITIES = ("critical", "high", "medium", "low", "unknown")
@@ -240,7 +247,7 @@ def os_counts(c: dict) -> dict | None:
 
 
 def check_types(c: dict, where: str) -> bool:
-    """Every number a page prints must be a number of the right kind (security review S3)."""
+    """Every number a page prints must be a number of the right kind."""
     bad = []
     sc = c.get("scorecard") or {}
     if not (isinstance(sc.get("score"), (int, float)) and not isinstance(sc.get("score"), bool) and 0 <= sc["score"] <= 100):
@@ -369,12 +376,13 @@ def cve_section(c: dict) -> str:
     osc = v["classes"]["os-pkgs"]
     if c["os_key"] in OS_NOT_ASSESSED:
         if osc["findings"] == 0:
-            out.append(f"<p>Not assessed. Trivy detected the {osn} packages but its vulnerability data does not cover "
-                       f"{osn}, so it matched none, and that zero would not mean the image has no known CVEs.</p>\n")
+            out.append(f"<p>Not assessed. Trivy matched no OS-package advisories in this scan; whether it can assess "
+                       f"{osn} packages in this build's scan mode is not established, so the zero is not shown as a "
+                       "count.</p>\n")
         else:
-            out.append(f"<p>Not fully assessed. Trivy's vulnerability data for {osn} is incomplete. It matched the CVEs "
-                       "below, so they are present, but the image may have others it could not see. Read these as a "
-                       "lower bound.</p>\n" + count_table(osc, sevs, "CVEs found (at least)", fixed_label))
+            out.append(f"<p>Not fully assessed. Trivy matched the OS-package advisories below in this scan, so these "
+                       f"CVEs are present; whether it can assess all {osn} packages in this build's scan mode is not "
+                       "established, so read the counts as a lower bound.</p>\n" + count_table(osc, sevs, "CVEs found (at least)", fixed_label))
     else:
         out.append(count_table(osc, sevs, "CVEs found", fixed_label))
         if fam in FIXED_ONLY_FAMILIES:
@@ -387,6 +395,8 @@ def cve_section(c: dict) -> str:
                    f"<p>Go modules and the Go standard library compiled into binaries in the image, such as the AWS "
                    f"Systems Manager agent: {e(lang['packages'])} detected.</p>\n"
                    + count_table(lang, sevs, "CVEs found", fixed_label))
+    else:
+        out.append(f"<h3>Language packages</h3>\n<p>{e(LANG_NOT_ASSESSED)}</p>\n")
     out.append("<p class=\"muted\">The per-CVE list is in the full evidence bundle, on request.</p>")
     return "".join(out)
 
@@ -549,7 +559,7 @@ def index_page(cells: list[dict], cat: dict, meta: dict) -> str:
         <th>OpenSCAP score</th><th>Scanned</th><th>Evidence</th></tr></thead><tbody>
 """)
     for c in sorted(cells, key=lambda c: (c["os_key"], c["profile"], c["arch"])):
-        out.append(f"""        <tr><td>{e(c['os'])}</td><td>{e(c['arch'])}</td><td>{e(profile_label(c))}</td><td>v{e(c['version'])}</td><td>{c['scorecard']['score']:.1f}%</td><td>{utc(c['xccdf']['start_time'])[:10]}</td><td><a href="/{page_rel(c)}">Summary</a> · <a href="/{product_rel(c)}">All versions</a></td></tr>
+        out.append(f"""        <tr><td>{e(c['os'])}</td><td>{e(c['arch'])}</td><td>{e(profile_label(c).removeprefix('with '))}</td><td>v{e(c['version'])}</td><td>{c['scorecard']['score']:.1f}%</td><td>{utc(c['xccdf']['start_time'])[:10]}</td><td><a href="/{page_rel(c)}">Summary</a> · <a href="/{product_rel(c)}">All versions</a></td></tr>
 """)
     out.append("""        </tbody></table></div>
         <p class="muted mt-4">Scores measure each image against SCAP Security Guide content with OpenSCAP. They are not a
@@ -591,6 +601,21 @@ def main(argv=None) -> int:
     cells = doc.get("cells") or []
     for c in cells:
         check_record(c, cat)
+    for c in cells if not problems else []:
+        src = (a.sbom_dir / f"{c['cell']}-v{c['version']}.cdx.json") if a.sbom_dir else \
+            (a.out / c["cell"] / f"v{c['version']}" / "sbom.cdx.json.gz")
+        try:
+            raw = src.read_bytes()
+            sbom = json.loads(gzip.decompress(raw) if src.suffix == ".gz" else raw)
+        except (OSError, ValueError) as ex:
+            problems.append(f"{c['cell']} v{c['version']}: cannot read the SBOM to check for Go binaries: {ex}")
+            continue
+        names = {str(x.get("name")) for x in sbom.get("components") or []}
+        c["_go_packages"] = sorted(names & set(GO_BINARY_PACKAGES))
+        lang = c["cve"]["classes"].get("lang-pkgs")
+        if c["_go_packages"] and lang is not None and lang["packages"] == 0:
+            problems.append(f"{c['cell']} v{c['version']}: the SBOM lists {', '.join(c['_go_packages'])} but the "
+                            "lang-pkgs result detected no packages")
     have = {(c["os_key"], c["arch"], c["profile"]) for c in cells if "os_key" in c}
     for k, p in cat.items():
         if p.get("availability") == "available" and k not in have:
@@ -608,6 +633,10 @@ def main(argv=None) -> int:
         for c in cells:
             d = a.out / c["cell"] / f"v{c['version']}"
             pages[d / "index.html"] = version_page(c, cat[(c["os_key"], c["arch"], c["profile"])], doc["extracted_at"]).encode()
+            if (c.get("_go_packages") and "lang-pkgs" not in c["cve"]["classes"] and c["cell"] not in LANG_ABSENT_REVIEWED
+                    and e(LANG_NOT_ASSESSED).encode() not in pages[d / "index.html"]):
+                problems.append(f"{c['cell']} v{c['version']}: the SBOM lists {', '.join(c['_go_packages'])}, the scan "
+                                "has no lang-pkgs result, and the page does not say language packages were not assessed")
             if c["profile"] != "stig" and b"FIPS" in pages[d / "index.html"]:
                 problems.append(f"{c['cell']} v{c['version']}: a non-STIG page mentions FIPS")
         for p, body in pages.items():
