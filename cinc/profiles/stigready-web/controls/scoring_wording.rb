@@ -21,9 +21,9 @@ OLD_SW = [/raw,? (unmodified )?SSG profile/, /raw SSG profile/, 'unmodified for 
           # stigready/stigready#5904 (review/marketing on #5915, image-security on #5909): the CVE scan claim without the Go-binary
           # scope. 46 of the 56 versions live on 2026-11-17 have no Go-binary result; their SSM agent carries fixable HIGH Go CVEs.
           'AlmaLinux 10, OS packages not assessed)']
-CVE_SW = 'CVE scan (except RHEL 10; on Rocky Linux 10 and AlmaLinux 10, OS packages not assessed; on most current versions, ' \
+CVE_SW = 'CVE scan (except RHEL 10; on Rocky Linux 10 and AlmaLinux 10, OS packages not assessed; on most listed versions, ' \
          "language packages such as the AWS Systems Manager agent's Go binaries not assessed)"
-# "most current versions" is true while more than half of the evidence records (config/applied-evidence.json, one per live
+# "most listed versions" is true while more than half of the evidence records (config/applied-evidence.json, one per live
 # version) have no Go-binary (lang-pkgs) result. When that stops being true the control fails and the clause must be redone.
 EV_CELLS_SW = JSON.parse(File.read(File.join(ROOT_SW, 'config', 'applied-evidence.json')))['cells']
 
@@ -72,8 +72,10 @@ control 'web-scoring-wording-01' do
     end
   end
   describe 'the Go-binary clause matches the live evidence (#5904)' do
-    unscanned = EV_CELLS_SW.count { |c| !(c.dig('cve', 'classes') || {}).key?('lang-pkgs') }
-    it("most current versions have no Go-binary result (#{unscanned} of #{EV_CELLS_SW.size})") do
+    # #6047 review H1: a RHEL 10 record scanned before 2026-10-31 has a lang-pkgs result but no CVE matching ran (stigready#6049)
+    deferred = ->(c) { c['os_key'] == 'rhel-10' && c.dig('cve', 'created_at').to_s[0, 10] < '2026-10-31' }
+    unscanned = EV_CELLS_SW.count { |c| !(c.dig('cve', 'classes') || {}).key?('lang-pkgs') || deferred.call(c) }
+    it("most listed versions had no Go-binary assessment (#{unscanned} of #{EV_CELLS_SW.size})") do
       expect(EV_CELLS_SW.size).to be >= 1
       expect(unscanned * 2).to be > EV_CELLS_SW.size
     end
