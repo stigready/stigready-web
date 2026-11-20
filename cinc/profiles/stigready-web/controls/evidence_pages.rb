@@ -9,6 +9,7 @@ require 'fileutils'
 require 'json'
 require 'open3'
 require 'tmpdir'
+require 'zlib'
 
 EV_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..', '..'))
 EV_GEN = File.join(EV_ROOT, 'scripts', 'build-evidence-pages.py')
@@ -54,6 +55,15 @@ EV_PAGES = Dir.glob(File.join(EV_ROOT, 'applied', 'evidence', '*', 'v*', 'index.
 end
 EV_APPLIED_INDEX = File.read(File.join(EV_ROOT, 'applied', 'index.html'))
 EV_INDEX = File.read(File.join(EV_ROOT, 'applied', 'evidence', 'index.html'))
+# The evidence-bundle CVE claim, as scoring_wording.rb CVE_SW states it (controls load in name order, so not shared).
+EV_CVE_SW = 'CVE scan (except RHEL 10; on Rocky Linux 10 and AlmaLinux 10, OS packages not assessed; on most listed versions, ' \
+            "language packages such as the AWS Systems Manager agent's Go binaries not assessed)"
+# stigready#6049 / #6047 review H1: records whose CVE matching did not run (genuine RHEL 10 under the scan's gate deferral,
+# until Grype took over its OS packages on 2026-10-31; build-evidence-pages.py CVE_MATCHING_DEFERRED). Their pages must show
+# no CVE count at all, Go binaries included.
+EV_DEFERRED_UNTIL = { 'rhel-10' => '2026-10-31' }.freeze
+EV_RECORD_OF = EV_DOC['cells'].to_h { |c| ["applied/evidence/#{c['cell']}/v#{c['version']}/index.html", c] }
+EV_DEFERRED = ->(c) { (u = EV_DEFERRED_UNTIL[c['os_key']]) && c.dig('cve', 'created_at').to_s[0, 10] < u }
 EV_PAGES_OF = ->(re) { EV_PAGES.select { |rel, _| rel.match?(re) } }
 
 control 'web-evidence-pages-match-input' do
@@ -136,6 +146,9 @@ control 'web-evidence-pages-guard-fails' do
         c = d['cells'].find { |x| x['cell'] == 'rhel-9-x86_64-stig' }
         c['cve']['classes']['lang-pkgs'] = JSON.parse(JSON.generate(c['cve']['classes']['os-pkgs'])).merge('packages' => 0)
       }, nil, /the SBOM lists amazon-ssm-agent but the lang-pkgs result detected no packages/],
+    'a RHEL 10 scan dated after its CVE matching stopped being deferred' =>
+      [->(d) { d['cells'].find { |x| x['os_key'] == 'rhel-10' }['cve']['created_at'] = '2026-11-18T01:00:00Z' }, nil,
+       /a rhel-10 scan dated 2026-11-18, on or after 2026-10-31.*review what it assessed/],
     # severity filter
     'a CVE scan with no recorded severity filter' =>
       [->(d) { first.call(d)['cve'].delete('severity_filter') }, nil, /severity filter is not recorded/],
@@ -216,12 +229,13 @@ control 'web-evidence-pages-say-what-was-assessed' do
   end
   EV_PAGES.each do |rel, body|
     describe "#{rel} CVE wording" do
-      it('counts OS and language packages separately') { expect(body).to include('counted separately') }
+      deferred = EV_DEFERRED.call(EV_RECORD_OF.fetch(rel, {}))
+      it('counts OS and language packages separately') { expect(body).to include('counted separately') } unless deferred
       it('never says the counts are OS packages only') { expect(body).not_to include('in the installed OS packages') }
       it('shows commands as code, not literal backticks') { expect(body).not_to include('`') }
       # the shipped scans ran with severity CRITICAL,HIGH,MEDIUM; no column for a severity never scanned.
       it('shows no Low column') { expect(body).not_to include('<th>Low</th>') }
-      it('says Low was not scanned for') { expect(body).to match(/Low( and Unrated)? severity CVEs were not scanned for and are not counted/) }
+      it('says Low was not scanned for') { expect(body).to match(/Low( and Unrated)? severity CVEs were not scanned for and are not counted/) } unless deferred
       # an exemption with no STIG ID says so instead of a dash.
       it('never shows a bare dash for a STIG ID') { expect(body).not_to include('<td>—</td>') }
       # A scan with no lang-pkgs result did not assess the Go binaries (amazon-ssm-agent is in every SBOM).
@@ -230,6 +244,35 @@ control 'web-evidence-pages-say-what-was-assessed' do
                body.include?('Go binaries): not assessed by this scan.')).to eq(true)
       end
       it('states no cause for an unassessed OS') { expect(body).not_to include('vulnerability data does not cover') }
+    end
+  end
+  # stigready-web#99 review (image-security, deferred to the scan-gap issue): a page whose scan counted Go binaries but whose signed SBOM
+  # omits amazon-ssm-agent says so, or a CVE tool fed that SBOM misses the agent's CVEs. Read from the SBOM download itself.
+  EV_PAGES.each do |rel, body|
+    sbom = File.join(EV_ROOT, File.dirname(rel), 'sbom.cdx.json.gz')
+    next unless File.file?(sbom)
+    names = JSON.parse(Zlib::GzipReader.open(sbom, &:read))['components'].to_a.map { |x| x['name'] }
+    rec = EV_RECORD_OF.fetch(rel)
+    want = rec.dig('cve', 'classes').key?('lang-pkgs') && !names.include?('amazon-ssm-agent')
+    describe "#{rel} SBOM note" do
+      it("#{want ? 'says' : 'does not say'} the SBOM omits amazon-ssm-agent") do
+        expect(body.include?('This SBOM does not list the amazon-ssm-agent package')).to eq(want)
+      end
+      # a deferred record counted nothing, so its note must not point at counts "under CVE scan above" (#6047 H1)
+      it('claims no Go counts it does not show') { expect(body).not_to include('counted under CVE scan above') } if EV_DEFERRED.call(rec)
+    end
+  end
+  # stigready#6049 (#6047 review H1): a record whose CVE matching did not run shows no CVE table, Go binaries included.
+  deferred_pages = EV_PAGES.select { |rel, _| EV_DEFERRED.call(EV_RECORD_OF.fetch(rel, {})) }
+  describe 'deferred-scan records found' do
+    it('covers the 6 live RHEL 10 versions') { expect(deferred_pages.size).to eq(6) }
+  end
+  deferred_pages.each do |rel, body|
+    describe "#{rel} (CVE matching deferred)" do
+      it('shows no CVE count table') { expect(body).not_to include('<td>CVEs found') }
+      it('shows no Go-binary counts') { expect(body).not_to include('<h3>Language packages (Go binaries)</h3>') }
+      it('says CVE matching was not run') { expect(body).to include('CVE matching was not run') }
+      it('says the Go binaries were not assessed') { expect(body).to include('Go binaries): not assessed by this scan.') }
     end
   end
   {
@@ -273,9 +316,11 @@ control 'web-evidence-pages-say-what-was-assessed' do
     it('says which STIGs carry a refined value') { expect(EV_APPLIED_INDEX.scan('one refined value').size).to eq(3) }
     it('does not limit the unassessed OS packages to RHEL 10') { expect(EV_APPLIED_INDEX).not_to include('except on RHEL 10)') }
     # stigready/stigready#5909 legal W1: the listings' words. RHEL 10 has no CVE scan (0092); Rocky and AlmaLinux 10 OS packages
-    # are not assessed (0176). Line "CVE counts (OS packages except on RHEL 10, Rocky Linux 10 and AlmaLinux 10)" describes the pages.
-    it('names Rocky Linux 10 and AlmaLinux 10 with RHEL 10 where it lists page contents') { expect(EV_APPLIED_INDEX.scan('RHEL 10, Rocky Linux 10 and AlmaLinux 10').size).to eq(1) }
-    it('states the CVE scan scope in the listings\' words, 3 times') { expect(EV_APPLIED_INDEX.scan('a CVE scan (except RHEL 10; on Rocky Linux 10 and AlmaLinux 10, OS packages not assessed)').size).to eq(3) }
+    # are not assessed (0176). The "CVE counts (...)" line describes the pages.
+    # #6047 review H1: RHEL 10 pages show no CVE counts at all (stigready#6049), so the line says "none for RHEL 10".
+    it('says the RHEL 10 pages show no CVE counts where it lists page contents') { expect(EV_APPLIED_INDEX.scan('CVE counts (none for RHEL 10; OS packages except on Rocky Linux 10 and AlmaLinux 10;').size).to eq(1) }
+    it('states the CVE scan scope, with the Go-binary clause (#5904), 3 times') { expect(EV_APPLIED_INDEX.scan(EV_CVE_SW).size).to eq(3) }
+    it('says the evidence pages show Go-binary counts only where assessed') { expect(EV_APPLIED_INDEX).to include("the AWS Systems Manager agent's Go binaries only where they were assessed)") }
     it('no longer says "not fully assessed"') { expect(EV_APPLIED_INDEX).not_to include('not fully assessed') }
   end
 end

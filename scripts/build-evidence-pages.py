@@ -64,6 +64,13 @@ OS_LONG = {"rhel": "Red Hat Enterprise Linux", "rocky": "Rocky Linux", "alma": "
 # whether it can assess them is not established, so the OS count is withheld or shown as a lower bound. Language
 # packages (Go binaries) are still counted.
 OS_NOT_ASSESSED = ("rhel-10", "rocky-10", "alma-10")
+# Releases whose CVE matching did not run in the build: genuine RHEL 10 shipped under the scan's gate deferral until Grype
+# took over its OS packages (2026-10-31). Under the deferral Trivy still lists the SSM agent's Go binaries as targets with
+# 0 findings, but matched nothing (the same binaries read 4 fixable High on Rocky Linux and AlmaLinux 10), so neither
+# the OS packages nor the Go binaries were assessed. The extract does not carry the deferral record, so this keys on the
+# release and the scan date; a record of one of these releases scanned on or after the end date stops the build until
+# it is reviewed (fail closed).
+CVE_MATCHING_DEFERRED = {"rhel-10": "2026-10-31"}
 # Releases where an OS-package count of zero has been reviewed and is published. Rocky Linux and AlmaLinux advisories
 # list only fixed CVEs, so a patched image reads zero. Anywhere else a zero stops the build (fail closed): it is more
 # likely a scanner that cannot see the OS than an image with no known CVEs.
@@ -75,6 +82,16 @@ GO_BINARY_PACKAGES = ("amazon-ssm-agent",)
 LANG_ABSENT_REVIEWED: tuple[str, ...] = ()
 LANG_NOT_ASSESSED = ("Language packages (such as the AWS Systems Manager agent's Go binaries): not assessed by this "
                      "scan.")
+OS_MATCHING_DEFERRED = "Not assessed. CVE matching was not run on {osn} packages in this build's scan."
+# stigready-web#99 review (image-security, deferred to the scan-gap issue): an SBOM can omit amazon-ssm-agent although
+# the agent is installed and its Go binaries were scanned (security/policy.yml shipped_watch.required_sbom_packages). The
+# signed SBOM cannot be edited, so the page says so: a CVE tool fed that SBOM alone misses the agent's CVEs.
+SBOM_OMITS_AGENT = ("This SBOM does not list the amazon-ssm-agent package, although the AWS Systems Manager agent is "
+                    "installed in the image: its Go binaries are among the language packages counted under CVE scan "
+                    "above. A CVE tool that reads only this SBOM will not report the agent's CVEs.")
+SBOM_OMITS_AGENT_UNASSESSED = ("This SBOM does not list the amazon-ssm-agent package, although the AWS Systems Manager "
+                               "agent is installed in the image. A CVE tool that reads only this SBOM will not report the "
+                               "agent's CVEs.")
 VERSION_RE = re.compile(r"^\d+\.\d+\.\d+$")
 LISTING_PREFIX = "https://aws.amazon.com/marketplace/"
 SEVERITIES = ("critical", "high", "medium", "low", "unknown")
@@ -267,6 +284,12 @@ def check_types(c: dict, where: str) -> bool:
     return not bad
 
 
+def matching_deferred(c: dict) -> bool:
+    """The record's CVE matching did not run (CVE_MATCHING_DEFERRED): its OS and language counts are not assessments."""
+    end = CVE_MATCHING_DEFERRED.get(c.get("os_key"))
+    return bool(end) and str((c.get("cve") or {}).get("created_at", ""))[:10] < end
+
+
 def check_record(c: dict, cat: dict) -> None:
     where = f"{c.get('cell')} v{c.get('version')}"
     for p in c.get("problems") or []:
@@ -307,6 +330,10 @@ def check_record(c: dict, cat: dict) -> None:
     for x in c["exemptions"]:
         if x["class"] not in CLASS_LABEL:
             problems.append(f"{where}: exemption class {x['class']!r} has no public label")
+    end = CVE_MATCHING_DEFERRED.get(c["os_key"])
+    if end and not matching_deferred(c):
+        problems.append(f"{where}: a {c['os_key']} scan dated {str(c['cve'].get('created_at'))[:10]}, on or after "
+                        f"{end}, when its CVE matching stopped being deferred; review what it assessed before publishing")
     osc = os_counts(c)
     if osc is None:
         problems.append(f"{where}: the CVE scan has no OS-package result")
@@ -374,6 +401,12 @@ def cve_section(c: dict) -> str:
            + ". Counts are distinct CVE identifiers at that date; CVEs published later are not counted. OS packages "
            "and language packages are counted separately.</p>\n<h3>OS packages</h3>\n"]
     osc = v["classes"]["os-pkgs"]
+    if matching_deferred(c):
+        return (f"<p>Trivy {e(v['scanner_version'])} ran in the image build on {utc(v['created_at'])}, but CVE matching was "
+                f"not run on {osn}, so this page shows no CVE counts.</p>\n<h3>OS packages</h3>\n"
+                f"<p>{e(OS_MATCHING_DEFERRED.format(osn=os_long(c['os_key'])))}</p>\n"
+                f"<h3>Language packages</h3>\n<p>{e(LANG_NOT_ASSESSED)}</p>\n"
+                "<p class=\"muted\">The scan's report is in the full evidence bundle, on request.</p>")
     if c["os_key"] in OS_NOT_ASSESSED:
         if osc["findings"] == 0:
             out.append(f"<p>Not assessed. Trivy matched no OS-package advisories in this scan; whether it can assess "
@@ -399,6 +432,17 @@ def cve_section(c: dict) -> str:
         out.append(f"<h3>Language packages</h3>\n<p>{e(LANG_NOT_ASSESSED)}</p>\n")
     out.append("<p class=\"muted\">The per-CVE list is in the full evidence bundle, on request.</p>")
     return "".join(out)
+
+
+def sbom_omits_agent(c: dict) -> bool:
+    """The scan has a Go-binary (lang-pkgs) result but the SBOM lists no Go-binary package (stigready-web#99)."""
+    return "lang-pkgs" in c["cve"]["classes"] and not c.get("_go_packages")
+
+
+def sbom_note(c: dict) -> str:
+    if not sbom_omits_agent(c):
+        return ""
+    return f'\n        <p class="muted">{e(SBOM_OMITS_AGENT_UNASSESSED if matching_deferred(c) else SBOM_OMITS_AGENT)}</p>'
 
 
 def version_page(c: dict, row: dict, extracted: str) -> str:
@@ -501,7 +545,7 @@ def version_page(c: dict, row: dict, extracted: str) -> str:
         <h2>SBOM</h2>
         <p>{e(c['sbom']['format'])}, {e(c['sbom']['components'])} components:
         <a href="sbom.cdx.json.gz">sbom.cdx.json.gz</a> (gzip). Uncompressed, its SHA-256 is the one in the signed
-        manifest: <code>{e(c['sbom']['sha256'].removeprefix('sha256:'))}</code>.</p>
+        manifest: <code>{e(c['sbom']['sha256'].removeprefix('sha256:'))}</code>.</p>{sbom_note(c)}
 
         <h2>Signature</h2>
         <p>The bundle's manifest lists a SHA-256 digest for each of its {e(c['signature']['manifest_files'])} files and was
@@ -637,6 +681,12 @@ def main(argv=None) -> int:
                     and e(LANG_NOT_ASSESSED).encode() not in pages[d / "index.html"]):
                 problems.append(f"{c['cell']} v{c['version']}: the SBOM lists {', '.join(c['_go_packages'])}, the scan "
                                 "has no lang-pkgs result, and the page does not say language packages were not assessed")
+            if matching_deferred(c) and b"<h3>Language packages (Go binaries)</h3>" in pages[d / "index.html"]:
+                problems.append(f"{c['cell']} v{c['version']}: CVE matching was deferred but the page shows Go-binary counts")
+            if sbom_omits_agent(c) and e(SBOM_OMITS_AGENT_UNASSESSED if matching_deferred(c) else SBOM_OMITS_AGENT).encode() \
+                    not in pages[d / "index.html"]:
+                problems.append(f"{c['cell']} v{c['version']}: the scan has a Go-binary result, the SBOM lists none of "
+                                f"{', '.join(GO_BINARY_PACKAGES)}, and the page does not say so")
             if c["profile"] != "stig" and b"FIPS" in pages[d / "index.html"]:
                 problems.append(f"{c['cell']} v{c['version']}: a non-STIG page mentions FIPS")
         for p, body in pages.items():
