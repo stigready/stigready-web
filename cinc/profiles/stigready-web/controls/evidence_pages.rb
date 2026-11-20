@@ -9,6 +9,7 @@ require 'fileutils'
 require 'json'
 require 'open3'
 require 'tmpdir'
+require 'zlib'
 
 EV_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..', '..'))
 EV_GEN = File.join(EV_ROOT, 'scripts', 'build-evidence-pages.py')
@@ -54,6 +55,9 @@ EV_PAGES = Dir.glob(File.join(EV_ROOT, 'applied', 'evidence', '*', 'v*', 'index.
 end
 EV_APPLIED_INDEX = File.read(File.join(EV_ROOT, 'applied', 'index.html'))
 EV_INDEX = File.read(File.join(EV_ROOT, 'applied', 'evidence', 'index.html'))
+# The evidence-bundle CVE claim, as scoring_wording.rb CVE_SW states it (controls load in name order, so not shared).
+EV_CVE_SW = 'CVE scan (except RHEL 10; on Rocky Linux 10 and AlmaLinux 10, OS packages not assessed; on most current versions, ' \
+            "language packages such as the AWS Systems Manager agent's Go binaries not assessed)"
 EV_PAGES_OF = ->(re) { EV_PAGES.select { |rel, _| rel.match?(re) } }
 
 control 'web-evidence-pages-match-input' do
@@ -232,6 +236,19 @@ control 'web-evidence-pages-say-what-was-assessed' do
       it('states no cause for an unassessed OS') { expect(body).not_to include('vulnerability data does not cover') }
     end
   end
+  # stigready-web#99 review (image-security, deferred to the scan-gap issue): a page whose scan counted Go binaries but whose signed SBOM
+  # omits amazon-ssm-agent says so, or a CVE tool fed that SBOM misses the agent's CVEs. Read from the SBOM download itself.
+  EV_PAGES.each do |rel, body|
+    sbom = File.join(EV_ROOT, File.dirname(rel), 'sbom.cdx.json.gz')
+    next unless File.file?(sbom)
+    names = JSON.parse(Zlib::GzipReader.open(sbom, &:read))['components'].to_a.map { |x| x['name'] }
+    want = body.include?('<h3>Language packages (Go binaries)</h3>') && !names.include?('amazon-ssm-agent')
+    describe "#{rel} SBOM note" do
+      it("#{want ? 'says' : 'does not say'} the SBOM omits amazon-ssm-agent") do
+        expect(body.include?('This SBOM does not list the amazon-ssm-agent package')).to eq(want)
+      end
+    end
+  end
   {
     %r{/(rocky|alma)-8-[^/]+-stig/} => 'with DISA RHEL 8 STIG',
     %r{/(rocky|alma)-9-[^/]+-stig/} => 'with DISA RHEL 9 STIG',
@@ -275,7 +292,8 @@ control 'web-evidence-pages-say-what-was-assessed' do
     # stigready/stigready#5909 legal W1: the listings' words. RHEL 10 has no CVE scan (0092); Rocky and AlmaLinux 10 OS packages
     # are not assessed (0176). Line "CVE counts (OS packages except on RHEL 10, Rocky Linux 10 and AlmaLinux 10)" describes the pages.
     it('names Rocky Linux 10 and AlmaLinux 10 with RHEL 10 where it lists page contents') { expect(EV_APPLIED_INDEX.scan('RHEL 10, Rocky Linux 10 and AlmaLinux 10').size).to eq(1) }
-    it('states the CVE scan scope in the listings\' words, 3 times') { expect(EV_APPLIED_INDEX.scan('a CVE scan (except RHEL 10; on Rocky Linux 10 and AlmaLinux 10, OS packages not assessed)').size).to eq(3) }
+    it('states the CVE scan scope, with the Go-binary clause (#5904), 3 times') { expect(EV_APPLIED_INDEX.scan(EV_CVE_SW).size).to eq(3) }
+    it('says the evidence pages show Go-binary counts only where assessed') { expect(EV_APPLIED_INDEX).to include("the AWS Systems Manager agent's Go binaries where they were assessed") }
     it('no longer says "not fully assessed"') { expect(EV_APPLIED_INDEX).not_to include('not fully assessed') }
   end
 end

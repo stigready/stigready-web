@@ -17,8 +17,15 @@ OLD_SW = [/raw,? (unmodified )?SSG profile/, /raw SSG profile/, 'unmodified for 
           # #5909 legal W1: the listings' CVE words (0092: no RHEL 10 scan; 0176: Rocky/Alma 10 OS packages not assessed)
           'OS packages are not fully assessed on RHEL 10', 'CVE scan (not RHEL 10)', 'except RHEL 10 has a CVE scan',
           # #5909 legal W2: the product class is "STIG", not "DISA STIG" (Rocky, Alma and RHEL 10 STIGs are not DISA's)
-          /\bor DISA STIG remediat/, 'Full DISA STIG or CIS']
-CVE_SW = 'CVE scan (except RHEL 10; on Rocky Linux 10 and AlmaLinux 10, OS packages not assessed)'
+          /\bor DISA STIG remediat/, 'Full DISA STIG or CIS',
+          # stigready/stigready#5904 (review/marketing on #5915, image-security on #5909): the CVE scan claim without the Go-binary
+          # scope. 46 of the 56 versions live on 2026-11-17 have no Go-binary result; their SSM agent carries fixable HIGH Go CVEs.
+          'AlmaLinux 10, OS packages not assessed)']
+CVE_SW = 'CVE scan (except RHEL 10; on Rocky Linux 10 and AlmaLinux 10, OS packages not assessed; on most current versions, ' \
+         "language packages such as the AWS Systems Manager agent's Go binaries not assessed)"
+# "most current versions" is true while more than half of the evidence records (config/applied-evidence.json, one per live
+# version) have no Go-binary (lang-pkgs) result. When that stops being true the control fails and the clause must be redone.
+EV_CELLS_SW = JSON.parse(File.read(File.join(ROOT_SW, 'config', 'applied-evidence.json')))['cells']
 
 control 'web-scoring-wording-01' do
   impact 1.0
@@ -55,6 +62,21 @@ control 'web-scoring-wording-01' do
   describe 'CVE scan scope in the listings\' words (#5909 W1)' do
     it('/applied/ states it 3 times') { expect(PAGES_SW['applied/index.html'].scan(CVE_SW).size).to eq(3) }
     it('the home page states it 4 times (JSON-LD, Evidence card, pricing bullet, FAQ)') { expect(PAGES_SW['index.html'].scan(CVE_SW).size).to eq(4) }
+    %w[blog/base-vs-applied.html blog/openscap-evidence-bundles.html blog/graviton-arm64-hardened-amis.html].each do |rel|
+      it("#{rel} states it once") { expect(PAGES_SW.fetch(rel).scan(CVE_SW).size).to eq(1) }
+    end
+    PAGES_SW.each do |rel, body|
+      it("#{rel} never names the evidence-bundle CVE scan without the Go-binary scope") do
+        expect(body.scan(/CVE scan \(except RHEL 10/).size).to eq(body.scan(CVE_SW).size)
+      end
+    end
+  end
+  describe 'the Go-binary clause matches the live evidence (#5904)' do
+    unscanned = EV_CELLS_SW.count { |c| !(c.dig('cve', 'classes') || {}).key?('lang-pkgs') }
+    it("most current versions have no Go-binary result (#{unscanned} of #{EV_CELLS_SW.size})") do
+      expect(EV_CELLS_SW.size).to be >= 1
+      expect(unscanned * 2).to be > EV_CELLS_SW.size
+    end
   end
   describe 'catalog.json STIG names' do
     rows = JSON.parse(File.read(File.join(ROOT_SW, 'catalog.json')))['products'].select { |p| p['profile'] == 'stig' }

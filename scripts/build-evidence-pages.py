@@ -75,6 +75,12 @@ GO_BINARY_PACKAGES = ("amazon-ssm-agent",)
 LANG_ABSENT_REVIEWED: tuple[str, ...] = ()
 LANG_NOT_ASSESSED = ("Language packages (such as the AWS Systems Manager agent's Go binaries): not assessed by this "
                      "scan.")
+# stigready-web#99 review (image-security, deferred to the scan-gap issue): an SBOM can omit amazon-ssm-agent although
+# the agent is installed and its Go binaries were scanned (security/policy.yml shipped_watch.required_sbom_packages). The
+# signed SBOM cannot be edited, so the page says so: a CVE tool fed that SBOM alone misses the agent's CVEs.
+SBOM_OMITS_AGENT = ("This SBOM does not list the amazon-ssm-agent package, although the AWS Systems Manager agent is "
+                    "installed in the image: its Go binaries are among the language packages counted under CVE scan "
+                    "above. A CVE tool that reads only this SBOM will not report the agent's CVEs.")
 VERSION_RE = re.compile(r"^\d+\.\d+\.\d+$")
 LISTING_PREFIX = "https://aws.amazon.com/marketplace/"
 SEVERITIES = ("critical", "high", "medium", "low", "unknown")
@@ -401,6 +407,15 @@ def cve_section(c: dict) -> str:
     return "".join(out)
 
 
+def sbom_omits_agent(c: dict) -> bool:
+    """The scan has a Go-binary (lang-pkgs) result but the SBOM lists no Go-binary package (stigready-web#99)."""
+    return "lang-pkgs" in c["cve"]["classes"] and not c.get("_go_packages")
+
+
+def sbom_note(c: dict) -> str:
+    return f'\n        <p class="muted">{e(SBOM_OMITS_AGENT)}</p>' if sbom_omits_agent(c) else ""
+
+
 def version_page(c: dict, row: dict, extracted: str) -> str:
     sc, x, name = c["scorecard"], c["xccdf"], product_name(c)
     prof = c["ssg_profile"]
@@ -501,7 +516,7 @@ def version_page(c: dict, row: dict, extracted: str) -> str:
         <h2>SBOM</h2>
         <p>{e(c['sbom']['format'])}, {e(c['sbom']['components'])} components:
         <a href="sbom.cdx.json.gz">sbom.cdx.json.gz</a> (gzip). Uncompressed, its SHA-256 is the one in the signed
-        manifest: <code>{e(c['sbom']['sha256'].removeprefix('sha256:'))}</code>.</p>
+        manifest: <code>{e(c['sbom']['sha256'].removeprefix('sha256:'))}</code>.</p>{sbom_note(c)}
 
         <h2>Signature</h2>
         <p>The bundle's manifest lists a SHA-256 digest for each of its {e(c['signature']['manifest_files'])} files and was
@@ -637,6 +652,9 @@ def main(argv=None) -> int:
                     and e(LANG_NOT_ASSESSED).encode() not in pages[d / "index.html"]):
                 problems.append(f"{c['cell']} v{c['version']}: the SBOM lists {', '.join(c['_go_packages'])}, the scan "
                                 "has no lang-pkgs result, and the page does not say language packages were not assessed")
+            if sbom_omits_agent(c) and e(SBOM_OMITS_AGENT).encode() not in pages[d / "index.html"]:
+                problems.append(f"{c['cell']} v{c['version']}: the scan has a Go-binary result, the SBOM lists none of "
+                                f"{', '.join(GO_BINARY_PACKAGES)}, and the page does not say so")
             if c["profile"] != "stig" and b"FIPS" in pages[d / "index.html"]:
                 problems.append(f"{c['cell']} v{c['version']}: a non-STIG page mentions FIPS")
         for p, body in pages.items():

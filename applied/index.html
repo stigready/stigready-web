@@ -69,7 +69,7 @@
               "name": "What OpenSCAP evidence is included?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "OpenSCAP ARF, HTML report, POA&M, SBOM, and a CVE scan (except RHEL 10; on Rocky Linux 10 and AlmaLinux 10, OS packages not assessed) for every Applied image, available from support@stigready.com on request. Scores are measured in-build against the SSG profile. Unmodified for CIS on RHEL and Ubuntu, and for Ubuntu STIG. Rocky Linux and AlmaLinux scans use the SSG RHEL datastream with an applicability-only change. RHEL, Rocky Linux and AlmaLinux STIG scans set one refined value (the image's own local accounts), shown on each evidence page. Not affiliated with or endorsed by DISA or DoD; not certified, authorized, or accredited."
+                "text": "OpenSCAP ARF, HTML report, POA&M, SBOM, and a CVE scan (except RHEL 10; on Rocky Linux 10 and AlmaLinux 10, OS packages not assessed; on most current versions, language packages such as the AWS Systems Manager agent's Go binaries not assessed) for every Applied image, available from support@stigready.com on request. Scores are measured in-build against the SSG profile. Unmodified for CIS on RHEL and Ubuntu, and for Ubuntu STIG. Rocky Linux and AlmaLinux scans use the SSG RHEL datastream with an applicability-only change. RHEL, Rocky Linux and AlmaLinux STIG scans set one refined value (the image's own local accounts), shown on each evidence page. Not affiliated with or endorsed by DISA or DoD; not certified, authorized, or accredited."
               }
             },
             {
@@ -125,8 +125,8 @@
                 asks for, published with every image.
             </p>
             <p class="text-gray-400 mb-10 max-w-2xl mx-auto text-sm">
-                Evidence for every image (OpenSCAP ARF, HTML report, POA&amp;M, SBOM, and a CVE scan (except RHEL 10; on Rocky Linux 10 and AlmaLinux 10, OS packages not assessed)) is available from support@stigready.com on request.
-                Each version also has a public <a href="/applied/evidence/" class="text-yellow-500 hover:underline">evidence summary</a>: score and rule counts, exemptions with reasons, CVE counts (OS packages except on RHEL 10, Rocky Linux 10 and AlmaLinux 10), SBOM and signed digests.
+                Evidence for every image (OpenSCAP ARF, HTML report, POA&amp;M, SBOM, and a CVE scan (except RHEL 10; on Rocky Linux 10 and AlmaLinux 10, OS packages not assessed; on most current versions, language packages such as the AWS Systems Manager agent's Go binaries not assessed)) is available from support@stigready.com on request.
+                Each version also has a public <a href="/applied/evidence/" class="text-yellow-500 hover:underline">evidence summary</a>: score and rule counts, exemptions with reasons, CVE counts (OS packages except on RHEL 10, Rocky Linux 10 and AlmaLinux 10; the AWS Systems Manager agent's Go binaries where they were assessed), SBOM and signed digests.
                 FIPS mode enabled on STIG images using the OS vendor's FIPS cryptographic modules.
                 Software fee: <strong class="text-white">$0.08/hr</strong> or <strong class="text-white">$649/yr</strong> per instance.
             </p>
@@ -171,7 +171,7 @@
                 </div>
                 <div>
                     <dt class="font-semibold text-white mb-2">What OpenSCAP evidence is included?</dt>
-                    <dd class="text-gray-400 text-sm">ARF, HTML report, POA&amp;M, SBOM, and a CVE scan (except RHEL 10; on Rocky Linux 10 and AlmaLinux 10, OS packages not assessed), available from support@stigready.com on request — scored in-build against the SSG profile. Unmodified for CIS on RHEL and Ubuntu, and for Ubuntu STIG. Rocky Linux and AlmaLinux scans use the SSG RHEL datastream with an applicability-only change. RHEL, Rocky Linux and AlmaLinux STIG scans set one refined value (the image's own local accounts), shown on each evidence page. Not affiliated with or endorsed by DISA or DoD; we do not claim certified, authorized, or accredited status.</dd>
+                    <dd class="text-gray-400 text-sm">ARF, HTML report, POA&amp;M, SBOM, and a CVE scan (except RHEL 10; on Rocky Linux 10 and AlmaLinux 10, OS packages not assessed; on most current versions, language packages such as the AWS Systems Manager agent's Go binaries not assessed), available from support@stigready.com on request — scored in-build against the SSG profile. Unmodified for CIS on RHEL and Ubuntu, and for Ubuntu STIG. Rocky Linux and AlmaLinux scans use the SSG RHEL datastream with an applicability-only change. RHEL, Rocky Linux and AlmaLinux STIG scans set one refined value (the image's own local accounts), shown on each evidence page. Not affiliated with or endorsed by DISA or DoD; we do not claim certified, authorized, or accredited status.</dd>
                 </div>
                 <div>
                     <dt class="font-semibold text-white mb-2">Is Applied on AWS Marketplace?</dt>

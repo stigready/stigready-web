@@ -113,6 +113,7 @@
         <p>CycloneDX 1.6 JSON, 355 components:
         <a href="sbom.cdx.json.gz">sbom.cdx.json.gz</a> (gzip). Uncompressed, its SHA-256 is the one in the signed
         manifest: <code>c6aa626434e5be5d6fa1ea1f57323769193683c4c06aabd07a9636d7d8fef0e6</code>.</p>
+        <p class="muted">This SBOM does not list the amazon-ssm-agent package, although the AWS Systems Manager agent is installed in the image: its Go binaries are among the language packages counted under CVE scan above. A CVE tool that reads only this SBOM will not report the agent&#x27;s CVEs.</p>
 
         <h2>Signature</h2>
         <p>The bundle's manifest lists a SHA-256 digest for each of its 21 files and was
