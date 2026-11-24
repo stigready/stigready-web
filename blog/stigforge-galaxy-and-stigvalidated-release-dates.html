@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<!-- SPDX-FileCopyrightText: 2026 StigReady -->
+<!-- SPDX-License-Identifier: LicenseRef-StigReady-Proprietary -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StigForge on Ansible Galaxy and stigvalidated: release dates — StigReady blog</title>
+    <meta name="description" content="Target dates: StigForge Ansible roles on Ansible Galaxy on 2026-12-08, stigvalidated CINC Auditor test profiles public on 2026-12-17. Neither is live yet.">
+    <meta name="robots" content="index,follow">
+    <meta name="theme-color" content="#0C2340">
+    <link rel="canonical" href="https://stigready.com/blog/stigforge-galaxy-and-stigvalidated-release-dates.html">
+    <link rel="icon" type="image/png" href="https://stigready.com/assets/logo.png">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="StigReady">
+    <meta property="og:url" content="https://stigready.com/blog/stigforge-galaxy-and-stigvalidated-release-dates.html">
+    <meta property="og:title" content="StigForge on Ansible Galaxy and stigvalidated: release dates — StigReady blog">
+    <meta property="og:description" content="Target dates: StigForge Ansible roles on Ansible Galaxy on 2026-12-08, stigvalidated CINC Auditor test profiles public on 2026-12-17. Neither is live yet.">
+    <meta property="og:image" content="https://stigready.com/assets/logo.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@Stigready">
+    <meta name="twitter:title" content="StigForge on Ansible Galaxy and stigvalidated: release dates — StigReady blog">
+    <meta name="twitter:description" content="Target dates: StigForge Ansible roles on Ansible Galaxy on 2026-12-08, stigvalidated CINC Auditor test profiles public on 2026-12-17. Neither is live yet.">
+    <meta name="twitter:image" content="https://stigready.com/assets/logo.png">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "StigForge on Ansible Galaxy and stigvalidated: release dates",
+      "datePublished": "2026-11-23",
+      "dateModified": "2026-11-23",
+      "author": { "@type": "Organization", "name": "StigReady" },
+      "publisher": { "@type": "Organization", "name": "StigReady", "url": "https://stigready.com/" },
+      "mainEntityOfPage": "https://stigready.com/blog/stigforge-galaxy-and-stigvalidated-release-dates.html",
+      "description": "Target dates: StigForge Ansible roles on Ansible Galaxy on 2026-12-08, stigvalidated CINC Auditor test profiles public on 2026-12-17. Neither is live yet."
+    }
+    </script>
+    <link rel="stylesheet" href="/assets/css/site.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gold { color: #C9A84C; }
+        .bg-navy { background-color: #0C2340; }
+        article h2 { font-size: 1.25rem; font-weight: 700; color: #fff; margin: 2rem 0 0.75rem; }
+        article p, article li { color: #d1d5db; line-height: 1.7; }
+        article p { margin-bottom: 1rem; }
+        article ol, article ul { padding-left: 1.25rem; margin-bottom: 1rem; }
+        article ol { list-style: decimal; }
+        article ul { list-style: disc; }
+        article a { color: #EAB308; }
+        article a:hover { text-decoration: underline; }
+        article code { color: #facc15; font-size: 0.9em; }
+        article table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.925rem; }
+        article th, article td { border: 1px solid #374151; padding: 0.5rem 0.75rem; text-align: left; vertical-align: top; color: #d1d5db; }
+        article th { background: #111827; color: #fff; }
+        article pre { background: #111827; border: 1px solid #374151; border-radius: 0.5rem; padding: 1rem; overflow-x: auto; margin-bottom: 1rem; font-size: 0.875rem; color: #e5e7eb; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col">
+        <nav class="bg-navy border-b border-gray-800 px-6 py-4 sticky top-0 z-20">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <a href="/" class="flex items-center space-x-3" aria-label="StigReady home">
+                <img src="/assets/logo.png" alt="StigReady" class="h-10 w-auto" width="40" height="40"/>
+                <span class="text-xl font-black tracking-wide"><span class="text-white">STIG</span><span class="gold">READY</span></span>
+            </a>
+            <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                <a href="/#base-tier" class="text-gray-300 hover:text-white transition">Base</a>
+                <a href="/#applied-tier" class="text-gray-300 hover:text-white transition">Applied</a>
+                <a href="/#stigforge" class="text-gray-300 hover:text-white transition">StigForge</a>
+                <a href="/blog/" class="text-gray-300 hover:text-white transition">Blog</a>
+                <a href="/#pricing" class="text-gray-300 hover:text-white transition">Pricing</a>
+                <a href="mailto:contact@stigready.com" class="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded-md font-semibold transition">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+
+    <main class="flex-1 py-16 px-4">
+        <article class="max-w-3xl mx-auto">
+            <p class="text-xs text-gray-500 mb-3"><a href="/blog/" class="text-yellow-500 hover:underline">Blog</a> · 2026-11-23 · Announcement</p>
+            <h1 class="text-3xl md:text-4xl font-black text-white mb-6 tracking-tight">StigForge on Ansible Galaxy and stigvalidated: <span class="gold">release dates</span></h1>
+            <p class="text-lg text-gray-300 mb-8">We have set target dates for two releases. These are targets, not promises: if a date moves, we will update this post with the new date and the reason. Neither release is live today.</p>
+
+            <table>
+                <thead>
+                    <tr><th>Release</th><th>Target date</th><th>Live today?</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>StigForge roles on Ansible Galaxy</td><td>Tuesday, December 8, 2026</td><td>No. The <code>stigready</code> namespace exists on Galaxy, with no roles in it yet. The roles are public on GitHub now.</td></tr>
+                    <tr><td>stigvalidated test profiles on GitHub</td><td>Thursday, December 17, 2026</td><td>No. Nothing is published yet.</td></tr>
+                </tbody>
+            </table>
+
+            <h2>StigForge roles on Ansible Galaxy</h2>
+            <p>StigForge roles are Ansible roles that apply DISA STIG or CIS Benchmark settings to a Linux host. They are public on GitHub today, one repository per operating system and benchmark, such as <a href="https://github.com/stigready/rhel9-stig" rel="noopener noreferrer">stigready/rhel9-stig</a> and <a href="https://github.com/stigready/ubuntu24-cis" rel="noopener noreferrer">stigready/ubuntu24-cis</a>. On 2026-11-23 the newest tag on each is <code>v0.3.51</code>.</p>
+            <p>On the target date we plan to publish the first roles to the <a href="https://galaxy.ansible.com/ui/namespaces/stigready/" rel="noopener noreferrer"><code>stigready</code> namespace on Ansible Galaxy</a>, so you can install them with <code>ansible-galaxy role install</code> at a pinned version. The first set we plan is the roles we use to build StigReady Applied images: RHEL 8, 9 and 10 and Ubuntu 24.04, CIS and STIG. We will publish a role version on Galaxy only after a StigReady image built with that exact version has passed our OpenSCAP gate. If fewer roles are ready on the day, the launch post will name only the ones that are live.</p>
+
+            <h2>stigvalidated test profiles</h2>
+            <p>stigvalidated is a second set of tests for each StigForge role: a CINC Auditor profile with a test for each SSG rule the role applies that has an OVAL check, written from that check. It is separate from the OpenSCAP scan, so the two can be compared rule by rule.</p>
+            <p>On the target date we plan to make the profiles for the same eight roles public on GitHub. We plan to license our code and packaging in them under Apache-2.0, and the content that comes from the SCAP Security Guide (SSG) under BSD-3-Clause. Support will be best effort, through GitHub issues on each repository.</p>
+
+            <h2>What could move a date</h2>
+            <p>Keeping our AWS Marketplace images current comes first, and both releases share build capacity with that work. Each release also has checks it must pass before it goes out. We will not skip a check to keep a date. If a date moves, this post will say so, with the new date and why.</p>
+
+            <h2>Until then</h2>
+            <p>You can use the roles from GitHub today, pinned to a tag. Test them on a non-production host first: the current tag, <code>v0.3.51</code>, has known open issues, and their fixes are planned for the next release, before the Galaxy launch. These how-tos show how:</p>
+            <ul>
+                <li><a href="/blog/rhel9-base-stigforge-stig.html">RHEL 9 Base + rhel9_stig</a></li>
+                <li><a href="/blog/ubuntu24-base-stigforge-cis.html">Ubuntu 24.04 Base + ubuntu24_cis</a></li>
+            </ul>
+
+            <h2>Related</h2>
+            <ul>
+                <li><a href="/blog/base-plus-stigforge-roles.html">StigReady Base + StigForge roles</a></li>
+                <li><a href="/blog/check-rhel9-stig-ami-openscap.html">Check a hardened RHEL 9 STIG AMI yourself</a></li>
+                <li><a href="/#stigforge">StigForge on stigready.com</a></li>
+            </ul>
+            <p class="text-sm text-gray-500 mt-10 pt-6 border-t border-gray-800">Questions? <a href="mailto:contact@stigready.com">contact@stigready.com</a></p>
+        </article>
+    </main>
+
+        <footer class="bg-navy py-10 px-4 mt-auto border-t border-gray-800">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+                <div class="flex items-center space-x-3">
+                    <img src="/assets/logo.png" alt="StigReady" class="h-8 w-auto"/>
+                    <span class="font-black tracking-wide"><span class="text-white">STIG</span><span class="gold">READY</span></span>
+                </div>
+                <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
+                    <a href="/#base-tier" class="hover:text-white transition">Base</a>
+                    <a href="/applied/" class="hover:text-white transition">Applied</a>
+                    <a href="/#stigforge" class="hover:text-white transition">StigForge</a>
+                    <a href="/blog/" class="hover:text-white transition">Blog</a>
+                    <a href="/#pricing" class="hover:text-white transition">Pricing</a>
+                    <a href="/data-practices/" class="hover:text-white transition">Data practices</a>
+                    <a href="mailto:contact@stigready.com" class="hover:text-white transition">contact@stigready.com</a>
+                </div>
+            </div>
+            <p class="text-center text-xs text-gray-600">&copy; 2026 StigReady. All rights reserved.</p>
+            <p class="text-center text-xs text-gray-600 mt-3 max-w-3xl mx-auto">
+                Not affiliated with or endorsed by DISA, DoD, NIST, CIS, Red Hat, Canonical, Amazon, the Rocky Enterprise Software Foundation, or the AlmaLinux OS Foundation. All trademarks are the property of their respective owners. Red Hat®, Red Hat Enterprise Linux® and Ansible® are trademarks of Red Hat, Inc. Ubuntu® is a trademark of Canonical Ltd. Amazon Web Services, AWS, AWS Marketplace, Graviton and Amazon Linux are trademarks of Amazon.com, Inc. or its affiliates. Rocky Linux is a trademark of the Rocky Enterprise Software Foundation. AlmaLinux is a trademark of the AlmaLinux OS Foundation. Linux is the registered trademark of Linus Torvalds in the U.S. and other countries. CIS® and CIS Benchmarks™ are trademarks of the Center for Internet Security, Inc. StigReady does not provide commercial licenses for Red Hat products.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
