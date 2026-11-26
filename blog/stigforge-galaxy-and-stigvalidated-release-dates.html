@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StigForge on Ansible Galaxy and stigvalidated: release dates — StigReady blog</title>
-    <meta name="description" content="Target dates: StigForge Ansible roles on Ansible Galaxy on 2026-12-08, stigvalidated CINC Auditor test profiles public on 2026-12-17. Neither is live yet.">
+    <meta name="description" content="Updated 2026-11-26: both releases moved earlier and now roll out one at a time. StigForge Ansible roles go to Ansible Galaxy role by role from about 2026-11-29; stigvalidated CINC Auditor test profiles go public repository by repository from about 2026-12-03. Neither is live yet.">
     <meta name="robots" content="index,follow">
     <meta name="theme-color" content="#0C2340">
     <link rel="canonical" href="https://stigready.com/blog/stigforge-galaxy-and-stigvalidated-release-dates.html">
@@ -16,12 +16,12 @@
     <meta property="og:site_name" content="StigReady">
     <meta property="og:url" content="https://stigready.com/blog/stigforge-galaxy-and-stigvalidated-release-dates.html">
     <meta property="og:title" content="StigForge on Ansible Galaxy and stigvalidated: release dates — StigReady blog">
-    <meta property="og:description" content="Target dates: StigForge Ansible roles on Ansible Galaxy on 2026-12-08, stigvalidated CINC Auditor test profiles public on 2026-12-17. Neither is live yet.">
+    <meta property="og:description" content="Updated 2026-11-26: both releases moved earlier and now roll out one at a time. StigForge Ansible roles go to Ansible Galaxy role by role from about 2026-11-29; stigvalidated CINC Auditor test profiles go public repository by repository from about 2026-12-03. Neither is live yet.">
     <meta property="og:image" content="https://stigready.com/assets/logo.png">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@Stigready">
     <meta name="twitter:title" content="StigForge on Ansible Galaxy and stigvalidated: release dates — StigReady blog">
-    <meta name="twitter:description" content="Target dates: StigForge Ansible roles on Ansible Galaxy on 2026-12-08, stigvalidated CINC Auditor test profiles public on 2026-12-17. Neither is live yet.">
+    <meta name="twitter:description" content="Updated 2026-11-26: both releases moved earlier and now roll out one at a time. StigForge Ansible roles go to Ansible Galaxy role by role from about 2026-11-29; stigvalidated CINC Auditor test profiles go public repository by repository from about 2026-12-03. Neither is live yet.">
     <meta name="twitter:image" content="https://stigready.com/assets/logo.png">
     <script type="application/ld+json">
     {
@@ -29,11 +29,11 @@
       "@type": "BlogPosting",
       "headline": "StigForge on Ansible Galaxy and stigvalidated: release dates",
       "datePublished": "2026-11-23",
-      "dateModified": "2026-11-23",
+      "dateModified": "2026-11-26",
       "author": { "@type": "Organization", "name": "StigReady" },
       "publisher": { "@type": "Organization", "name": "StigReady", "url": "https://stigready.com/" },
       "mainEntityOfPage": "https://stigready.com/blog/stigforge-galaxy-and-stigvalidated-release-dates.html",
-      "description": "Target dates: StigForge Ansible roles on Ansible Galaxy on 2026-12-08, stigvalidated CINC Auditor test profiles public on 2026-12-17. Neither is live yet."
+      "description": "Updated 2026-11-26: both releases moved earlier and now roll out one at a time. StigForge Ansible roles go to Ansible Galaxy role by role from about 2026-11-29; stigvalidated CINC Auditor test profiles go public repository by repository from about 2026-12-03. Neither is live yet."
     }
     </script>
     <link rel="stylesheet" href="/assets/css/site.css">
@@ -78,33 +78,34 @@
 
     <main class="flex-1 py-16 px-4">
         <article class="max-w-3xl mx-auto">
-            <p class="text-xs text-gray-500 mb-3"><a href="/blog/" class="text-yellow-500 hover:underline">Blog</a> · 2026-11-23 · Announcement</p>
+            <p class="text-xs text-gray-500 mb-3"><a href="/blog/" class="text-yellow-500 hover:underline">Blog</a> · 2026-11-23, updated 2026-11-26 · Announcement</p>
             <h1 class="text-3xl md:text-4xl font-black text-white mb-6 tracking-tight">StigForge on Ansible Galaxy and stigvalidated: <span class="gold">release dates</span></h1>
             <p class="text-lg text-gray-300 mb-8">We have set target dates for two releases. These are targets, not promises: if a date moves, we will update this post with the new date and the reason. Neither release is live today.</p>
+            <p><strong>Update, 2026-11-26:</strong> both releases move earlier, and each now goes out one piece at a time instead of all at once. We first set Tuesday, December 8 for Galaxy and Thursday, December 17 for stigvalidated. We are now working to release as soon as possible: each role goes to Galaxy as soon as it has passed its own checks, from about November 29, and each stigvalidated repository goes public as soon as the images for its role have passed theirs, from about December 3. Nothing waits for the slowest one. Until all eight are out, we will name only the ones that are live, and this post will say which.</p>
 
             <table>
                 <thead>
-                    <tr><th>Release</th><th>Target date</th><th>Live today?</th></tr>
+                    <tr><th>Release</th><th>Target</th><th>Live today?</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td>StigForge roles on Ansible Galaxy</td><td>Tuesday, December 8, 2026</td><td>No. The <code>stigready</code> namespace exists on Galaxy, with no roles in it yet. The roles are public on GitHub now.</td></tr>
-                    <tr><td>stigvalidated test profiles on GitHub</td><td>Thursday, December 17, 2026</td><td>No. Nothing is published yet.</td></tr>
+                    <tr><td>StigForge roles on Ansible Galaxy</td><td>As soon as possible, role by role, from about Sunday, November 29, 2026 (first set: Tuesday, December 8)</td><td>No. The <code>stigready</code> namespace exists on Galaxy, with no roles in it yet. The roles are public on GitHub now.</td></tr>
+                    <tr><td>stigvalidated test profiles on GitHub</td><td>As soon as possible, repository by repository, from about Thursday, December 3, 2026 (first set: Thursday, December 17)</td><td>No. Nothing is published yet.</td></tr>
                 </tbody>
             </table>
 
             <h2>StigForge roles on Ansible Galaxy</h2>
             <p>StigForge roles are Ansible roles that apply DISA STIG or CIS Benchmark settings to a Linux host. They are public on GitHub today, one repository per operating system and benchmark, such as <a href="https://github.com/stigready/rhel9-stig" rel="noopener noreferrer">stigready/rhel9-stig</a> and <a href="https://github.com/stigready/ubuntu24-cis" rel="noopener noreferrer">stigready/ubuntu24-cis</a>. On 2026-11-23 the newest tag on each is <code>v0.3.51</code>.</p>
-            <p>On the target date we plan to publish the first roles to the <a href="https://galaxy.ansible.com/ui/namespaces/stigready/" rel="noopener noreferrer"><code>stigready</code> namespace on Ansible Galaxy</a>, so you can install them with <code>ansible-galaxy role install</code> at a pinned version. The first set we plan is the eight roles we use to build StigReady Applied images: <code>rhel8_cis</code>, <code>rhel8_stig</code>, <code>rhel9_cis</code>, <code>rhel9_stig</code>, <code>rhel10_cis</code>, <code>rhel10_stig</code>, <code>ubuntu24_cis</code> and <code>ubuntu24_stig</code>. The other role repositories (Amazon Linux 2023, CentOS Stream 9 and 10, Debian 12, Oracle Linux 9 and 10, and Ubuntu 22.04, plus the <code>stigready-baseline</code> role) are not part of this release: they stay on GitHub at their current tag. We will publish a role version on Galaxy only after a StigReady image built with that exact version has passed our OpenSCAP gate. If fewer roles are ready on the day, the launch post will name only the ones that are live.</p>
+            <p>We plan to publish the roles to the <a href="https://galaxy.ansible.com/ui/namespaces/stigready/" rel="noopener noreferrer"><code>stigready</code> namespace on Ansible Galaxy</a>, so you can install them with <code>ansible-galaxy role install</code> at a pinned version. This release covers the eight roles we use to build StigReady Applied images: <code>rhel8_cis</code>, <code>rhel8_stig</code>, <code>rhel9_cis</code>, <code>rhel9_stig</code>, <code>rhel10_cis</code>, <code>rhel10_stig</code>, <code>ubuntu24_cis</code> and <code>ubuntu24_stig</code>. The other role repositories (Amazon Linux 2023, CentOS Stream 9 and 10, Debian 12, Oracle Linux 9 and 10, and Ubuntu 22.04, plus the <code>stigready-baseline</code> role) are not part of this release: they stay on GitHub at their current tag. All eight will be version 0.3.57. We will publish a role on Galaxy only after a StigReady image built with that exact version has passed our OpenSCAP gate, so each role goes live when its own images have passed, not on one shared day. Each announcement will name only the roles that are live.</p>
 
             <h2>stigvalidated test profiles</h2>
             <p>stigvalidated is a second set of tests for each StigForge role: a CINC Auditor profile with a test for each SSG rule the role applies that has an OVAL check, written from that check. It is separate from the OpenSCAP scan, so the two can be compared rule by rule.</p>
-            <p>On the target date we plan to make the profiles for the same eight roles public on GitHub, generated from release 0.3.57 of those roles, the version we plan to publish on Galaxy. That release is not tagged yet: the newest tag today is <code>v0.3.51</code>. We plan to license our code and packaging in them under Apache-2.0, and the content that comes from the SCAP Security Guide (SSG) under BSD-3-Clause. Support will be best effort, through GitHub issues on each repository.</p>
+            <p>We plan to make the profiles for the same eight roles public on GitHub, one repository at a time, generated from release 0.3.57 of those roles, the version we plan to publish on Galaxy. That release is not tagged yet: the newest tag today is <code>v0.3.51</code>. We plan to license our code and packaging in them under Apache-2.0, and the content that comes from the SCAP Security Guide (SSG) under BSD-3-Clause. A repository goes public only after every StigReady image built with its role at 0.3.57, on each operating system and architecture we ship for that role, has built cleanly on its first attempt, and its tests and the OpenSCAP scan agree on those images. Support will be best effort, through GitHub issues on each repository.</p>
 
             <h2>What could move a date</h2>
-            <p>Keeping our AWS Marketplace images current comes first, and both releases share build capacity with that work. Each release also has checks it must pass before it goes out. We will not skip a check to keep a date. If a date moves, this post will say so, with the new date and why.</p>
+            <p>Keeping our AWS Marketplace images current comes first, and both releases share build capacity with that work. Each role and each repository also has checks it must pass before it goes out. We will not skip a check to keep a date. If a date moves, this post will say so, with the new date and why.</p>
 
             <h2>Until then</h2>
-            <p>You can use the roles from GitHub today, pinned to a tag. Test them on a non-production host first: the current tag, <code>v0.3.51</code>, has known open issues, and their fixes are planned for the next release, before the Galaxy launch. These how-tos show how:</p>
+            <p>You can use the roles from GitHub today, pinned to a tag. Test them on a non-production host first: the current tag, <code>v0.3.51</code>, has known open issues, and their fixes are planned for release 0.3.57, the version going to Galaxy. These how-tos show how:</p>
             <ul>
                 <li><a href="/blog/rhel9-base-stigforge-stig.html">RHEL 9 Base + rhel9_stig</a></li>
                 <li><a href="/blog/ubuntu24-base-stigforge-cis.html">Ubuntu 24.04 Base + ubuntu24_cis</a></li>
