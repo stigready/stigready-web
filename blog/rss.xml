@@ -8,6 +8,13 @@
     <copyright>Copyright (c) 2026 StigReady. All rights reserved.</copyright>
     <atom:link href="https://stigready.com/blog/rss.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title>StigForge on Ansible Galaxy and stigvalidated: release dates</title>
+      <link>https://stigready.com/blog/stigforge-galaxy-and-stigvalidated-release-dates.html</link>
+      <guid isPermaLink="true">https://stigready.com/blog/stigforge-galaxy-and-stigvalidated-release-dates.html</guid>
+      <pubDate>Mon, 23 Nov 2026 12:00:00 GMT</pubDate>
+      <description>Target dates: StigForge roles on Ansible Galaxy on 2026-12-08, stigvalidated test profiles public on 2026-12-17. Neither is live yet.</description>
+    </item>
+    <item>
       <title>Check a hardened RHEL 9 STIG AMI yourself: launch, set credentials, scan with OpenSCAP</title>
       <link>https://stigready.com/blog/check-rhel9-stig-ami-openscap.html</link>
       <guid isPermaLink="true">https://stigready.com/blog/check-rhel9-stig-ami-openscap.html</guid>
