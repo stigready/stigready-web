@@ -47,6 +47,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 REQUIRED_KEYS = {"line", "os", "os_key", "arch", "profile", "availability", "marketplace_url"}
 KNOWN_AVAILABILITY = {"available", "coming-soon"}
+MARKETPLACE_PRODUCT_PREFIX = "https://aws.amazon.com/marketplace/pp/"
 
 problems: list[str] = []
 
@@ -112,8 +113,8 @@ def check_catalog() -> None:
                     f"{url!r} — that publishes an 'available' badge for something nobody can "
                     "subscribe to"
                 )
-            elif not str(url).startswith("https://"):
-                problems.append(f"{where} ({name}): marketplace_url is not https: {url!r}")
+            elif not isinstance(url, str) or not url.startswith(MARKETPLACE_PRODUCT_PREFIX):
+                problems.append(f"{where} ({name}): marketplace_url is not an AWS Marketplace product URL: {url!r}")
 
         score = p.get("score")
         if score is not None and not (isinstance(score, (int, float)) and 0 <= score <= 100):
